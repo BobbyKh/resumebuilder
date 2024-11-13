@@ -20,7 +20,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900" data-aos="fade-down">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 md:px-6 lg:px-8">
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           <Link to="/" className="flex items-center">
             <img src="https://media.istockphoto.com/id/1495913506/vector/professional-innovative-initial-cv-logo-and-vc-logo-letter-cv-or-vc-minimal-elegant-monogram.jpg?s=612x612&w=0&k=20&c=T_CZ7GaNmB6t5mMqgwVv0YitUfwTcQL3XMnhDs94LjU=" alt="ResuMaster" className="w-8 h-8 mr-2" />
@@ -72,5 +72,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
 
