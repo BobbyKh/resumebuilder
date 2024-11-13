@@ -6,7 +6,7 @@ import Footer from './components/Footer'
 import Login from './auth/login'
 import Portfolio from './pages/Portfolio'
 import Contact from './pages/Contact'
-import ResumeBuild from './resume/resumebuild'
+import ResumeBuild from './resume/ResumeBuild'
 
 
 const App = () => {
