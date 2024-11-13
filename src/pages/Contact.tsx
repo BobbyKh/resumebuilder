@@ -1,8 +1,8 @@
 
 const Contact = () => {
-  return (
-    <div>Contact page here</div>
-  )
-}
-
-export default Contact
+    return (
+      <div>Contact page here</div>
+    )
+  }
+  
+  export default Contact

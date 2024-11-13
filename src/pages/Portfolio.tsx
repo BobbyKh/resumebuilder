@@ -1,8 +1,8 @@
 
-const Portfolio = () => {
+const portfolio = () => {
   return (
-    <div>Portfolio section here</div>
+    <div>portfolio</div>
   )
 }
 
-export default Portfolio
+export default portfolio

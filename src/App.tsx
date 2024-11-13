@@ -4,8 +4,9 @@ import About from './pages/About'
 import Landing from './pages/Landing'
 import Footer from './components/Footer'
 import Login from './auth/login'
-import Portfolio from './pages/portfolio'
-import Contact from './pages/contact'
+import Portfolio from './pages/Portfolio'
+import Contact from './pages/Contact'
+
 
 const App = () => {
   return (
