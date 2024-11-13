@@ -6,6 +6,7 @@ import Footer from './components/Footer'
 import Login from './auth/login'
 import Portfolio from './pages/Portfolio'
 import Contact from './pages/Contact'
+import ResumeBuild from './resume/resumebuild'
 
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/login" element = {<Login/>}/>
         <Route path = "/portfolio" element={<Portfolio/>}/>
         <Route path = "/contact" element={<Contact/>}/>
+        <Route path = "/resumebuild" element = {<ResumeBuild/>}/>
       </Routes>
       <Footer>
         

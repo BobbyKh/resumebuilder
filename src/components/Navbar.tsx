@@ -22,6 +22,10 @@ const Navbar = () => {
     <nav className="bg-white border-gray-200 dark:bg-gray-900" data-aos="fade-down">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+          <Link to="/" className="flex items-center">
+            <img src="https://media.istockphoto.com/id/1495913506/vector/professional-innovative-initial-cv-logo-and-vc-logo-letter-cv-or-vc-minimal-elegant-monogram.jpg?s=612x612&w=0&k=20&c=T_CZ7GaNmB6t5mMqgwVv0YitUfwTcQL3XMnhDs94LjU=" alt="ResuMaster" className="w-8 h-8 mr-2" />
+            <span className="text-2xl">ResuMaster</span>
+          </Link>
           <button
             data-collapse-toggle="navbar-cta"
             type="button"
@@ -31,7 +35,7 @@ const Navbar = () => {
             onClick={() => setIsOpen(!isOpen)}
           >
             <span className="sr-only">Open main menu</span>
-            <FontAwesomeIcon icon={faBars} className="w-5 h-5" />
+            <FontAwesomeIcon icon={faBars} className="w-5 h-5 p-3" />
           </button>
         </div>
         <div className={`${isOpen ? 'flex' : 'hidden'} items-center justify-between w-full md:flex md:w-auto md:order-1`} id="navbar-cta">
