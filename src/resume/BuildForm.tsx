@@ -2,7 +2,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { faGraduationCap } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
 
 AOS.init({
   duration: 1000,
@@ -13,9 +13,11 @@ AOS.init({
 
 const BuildForm = () => {
   const [category, setCategory] = useState('');
-  const [formDetails, setFormDetails] = useState({});
-  const [formData, setFormData] = useState({});
-  const handleCategoryChange = (e) => {
+  const [formDetails, setFormDetails] = useState<Record<string, string>>({});
+  const [formData, setFormData] = useState<Record<string, string>>({} as Record<string, string>);
+  const [profilePicture, setProfilePicture] = useState<File | null>(null);
+
+  const handleCategoryChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setCategory(e.target.value);
     if (e.target.value === 'resume') {
       setFormDetails({
@@ -65,12 +67,23 @@ const BuildForm = () => {
     }
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setFormData(Object.fromEntries(
-      new FormData(e.target).entries()
-    ));
+    const formDataObj: Record<string, string> = {};
+    new FormData(e.currentTarget).forEach((value, key) => {
+      formDataObj[key] = value.toString();
+    });
+    if (profilePicture) {
+      formDataObj['profile_picture'] = URL.createObjectURL(profilePicture);
+    }
+    setFormData(formDataObj);
     console.log(formData);
+  };
+
+  const handleProfilePictureChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setProfilePicture(e.target.files[0]);
+    }
   };
 
   return (
@@ -89,6 +102,13 @@ const BuildForm = () => {
       </div>
       {category && (
         <form className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3" data-aos="fade-up" data-aos-duration="1000" onSubmit={handleFormSubmit}>
+          <div className="space-y-2">
+            <label className="text-lg" htmlFor="profile_picture">Profile Picture</label>
+            <input className="p-2 border-2 border-gray-300 rounded-md w-full" type="file" id="profile_picture" name="profile_picture" onChange={handleProfilePictureChange} accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff" />
+            {profilePicture && (
+              <img src={URL.createObjectURL(profilePicture)} className="w-48 h-48 rounded-md mt-2" alt="Profile Picture Preview" />
+            )}
+          </div>
           {Object.keys(formDetails).map((key) => (
             <div className="space-y-2" key={key}>
               <label className="text-lg" htmlFor={key}>{formDetails[key]}</label>
@@ -103,5 +123,4 @@ const BuildForm = () => {
 }
 
 export default BuildForm;
-
 

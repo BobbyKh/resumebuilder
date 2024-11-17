@@ -2,8 +2,3 @@
 @tailwind components;
 @tailwind utilities;
 
-/* App.css */
-* {
-    cursor: none; /* Hide the default cursor */
-  }
-  

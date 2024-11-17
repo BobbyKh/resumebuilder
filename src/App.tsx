@@ -7,14 +7,12 @@ import Login from './auth/login'
 import Portfolio from './pages/Portfolio'
 import Contact from './pages/Contact'
 import ResumeBuild from './resume/ResumeBuild'
-import  Cursor from './components/Cursor'
 import Experience from './resume/Experience'
 import BuildForm from './resume/BuildForm'
 
 
 const App = () => (
   <div className="App">
-    <Cursor/>
     <Navbar />
     <Routes>
       <Route path="/" element={<Landing />} />
