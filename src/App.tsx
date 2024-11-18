@@ -9,6 +9,7 @@ import Contact from './pages/Contact'
 import ResumeBuild from './resume/ResumeBuild'
 import Experience from './resume/Experience'
 import BuildForm from './resume/BuildForm'
+import Template from './resume/Template'
 
 
 const App = () => (
@@ -24,6 +25,7 @@ const App = () => (
       <Route path="*" element={<Landing />} />
       <Route path="/experience" element={<Experience />} />
       <Route path="/buildresume" element={<BuildForm />} />
+      <Route path="/template" element={<Template />} />
 
     </Routes>
     <Footer>

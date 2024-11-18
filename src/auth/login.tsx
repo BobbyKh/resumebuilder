@@ -3,19 +3,31 @@ import "aos/dist/aos.css";
 import { faGoogle, faLinkedin, faGithub, faFacebook } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   useEffect(() => {
     AOS.init();
   }, []);
 
-  const navigate = useNavigate();
+
+  const handleFacebookLogin = () => {
+    // Redirect to Facebook's login page via Django's auth route
+    window.location.href = "http://127.0.0.1:8000/accounts/facebook/login/";
+  }
   const handleGoogleLogin = () => {
     // Redirect to Google's login page via Django's auth route
-    navigate("/resumebuild");
+    window.location.href = "http://127.0.0.1:8000/accounts/google/login/";
   };
   
+  const handleLinkedInLogin = () => {
+    // Redirect to LinkedIn's login page via Django's auth route
+    window.location.href = "http://127.0.0.1:8000/accounts/linkedin/login/";
+  };
+
+  const handleGithubLogin = () => {
+    // Redirect to GitHub's login page via Django's auth route
+    window.location.href = "http://127.0.0.1:8000/accounts/github/login/";
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
@@ -35,7 +47,7 @@ const Login = () => {
           Continue with Google
         </button>
 
-        <button
+        <button onClick={handleLinkedInLogin}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full my-2 w-full transition duration-500 transform hover:scale-105"
           style={{ backgroundColor: "#2867B2" }}
           data-aos="zoom-in"
@@ -44,7 +56,7 @@ const Login = () => {
           <FontAwesomeIcon icon={faLinkedin} className="mr-2" />
           Continue with LinkedIn
         </button>
-        <button
+        <button onClick={handleGithubLogin}
           className="bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded-full my-2 w-full transition duration-500 transform hover:scale-105"
           style={{ backgroundColor: "#333" }}
           data-aos="zoom-in"
@@ -53,7 +65,7 @@ const Login = () => {
           <FontAwesomeIcon icon={faGithub} className="mr-2" />
           Continue with GitHub
         </button>
-        <button
+        <button onClick={handleFacebookLogin}
           className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-full my-2 w-full transition duration-500 transform hover:scale-105"
           style={{ backgroundColor: "#4267B2" }}
           data-aos="zoom-in"

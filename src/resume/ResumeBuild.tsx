@@ -38,7 +38,7 @@ const ResumeBuild = () => {
       data-aos-duration="1500"
       data-aos-once="false"
     >
-      <h1 className="text-4xl font-bold mb-6 text-center"> Ste</h1>
+      <h1 className="text-4xl font-bold mb-6 text-center"> Build Your Resume</h1>
       <div className="flex flex-col items-center bg-white p-8 rounded-lg shadow-lg">
         <FontAwesomeIcon icon={steps[currentStep].icon} className="w-10 h-10 text-blue-500 mb-4" />
         <h2 className="text-2xl font-bold mb-2">{steps[currentStep].step}</h2>
