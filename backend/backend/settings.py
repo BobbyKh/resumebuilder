@@ -166,14 +166,14 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:3000",
 ]
+CORS_ALLOW_CREDENTIALS = True
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
-SOCIAL_AUTH_REDIRECT = 'http://localhost:5173'
 
+# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '46592222542-2858uulreoun7iahvanpi96trh5mhrgo.apps.googleusercontent.com'
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '46592222542-2858uulreoun7iahvanpi96trh5mhrgo.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
-
+LOGIN_REDIRECT_URL = 'http://localhost:5173/resumebuild'
 LOGOUT_REDIRECT_URL = 'http://localhost:5173/login'
 SECURE_REFERRER_POLICY= "strict-origin-when-cross-origin"
