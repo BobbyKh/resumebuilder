@@ -10,6 +10,7 @@ import ResumeBuild from './resume/ResumeBuild'
 import Experience from './resume/Experience'
 import BuildForm from './resume/BuildForm'
 import Template from './resume/Template'
+import BookAppointment from './pages/BookAppointment'
 
 
 const App = () => (
@@ -26,6 +27,7 @@ const App = () => (
       <Route path="/experience" element={<Experience />} />
       <Route path="/buildresume" element={<BuildForm />} />
       <Route path="/template" element={<Template />} />
+      <Route path="/bookappointment" element={<BookAppointment />} />
 
     </Routes>
     <Footer>

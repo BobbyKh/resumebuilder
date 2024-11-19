@@ -23,4 +23,20 @@ class GoogleAuthSerializer(serializers.Serializer):
     auth_token = serializers.CharField()
     
 
+class AppointmentTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.AppointmentType
+        fields = '__all__'
+
+class AppointmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Appointment
+        fields = '__all__'
+
+
+
+
+        
+    
+
 

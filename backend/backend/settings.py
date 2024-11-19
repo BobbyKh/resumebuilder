@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
     
     
+    
 ]
 
 MIDDLEWARE = [
@@ -177,3 +178,12 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 LOGIN_REDIRECT_URL = 'http://localhost:5173/resumebuild'
 LOGOUT_REDIRECT_URL = 'http://localhost:5173/login'
 SECURE_REFERRER_POLICY= "strict-origin-when-cross-origin"
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Or your SMTP provider
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'bgoogly0@gmail.com'
+EMAIL_HOST_PASSWORD = 'gasq mcmh irbp qtxk'
+

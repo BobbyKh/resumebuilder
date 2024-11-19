@@ -4,6 +4,7 @@ import { faGraduationCap } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
+import Template from './Template';
 
 const BuildForm = () => {
   const [category, setCategory] = useState<string>('');
@@ -106,9 +107,11 @@ const BuildForm = () => {
   };
 
   return (
+
     <div className="container mx-auto p-4 md:p-12" data-aos="fade-down">
+      <Template></Template>
       
-      <div className="bg-white rounded-lg shadow-lg p-6 md:p-12">
+      <div className="bg-white rounded-lg shadow-lg p-6 md:p-12 mt-4">
         <h1 className="text-3xl font-bold flex items-center mb-6" data-aos="zoom-in" data-aos-duration="500" data-aos-delay="500">
           <FontAwesomeIcon icon={faGraduationCap} className="w-8 h-8 mr-2" />
           Select Document Type
