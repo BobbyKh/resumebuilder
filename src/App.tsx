@@ -15,11 +15,22 @@ import BaseApp from "./app/BaseApp";
 import Pricing from "./pages/Pricing";
 import Checkout from "./payment/Checkout";
 import Pdftotext from "./resume/Pdftotext";
+import NotFound from "./pages/NotFound";
 
 const App = () => (
   <div className="App">
     <Navbar />
     <Routes>
+    <Route
+      path="*"
+      element={
+        <>
+          <div className="min-h-screen flex flex-col justify-center items-center">
+            <NotFound />
+          </div>
+        </>
+      }
+    />
       <Route path="/app" element={<BaseApp />} />
       <Route path="/pricing/suscribe/:id" element={<Checkout />} />
       <Route path="/resume/:id" element={<BuildForm />} />
