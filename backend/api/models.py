@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -69,4 +70,12 @@ class Appointment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     appointment_type = models.ForeignKey(AppointmentType, on_delete=models.CASCADE , null=True)
 
-    
+class Pricing (models.Model):
+    name = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    description = models.TextField()
+    features = models.TextField()
+
+    def __str__(self):
+        
+        return self.name

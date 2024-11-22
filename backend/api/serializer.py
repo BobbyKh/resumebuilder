@@ -32,6 +32,12 @@ class AppointmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Appointment
         fields = '__all__'
+        
+class PricingSerializer (serializers.ModelSerializer):
+    class Meta:
+        model = models.Pricing
+        fields = '__all__'
+    
 
 
 

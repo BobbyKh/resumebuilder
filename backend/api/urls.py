@@ -12,6 +12,7 @@ urlpatterns = [
     path('accounts/google/login/', views.CustomGoogleLoginView.as_view(), name='google_login'),
     path ('appointments', views.AppointmentList.as_view(), name='appointment_list'),
     path ('appointment_types', views.AppointmentType.as_view(), name='appointment_type_list'),
+    path ('pricing',views.PricingType.as_view(), name='pricing_list'),
 
 ]
 if settings.DEBUG:

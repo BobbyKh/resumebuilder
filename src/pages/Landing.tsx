@@ -46,7 +46,7 @@ const Landing = () => {
       </p>
       <Link
         to="/login"
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8 sm:mt-4 transition duration-500 transform hover:scale-105"
+        className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8 sm:mt-4 transition duration-500 transform hover:scale-105"
         data-aos="fade-up"
         data-aos-duration="1500"
         data-aos-delay="1500"

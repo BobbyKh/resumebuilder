@@ -1,8 +1,8 @@
 from django.shortcuts import redirect, render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from api.models import Appointment, AppointmentType, ResumeCategory, ResumeTemplate
-from api.serializer import AppointmentSerializer, AppointmentTypeSerializer, ResumeCategorySerializer, ResumeTemplateSerializer, UserSerializer
+from api.models import Appointment, AppointmentType, Pricing, ResumeCategory, ResumeTemplate
+from api.serializer import AppointmentSerializer, AppointmentTypeSerializer, PricingSerializer, ResumeCategorySerializer, ResumeTemplateSerializer, UserSerializer
 from django.contrib.auth.models import User
 from allauth.socialaccount.providers.google.views import OAuth2LoginView
 from rest_framework.generics import ListCreateAPIView
@@ -77,6 +77,12 @@ class CustomGoogleLoginView(OAuth2LoginView):
         return super().dispatch(request, *args, **kwargs)
 
     
-
+class PricingType(ListCreateAPIView):
+    queryset = Pricing.objects.all()
+    serializer_class = PricingSerializer
+    
+    
+    
+    
 
 

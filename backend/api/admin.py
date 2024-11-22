@@ -14,4 +14,5 @@ admin.site.register( [
     models.ResumeFile,
     models.AppointmentType,
     models.Appointment,
+    models.Pricing
 ])
