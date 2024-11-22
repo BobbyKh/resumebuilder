@@ -17,6 +17,9 @@ import Checkout from "./payment/Checkout";
 import Pdftotext from "./resume/Pdftotext";
 import NotFound from "./pages/NotFound";
 
+
+
+
 const App = () => (
   <div className="App">
     <Navbar />
