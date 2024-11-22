@@ -13,6 +13,7 @@ urlpatterns = [
     path ('appointments', views.AppointmentList.as_view(), name='appointment_list'),
     path ('appointment_types', views.AppointmentType.as_view(), name='appointment_type_list'),
     path ('pricing',views.PricingType.as_view(), name='pricing_list'),
+    path ('pdftotext', views.convert_pdf_to_text, name='pdftotext'),
 
 ]
 if settings.DEBUG:

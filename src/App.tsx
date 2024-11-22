@@ -14,6 +14,7 @@ import BookAppointment from "./pages/BookAppointment";
 import BaseApp from "./app/BaseApp";
 import Pricing from "./pages/Pricing";
 import Checkout from "./payment/Checkout";
+import Pdftotext from "./resume/Pdftotext";
 
 const App = () => (
   <div className="App">
@@ -34,6 +35,7 @@ const App = () => (
       <Route path="/template" element={<Template />} />
       <Route path="/bookappointment" element={<BookAppointment />} />
       <Route path="/pricing" element={<Pricing />} />
+      <Route path ="/pdftotext" element={<Pdftotext />} />
     </Routes>
     <Footer></Footer>
   </div>
