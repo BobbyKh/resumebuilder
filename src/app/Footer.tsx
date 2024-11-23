@@ -1,4 +1,4 @@
-import { faGithub, faLinkedin, faTwitter } from "@fortawesome/free-brands-svg-icons"
+import { faGithub, faLinkedin, faTwitter, faFacebook, faInstagram, faYoutube } from "@fortawesome/free-brands-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const Footer = () => {
@@ -13,6 +13,15 @@ const Footer = () => {
                 </a>
                 <a href="https://twitter.com/traversy_media" target="_blank" rel="noopener noreferrer">
                     <FontAwesomeIcon icon={faTwitter} className="text-2xl mx-2" />
+                </a>
+                <a href="https://www.facebook.com/learnwithbrad/" target="_blank" rel="noopener noreferrer">
+                    <FontAwesomeIcon icon={faFacebook} className="text-2xl mx-2" />
+                </a>
+                <a href="https://www.instagram.com/traversy.media/" target="_blank" rel="noopener noreferrer">
+                    <FontAwesomeIcon icon={faInstagram} className="text-2xl mx-2" />
+                </a>
+                <a href="https://www.youtube.com/bradtraversy" target="_blank" rel="noopener noreferrer">
+                    <FontAwesomeIcon icon={faYoutube} className="text-2xl mx-2" />
                 </a>
             </div>
             <p className="text-sm text-center"> 2023 Resume Builder</p>
