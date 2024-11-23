@@ -15,5 +15,8 @@ admin.site.register( [
     models.AppointmentType,
     models.Appointment,
     models.Pricing,
-    models.AboutUs
+    models.AboutUs,
+    models.Testimonial,
+    models.HeroSection
 ])
+

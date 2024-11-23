@@ -45,6 +45,16 @@ class AboutUsSerializer (serializers.ModelSerializer):
         model = models.AboutUs
         fields = '__all__'
 
+class TestimonialSerializer (serializers.ModelSerializer):
+    class Meta:
+        model = models.Testimonial
+        fields = '__all__'
+
+class HeroSectionSerializer (serializers.ModelSerializer):
+    class Meta:
+        model = models.HeroSection
+        fields = '__all__'
+
         
     
 
