@@ -6,7 +6,6 @@ import Review from "../resume/Review";
 import Template from "../resume/Template";
 import Pricing from "./Pricing";
 import Faq from "./Faq";
-import Footer from "../components/Footer";
 import About from "./About";
 import Testimonial from "./Testimonial";
 

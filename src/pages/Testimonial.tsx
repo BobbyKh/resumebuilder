@@ -1,7 +1,7 @@
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faQuoteLeft, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faQuoteLeft } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
 
 const Testimonial = () => {

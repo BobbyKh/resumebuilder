@@ -1,12 +1,12 @@
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTools, faDollarSign, faQuestionCircle, faTachometerAlt } from '@fortawesome/free-solid-svg-icons';
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+
 
   useEffect(() => {
     AOS.init();
@@ -27,11 +27,6 @@ const Navbar = () => {
     fetchUser();
   }, []);
 
-  useEffect(() => {
-    if (isOpen) {
-      AOS.refresh();
-    }
-  }, [isOpen]);
 
   return (
     <header className="flex justify-between items-center py-6 px-10 bg-white shadow-sm md:flex-row flex-col" data-aos="fade-down">
