@@ -89,3 +89,30 @@ class FAQ(models.Model):
 
     def __str__(self):
         return self.question
+
+class AboutUs(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    image = models.ImageField(upload_to='about_us/')
+
+    def __str__(self):
+        return self.name
+    
+class Testimonial(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    image = models.ImageField(upload_to='testimonials/', null=True)
+    status = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
+    
+class HeroSection(models.Model):
+    image = models.ImageField(upload_to='hero_section/')
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    button_text = models.CharField(max_length=100, null=True)
+    status = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
