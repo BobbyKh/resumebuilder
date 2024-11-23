@@ -2,6 +2,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { Link } from 'react-router-dom';
 
 interface ResumeTemplate {
     id: number;
@@ -30,21 +31,15 @@ const Template = () => {
             }
         }
 
-        AOS.init({
-            duration: 1000,
-            easing: "ease-in-out",
-            once: true,
-            mirror: false
-        });
+        AOS.init();
 
         fetchResumeTemplates()
     }, [])
 
     return (
         <>
-        <div className="mx-auto max-w-7xl px-6 lg:px-8" data-aos="zoom-in">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8 mb-4" data-aos="zoom-in">
           <div className="mx-auto max-w-2xl lg:text-center" data-aos="fade-up">
-            <h2 className="text-base font-semibold text-indigo-600">Templates</h2>
             <p className="mt-2 text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
               Choose your template
             </p>
@@ -52,19 +47,23 @@ const Template = () => {
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8" data-aos="fade-up">
             {resumeTemplates.map((resumeTemplate) => (
               <div key={resumeTemplate.id} className="group relative" data-aos="zoom-in">
-                <div className="relative h-48 w-full rounded-lg bg-white shadow-lg transition duration-150 ease-in-out hover:shadow-2xl">
+                <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-white shadow-lg transition duration-150 ease-in-out hover:shadow-2xl">
                   <img
                     src={resumeTemplate.image}
                     alt={resumeTemplate.name}
-                    className="absolute inset-0 h-full w-full object-cover group-hover:opacity-75 transition-opacity duration-150 ease-in-out"
+                    className="h-auto w-full group-hover:opacity-75 transition-opacity duration-150 ease-in-out"
                   />
                   <div className="absolute inset-0 flex items-center justify-center">
                     <p className="text-3xl font-bold text-white">{resumeTemplate.name}</p>
                   </div>
                 </div>
-                <button className="mt-2 w-full bg-indigo-600 text-white font-bold py-2 rounded hover:bg-indigo-700 transition duration-150 ease-in-out">
-                  Preview
+              
+              <Link to={`/resume/${resumeTemplate.id}`}>
+
+                <button className="mt-4 block w-full text-white font-bold py-2 rounded-lg hover:bg-indigo-700 transition duration-150 ease-in-out" data-aos="zoom-in">
+                   Use Template
                 </button>
+              </Link>
               </div>
             ))}
           </div>

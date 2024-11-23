@@ -1,0 +1,117 @@
+[
+    {
+        "model": "api.appointmenttype",
+        "pk": 1,
+        "fields": {
+            "name": "Online Meeting - Zoom",
+            "status": true
+        }
+    },
+    {
+        "model": "api.appointmenttype",
+        "pk": 2,
+        "fields": {
+            "name": "In Person Meeting",
+            "status": true
+        }
+    },
+    {
+        "model": "api.appointmenttype",
+        "pk": 3,
+        "fields": {
+            "name": "Phone Call",
+            "status": true
+        }
+    },
+    {
+        "model": "api.appointmenttype",
+        "pk": 4,
+        "fields": {
+            "name": "Webinar",
+            "status": true
+        }
+    },
+    {
+        "model": "api.appointmenttype",
+        "pk": 5,
+        "fields": {
+            "name": "Consultation",
+            "status": true
+        }
+    },
+    {
+        "model": "api.appointmenttype",
+        "pk": 6,
+        "fields": {
+            "name": "Strategy Session",
+            "status": true
+        }
+    },
+    {
+        "model": "api.appointmenttype",
+        "pk": 7,
+        "fields": {
+            "name": "Training",
+            "status": true
+        }
+    },
+    {
+        "model": "api.appointmenttype",
+        "pk": 8,
+        "fields": {
+            "name": "Networking Event",
+            "status": true
+        }
+    },
+    {
+        "model": "api.appointmenttype",
+        "pk": 9,
+        "fields": {
+            "name": "Project Kickoff",
+            "status": true
+        }
+    },
+    {
+        "model": "api.appointmenttype",
+        "pk": 10,
+        "fields": {
+            "name": "Performance Review",
+            "status": true
+        }
+    },
+    {
+        "model": "api.resumecategory",
+        "pk": 1,
+        "fields": {
+            "name": "CV",
+
+            "status": true
+        }   
+        
+    },
+    {
+        "model": "api.resumecategory",
+        "pk": 2,
+        "fields": {
+            "name": "Cover Letter",
+            "status": true
+        }
+    },
+    {
+        "model": "api.resumecategory",
+        "pk": 3,
+        "fields": {
+            "name": "Resume",
+            "status": true
+        }
+    },
+    {
+        "model" : "api.resumecategory",
+        "pk": 4,
+        "fields": {
+            "name": "Portfolio",
+            "status": true
+        }
+    }
+]
+
