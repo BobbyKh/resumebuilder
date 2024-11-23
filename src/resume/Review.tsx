@@ -15,8 +15,8 @@ const Review = () => {
 
   return (
     <div
-      className="bg-gradient-to-r from-white to-gray-100 p-10 rounded-xl shadow-lg"
-      data-aos="fade-up"
+      className="bg-gradient-to-r from-white to-gray-100 p-10 rounded-xl shadow-lg relative"
+      style={{ backgroundImage: "url('https://as1.ftcdn.net/v2/jpg/04/61/95/02/1000_F_461950277_ruO767zLimPQ4YhgKM74yHIC6HevI9LC.jpg' )", backgroundSize: "cover", opacity: "10" }}
     >
       <div className="flex items-center justify-center mb-6" data-aos="zoom-in">
         <FontAwesomeIcon

@@ -9,7 +9,7 @@ const Faq = () => {
     }, [])
 
     return (
-        <div className="bg-gray-100 py-20">
+        <div className="bg-gradient-to-r from-white via-green-100 to-purple-500 py-16" style={{ backgroundSize: '400% 400%', animation: 'gradient 15s ease infinite' }}>
             <h1 className="text-4xl font-bold text-center mb-10" data-aos="fade-down">Frequently Asked Questions</h1>
             <div className="max-w-6xl mx-auto" data-aos="fade-up" data-aos-duration="1000">
                 <div className="space-y-6">

@@ -3,8 +3,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const Footer = () => {
     return (
-        <footer className="flex flex-col items-center justify-center w-full h-24 border-t dark:border-gray-600">
-            <div className="flex items-center justify-center">
+        <footer className="flex flex-col items-center justify-center w-full h-24 border-t dark:border-gray-600 relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 opacity-50"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 opacity-50 blur-3xl animate-gradient-x"></div>
+            <div className="flex items-center justify-center z-10">
                 <a href="https://github.com/bradtraversy/resumebuilder" target="_blank" rel="noopener noreferrer">
                     <FontAwesomeIcon icon={faGithub} className="text-2xl mx-2" />
                 </a>
@@ -24,8 +26,9 @@ const Footer = () => {
                     <FontAwesomeIcon icon={faYoutube} className="text-2xl mx-2" />
                 </a>
             </div>
-            <p className="text-sm text-center"> 2023 Resume Builder</p>
+            <p className="text-sm text-center z-10"> 2023 Resume Builder</p>
         </footer>
     )
 }
 export default Footer
+
