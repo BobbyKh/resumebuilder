@@ -14,6 +14,7 @@ urlpatterns = [
     path ('appointment_types', views.AppointmentType.as_view(), name='appointment_type_list'),
     path ('pricing',views.PricingType.as_view(), name='pricing_list'),
     path ('pdftotext', views.convert_pdf_to_text, name='pdftotext'),
+    path('faq', views.FAQ.as_view(), name='faq_list'),
 
 ]
 if settings.DEBUG:

@@ -3,13 +3,13 @@ from django.shortcuts import redirect, render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from api.models import Appointment, AppointmentType, Pricing, ResumeCategory, ResumeTemplate
-from api.serializer import AppointmentSerializer, AppointmentTypeSerializer, PricingSerializer, ResumeCategorySerializer, ResumeTemplateSerializer, UserSerializer
+from api.serializer import AppointmentSerializer, AppointmentTypeSerializer, FAQSerializer, PricingSerializer, ResumeCategorySerializer, ResumeTemplateSerializer, UserSerializer
 from django.contrib.auth.models import User
 from allauth.socialaccount.providers.google.views import OAuth2LoginView
 from rest_framework.generics import ListCreateAPIView
 from pypdf import PdfReader
 
-
+from api.models import FAQ
 
 
 # Create your views here.
@@ -148,3 +148,12 @@ def convert_pdf_to_text(request):
             json.dump(structured_data, f)
         
     return Response(structured_data , status=200)
+
+
+
+
+class FAQ(ListCreateAPIView):
+    queryset = FAQ.objects.all()
+    serializer_class = FAQSerializer
+
+

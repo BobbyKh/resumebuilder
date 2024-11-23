@@ -37,6 +37,12 @@ class PricingSerializer (serializers.ModelSerializer):
     class Meta:
         model = models.Pricing
         fields = '__all__'
+        
+
+class FAQSerializer (serializers.ModelSerializer):
+    class Meta:
+        model = models.FAQ
+        fields = '__all__'
     
 
 
