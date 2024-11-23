@@ -2,38 +2,9 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { faCss3Alt, faReact } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useState } from 'react';
-
-interface AboutType {
-  id: number;
-  name: string;
-  image: string;
-  description: string;
-}
+import { useEffect } from 'react';
 
 const About = () => {
-  const [about, setAbout] = useState<AboutType>({
-    id: 0,
-    name: '',
-    image: '',
-    description: '',
-  });
-
-  useEffect(() => {
-    const fetchAbout = async () => {
-      try {
-        const response = await fetch('http://127.0.0.1:8000/api/aboutus');
-        const data = await response.json();
-        console.log('Fetched Data:', data); // Debug fetched data
-        setAbout(data);
-      } catch (error) {
-        console.error('Fetch Error:', error);
-      }
-    };
-
-    fetchAbout();
-  }, []);
-
   useEffect(() => {
     AOS.init();
   }, []);
@@ -47,19 +18,26 @@ const About = () => {
     >
       <div className="max-w-md w-full bg-white shadow-lg rounded-lg overflow-hidden">
         <img
-          src={about.image}
-          alt={about.name}
+          src="https://media.licdn.com/dms/image/v2/D4D22AQFACBJycYbx5Q/feedshare-shrink_1280/feedshare-shrink_1280/0/1732080336196?e=1735171200&v=beta&t=3Er7tCa61le9s9ky89gvml9QSFKBH1LGqnuxgWcYjS4"
+          alt="Krishna Bhahadur Singh"
           className="w-full h-auto object-cover"
           data-aos="zoom-in"
-          data-aos-duration="1000"
+          data-aos-duration="100"
           data-aos-once="false"
         />
         <div className="p-6">
           <h2 className="text-4xl font-bold mb-4 text-center" data-aos="zoom-in" data-aos-duration="1000" data-aos-once="false">
-            {about.name}
+            Krishna Bhahadur Singh
           </h2>
-          <p className="text-lg text-center mb-4" data-aos="fade-up" data-aos-duration="1500" data-aos-once="false">
-            {about.description}
+          <p className="text-lg text-center mb-4" data-aos="fade-up" data-aos-duration="1500"  data-aos-once="false">
+            <span className='font-bold border rounded-full px-2 py-1 inline-block mr-2'>13 years of experience</span>
+            <span className='border rounded-full px-2 py-1 inline-block mr-2'>Strategic HR Advisor</span>
+            <span className='border rounded-full px-2 py-1 inline-block mr-2'>Designed People development Framework</span>
+            <span className='border rounded-full px-2 py-1 inline-block mr-2'>People Manager</span>
+            <span className='border rounded-full px-2 py-1 inline-block mr-2'>Worked with 3000+ People</span>
+            <span className='border rounded-full px-2 py-1 inline-block mr-2'>Directly managed 45+ Team</span>
+            <span className='border rounded-full px-2 py-1 inline-block mr-2'>Designed PMS System</span>
+            <span className='border rounded-full px-2 py-1 inline-block'>OKR</span>
           </p>
           <div className="flex justify-center space-x-4" data-aos="fade-right" data-aos-duration="1500" data-aos-delay="1500" data-aos-once="false">
             <FontAwesomeIcon icon={faReact} className="text-blue-500 text-2xl" />
