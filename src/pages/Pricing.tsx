@@ -28,14 +28,14 @@ const Pricing = () => {
   }, []);
 
   return (
-    <div className="min-h-screen pb-28 sm:pb-0 bg-gray-900">
+    <div className="min-h-screen pb-28 sm:pb-0 bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-200">
       <div className="max-w-7xl mx-auto p-4 sm:p-10 lg:py-20">
-        <div className="max-w-5xl mx-auto text-center text-white tracking-widest pb-10 lg:pb-20">
-          <p className="pb-4 text-xl text-gray-200" data-aos="fade-up">PRICING</p>
+        <div className="max-w-5xl mx-auto text-center tracking-widest pb-10 lg:pb-20">
+          <p className="pb-4 text-xl" data-aos="fade-up">PRICING</p>
           <h1 className="text-3xl sm:text-5xl font-black" data-aos="fade-up" data-aos-duration="1500">
             The right price for you, whoever you are
           </h1>
-          <p className="text-xl sm:text-2xl font-light text-gray-200 px-10 py-6" data-aos="fade-up" data-aos-duration="1500">
+          <p className="text-xl sm:text-2xl font-light px-10 py-6" data-aos="fade-up" data-aos-duration="1500">
             Lorem ipsum has been the industry's standard dummy text ever since,
             when an unknown printer took a galley of type and scrambled.
           </p>
@@ -45,7 +45,7 @@ const Pricing = () => {
           {pricing.map((plan: any) => (
             <div
               key={plan.id}
-              className="flex-1 gap-4 w-full mb-6 bg-white rounded-xl shadow-xl transform transition duration-500 hover:scale-105"
+              className="flex-1 gap-4 w-full mb-6 bg-gradient-to-r from-indigo-100 to-purple-300 rounded-xl shadow-xl transform transition duration-500 hover:scale-105"
               data-aos="zoom-in"
               data-aos-duration="1500"
             >
@@ -68,7 +68,7 @@ const Pricing = () => {
                     <li key={index} className="flex">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6 mr-3 text-green-500"
+                        className="h-6 w-6 mr-3 text-green-500 animate-pulse"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -87,9 +87,11 @@ const Pricing = () => {
                 <Link to="/pricing/subscription/1">
                 <button
                   type="button"
-                  className="w-full text-center bg-white text-lg text-indigo-600 mt-8 p-3 rounded shadow-xl transition hover:text-white hover:bg-indigo-600"
+                  className="w-full text-center bg-white text-lg text-indigo-600 mt-8 p-3 rounded-lg shadow-xl transition hover:text-white hover:bg-indigo-600 animate-pulse"
                   data-aos="flip-up"
                   data-aos-duration="1000"
+                  data-aos-easing="ease-in-out"
+                  data-aos-delay="500"
                 >
                   Suscribe
                 </button>

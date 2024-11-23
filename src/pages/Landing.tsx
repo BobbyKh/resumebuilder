@@ -1,94 +1,62 @@
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import Template from '../resume/Template';
-import Steps from '../resume/Steps';
-import Review from '../resume/Review';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFileAlt, faSearch, faEnvelope, faList } from "@fortawesome/free-solid-svg-icons";
+import Review from "../resume/Review";
+import Template from "../resume/Template";
+import Pricing from "./Pricing";
+import Faq from "./Faq";
+import About from "./About";
+import Testimonial from "./Testimonial";
 
 const Landing = () => {
-  useEffect(() => {
-    AOS.init();
-  }, []);
-
   return (
     <>
-    <div
-      className="min-h-screen flex flex-col justify-center items-center p-4 sm:p-0"
-      style={{
-        backgroundImage: 'url(https://img.freepik.com/premium-photo/blank-paper-business-desk-table-top-view-flat-lay_33795-89.jpg?semt=ais_hybrid)', // Replace with actual image URL
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-      data-aos="zoom-out"
-      data-aos-duration="1500"
-      data-aos-once="false"
-    >
-      <h1
-        className="text-4xl sm:text-7xl font-bold text-gray-800"
-        data-aos="zoom-in"
-        data-aos-duration="1000"
-        data-aos-delay="500"
-        data-aos-once="false"
-      >
-        Build Your Resume
-      </h1>
-      <p
-        className="text-xl sm:text-3xl text-gray-600 mt-4 sm:mt-0"
-        data-aos="fade-up"
-        data-aos-duration="1500"
-        data-aos-delay="1000"
-        data-aos-once="false"
-      >
-        Create a professional resume in minutes.
-      </p>
-      <Link
-        to="/login"
-        className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8 sm:mt-4 transition duration-500 transform hover:scale-105"
-        data-aos="fade-up"
-        data-aos-duration="1500"
-        data-aos-delay="1500"
-        data-aos-once="false"
-      >
-        Get Started
-      </Link>
-
-    </div>
-    
+      <div data-aos="fade-up" className="text-center py-20 px-6 bg-no-repeat bg-center bg-cover" style={{backgroundImage: "url(https://www.yealink.com/website-service/attachment/product/image/20240719/202407190945301265617.jpg"}}>
+        <h2 className="text-4xl font-bold text-white mb-6" data-aos="fade-up sm:text-6xl">
+          Elevate the search <br className="hidden sm:block"></br>
+          for your <span className="text-blue-500 hover:text-purple-700">next career</span>
+        </h2>
+        <p className="text-white  text-lg mb-8 max-w-2xl mx-auto" data-aos="fade-up">
+          Our tools support you every step of the way—from creating a professional resume and writing cover letters, to finding job listings and keeping track of your applications.
+        </p>
+        <button className="bg-blue-500 text-white text-lg py-3 px-6 rounded hover:bg-purple-700" data-aos="fade-up">Get started</button>
+      </div>
+      
+      <div className="bg-white py-10">
+        <div data-aos="fade-up" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 px-10">
+          <div className="text-center bg">
+            <FontAwesomeIcon icon={faFileAlt} size="4x" className="text-gray-600 mb-4" data-aos="fade-right"/>
+            <h3 className="text-lg font-bold text-gray-900" data-aos="fade-right">1 - Create your resume</h3>
+          </div>
+          <div className="text-center">
+            <FontAwesomeIcon icon={faSearch} size="4x" className="text-gray-600 mb-4" data-aos="fade-up"/>
+            <h3 className="text-lg font-bold text-gray-900" data-aos="fade-up">2 - Find relevant jobs</h3>
+          </div>
+          <div className="text-center">
+            <FontAwesomeIcon icon={faEnvelope} size="4x" className="text-gray-600 mb-4" data-aos="fade-left"/>
+            <h3 className="text-lg font-bold text-gray-900" data-aos="fade-left">3 - Compose cover letters</h3>
+          </div>
+          <div className="text-center">
+            <FontAwesomeIcon icon={faList} size="4x" className="text-gray-600 mb-4" data-aos="fade-right"/>
+            <h3 className="text-lg font-bold text-gray-900" data-aos="fade-right">4 - Track your applications</h3>
+          </div>
+        </div>
+      </div> 
     <Template/>
-
-    <Steps/>
-
     <Review/>
-    <div className="mt-10 flex flex-col items-center bg-white rounded-lg shadow-lg p-8">
-      <FontAwesomeIcon icon={faQuestionCircle} className="w-12 h-12 text-gray-600" />
-      <h1 className="text-3xl font-bold text-gray-800">Frequently Asked Questions</h1>
-      <ul className="mt-4 space-y-4">
-        <li className="flex items-center">
-          <svg className="w-6 h-6 text-green-500" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path><path d="M22 4L12 14.01l-3-3V2c0-1.1.9-2 2-2h11c1.1 0 2 .9 2 2v12.01l-3 3"></path></svg>
-          <p className="ml-4 text-lg text-gray-600">What is the best way to create an effective resume?</p>
-        </li>
-        <li className="flex items-center">
-          <svg className="w-6 h-6 text-green-500" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path><path d="M22 4L12 14.01l-3-3V2c0-1.1.9-2 2-2h11c1.1 0 2 .9 2 2v12.01l-3 3"></path></svg>
-          <p className="ml-4 text-lg text-gray-600">What are the most important sections of a resume?</p>
-        </li>
-        <li className="flex items-center">
-          <svg className="w-6 h-6 text-green-500" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path><path d="M22 4L12 14.01l-3-3V2c0-1.1.9-2 2-2h11c1.1 0 2 .9 2 2v12.01l-3 3"></path></svg>
-          <p className="ml-4 text-lg text-gray-600">How do I create a resume that stands out from the crowd?</p>
-        </li>
-      </ul>
-    </div>
-    </>
-
+    <Pricing/>
+    <Faq/>
+    <Testimonial/>
+    <About/>
     
-    
-  );
-
-};
 
 
+      
+    </> 
+  )
+}
 
-  export default Landing
+AOS.init();
+export default Landing
 
