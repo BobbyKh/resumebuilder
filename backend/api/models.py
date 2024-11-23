@@ -91,14 +91,12 @@ class FAQ(models.Model):
         return self.question
 
 class AboutUs(models.Model):
-<<<<<<< HEAD
     title = models.CharField(max_length=255)
     description = models.TextField()
     status = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title
-=======
     name = models.CharField(max_length=100)
     description = models.TextField()
     image = models.ImageField(upload_to='about_us/')
@@ -124,4 +122,3 @@ class HeroSection(models.Model):
 
     def __str__(self):
         return self.name
->>>>>>> f12628adfe44ddbda5d9dbca5edfaae042bb481c

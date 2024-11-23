@@ -2,15 +2,12 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-<<<<<<< HEAD
 from api.models import AboutUs, Appointment, AppointmentType, Pricing, ResumeCategory, ResumeTemplate
 from api.serializer import AboutUsSerializer, AppointmentSerializer, AppointmentTypeSerializer, PricingSerializer, ResumeCategorySerializer, ResumeTemplateSerializer, UserSerializer
-=======
 from api.models import Appointment, AppointmentType, Pricing, ResumeCategory, ResumeTemplate
 from api.serializer import AppointmentSerializer, AppointmentTypeSerializer, FAQSerializer, PricingSerializer, ResumeCategorySerializer, ResumeTemplateSerializer, UserSerializer
-from api.models import AboutUs, Appointment, AppointmentType, HeroSection, Pricing, ResumeCategory, ResumeTemplate, Testimonial
+from api.models import AboutUs, Appointment, AppointmentType, HeroSection, Pricing, ResumeCategory, ResumeTemplate, Testimonial, User, FAQ
 from api.serializer import AboutUsSerializer, AppointmentSerializer, AppointmentTypeSerializer, HeroSectionSerializer, PricingSerializer, ResumeCategorySerializer, ResumeTemplateSerializer, TestimonialSerializer, UserSerializer
->>>>>>> f12628adfe44ddbda5d9dbca5edfaae042bb481c
 from django.contrib.auth.models import User
 from allauth.socialaccount.providers.google.views import OAuth2LoginView
 from rest_framework.generics import ListCreateAPIView
@@ -156,8 +153,6 @@ def convert_pdf_to_text(request):
         
     return Response(structured_data , status=200)
 
-<<<<<<< HEAD
-=======
 
 
 
@@ -166,15 +161,12 @@ class FAQ(ListCreateAPIView):
     serializer_class = FAQSerializer
 
 
->>>>>>> f12628adfe44ddbda5d9dbca5edfaae042bb481c
 class AboutUsView(ListCreateAPIView):
     queryset = AboutUs.objects.all()
     serializer_class = AboutUsSerializer
 
 
     
-<<<<<<< HEAD
-=======
 class TestimonialView(ListCreateAPIView):
     queryset = Testimonial.objects.all()
     serializer_class = TestimonialSerializer
@@ -182,4 +174,3 @@ class TestimonialView(ListCreateAPIView):
 class HeroSectionView(ListCreateAPIView):
     queryset = HeroSection.objects.all()
     serializer_class = HeroSectionSerializer
->>>>>>> f12628adfe44ddbda5d9dbca5edfaae042bb481c
