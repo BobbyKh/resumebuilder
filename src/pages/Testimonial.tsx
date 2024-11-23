@@ -14,7 +14,7 @@ const Testimonial = () => {
     return (
         <div className="bg-gray-50 py-20">
             <div className="container mx-auto px-6 md:px-12">
-                <h1 className="text-4xl font-bold text-center mb-4 hover:text-blue-500" data-aos="fade-up">Testimonials</h1>
+                <h1 className="text-4xl font-bold text-center mb-4 hover:text-blue-500" data-aos="fade-up">Testimonial</h1>
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-aos="fade-up">
                     <div className="bg-white p-6 shadow-md rounded-lg">
                         <FontAwesomeIcon icon={faQuoteLeft} className="text-5xl text-blue-500" />
