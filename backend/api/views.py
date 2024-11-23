@@ -152,4 +152,6 @@ def convert_pdf_to_text(request):
 class AboutUsView(ListCreateAPIView):
     queryset = AboutUs.objects.all()
     serializer_class = AboutUsSerializer
+
+
     
