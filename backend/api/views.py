@@ -2,13 +2,10 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-<<<<<<< HEAD
 from api.models import Appointment, AppointmentType, Pricing, ResumeCategory, ResumeTemplate
 from api.serializer import AppointmentSerializer, AppointmentTypeSerializer, FAQSerializer, PricingSerializer, ResumeCategorySerializer, ResumeTemplateSerializer, UserSerializer
-=======
 from api.models import AboutUs, Appointment, AppointmentType, HeroSection, Pricing, ResumeCategory, ResumeTemplate, Testimonial
 from api.serializer import AboutUsSerializer, AppointmentSerializer, AppointmentTypeSerializer, HeroSectionSerializer, PricingSerializer, ResumeCategorySerializer, ResumeTemplateSerializer, TestimonialSerializer, UserSerializer
->>>>>>> dcc86729bd288f68f55588d0940d9017fa3c7384
 from django.contrib.auth.models import User
 from allauth.socialaccount.providers.google.views import OAuth2LoginView
 from rest_framework.generics import ListCreateAPIView
