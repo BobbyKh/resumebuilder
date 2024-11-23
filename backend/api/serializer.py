@@ -40,7 +40,10 @@ class PricingSerializer (serializers.ModelSerializer):
     
 
 
-
+class AboutUsSerializer (serializers.ModelSerializer):
+    class Meta:
+        model = models.AboutUs
+        fields = '__all__'
 
         
     
