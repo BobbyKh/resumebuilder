@@ -2,8 +2,8 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from api.models import Appointment, AppointmentType, Pricing, ResumeCategory, ResumeTemplate
-from api.serializer import AppointmentSerializer, AppointmentTypeSerializer, PricingSerializer, ResumeCategorySerializer, ResumeTemplateSerializer, UserSerializer
+from api.models import AboutUs, Appointment, AppointmentType, Pricing, ResumeCategory, ResumeTemplate
+from api.serializer import AboutUsSerializer, AppointmentSerializer, AppointmentTypeSerializer, PricingSerializer, ResumeCategorySerializer, ResumeTemplateSerializer, UserSerializer
 from django.contrib.auth.models import User
 from allauth.socialaccount.providers.google.views import OAuth2LoginView
 from rest_framework.generics import ListCreateAPIView
@@ -148,3 +148,8 @@ def convert_pdf_to_text(request):
             json.dump(structured_data, f)
         
     return Response(structured_data , status=200)
+
+class AboutUsView(ListCreateAPIView):
+    queryset = AboutUs.objects.all()
+    serializer_class = AboutUsSerializer
+    
