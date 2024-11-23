@@ -15,7 +15,14 @@ admin.site.register( [
     models.AppointmentType,
     models.Appointment,
     models.Pricing,
+<<<<<<< HEAD
     models.AboutUs,
     models.FAQ
     
+=======
+    models.FAQ,
+    models.AboutUs,
+    models.Testimonial,
+    models.HeroSection,
+>>>>>>> f12628adfe44ddbda5d9dbca5edfaae042bb481c
 ])

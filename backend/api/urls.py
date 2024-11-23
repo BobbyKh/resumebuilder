@@ -14,7 +14,14 @@ urlpatterns = [
     path ('appointment_types', views.AppointmentType.as_view(), name='appointment_type_list'),
     path ('pricing',views.PricingType.as_view(), name='pricing_list'),
     path ('pdftotext', views.convert_pdf_to_text, name='pdftotext'),
+<<<<<<< HEAD
     path('aboutus', views.AboutUsView.as_view(), name='aboutus'),
+=======
+    path('faq', views.FAQ.as_view(), name='faq_list'),
+    path('aboutus', views.AboutUsView.as_view(), name='aboutus'),
+    path('testimonials', views.TestimonialView.as_view(), name='testimonials'),
+    path('hero', views.HeroSectionView.as_view(), name='hero'),
+>>>>>>> f12628adfe44ddbda5d9dbca5edfaae042bb481c
 
 ]
 if settings.DEBUG:
