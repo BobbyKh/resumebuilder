@@ -79,11 +79,13 @@ class Pricing (models.Model):
     def __str__(self):
         
         return self.name
-
-class AboutUs(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField()
-    image = models.ImageField(upload_to='about_us/')
+    
+    
+    
+class FAQ(models.Model):
+    question = models.CharField(max_length=255)
+    answer = models.TextField()
+    status = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.name
+        return self.question
