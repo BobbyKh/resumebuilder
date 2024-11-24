@@ -30,7 +30,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className="App">
+    <div className="App bg-[#0b1320]">
       <Navbar />
       <Routes>
         <Route

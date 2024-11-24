@@ -15,7 +15,7 @@ const Review = () => {
 
   return (
     <div
-      className="bg-gradient-to-r from-white to-gray-100 p-10 md:p-20 rounded-xl shadow-lg relative"
+      className="bg-[rgb(11,19,32)] md:p-20 relative"
     >
       <div
         className="flex items-center justify-center mb-6"
@@ -23,10 +23,11 @@ const Review = () => {
       >
         <FontAwesomeIcon
           icon={faQuoteLeft}
-          className="text-gray-800 text-6xl md:text-8xl mr-6"
+          className="text-[#d5420b] text-6xl md:text-8xl mr-6"
         />
-        <h2 className="text-3xl md:text-5xl font-bold text-center text-gray-800">
-          Customer Reviews
+        <h2 className="text-3xl text-white md:text-5xl font-bold text-center ">
+        Customer
+          <span className=" text-[#d5420b]"> Reviews</span>
         </h2>
       </div>
       <div
@@ -36,7 +37,7 @@ const Review = () => {
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="flex flex-col bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden"
+            className="flex flex-col bg-[#d border border-[#d5420b] rounded-lg shadow-md overflow-hidden"
             data-aos="fade-up"
           >
             <div className="flex items-center p-6">
@@ -46,8 +47,8 @@ const Review = () => {
                 alt="User avatar"
               />
               <div>
-                <p className="text-xl font-bold text-gray-800">John Doe</p>
-                <p className="text-sm text-gray-500">Jan 15, 2023</p>
+                <p className="text-xl font-bold text-white">John Doe</p>
+                <p className="text-sm text-white">Jan 15, 2023</p>
               </div>
             </div>
             <div className="flex items-center mb-4 p-6">
@@ -72,13 +73,13 @@ const Review = () => {
                 className="text-gray-300 text-xl mr-1"
               />
             </div>
-            <p className="text-gray-700 mb-4 p-6">
+            <p className="text-white mb-4 p-6">
               This is a great product! It has exceeded my expectations and I
               would highly recommend it to anyone.
             </p>
             <a
               href="#"
-              className="text-blue-500 hover:underline p-6"
+              className="text-[#d5420b] hover:text-slate-100 hover:bg-gray-700 p-6"
             >
               Read more
             </a>

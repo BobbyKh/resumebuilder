@@ -38,10 +38,11 @@ const Template = () => {
 
     return (
         <>
+        <div className='bg-[#0b1320] min-h-screen flex flex-col justify-center items-center p-4' data-aos="fade-down" data-aos-duration="1500" data-aos-once="false">
         <div className="mx-auto max-w-7xl px-6 lg:px-8 mb-4" data-aos="zoom-in">
           <div className="mx-auto max-w-2xl lg:text-center" data-aos="fade-up">
-            <p className="mt-2 text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
-              Choose your template
+            <p className="mt-2 text-4xl font-medium tracking-tight text-[#d5420b] sm:text-5xl">
+              <span className="text-white">Choose your </span>template
             </p>
           </div>
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8" data-aos="fade-up">
@@ -60,7 +61,7 @@ const Template = () => {
               
               <Link to={`/resume/${resumeTemplate.id}`}>
 
-                <button className="mt-4 block w-full text-white bg-indigo-600 font-bold py-2 rounded-lg hover:bg-indigo-700 transition duration-150 ease-in-out" data-aos="zoom-in">
+                <button className="mt-4 block w-full text-white bg-[#d5420b] font-bold py-2 rounded-lg hover:bg-red-600 transition duration-150 ease-in-out" data-aos="zoom-in">
                    Use Template
                 </button>
               </Link>
@@ -68,6 +69,7 @@ const Template = () => {
             ))}
           </div>
         </div>
+      </div>
         </>
     )
 }
