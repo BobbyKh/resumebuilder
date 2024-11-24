@@ -53,14 +53,14 @@ const Template = () => {
                     alt={resumeTemplate.name}
                     className="h-auto w-full group-hover:opacity-75 transition-opacity duration-150 ease-in-out"
                   />
-                  <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="absolute inset-0 flex items-center justify-center transition duration-150 ease-in-out group-hover:border-2 group-hover:border-white group-hover:border-dashed">
                     <p className="text-3xl font-bold text-white">{resumeTemplate.name}</p>
                   </div>
                 </div>
               
               <Link to={`/resume/${resumeTemplate.id}`}>
 
-                <button className="mt-4 block w-full text-white font-bold py-2 rounded-lg hover:bg-indigo-700 transition duration-150 ease-in-out" data-aos="zoom-in">
+                <button className="mt-4 block w-full text-white bg-indigo-600 font-bold py-2 rounded-lg hover:bg-indigo-700 transition duration-150 ease-in-out" data-aos="zoom-in">
                    Use Template
                 </button>
               </Link>

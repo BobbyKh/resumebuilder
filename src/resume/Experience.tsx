@@ -40,8 +40,27 @@ export default function Experience() {
     AOS.init();
   }, []);
 
+  const handleScroll = () => {
+    const els = document.querySelectorAll('.animate-on-scroll');
+    els.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top <= window.innerHeight && rect.bottom >= 0) {
+        el.classList.add('animate');
+      } else {
+        el.classList.remove('animate');
+      }
+    });
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
-    <div className="bg-white py-24 sm:py-32" data-aos="fade-down">
+    <div className="bg-gradient-to-r from-blue-50 via-indigo-80 to-pink-50 bg-animate py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:text-center">
           <h2 className="text-base font-semibold text-indigo-600">Experience</h2>
@@ -53,18 +72,16 @@ export default function Experience() {
             pulvinar et feugiat blandit at. In mi viverra elit nunc.
           </p>
         </div>
-        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
-          <div className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
+        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl" data-aos="fade-up" data-aos-duration="1000">
+          <div className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16 ">
             {features.map((feature, index) => (
               <motion.button
                 key={feature.name}
-                className={`relative pl-16 py-4 rounded-lg border ${selected === index ? 'border-indigo-600 bg-indigo-50' : 'border-gray-200'}`}
-                initial={{ opacity: 0, x: -100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 100 }}
+                className={`relative pl-16 py-4 rounded-lg border shadow-2xl border-spacing-2 animate-on-scroll ${selected === index ? 'border-indigo-600 bg-indigo-50' : 'border-gray-200'}`}
+                initial={{ opacity: 0, y: 100 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 100 }}
                 transition={{ duration: 0.3 }}
-                data-aos="fade-right"
-                data-aos-duration="1000"
                 onClick={() => setSelected(index)}
               >
                 <dt className="flex items-center text-base font-semibold text-gray-900">

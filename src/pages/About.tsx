@@ -11,12 +11,15 @@ const About = () => {
 
   return (
     <div
-      className="flex items-center justify-center min-h-screen bg-green-100 mb-3"
+      className="flex items-center justify-center min-h-screen bg-gradient-to-r from-indigo-100 via-purple-70 to-pink-70 mb-3 p-4"
       data-aos="fade-down"
       data-aos-duration="1500"
       data-aos-once="false"
     >
-      <div className="max-w-md w-full bg-white shadow-lg rounded-lg overflow-hidden">
+      <video autoPlay loop muted className="absolute top-0 left-0 w-full h-full object-cover">
+        <source src="https://resumaster.s3.amazonaws.com/video/krishna_bahadur_singh.mp4" type="video/mp4" />
+      </video>
+      <div className="max-w-md w-full bg-white bg-opacity-50 shadow-lg rounded-lg overflow-hidden">
         <img
           src="https://media.licdn.com/dms/image/v2/D4D22AQFACBJycYbx5Q/feedshare-shrink_1280/feedshare-shrink_1280/0/1732080336196?e=1735171200&v=beta&t=3Er7tCa61le9s9ky89gvml9QSFKBH1LGqnuxgWcYjS4"
           alt="Krishna Bhahadur Singh"

@@ -26,6 +26,7 @@ def redirect_to_google_login(request):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('admin/', include("django_admin_kubi.urls")),  # Django admin kubi URLS
     path("__reload__/", include("django_browser_reload.urls")),
     path ("api/", include("api.urls")),
     path ("accounts/", include("allauth.urls")),

@@ -118,6 +118,7 @@ const BookAppointment = () => {
                 </div>
                 <div className="flex items-center space-x-2 md:col-span-2">
                     <FontAwesomeIcon icon={faCommentDots} className="text-gray-600"data-aos-delay="600" />
+                    <textarea name="message" placeholder="Additional Message" defaultValue={appointment.message} onChange={handleInputChange} className="flex-1 border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" id=""></textarea>
                 </div>
                 
                 <button type="submit" className="col-span-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" disabled={isSending}>

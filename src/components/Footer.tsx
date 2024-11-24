@@ -10,7 +10,7 @@ const Footer = () => {
     }, []);
 
     return (
-        <footer className="bg-white text-gray-700 py-12">
+        <footer className="bg-white text-gray-700 mt-10">
             <div className="container mx-auto px-6 md:px-12">
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
                     <div data-aos="fade-up">

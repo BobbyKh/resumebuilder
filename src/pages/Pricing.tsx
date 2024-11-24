@@ -28,7 +28,7 @@ const Pricing = () => {
   }, []);
 
   return (
-    <div className="min-h-screen pb-28 sm:pb-0 bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-200">
+    <div className="min-h-screen pb-28 sm:pb-0 bg-gradient-to-r from-indigo-100 via-purple-90 to-pink-60">
       <div className="max-w-7xl mx-auto p-4 sm:p-10 lg:py-20">
         <div className="max-w-5xl mx-auto text-center tracking-widest pb-10 lg:pb-20">
           <p className="pb-4 text-xl" data-aos="fade-up">PRICING</p>
@@ -93,7 +93,7 @@ const Pricing = () => {
                   data-aos-easing="ease-in-out"
                   data-aos-delay="500"
                 >
-                  Suscribe
+                  <span className="font-semibold animate-border animate-font">Suscribe</span>
                 </button>
                 </Link>
               </div>
