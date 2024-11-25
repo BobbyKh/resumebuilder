@@ -37,7 +37,9 @@ admin.site.register([
     models.Pricing,
     models.AboutUs,
     models.FAQ,
-    models.Testimonial
+    models.Testimonial,
+    models.HeroSection,
+    models.Organization
 ])
 
 for model in admin.site._registry.values():

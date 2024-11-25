@@ -54,6 +54,12 @@ class HeroSectionSerializer (serializers.ModelSerializer):
     class Meta:
         model = models.HeroSection
         fields = '__all__'
+
+class OrganizationSerializer (serializers.ModelSerializer):
+    class Meta:
+        model = models.Organization
+        fields = '__all__'
+
         
 class TestimonialSerializer (serializers.ModelSerializer):
     class Meta:
