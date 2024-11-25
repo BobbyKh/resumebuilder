@@ -2,8 +2,8 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from api.models import AboutUs, Appointment, AppointmentType, HeroSection, Organization, Pricing, ResumeCategory, ResumeTemplate, Testimonial
-from api.serializer import AboutUsSerializer, AppointmentSerializer, AppointmentTypeSerializer, HeroSectionSerializer, OrganizationSerializer, PricingSerializer, ResumeCategorySerializer, ResumeTemplateSerializer, TestimonialSerializer, UserSerializer
+from api.models import AboutUs, Appointment, AppointmentType, FooterSection, HeroSection, Organization, Pricing, ResumeCategory, ResumeTemplate, Testimonial,FAQ
+from api.serializer import AboutUsSerializer, AppointmentSerializer, AppointmentTypeSerializer, FAQSerializer, HeroSectionSerializer, OrganizationSerializer, PricingSerializer, ResumeCategorySerializer, ResumeTemplateSerializer, TestimonialSerializer, UserSerializer ,FooterSerializer
 from django.contrib.auth.models import User
 from allauth.socialaccount.providers.google.views import OAuth2LoginView
 from rest_framework.generics import ListCreateAPIView
@@ -153,7 +153,7 @@ def convert_pdf_to_text(request):
 
 
 class FAQ(ListCreateAPIView):
-    queryset = FAQ.objects.all()
+    queryset = FAQ.objects.filter(status=True)
     serializer_class = FAQSerializer
 
 
@@ -168,9 +168,14 @@ class TestimonialView(ListCreateAPIView):
     serializer_class = TestimonialSerializer
 
 class HeroSectionView(ListCreateAPIView):
-    queryset = HeroSection.objects.all()
+    queryset = [HeroSection.objects.first()]
     serializer_class = HeroSectionSerializer
 
 class OrganizationView(ListCreateAPIView):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
+
+
+class FooterSectionView(ListCreateAPIView):
+    queryset = FooterSection.objects.filter(slug='Solution')
+    serializer_class = FooterSerializer

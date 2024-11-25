@@ -66,6 +66,10 @@ class TestimonialSerializer (serializers.ModelSerializer):
         model = models.Testimonial
         fields = '__all__'
 
+class FooterSerializer(serializers.ModelSerializer):
     
+    class Meta :
+        model = models.FooterSection
+        fields = '__all__'
 
 

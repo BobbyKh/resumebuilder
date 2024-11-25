@@ -117,7 +117,7 @@ class HeroSection(models.Model):
     image = models.ImageField(upload_to='hero_section/')
     name = models.CharField(max_length=100)
     description = models.TextField()
-    button_text = models.CharField(max_length=100, null=True)
+    button_text = models.CharField(max_length=100, null=True)   
     status = models.BooleanField(default=True)
    
     def __str__(self):
@@ -137,3 +137,19 @@ class Organization(models.Model):
     twitter=models.CharField(max_length=100)
     instagram=models.CharField(max_length=100)
     linkedin=models.CharField(max_length=100)
+    
+
+def __str__(self):
+        return f"{self.name}"
+
+
+
+class FooterSection(models.Model):
+    
+    slug = models.SlugField(max_length=200)
+    name = models.CharField(max_length=100)
+    link = models.URLField()
+    status = models.BooleanField(default=True)
+    
+    def _str_ (self):
+        return f"{self.name}"
