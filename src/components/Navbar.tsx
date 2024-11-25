@@ -4,13 +4,34 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes, faTools, faDollarSign, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
-import logo from "../assets/logo.jpg";
+import axios from "axios";
 
+
+interface Organization {
+  name: string;
+  logo: string;
+}
 const Navbar = () => {
+  const [organization, setOrganization] = useState<Organization>({
+    
+    name: "",
+    logo: "",
+  });
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     AOS.init();
+  }, []);
+
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/api/organization')
+      .then(response => {
+        setOrganization(response.data);
+      })
+      .catch(error => {
+        console.error("Error fetching organizations", error);
+      });
+      
   }, []);
 
   const toggleMenu = () => {
@@ -21,7 +42,7 @@ const Navbar = () => {
     <><header className="bg-black dark:bg-[#d5420b] flex justify-between items-center py-6 px-10 shadow-sm">
       <div className="flex items-center">
         <Link to="/">
-        <img src={logo} alt="ResuMaster Logo" className="w-10 h-10 md:w-12 md:h-12 mr-2" />      </Link>
+        <img src={organization.logo} alt="ResuMaster Logo" className="w-10 h-10 md:w-12 md:h-12 mr-2" />      </Link>
 
         <h1 className="text-2xl font-bold text-[#d5420b]">Resu<span className="text-white">master</span></h1>
     </div><button onClick={toggleMenu} className="text-white md:hidden flex items-center justify-center w-10 h-10 md:w-auto md:h-auto">
@@ -54,5 +75,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
 

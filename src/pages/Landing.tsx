@@ -9,6 +9,8 @@ import Testimonial from "./Testimonial";
 import Experience from "../resume/Experience";
 import { useEffect, useState } from "react";
 import axios from "axios";
+
+
 interface HeroSection {
   image : string;
   name: string;
