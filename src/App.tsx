@@ -1,7 +1,6 @@
-import { useEffect } from "react";
+
 import { Routes, Route } from "react-router-dom";
-import AOS from "aos";
-import "aos/dist/aos.css";
+import './App.css'
 import Navbar from "./components/Navbar";
 import About from "./pages/About";
 import Landing from "./pages/Landing";
@@ -20,14 +19,9 @@ import Checkout from "./payment/Checkout";
 import Pdftotext from "./resume/Pdftotext";
 import NotFound from "./pages/NotFound";
 
+
 const App = () => {
-  useEffect(() => {
-    AOS.init({
-      duration: 800,
-      easing: 'ease-in-out',
-      once: true,
-    });
-  }, []);
+
 
   return (
     <div className="App bg-[#0b1320]">

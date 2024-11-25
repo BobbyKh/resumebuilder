@@ -2,12 +2,56 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faGithub, faInstagram, faLinkedin, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const Footer = () => {
     useEffect(() => {
         AOS.init({ duration: 1000, once: true });
     }, []);
+
+    interface SocialLink {
+        facebook: string;
+        twitter: string;
+        instagram: string;
+        linkedin: string;
+        github: string;
+        youtube: string;
+    }
+
+    const [social , setSocial ] = useState<SocialLink>(
+        {
+            facebook: '',
+            twitter: '',
+            instagram: '',
+            linkedin: '',
+            github: '',
+            youtube: '',
+        }
+        
+    );
+
+    useEffect(() => {
+        const fetchSocial = async () => {
+            
+        try {
+
+            const response = await axios.get('http://127.0.0.1:8000/api/organization');
+            setSocial(response.data);
+            console.log(response.data);
+
+        } catch (error) {
+
+            console.error('Error fetching social media links:', error);
+        }
+
+        }
+        fetchSocial();
+    }
+
+
+
+    , []);
 
     return (
         <footer className="bg-[#000000] p-2 md:p-8">
@@ -71,27 +115,7 @@ const Footer = () => {
                         </ul>
                     </div>
 
-                    <div>
-                        <h5 className="text-white font-semibold mb-4" data-aos="fade-up">
-                            Subscribe to our newsletter
-                        </h5>
-                        <p className="text-white mb-4" data-aos="fade-up" data-aos-delay="400">
-                            The latest news, articles, and resources, sent to your inbox weekly.
-                        </p>
-                        <form className="flex " data-aos="fade-up" data-aos-delay="500">
-                            <input
-                                type="email"
-                                placeholder="Enter your email"
-                                className="bg-gray-200 text-white placeholder-gray-500 py-2 px-4 rounded-l-md focus:outline-none focus:ring-2 focus:ring-purple-600 flex-grow"
-                            />
-                            <button
-                                type="submit"
-                                className="bg-red-600 text-white py-2 px-4 rounded-r-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400"
-                            >
-                                Subscribe
-                            </button>
-                        </form>
-                    </div>
+                 
                 </div>
 
                 <hr className="my-8 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
@@ -107,7 +131,15 @@ const Footer = () => {
                         </a>
                         . All Rights Reserved.
                     </span>
-                    <div className="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
+                    {social.facebook && social.twitter && social.instagram && social.linkedin && social.github && social.youtube && (
+                        <span
+                            className="text-sm text-white sm:text-center dark:text-gray-400 animate-fadeInUp"
+                            data-aos="fade-up"
+                        >
+                            Made with ❤️ by ResuTeam
+                        </span>
+                    )}
+                    <div className="flex mt-4 space-x-6 sm:justify-center sm:mt-0 ">
                         {[
                             { icon: faGithub, color: "hover:text-red-600" },
                             { icon: faLinkedin, color: "hover:text-red-600" },
@@ -133,5 +165,6 @@ const Footer = () => {
 };
 
 export default Footer;
+
 
 
