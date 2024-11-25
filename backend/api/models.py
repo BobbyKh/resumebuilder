@@ -103,6 +103,21 @@ class HeroSection(models.Model):
     description = models.TextField()
     button_text = models.CharField(max_length=100, null=True)
     status = models.BooleanField(default=True)
-
+   
     def __str__(self):
         return self.name
+
+class Organization(models.Model):
+    name = models.CharField(max_length=100) 
+    description = models.TextField()
+    image = models.ImageField(upload_to='organizations/')
+    logo= models.ImageField(upload_to='organizations/')
+    status = models.BooleanField(default=True)
+    slogans=models.TextField()
+    email=models.EmailField()
+    phone=models.CharField(max_length=20)
+    address=models.TextField()
+    facebook=models.CharField(max_length=100)
+    twitter=models.CharField(max_length=100)
+    instagram=models.CharField(max_length=100)
+    linkedin=models.CharField(max_length=100)

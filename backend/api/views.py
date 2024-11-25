@@ -2,8 +2,8 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from api.models import AboutUs, Appointment, AppointmentType, HeroSection, Pricing, ResumeCategory, ResumeTemplate, Testimonial
-from api.serializer import AboutUsSerializer, AppointmentSerializer, AppointmentTypeSerializer, HeroSectionSerializer, PricingSerializer, ResumeCategorySerializer, ResumeTemplateSerializer, TestimonialSerializer, UserSerializer
+from api.models import AboutUs, Appointment, AppointmentType, HeroSection, Organization, Pricing, ResumeCategory, ResumeTemplate, Testimonial
+from api.serializer import AboutUsSerializer, AppointmentSerializer, AppointmentTypeSerializer, HeroSectionSerializer, OrganizationSerializer, PricingSerializer, ResumeCategorySerializer, ResumeTemplateSerializer, TestimonialSerializer, UserSerializer
 from django.contrib.auth.models import User
 from allauth.socialaccount.providers.google.views import OAuth2LoginView
 from rest_framework.generics import ListCreateAPIView
@@ -160,3 +160,7 @@ class TestimonialView(ListCreateAPIView):
 class HeroSectionView(ListCreateAPIView):
     queryset = HeroSection.objects.all()
     serializer_class = HeroSectionSerializer
+
+class OrganizationView(ListCreateAPIView):
+    queryset = Organization.objects.all()
+    serializer_class = OrganizationSerializer

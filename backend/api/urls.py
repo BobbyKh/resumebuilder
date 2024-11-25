@@ -17,6 +17,7 @@ urlpatterns = [
     path('aboutus', views.AboutUsView.as_view(), name='aboutus'),
     path('testimonials', views.TestimonialView.as_view(), name='testimonials'),
     path('hero', views.HeroSectionView.as_view(), name='hero'),
+    path('organization', views.OrganizationView.as_view(), name='organization'),
 
 ]
 if settings.DEBUG:

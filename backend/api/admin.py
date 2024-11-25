@@ -17,6 +17,7 @@ admin.site.register( [
     models.Pricing,
     models.AboutUs,
     models.Testimonial,
-    models.HeroSection
+    models.HeroSection,
+    models.Organization
 ])
 
