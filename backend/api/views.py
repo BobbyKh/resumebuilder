@@ -13,6 +13,16 @@ import re
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from pypdf import PdfReader
+@api_view(['POST'])
+def logout_user(request):
+    print(request.user)
+
+    if request.user.is_authenticated:
+        request.user.auth_token.delete()
+        request.user.is_active = False
+        request.user.save() 
+        
+    return redirect('/login')
 
 
 

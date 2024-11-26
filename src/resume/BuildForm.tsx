@@ -143,6 +143,7 @@ const BuildForm = () => {
         </form>
       )}
     </div><GenerateResume /></>
+    
   );
 };
 

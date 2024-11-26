@@ -22,6 +22,7 @@ urlpatterns = [
     path('organization', views.OrganizationView.as_view(), name='organization'),
     path ('footer', views.FooterSectionView.as_view(), name='footer'),
     path ('resume', views.ResumeView.as_view(), name='resume'),
+    path ('logout', views.logout_user, name='logout'),
     
 ]
 

@@ -40,8 +40,6 @@ class Resume(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
-
-
     def __str__(self):
         return f" {self.name } with {self.template.name}"
 
@@ -69,6 +67,9 @@ class Appointment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     appointment_type = models.ForeignKey(AppointmentType, on_delete=models.CASCADE , null=True)
+    
+    def __str__(self):
+        return f"{self.name} with {self.appointment_type.name}"
 
 class Pricing (models.Model):
     name = models.CharField(max_length=100)
@@ -137,15 +138,10 @@ class Organization(models.Model):
     twitter=models.CharField(max_length=100)
     instagram=models.CharField(max_length=100)
     linkedin=models.CharField(max_length=100)
-    
-
 def __str__(self):
         return f"{self.name}"
 
-
-
 class FooterSection(models.Model):
-    
     slug = models.SlugField(max_length=200)
     name = models.CharField(max_length=100)
     link = models.URLField()
