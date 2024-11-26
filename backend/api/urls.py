@@ -20,9 +20,11 @@ urlpatterns = [
     path('testimonials', views.TestimonialView.as_view(), name='testimonials'),
     path('hero', views.HeroSectionView.as_view(), name='hero'),
     path('organization', views.OrganizationView.as_view(), name='organization'),
-    path ('footer', views.FooterSectionView.as_view(), name='footer')
+    path ('footer', views.FooterSectionView.as_view(), name='footer'),
+    path ('resume', views.ResumeView.as_view(), name='resume'),
     
 ]
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

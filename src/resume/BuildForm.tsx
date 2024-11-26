@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import Template from './Template';
+import GenerateResume from './GenerateResume';
 
 const BuildForm = () => {
   const [category, setCategory] = useState<string>('');
@@ -35,6 +36,7 @@ const BuildForm = () => {
 
     fetchResumeCategories();
   }, []);
+
   const handleCategoryChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const selectedCategory = e.target.value;
     setCategory(selectedCategory);
@@ -66,21 +68,16 @@ const BuildForm = () => {
         languages: 'Languages',
         references: 'References',
       },
-      cover_letter: {
+      biodata: {
         name: 'Name',
-        email: 'Email',
-        phone: 'Phone',
+        date_of_birth: 'Date of Birth',
+        gender: 'Gender',
+        marital_status: 'Marital Status',
+        nationality: 'Nationality',
+        religion: 'Religion',
+        languages_known: 'Languages Known',
+        hobbies: 'Hobbies',
         address: 'Address',
-        job_title: 'Job Title',
-        company_name: 'Company Name',
-        job_description: 'Job Description',
-        skills: 'Skills',
-        achievements: 'Achievements',
-        education: 'Education',
-        work_experience: 'Work Experience',
-        certifications: 'Certifications',
-        languages: 'Languages',
-        references: 'References',
       },
     };
 
@@ -107,15 +104,15 @@ const BuildForm = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 md:p-12" data-aos="fade-down">
+    <><div className="container mx-auto p-4 md:p-12" data-aos="fade-down">
       <Template />
-      
+
       <div className="bg-white rounded-lg shadow-lg p-6 md:p-12 mt-4">
         <h1 className="text-3xl font-bold flex items-center mb-6" data-aos="zoom-in" data-aos-duration="500" data-aos-delay="500">
           <FontAwesomeIcon icon={faGraduationCap} className="w-8 h-8 mr-2" />
           Select Document Type
         </h1>
-        
+
         <select className="p-2 border-2 border-gray-300 rounded-md w-full" data-aos="fade-up" data-aos-duration="1000" value={category} onChange={handleCategoryChange}>
           <option value="">Select</option>
           {resumeCategories.map((cat) => (
@@ -134,9 +131,9 @@ const BuildForm = () => {
               <img src={URL.createObjectURL(profilePicture)} className="w-48 h-48 rounded-md mt-2" alt="Profile Picture Preview" />
             )}
           </div>
-          
+
           {Object.keys(formDetails).map((key) => (
-            
+
             <div className="space-y-2" key={key}>
               <label className="text-lg" htmlFor={key}>{formDetails[key]}</label>
               <input className="p-2 border-2 border-gray-300 rounded-md w-full" type="text" id={key} name={key} />
@@ -145,10 +142,9 @@ const BuildForm = () => {
           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md" type="submit">Submit</button>
         </form>
       )}
-    </div>
+    </div><GenerateResume /></>
   );
 };
 
 export default BuildForm;
-
 

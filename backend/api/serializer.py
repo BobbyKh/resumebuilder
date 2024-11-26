@@ -14,6 +14,33 @@ class ResumeCategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ResumeSerializer(serializers.ModelSerializer):
+    html = serializers.SerializerMethodField()
+
+    class Meta:
+        model = models.Resume
+        fields = ['id', 'name', 'email', 'phone', 'address', 
+                  'skills', 'education', 'work_experience', 'hobbies', 
+                  'references', 'template', 'html']
+
+    def get_html(self, obj):
+        html_template = obj.template.html
+        
+        html = html_template.format(
+            name=obj.name,
+            email=obj.email,
+            phone=obj.phone,
+            address=obj.address,
+            achievements=', '.join(obj.achievements),
+            skills=', '.join(obj.skills),  
+            education=', '.join(obj.education),  
+            work_experience=', '.join(obj.work_experience),  
+            hobbies=', '.join(obj.hobbies),  
+            references=', '.join(obj.references)  
+        )
+        return html
+
+
 class ResumeTemplateSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ResumeTemplate

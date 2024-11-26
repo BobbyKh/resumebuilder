@@ -1,12 +1,17 @@
-from django.http import JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from api.models import AboutUs, Appointment, AppointmentType, FooterSection, HeroSection, Organization, Pricing, ResumeCategory, ResumeTemplate, Testimonial,FAQ
-from api.serializer import AboutUsSerializer, AppointmentSerializer, AppointmentTypeSerializer, FAQSerializer, HeroSectionSerializer, OrganizationSerializer, PricingSerializer, ResumeCategorySerializer, ResumeTemplateSerializer, TestimonialSerializer, UserSerializer ,FooterSerializer
+from api.models import AboutUs, Appointment, AppointmentType, FooterSection, HeroSection, Organization, Pricing, Resume, ResumeCategory, ResumeTemplate, Testimonial,FAQ
+from api.serializer import AboutUsSerializer, AppointmentSerializer, AppointmentTypeSerializer, FAQSerializer, HeroSectionSerializer, OrganizationSerializer, PricingSerializer, ResumeCategorySerializer, ResumeSerializer, ResumeTemplateSerializer, TestimonialSerializer, UserSerializer ,FooterSerializer
 from django.contrib.auth.models import User
 from allauth.socialaccount.providers.google.views import OAuth2LoginView
 from rest_framework.generics import ListCreateAPIView
+from pypdf import PdfReader
+from django.core.mail import send_mail
+from django.conf import settings
+import re
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from pypdf import PdfReader
 
 
@@ -23,9 +28,6 @@ def user_list(request):
     return Response(serializer.data)
 
 
-from django.core.mail import send_mail
-from django.conf import settings
-
 class AppointmentList(ListCreateAPIView):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
@@ -35,7 +37,6 @@ class AppointmentList(ListCreateAPIView):
         new_appointment = Appointment.objects.get(pk=response.data['id'])
         print(new_appointment.email)
         message = f'Name: {new_appointment.name}\nEmail: {new_appointment.email}\nPhone: {new_appointment.phone}\nDate: {new_appointment.date}\nTime: {new_appointment.time}\nMessage: {new_appointment.message}\nAppointment Type: {new_appointment.appointment_type.name}'
-         
         send_mail(
             
             'Appointment Request  ' + new_appointment.name, 
@@ -85,12 +86,14 @@ class PricingType(ListCreateAPIView):
     queryset = Pricing.objects.all()
     serializer_class = PricingSerializer
     
-import csv
-import re
-from io import StringIO
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from pypdf import PdfReader
+
+
+
+class ResumeView(ListCreateAPIView):
+    queryset = Resume.objects.all()
+    serializer_class = ResumeSerializer
+
+
 
 @api_view(['POST'])
 def convert_pdf_to_text(request):

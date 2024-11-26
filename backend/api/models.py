@@ -43,7 +43,7 @@ class Resume(models.Model):
 
 
     def __str__(self):
-        return self.name 
+        return f" {self.name } with {self.template.name}"
 
 
 class ResumeFile(models.Model):

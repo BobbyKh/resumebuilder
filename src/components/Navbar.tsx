@@ -3,8 +3,9 @@ import "aos/dist/aos.css";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faTimes, faTools, faDollarSign, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes, faDollarSign, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
+import { Dropdown } from "flowbite-react";
 
 
 interface Organization {
@@ -49,12 +50,23 @@ const Navbar = () => {
         <FontAwesomeIcon icon={isOpen ? faTimes : faBars} size="lg" className="ml-2 md:ml-0" />
       </button><nav className={`md:flex justify-center ${isOpen ? "block" : "hidden"}`}>
         <ul className="flex flex-col md:flex-row md:space-x-6 md:justify-center text-white md:items-center">
-          <li className="md:w-1/3 md:mx-auto">
-            <Link to="/tools" className="hover:text-[#d5420b] flex items-center">
-              <FontAwesomeIcon icon={faTools} className="mr-2" />
-              Tools
-            </Link>
-          </li>
+        <div className="flex items-center gap-4">
+      <Dropdown label="Tools" size="sm" color="black">
+        <Dropdown.Item>
+          <Link to="/resume">Resume</Link>
+        </Dropdown.Item>
+        <Dropdown.Item>
+          <Link to="/cv">CV</Link>
+        </Dropdown.Item>
+        <Dropdown.Item>
+          <Link to="/biodata">Bio Data</Link>
+        </Dropdown.Item>
+        <Dropdown.Item>
+          <Link to="/cover-letter">Cover Letter</Link>
+        </Dropdown.Item>
+      </Dropdown>
+  
+    </div>
           <li className="md:w-1/3 md:mx-auto">
             <Link to="/pricing" className="hover:text-[rgb(213,66,11)] flex items-center">
               <FontAwesomeIcon icon={faDollarSign} className="mr-2" />
