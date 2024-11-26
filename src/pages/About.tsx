@@ -4,6 +4,7 @@ import { faCss3Alt, faReact } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const About = () => {
   useEffect(() => {
@@ -69,6 +70,13 @@ const [about, setAbout] = useState<About[]>([]);
             <div className="flex justify-center space-x-4" data-aos="fade-right" data-aos-duration="1500" data-aos-delay="1500" data-aos-once="false">
               <FontAwesomeIcon icon={faReact} className="text-blue-500 text-2xl" />
               <FontAwesomeIcon icon={faCss3Alt} className="text-blue-600 text-2xl" />
+            </div>
+            <div className="flex justify-center mt-4" data-aos="fade-right" data-aos-duration="1500" data-aos-delay="1500" data-aos-once="false">
+              <Link to="/appointment">
+                <button className="bg-[#d5420b] text-[#ffffff] hover:text-[#ffffff] hover:bg-[#d5420b] focus:outline-none focus:ring-2 focus:ring-[#d5420b] focus:ring-opacity-50 py-2 px-4 rounded-md transition duration-500 ease-in-out">
+                  Book an Appointment
+                </button>
+              </Link>
             </div>
           </div>
         </div>

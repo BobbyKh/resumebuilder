@@ -22,7 +22,6 @@ import NotFound from "./pages/NotFound";
 
 const App = () => {
 
-
   return (
     <div className="App bg-[#0b1320]">
       <Navbar />
@@ -46,7 +45,6 @@ const App = () => {
         <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/resumebuild" element={<ResumeBuild />} />
-        <Route path="*" element={<Landing />} />
         <Route path="/experience" element={<Experience />} />
         <Route path="/buildresume" element={<BuildForm />} />
         <Route path="/template" element={<Template />} />
