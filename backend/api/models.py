@@ -2,52 +2,68 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
-
-class ResumeCategory(models.Model):
-    image = models.ImageField(upload_to='resume_categories/', null=True)
-    name = models.CharField(max_length=100)
-    
+class DocumentCategory(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    description = models.TextField(null=True, blank=True)
+    icon = models.ImageField(max_length=100, null=True, blank=True)
+    status = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
-    def delete(self, *args, **kwargs):
-        self.image.delete()
-        super().delete(*args, **kwargs)
+    class Meta:
+        verbose_name = "Document Category"
+        verbose_name_plural = "Document Categories"
 
 
-class ResumeTemplate(models.Model):
+
+class Template(models.Model):
     image = models.ImageField(upload_to='resume_templates/')
+    doc_cat=models.ForeignKey(DocumentCategory, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     template = models.FileField(upload_to='resume_templates/')
     html = models.TextField()
+    status = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self): 
         return f"{self.name} ({self.template.name})"
+    
 
-class Resume(models.Model):
-    template = models.ForeignKey(ResumeTemplate, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='resume_images/', null=True, blank=True)
-    name = models.CharField(max_length=100, null=True, blank=True)
-    email = models.EmailField(null=True, blank=True)
-    phone = models.CharField(max_length=20, null=True, blank=True)
-    address = models.TextField(null=True, blank=True)
-    skills = models.TextField(null=True, blank=True)
-    education = models.TextField(null=True, blank=True)
-    work_experience = models.TextField(null=True, blank=True)
-    achievements = models.TextField(null=True, blank=True)
-    hobbies = models.TextField(null=True, blank=True)
-    references = models.TextField(null=True, blank=True)
+class DocumentField(models.Model):
+    template = models.ForeignKey(Template, on_delete=models.CASCADE)
+    position=models.CharField(max_length=100, null=True, blank=True)
+    image = models.ImageField(upload_to='resume_images/', null=True)
+    name = models.CharField(max_length=100, null=True)
+    description = models.TextField(null=True, blank=True)
+    certification = models.CharField(max_length=100, null=True)
+    email = models.EmailField(null=True)
+    linkedin = models.CharField(max_length=100, null=True)
+    github = models.CharField(max_length=100, null=True)
+    website= models.CharField(max_length=100, null=True)
+    phone = models.IntegerField(max_length=20, null=True)
+    project= models.TextField(max_length=100, null=True)
+    address = models.TextField(null=True)
+    skill = models.TextField(null=True)
+    education = models.TextField(null=True)
+    work_experience = models.TextField(null=True)
+    achievement = models.TextField(null=True)
+    hobbies = models.TextField(null=True)
+    language = models.TextField(null=True)
+    reference = models.TextField(null=True)
+    extra = models.TextField(null=True)
+    watermark=models.ImageField(upload_to='resume_images/', null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['id']
     
     def __str__(self):
         return f" {self.name } with {self.template.name}"
 
 
-class ResumeFile(models.Model):
-    resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
-    file = models.FileField(upload_to='resume_files/')
- 
+
 
 class AppointmentType(models.Model):
     name = models.CharField(max_length=100)

@@ -28,10 +28,7 @@ admin.site.register(User, CustomUserAdmin)
 
 # Register other models
 admin.site.register([
-    models.Resume,
-    models.ResumeTemplate,
-    models.ResumeCategory,
-    models.ResumeFile,
+
     models.AppointmentType,
     models.Appointment,
     models.Pricing,
@@ -41,6 +38,10 @@ admin.site.register([
     models.HeroSection,
     models.Organization,
     models.FooterSection,
+    models.DocumentField,
+    models.Template,
+    models.DocumentCategory,
+   
 ])
 
 for model in admin.site._registry.values():
