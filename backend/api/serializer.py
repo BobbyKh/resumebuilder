@@ -19,9 +19,7 @@ class ResumeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Resume
-        fields = ['id', 'name', 'email', 'phone', 'address', 
-                  'skills', 'education', 'work_experience', 'hobbies', 
-                  'references', 'template', 'html']
+        fields = '__all__'
 
     def get_html(self, obj):
         html_template = obj.template.html

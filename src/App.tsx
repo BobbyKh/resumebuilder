@@ -18,6 +18,9 @@ import Pricing from "./pages/Pricing";
 import Checkout from "./payment/Checkout";
 import Pdftotext from "./resume/Pdftotext";
 import NotFound from "./pages/NotFound";
+import ResumeTemplate from "./resumesection/ResumeTemplate";
+import CVtemplate from "./cvsection/CVtemplate";
+import BioDataTemplate from "./biodatasection/BioDataTemplate";
 
 
 const App = () => {
@@ -39,6 +42,11 @@ const App = () => {
         <Route path="/app" element={<BaseApp />} />
         <Route path="/pricing/suscribe/:id" element={<Checkout />} />
         <Route path="/resume/:id" element={<BuildForm />} />
+        <Route path ="/resume"element={<ResumeTemplate/>}/>
+        <Route path="/cv" element={<CVtemplate />} />
+        <Route path="/cv/:id" element={<CVtemplate />} />
+        <Route path ="/biodata" element={<BioDataTemplate/>}/>
+        <Route path ="/biodata/:id" element={<BioDataTemplate/>}/>
         <Route path="/" element={<Landing />} />
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
