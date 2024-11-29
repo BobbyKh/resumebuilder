@@ -1,8 +1,9 @@
+from xml.dom.minidom import Document
 from django.shortcuts import redirect
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from api.models import AboutUs, Appointment, AppointmentType, FooterSection, HeroSection, Organization, Pricing, Resume, ResumeCategory, ResumeTemplate, Testimonial,FAQ
-from api.serializer import AboutUsSerializer, AppointmentSerializer, AppointmentTypeSerializer, FAQSerializer, HeroSectionSerializer, OrganizationSerializer, PricingSerializer, ResumeCategorySerializer, ResumeSerializer, ResumeTemplateSerializer, TestimonialSerializer, UserSerializer ,FooterSerializer
+from api.models import AboutUs, Appointment, AppointmentType, DocumentCategory, DocumentField, FooterSection, HeroSection, Organization, Pricing, Template, Testimonial,FAQ
+from api.serializer import AboutUsSerializer, AppointmentSerializer, AppointmentTypeSerializer, DocumentCategorySerializer, DocumentFieldSerializer,  FAQSerializer, HeroSectionSerializer, OrganizationSerializer, PricingSerializer, TemplateSerializer, TestimonialSerializer, UserSerializer ,FooterSerializer
 from django.contrib.auth.models import User
 from allauth.socialaccount.providers.google.views import OAuth2LoginView
 from rest_framework.generics import ListCreateAPIView
@@ -10,8 +11,9 @@ from pypdf import PdfReader
 from django.core.mail import send_mail
 from django.conf import settings
 import re
+from rest_framework import status
 from rest_framework.decorators import api_view
-from rest_framework.response import Response
+
 from pypdf import PdfReader
 @api_view(['POST'])
 def logout_user(request):
@@ -62,22 +64,9 @@ class AppointmentType(ListCreateAPIView):
     serializer_class = AppointmentTypeSerializer
     
 
-@api_view(['GET'])
-def resume_category_view(request):
-    pass
 
-    queryset = ResumeCategory.objects.all()
-    serializer = ResumeCategorySerializer(queryset, many=True)
-    return Response(serializer.data)
 
-@api_view(['GET'])
 
-def resume_template_view(request):
-    pass
-
-    queryset = ResumeTemplate.objects.all()
-    serializer = ResumeTemplateSerializer(queryset, many=True)
-    return Response(serializer.data)
 
 
     
@@ -99,9 +88,7 @@ class PricingType(ListCreateAPIView):
 
 
 
-class ResumeView(ListCreateAPIView):
-    queryset = Resume.objects.all()
-    serializer_class = ResumeSerializer
+
 
 
 
@@ -192,3 +179,43 @@ class OrganizationView(ListCreateAPIView):
 class FooterSectionView(ListCreateAPIView):
     queryset = FooterSection.objects.filter(slug='Solution')
     serializer_class = FooterSerializer
+
+
+
+class DocumentCategoryView(ListCreateAPIView):
+    queryset = DocumentCategory.objects.all()
+    serializer_class = DocumentCategorySerializer
+
+class TemplateView(ListCreateAPIView):
+    queryset = Template.objects.all()
+    serializer_class = TemplateSerializer
+
+
+@api_view(['GET'])
+def fetch_template(request, id: int):
+    """Fetch a single template with id"""
+    try:
+        template = Template.objects.get(id=id)
+        serializer = TemplateSerializer(template)
+        return Response(serializer.data)
+    except Template.DoesNotExist:
+        return Response({"error": "Template not found"}, status=404)
+
+class DocumentFieldsView(ListCreateAPIView):
+    queryset = DocumentField.objects.all()
+    serializer_class = DocumentFieldSerializer
+
+@api_view(['PUT', 'PATCH'])
+def update(request, id):
+    try:
+        instance = DocumentField.objects.get(id=id)
+    except DocumentField.DoesNotExist:
+        return Response({"error": "Object not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+    partial = request.method == 'PATCH'
+    serializer = DocumentFieldSerializer(instance, data=request.data, partial=partial)
+    
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_O)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
