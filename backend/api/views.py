@@ -205,7 +205,7 @@ class DocumentFieldsView(ListCreateAPIView):
     queryset = DocumentField.objects.all()
     serializer_class = DocumentFieldSerializer
 
-@api_view(['PUT', 'PATCH'])
+@api_view(['GET', 'POST','PUT', 'PATCH' , 'DELETE'])
 def update(request, id):
     try:
         instance = DocumentField.objects.get(id=id)
@@ -217,5 +217,5 @@ def update(request, id):
     
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_O)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

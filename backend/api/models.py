@@ -31,7 +31,7 @@ class Template(models.Model):
     
 
 class DocumentField(models.Model):
-    template = models.ForeignKey(Template, on_delete=models.CASCADE)
+    template = models.ForeignKey(Template, on_delete=models.CASCADE, null=True)
     position=models.CharField(max_length=100, null=True, blank=True)
     image = models.ImageField(upload_to='resume_images/', null=True)
     name = models.CharField(max_length=100, null=True)
