@@ -23,7 +23,9 @@ urlpatterns = [
     path('template', views.TemplateView.as_view(), name='template'),
     path('template/<int:id>', views.fetch_template, name='template'),
     path('documentcategory', views.DocumentCategoryView.as_view(), name='documentcategory'),
+    path('category/<int:category_id>/templates', views.fetch_category_templates, name='fetch_category_templates'),
     path('documentfield', views.DocumentFieldsView.as_view(), name='documentfield'),
+    path('documentfield/<int:template_id>', views.fetch_document_data, name='fetch_document_data'),
     path('documentfield/<int:id>/update', views.update, name='update'),
     
 ]

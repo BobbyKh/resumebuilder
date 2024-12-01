@@ -59,8 +59,7 @@ class DocumentField(models.Model):
     class Meta:
         ordering = ['id']
     
-    def __str__(self):
-        return f" {self.name } with {self.template.name}"
+
 
 
 

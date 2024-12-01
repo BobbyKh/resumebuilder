@@ -1,4 +1,5 @@
 from xml.dom.minidom import Document
+from django.http import JsonResponse
 from django.shortcuts import redirect
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -200,6 +201,34 @@ def fetch_template(request, id: int):
         return Response(serializer.data)
     except Template.DoesNotExist:
         return Response({"error": "Template not found"}, status=404)
+
+@api_view(['GET'])
+def fetch_document_data(request, template_id: int):
+    try:
+        template = Template.objects.get(id=template_id)
+        serializer = DocumentFieldSerializer(template)
+        return Response(serializer.data)
+    except Template.DoesNotExist:
+        return Response({"error": "Template not found"}, status=404)
+    
+@api_view(['GET'])
+def fetch_category_templates(request, category_id: int):
+    try:
+        # Fetch the DocumentCategory based on the provided category_id
+        document_category = DocumentCategory.objects.get(id=category_id)
+        
+        # Retrieve all templates related to this category
+        templates = document_category.template_set.all()
+        
+        # Serialize the templates
+        serialized_templates = TemplateSerializer(templates, many=True)
+        
+        # Return the serialized data as a JSON response
+        return Response(serialized_templates.data)
+    
+    except DocumentCategory.DoesNotExist:
+        # Return a 404 error response if the category is not found
+        return Response({"error": "Document category not found"}, status=status.HTTP_404_NOT_FOUND)
 
 class DocumentFieldsView(ListCreateAPIView):
     queryset = DocumentField.objects.all()
