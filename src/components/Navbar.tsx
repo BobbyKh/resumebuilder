@@ -18,6 +18,12 @@ interface User {
   email: string;
 }
 
+interface DocumentCategory {
+  name: string;
+  path: string;
+  id: number;
+}
+
 const Navbar = (): JSX.Element => {
   const [organization, setOrganization] = useState<Organization>({
     name: "",
@@ -25,6 +31,7 @@ const Navbar = (): JSX.Element => {
   });
   const [user, setUser] = useState<User | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [documentCategories, setDocumentCategories] = useState<DocumentCategory[]>([]);
 
   const loggedInUserId = 1; // Provide a default or fetched loggedInUserId value
 
@@ -55,6 +62,18 @@ const Navbar = (): JSX.Element => {
     };
     fetchUsers();
   }, [loggedInUserId]);
+
+  useEffect(() => {
+    const fetchDocumentCategories = async () => {
+      try {
+        const response = await axios.get<DocumentCategory[]>("http://127.0.0.1:8000/api/documentcategory");
+        setDocumentCategories(response.data);
+      } catch (error) {
+        console.error("Error fetching document categories:", error);
+      }
+    };
+    fetchDocumentCategories();
+  }, []);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -97,18 +116,13 @@ const Navbar = (): JSX.Element => {
         <ul className="flex flex-col md:flex-row md:space-x-6 text-white md:items-center mx-auto">
           <div className="flex items-center gap-4">
             <Dropdown label="Tools" className="text-lg font-semibold " color="black">
-              <Dropdown.Item>
-                <Link to="/resume">Resume</Link>
-              </Dropdown.Item>
-              <Dropdown.Item>
-                <Link to="/cv">CV</Link>
-              </Dropdown.Item>
-              <Dropdown.Item>
-                <Link to="/biodata">Bio Data</Link>
-              </Dropdown.Item>
-              <Dropdown.Item>
-                <Link to="/cover-letter">Cover Letter</Link>
-              </Dropdown.Item>
+              {documentCategories.map((category) => (
+                <Dropdown.Item key={category.name}>
+                  <Link to={`/category/${category.id}`} className="hover:text-[rgb(213,66,11)]">
+                    {category.name}
+                  </Link>
+                </Dropdown.Item>
+              ))}
             </Dropdown>
           </div>
           <li>

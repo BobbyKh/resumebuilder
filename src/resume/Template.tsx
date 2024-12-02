@@ -18,11 +18,11 @@ const Template = () => {
     useEffect(() => {
         const fetchResumeTemplates = async () => {
             try {
-                const response = await axios.get<ResumeTemplate[]>('http://127.0.0.1:8000/api/resume_template');
+                const response = await axios.get<ResumeTemplate[]>('http://127.0.0.1:8000/api/template');
                 setResumeTemplates(response.data.map((template) => {
                     return {
                         ...template,
-                        image: `http://127.0.0.1:8000${template.image}`
+                        image: `${template.image}`
                     }
                 }));
                 console.log(response.data);
@@ -48,9 +48,9 @@ const Template = () => {
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8" data-aos="fade-up">
             {resumeTemplates.map((resumeTemplate) => (
               <div key={resumeTemplate.id} className="group relative" data-aos="zoom-in">
-                <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-white shadow-lg transition duration-150 ease-in-out hover:shadow-2xl">
+                <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-[#d5420b] shadow-lg transition duration-150 ease-in-out hover:shadow-2xl">
                   <img
-                    src={resumeTemplate.image}
+                    src= {resumeTemplate.image}
                     alt={resumeTemplate.name}
                     className="h-auto w-full group-hover:opacity-75 transition-opacity duration-150 ease-in-out"
                   />
