@@ -25,10 +25,7 @@ interface DocumentCategory {
 }
 
 const Navbar = (): JSX.Element => {
-  const [organization, setOrganization] = useState<Organization>({
-    name: "",
-    logo: "",
-  });
+  const [organization, setOrganization] = useState<Organization | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [documentCategories, setDocumentCategories] = useState<DocumentCategory[]>([]);
@@ -44,6 +41,7 @@ const Navbar = (): JSX.Element => {
       .get<Organization>("http://127.0.0.1:8000/api/organization")
       .then((response) => {
         setOrganization(response.data);
+        console.log(response.data);
       })
       .catch((error) => {
         console.error("Error fetching organizations:", error);
@@ -98,9 +96,16 @@ const Navbar = (): JSX.Element => {
 
   return (
     <header className="bg-black flex justify-between items-center py-6 px-10 shadow-sm">
-      <div className="flex items-center">
+      <div className="flex items-center ">
         <Link to="/">
-          <img src={organization.logo} alt="ResuMaster Logo" className="w-10 h-10 md:w-12 md:h-12 mr-2" />
+       
+          {organization ? (
+            <img src={organization.logo} alt="ResuMaster Logo" className="w-10 h-10 md:w-12 md:h-12 mr-2" />
+          ) : (
+            <div className="w-10 h-10 md:w-12 md:h-12 mr-2 bg-gray-200 flex items-center justify-center">
+              <span className="text-xs text-gray-500">Loading...</span>
+            </div>
+          )}
         </Link>
         <h1 className="text-2xl font-bold text-[#d5420b]">
           Resu<span className="text-white">master</span>

@@ -20,20 +20,20 @@ class Template(models.Model):
     image = models.ImageField(upload_to='resume_templates/')
     doc_cat=models.ForeignKey(DocumentCategory, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
-    template = models.FileField(upload_to='resume_templates/')
+    template = models.TextField()
     html = models.TextField()
     status = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self): 
-        return f"{self.name} ({self.template.name})"
+        return self.name
     
 
 class DocumentField(models.Model):
     template = models.ForeignKey(Template, on_delete=models.CASCADE, null=True)
     position=models.CharField(max_length=100, null=True, blank=True)
-    image = models.ImageField(upload_to='resume_images/', null=True)
+    image = models.ImageField(upload_to='resume_images/', null=True , blank=True)
     name = models.CharField(max_length=100, null=True)
     description = models.TextField(null=True, blank=True)
     certification = models.CharField(max_length=100, null=True)
@@ -60,7 +60,7 @@ class DocumentField(models.Model):
         ordering = ['id']
     
     def __str__(self):
-        return f"{self.name} with {self.template.name}"
+        return self.name
     
 
 
@@ -156,8 +156,9 @@ class Organization(models.Model):
     twitter=models.CharField(max_length=100)
     instagram=models.CharField(max_length=100)
     linkedin=models.CharField(max_length=100)
-def __str__(self):
-        return f"{self.name}"
+
+    def __str__(self):
+        return self.name
 
 class FooterSection(models.Model):
     slug = models.SlugField(max_length=200)
@@ -166,4 +167,4 @@ class FooterSection(models.Model):
     status = models.BooleanField(default=True)
     
     def _str_ (self):
-        return f"{self.name}"
+        return self.slug
