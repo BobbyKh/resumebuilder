@@ -3,10 +3,13 @@ import "aos/dist/aos.css";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import 'tailwindcss/tailwind.css';
+import { skills as skillList, skills } from "../data/skill";
+import Select from "react-select";
+import { languages } from "../data/Language";
 
 AOS.init();
 
-const submitResume = async (resume: Record<string, string>, templateId: string) => {
+const submitResume = async (resume: Record<string, string | string[]>, templateId: string) => {
   try {
     const response = await fetch("http://127.0.0.1:8000/api/documentfield", {
       method: "POST",
@@ -26,13 +29,14 @@ const submitResume = async (resume: Record<string, string>, templateId: string) 
 const BuildForm = () => {
   const { templateId } = useParams<{ templateId: string }>();
   const [formData, setFormData] = useState({
-    name: "", 
+    
+    name: "",
     email: "",
-    phone: "" ,
-    position : "",
+    phone: "",
+    position: "",
     description: "",
     address: "",
-    skill: "",
+    skill:[],
     education: "",
     work_experience: "",
     achievement: "",
@@ -49,16 +53,17 @@ const BuildForm = () => {
   const [html, setHtml] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>("");
-  const [resumeData, setresumeData] = useState<string[]>([]); // Initialize as an empty array
+  const [resumeData, setresumeData] = useState<string[]>([]);
+  
+
+
   useEffect(() => {
     const fetchDocumentData = async () => {
       try {
         const response = await fetch(`http://127.0.0.1:8000/api/documentfield/${templateId}`);
-
         if (!response.ok) {
           throw new Error("Failed to fetch template.");
         }
-        console.log('templateId',templateId)
         const data = await response.json();
         setresumeData(data);
       } catch (error) {
@@ -97,8 +102,6 @@ const BuildForm = () => {
     fetchTemplate();
   }, [templateId]);
 
-  
-
   const handleDownload = () => {
     const element = document.createElement("a");
     const file = new Blob([html], { type: "text/html" });
@@ -108,10 +111,10 @@ const BuildForm = () => {
     element.click();
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, field: string, _p0: { target: { value: string; }; }) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData((prevData) => ({
       ...prevData,
-      [field]: e.target.value,
+      [e.target.name]: e.target.value,
     }));
   };
 
@@ -121,38 +124,90 @@ const BuildForm = () => {
       return;
     }
 
-    const resume = {
+    const resume  = {
       ...formData,
       template_id: templateId,
+      skill: formData.skill.map((option: any) => option.value), // Extract values from selected options
     };
 
     try {
       const data = await submitResume(resume, templateId);
       console.log("Resume submitted:", data);
-      updateTemplateWithData(data); // Update the HTML template with submitted data
+      updateTemplateWithData(data);
     } catch (error) {
       setError("Failed to submit resume.");
     }
   };
 
-  // Replace placeholders in template HTML with form data
-  const updateTemplateWithData = (_data: Record<string, any>) => {
+  const updateTemplateWithData = (_data: Record<string, string | string[]>) => {
     let updatedHtml = html;
     Object.keys(formData).forEach((key) => {
       const value = formData[key as keyof typeof formData] || "";
-      updatedHtml = updatedHtml.replace(new RegExp(`{{${key}}}`, 'g'), value); // Replace placeholders with data
+      updatedHtml = updatedHtml.replace(new RegExp(`{{${key}}}`, 'g'),   Array.isArray(value) ? value.join(', ') : String(value)
+    );
     });
-    setHtml(updatedHtml); // Update the HTML content
+    setHtml(updatedHtml);
   };
 
+   skillList.map((skill) => skill.value);
+   languages.map((language)=>language.value);
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-gray-50">
       <div className="w-full lg:w-2/3 p-6 lg:p-8">
         <h1 className="text-2xl font-bold mb-8 text-center lg:text-left">Build Your Resume</h1>
 
-        {/* Render input fields dynamically */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {Object.keys(formData).map((key) => {
+            if (key === "skill") {
+              return (
+                <div key={key} className="mb-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    {key.toUpperCase()}
+                  </label>
+                  <Select
+                    isMulti // Enables multi-select
+                    options={skills} // Use your skills array as options
+                    value={formData.skill} // Bind to the formData state
+                    onChange={(selectedOptions: any) =>
+                      setFormData((prevData) => ({
+                        ...prevData,
+                        skill: selectedOptions || [], // Update selected options or reset to an empty array
+                      }))
+                    }
+                    className="w-full"
+                    closeMenuOnSelect={false} // Keep the dropdown open for multiple selections
+                    placeholder="Select your skills"
+                    isClearable // Allow clearing all selections
+                  />
+                </div>
+              );
+            }
+            if (key === "language") {
+              return (
+                <div key={key} className="mb-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    {key.toUpperCase()}
+                  </label>
+                  <Select
+                    isMulti // Enables multi-select
+                    options={languages} // Use your skills array as options
+                    value={formData.language} // Bind to the formData state
+                    onChange={(selectedOptions: any) =>
+                      setFormData((prevData) => ({
+                        ...prevData,
+                        language: selectedOptions || [], // Update selected options or reset to an empty array
+                      }))
+                    }
+                    className="w-full"
+                    closeMenuOnSelect={false} // Keep the dropdown open for multiple selections
+                    placeholder="Select your languages"
+                    isClearable // Allow clearing all selections
+                  />
+                </div>
+              );
+            }
+            
+
             const isFileInput = key === "image";
             const inputType = isFileInput ? "file" : key === "email" ? "email" : key === "phone" ? "number" : "text";
             const Component = key === "description" ? "textarea" : isFileInput ? "input" : "input";
@@ -161,9 +216,10 @@ const BuildForm = () => {
               <div key={key} className="mb-6">
                 <label className="block text-sm font-medium text-gray-700 mb-2">{key.toUpperCase()}</label>
                 <Component
-                  {...(isFileInput && { accept: ".jpg, .jpeg, .png", onChange: (e) => handleChange(e, key, { target: { value: URL.createObjectURL(e.target.files![0]) } }) })}
-                  {...(!isFileInput && { value: formData[key as keyof typeof formData], onChange: (e) => handleChange(e, key, e) })}
+                  {...(isFileInput && { accept: ".jpg, .jpeg, .png", onChange: (e) => handleChange(e) })}
+                  {...(!isFileInput && { value: formData[key as keyof typeof formData], onChange: (e) => handleChange(e) })}
                   type={inputType}
+                  name={key}
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder={`Enter your ${key}`}
                 />
@@ -202,7 +258,7 @@ const BuildForm = () => {
                 <div key={resume.id} dangerouslySetInnerHTML={{ __html: resume.html || resume.template }} />
               ))
             ) : (
-              <div className="max-w-prose mx-auto" dangerouslySetInnerHTML={{ __html: html }} />
+              <div dangerouslySetInnerHTML={{ __html: html }} />
             )}
           </div>
         )}
@@ -212,5 +268,4 @@ const BuildForm = () => {
 };
 
 export default BuildForm;
-
 
