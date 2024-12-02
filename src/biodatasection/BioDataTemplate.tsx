@@ -13,7 +13,7 @@ interface BioDataTemplate {
 const BioDataTemplate = () => {
     const [templates, setTemplates] = useState <BioDataTemplate[]>([]);
     const [docCat, setDocCat] = useState<number>(1);
-
+    setDocCat(1);
     useEffect(() => {
         axios.get(`http://127.0.0.1:8000/api/documentcategory/{doc_cat}`, { params: { doc_cat: docCat } })
             .then(response => {
