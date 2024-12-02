@@ -43,7 +43,7 @@ const DocumentCategory = () => {
         </div>
 
         <div className="flex flex-col lg:flex-row justify-center items-center gap-12 lg:gap-6 lg:mt-10 ">
-          {documents.map((plan: any) => (
+          {documents.slice(0, 3).map((plan: any) => (
             <div
               key={plan.id}
               className="flex-1 gap-4 w-full mb-6 bg-[#fb4f11] rounded-xl shadow-[#d5420b] shadow-xl transition duration-500 hover:scale-105 hover:shadow-lg hover:shadow-[#d5420b] border-2 border-[#d5420b]"
