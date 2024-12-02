@@ -8,17 +8,9 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 
-class ResumeCategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.ResumeCategory
-        fields = '__all__'
 
 
-class ResumeTemplateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.ResumeTemplate
-        fields = '__all__'
-        
+
 class GoogleAuthSerializer(serializers.Serializer):
     auth_token = serializers.CharField()
     
@@ -37,12 +29,6 @@ class PricingSerializer (serializers.ModelSerializer):
     class Meta:
         model = models.Pricing
         fields = '__all__'
-        
-
-class FAQSerializer (serializers.ModelSerializer):
-    class Meta:
-        model = models.FAQ
-        fields = '__all__'
     
 
 
@@ -51,9 +37,9 @@ class AboutUsSerializer (serializers.ModelSerializer):
         model = models.AboutUs
         fields = '__all__'
 
-class TestimonialSerializer (serializers.ModelSerializer):
+class FAQSerializer (serializers.ModelSerializer):
     class Meta:
-        model = models.Testimonial
+        model = models.FAQ
         fields = '__all__'
 
 class HeroSectionSerializer (serializers.ModelSerializer):
@@ -61,7 +47,35 @@ class HeroSectionSerializer (serializers.ModelSerializer):
         model = models.HeroSection
         fields = '__all__'
 
-        
-    
+class OrganizationSerializer (serializers.ModelSerializer):
+    class Meta:
+        model = models.Organization
+        fields = '__all__'
 
+        
+class TestimonialSerializer (serializers.ModelSerializer):
+    class Meta:
+        model = models.Testimonial
+        fields = '__all__'
+
+class FooterSerializer(serializers.ModelSerializer):
+    
+    class Meta :
+        model = models.FooterSection
+        fields = '__all__'
+        
+class DocumentCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.DocumentCategory
+        fields = '__all__'
+
+class TemplateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Template 
+        fields = '__all__'
+
+class DocumentFieldSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.DocumentField
+        fields = '__all__'
 

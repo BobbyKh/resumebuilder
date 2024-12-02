@@ -12,7 +12,7 @@ const Steps = () => {
     }, []);
 
     return (
-        <div data-aos="fade" className="flex flex-col items-center justify-center bg-white min-h-screen mt-5">
+        <div data-aos="fade" className="flex flex-col items-center justify-center bg-gray-100 min-h-screen mt-5">
             <h1 className="text-2xl font-bold text-center" data-aos="zoom-in">How ResuMaster works</h1>
             <div className="flex flex-col items-center justify-center pt-12 w-full px-4">
                 <div className="flex flex-col items-start justify-start w-full max-w-4xl space-y-6">

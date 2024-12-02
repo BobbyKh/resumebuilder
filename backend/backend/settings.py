@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django_admin_kubi',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'api',
     'django_browser_reload',
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
     'allauth',
     'allauth.account',
@@ -47,6 +49,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.github',
+    
     
     
     
@@ -63,9 +66,11 @@ MIDDLEWARE = [
     'django_browser_reload.middleware.BrowserReloadMiddleware',
     'allauth.account.middleware.AccountMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django_admin_kubi.middleware.SetupMiddleware',  # remove this after initial setup.
 ]
 
 ROOT_URLCONF = 'backend.urls'
+
 
 TEMPLATES = [
     {

@@ -78,14 +78,14 @@ const BookAppointment = () => {
     }, [])
     
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <form onSubmit={handleFormSubmit} className="grid grid-cols-1 gap-4 p-8 bg-white rounded-lg shadow-md md:grid-cols-2" data-aos="zoom-in">
+        <div className="flex items-center justify-center min-h-screen ">
+            <form onSubmit={handleFormSubmit} className="shadow-md border border-gray-300 rounded-lg p-8 bg-white grid grid-cols-1 gap-4 md:grid-cols-2" data-aos="zoom-in">
                 <div className="col-span-full" data-aos="fade-up">
                     <div className="flex items-center space-x-2">
                         <FontAwesomeIcon icon={faCalendarAlt} className="text-gray-600" />
-                        <p className="text-3xl font-bold">Book an Appointment</p>
+                        <p className="text-3xl text-[#d5420b] font-bold">Book an Appointment</p>
                     </div>
-                    <p className="text-lg text-gray-600">Fill out the form below and we will contact you to confirm your appointment.</p>
+                    <p className="text-lg ">Fill out the form below and we will contact you to confirm your appointment.</p>
                 </div>
                 <div className="flex items-center space-x-2" data-aos="fade-up" data-aos-delay="100">
                     <FontAwesomeIcon icon={faUser} className="text-gray-600" />
@@ -118,6 +118,7 @@ const BookAppointment = () => {
                 </div>
                 <div className="flex items-center space-x-2 md:col-span-2">
                     <FontAwesomeIcon icon={faCommentDots} className="text-gray-600"data-aos-delay="600" />
+                    <textarea name="message" placeholder="Additional Message" defaultValue={appointment.message}  className="flex-1 border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" id=""></textarea>
                 </div>
                 
                 <button type="submit" className="col-span-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" disabled={isSending}>

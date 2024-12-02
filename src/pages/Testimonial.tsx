@@ -2,7 +2,15 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuoteLeft } from "@fortawesome/free-solid-svg-icons";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+interface Testimonial {
+    id: number;
+    name: string;
+    image: string;
+    description: string;
+}
 
 const Testimonial = () => {
     useEffect(() => {
@@ -11,38 +19,34 @@ const Testimonial = () => {
         });
     }, []);
 
+    const [testimonials, setTestimonials] = useState <Testimonial[]>([ ]);
+
+    useEffect(() => {
+        axios
+            .get("http://127.0.0.1:8000/api/testimonials")
+            .then((response) => {
+                setTestimonials(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, []);
+
     return (
-        <div className="bg-gray-50 py-20">
+        <div className="bg-[rgb(11,19,32)] py-12">
             <div className="container mx-auto px-6 md:px-12">
-                <h1 className="text-4xl font-bold text-center mb-4 hover:text-blue-500" data-aos="fade-up">Testimonial</h1>
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-aos="fade-up">
-                    <div className="bg-white p-6 shadow-md rounded-lg">
-                        <FontAwesomeIcon icon={faQuoteLeft} className="text-5xl text-blue-500" />
-                        <p className="mt-4 text-gray-600">
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et
-                            lectus ac justo ultrices ultricies. Nullam in erat sed justo posuere
-                            ultrices."
-                        </p>
-                        <p className="mt-6 text-gray-500">John Doe</p>
-                    </div>
-                    <div className="bg-white p-6 shadow-md rounded-lg">
-                        <FontAwesomeIcon icon={faQuoteLeft} className="text-5xl text-blue-500" />
-                        <p className="mt-4 text-gray-600">
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et
-                            lectus ac justo ultrices ultricies. Nullam in erat sed justo posuere
-                            ultrices."
-                        </p>
-                        <p className="mt-6 text-gray-500">Jane Doe</p>
-                    </div>
-                    <div className="bg-white p-6 shadow-md rounded-lg">
-                        <FontAwesomeIcon icon={faQuoteLeft} className="text-5xl text-blue-500" />
-                        <p className="mt-4 text-gray-600">
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et
-                            lectus ac justo ultrices ultricies. Nullam in erat sed justo posuere
-                            ultrices."
-                        </p>
-                        <p className="mt-6 text-gray-500">Bob Smith</p>
-                    </div>
+                <h1 className="text-4xl font-bold text-center mb-4 text-[#d5420b] hover:text-[#d5420b]" data-aos="fade-up" data-aos-duration="1000">Testimonials</h1>
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-aos="fade-up" data-aos-duration="1000">
+                    {testimonials.slice(0, 3).map((testimonial ) => (
+                        <div key={testimonial.id} className="bg-[#0a111c] p-6 shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] hover:shadow-[0_35px_60px_-15px_rgba(213,66,11,0.5)] rounded-lg border border-[#d5420b] hover:border-[#d5420b]" data-aos="fade-up" data-aos-duration="1000">
+                            <FontAwesomeIcon icon={faQuoteLeft} className="text-5xl text-[#d5420b] hover:text-[#d5420b]" />
+                            <a data-fancybox="gallery" href={testimonial.image} data-aos="fade-up" data-aos-duration="1000">
+                                <img src={testimonial.image} alt={testimonial.name} className="w-16 h-16 rounded-full mx-auto" />
+                            </a>
+                            <p className="mt-6 text-gray-500" data-aos="fade-up" data-aos-duration="1000">{testimonial.name}</p>
+                            <p className="mt-2 text-[#d5420b] hover:text-[#d5420b]" data-aos="fade-up" data-aos-duration="1000">{testimonial.description}</p>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>
@@ -50,3 +54,6 @@ const Testimonial = () => {
 };
 
 export default Testimonial;
+
+
+
