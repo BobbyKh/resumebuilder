@@ -26,7 +26,6 @@ const submitResume = async (resume: Record<string, string>, templateId: string) 
 const BuildForm = () => {
   const { templateId } = useParams<{ templateId: string }>();
   const [formData, setFormData] = useState({
-    image : "",
     name: "", 
     email: "",
     phone: "" ,
@@ -148,11 +147,11 @@ const BuildForm = () => {
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-gray-50">
-      <div className="w-full lg:w-2/3 p-6">
+      <div className="w-full lg:w-2/3 p-6 lg:p-8">
         <h1 className="text-2xl font-bold mb-8 text-center lg:text-left">Build Your Resume</h1>
 
         {/* Render input fields dynamically */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {Object.keys(formData).map((key) => {
             const isFileInput = key === "image";
             const inputType = isFileInput ? "file" : key === "email" ? "email" : key === "phone" ? "number" : "text";
@@ -191,7 +190,7 @@ const BuildForm = () => {
         {error && <p className="text-red-500 mt-4">{error}</p>}
       </div>
 
-      <div className="w-full lg:w-1/3 bg-white shadow-md p-6 mt-6 lg:mt-0">
+      <div className="w-full lg:w-1/3 bg-white shadow-md p-6 lg:p-8 mt-6 lg:mt-0">
         {loading ? (
           <p className="text-center text-blue-500">Loading Template...</p>
         ) : error ? (
@@ -203,7 +202,7 @@ const BuildForm = () => {
                 <div key={resume.id} dangerouslySetInnerHTML={{ __html: resume.html || resume.template }} />
               ))
             ) : (
-              <div dangerouslySetInnerHTML={{ __html: html }} />
+              <div className="max-w-prose mx-auto" dangerouslySetInnerHTML={{ __html: html }} />
             )}
           </div>
         )}
@@ -213,4 +212,5 @@ const BuildForm = () => {
 };
 
 export default BuildForm;
+
 

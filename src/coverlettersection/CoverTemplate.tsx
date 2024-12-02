@@ -11,7 +11,7 @@ interface CoverTemplate {
 
 const CoverTemplate = () => {
   const { pathname } = useLocation();
-  const id = pathname.split("/").pop(); // Extract category ID from URL
+  const id = pathname.split("/").pop(); 
   const [templates, setTemplates] = useState<CoverTemplate[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -33,7 +33,8 @@ const CoverTemplate = () => {
           setTemplates(
             response.data.map((template) => ({
               ...template,
-              image: `http://127.0.0.1:8000${template.image}`, // Ensure full URL for images
+              image: `http://127.0.0.1:8000${template.image}`,
+               // Ensure full URL for images
             }))
           );
         } else {
@@ -50,44 +51,49 @@ const CoverTemplate = () => {
   }, [id, pathname]); // Re-fetch when the ID or pathname changes
 
   return (
-    <section className="bg-white rounded-lg shadow-md p-4 md:p-8">
-      <header className="text-center mb-8">
-        <h1 className="text-3xl font-bold">{id} Templates</h1>
-        <p className="text-lg text-gray-600">
+    <section className="bg-white rounded-lg shadow-lg p-6 md:p-10">
+      <header className="text-center mb-10">
+        <h1 className="text-4xl font-extrabold text-gray-800">Templates</h1>
+        <p className="text-xl text-gray-500 mt-2">
           Choose a template that best suits your needs
         </p>
       </header>
 
       {/* Loading State */}
-      {loading && <p className="text-center">Loading...</p>}
+      {loading && <p className="text-center text-lg text-gray-600">Loading...</p>}
 
       {/* Error State */}
-      {error && <p className="text-red-500 text-center">{error}</p>}
+      {error && <p className="text-center text-red-600 text-lg">{error}</p>}
 
       {/* Empty State */}
       {!loading && templates.length === 0 && (
-        <p className="text-gray-500 text-center">
+        <p className="text-center text-gray-500 text-lg">
           No templates available for this category.
         </p>
       )}
 
       {/* Templates Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {templates.map((template) => (
           <div
-            className="template-card bg-white rounded-lg shadow-md p-4"
+            className="template-card bg-white rounded-lg shadow-md p-6 transition-transform transform hover:scale-105"
             key={template.id}
           >
-            <img
-              src={template.image}
-              alt={template.name}
-              className="w-full h-auto mb-4"
-              data-id={template.id} // Added template ID as a data attribute
-            />
-            <h2 className="text-xl font-semibold">{template.name}</h2>
+            <a
+              data-fancybox="gallery"
+              href={template.image}
+              data-id={template.id}
+            >
+              <img
+                src={template.image}
+                alt={template.name}
+                className="w-full h-auto mb-4 rounded"
+              />
+            </a>
+            <h2 className="text-2xl font-semibold text-gray-700">{template.name}</h2>
             <Link
               to={`/resume/editor/${template.id}`}
-              className="btn block w-full text-center"
+              className="btn block w-full text-center bg-blue-500 text-white py-2 mt-4 rounded-lg hover:bg-blue-600"
             >
               Use Template
             </Link>
