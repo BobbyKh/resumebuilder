@@ -57,7 +57,7 @@ const Pricing = () => {
                   <span className="font-extrabold text-5xl lg:text-4xl xl:text-6xl align-text-middle px-3">
                     ${plan.price}
                   </span>
-                  <span className="font-normal text-xl text-gray-500 inline-block align-text-middle">
+                  <span className="font-normal text-xl text-orange-500 inline-block align-text-middle">
                     /month
                   </span>
                 </div>
