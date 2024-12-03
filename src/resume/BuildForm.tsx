@@ -130,7 +130,7 @@ const BuildForm = () => {
       template_id: templateId,
       skill: formData.skill.map((option: any) => option.value),
       language: formData.language.map((option: any) => option.value),
-      hobbies :formData.language.map((option: any) => option.value),
+      hobbies :formData.hobbies.map((option: any) => option.value),
     };
 
     try {
@@ -224,7 +224,7 @@ const BuildForm = () => {
                     onChange={(selectedOptions: any) =>
                       setFormData((prevData: any) => ({
                         ...prevData,
-                        language: selectedOptions || [], // Update selected options or reset to an empty array
+                        hobbies: selectedOptions || [], // Update selected options or reset to an empty array
                       }))
                     }
                     className="w-full"
