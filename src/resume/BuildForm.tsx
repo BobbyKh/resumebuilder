@@ -103,14 +103,15 @@ const BuildForm = () => {
     fetchTemplate();
   }, [templateId]);
 
-  const handleDownload = () => {
-    const element = document.createElement("a");
-    const file = new Blob([html], { type: "text/html" });
-    element.href = URL.createObjectURL(file);
-    element.download = "resume.html";
-    document.body.appendChild(element);
-    element.click();
-  };
+ const handleDownload = () => {
+  const element = document.createElement("a");
+  const file = new Blob([html], { type: "text/html" });
+  element.href = URL.createObjectURL(file);
+  element.download = `resume-${templateId}.html`; // Add templateId for uniqueness
+  document.body.appendChild(element);
+  element.click();
+  document.body.removeChild(element); // Cleanup
+};
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData((prevData) => ({
@@ -118,6 +119,8 @@ const BuildForm = () => {
       [e.target.name]: e.target.value,
     }));
   };
+
+console.log(formData.image)
 
   const handleSubmit = async () => {
     if (!templateId) {
@@ -151,7 +154,7 @@ const BuildForm = () => {
         Array.isArray(value)
           ? value
               .map((item: { value: string } | string) => (typeof item === "string" ? item : item.value))
-              .join(", ")
+              .join(" ")
           : String(value)
       );
     });
@@ -244,6 +247,24 @@ const BuildForm = () => {
               );
             }
 
+            if (key === "description") {
+              return (
+                <div key={key} className="mb-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    {key.toUpperCase()}
+                  </label>
+                  <textarea
+                    value={formData[key as keyof typeof formData]}
+                    onChange={handleChange}
+                    name={key}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder={`Enter your ${key}`}
+                  ></textarea>
+                </div>
+              );
+            }
+            
+
             const isFileInput = key === "image";
             const inputType = isFileInput ? "file" : key === "email" ? "email" : key === "phone" ? "number" : "text";
             const Component = key === "description" ? "textarea" : isFileInput ? "input" : "input";
@@ -260,6 +281,7 @@ const BuildForm = () => {
                   placeholder={`Enter your ${key}`}
                 />
               </div>
+              
             );
           })}
         </div>
@@ -289,13 +311,17 @@ const BuildForm = () => {
           <p className="text-center text-red-500">{error}</p>
         ) : (
           <div>
-            {resumeData.length > 0 ? (
-              resumeData.map((resume: any ) => (
-                <div key={resume.id} dangerouslySetInnerHTML={{ __html: resume.html || resume.template }} />
-              ))
-            ) : (
-              <div dangerouslySetInnerHTML={{ __html: html }} />
-            )}
+            
+            <h2 className="text-xl font-bold mb-4">Preview</h2>
+            {resumeData && (
+              <div
+                dangerouslySetInnerHTML={{ __html: html }}
+                className="w-full h-screen overflow-y-scroll"
+              />
+            )
+            }
+
+            
           </div>
         )}
       </div>

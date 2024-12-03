@@ -17,5 +17,6 @@ export const hobbies: readonly Hobbies[] = [
     { value: 'dancing', label: 'Dancing', color: '#FFA500' },
     { value: 'painting', label: 'Painting', color: '#FFA500' },
     { value: 'music', label: 'Music', color: '#FFA500' },
+    {value : 'other',label : 'Other',color : '#FFA500'}
 ];
 

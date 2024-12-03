@@ -95,10 +95,9 @@ const Navbar = (): JSX.Element => {
   };
 
   return (
-    <header className="bg-black flex justify-between items-center py-6 px-10 shadow-sm">
-      <div className="flex items-center ">
+    <header className="bg-black flex flex-col md:flex-row justify-between items-center py-6 px-10 shadow-sm">
+      <div className="flex items-center justify-between w-full md:w-auto">
         <Link to="/">
-       
           {organization ? (
             <img src={organization.logo} alt="ResuMaster Logo" className="w-10 h-10 md:w-12 md:h-12 mr-2" />
           ) : (
@@ -110,17 +109,18 @@ const Navbar = (): JSX.Element => {
         <h1 className="text-2xl font-bold text-[#d5420b]">
           Resu<span className="text-white">master</span>
         </h1>
+        <button
+          onClick={toggleMenu}
+          className="text-white md:hidden flex items-center justify-center w-10 h-10"
+        >
+          <FontAwesomeIcon icon={isOpen ? faTimes : faBars} size="lg" className="ml-2" />
+        </button>
       </div>
-      <button
-        onClick={toggleMenu}
-        className="text-white md:hidden flex items-center justify-center w-10 h-10 md:w-auto md:h-auto"
-      >
-        <FontAwesomeIcon icon={isOpen ? faTimes : faBars} size="lg" className="ml-2 md:ml-0" />
-      </button>
-      <nav className={`md:flex justify-center flex-grow ${isOpen ? "block" : "hidden"}`}>
-        <ul className="flex flex-col md:flex-row md:space-x-6 text-white md:items-center mx-auto">
+
+      <nav className={`w-full md:flex md:justify-center md:flex-grow ${isOpen ? "block" : "hidden"} md:block`}>
+        <ul className="flex flex-col md:flex-row md:space-x-6 text-white md:items-center mx-auto mt-4 md:mt-0">
           <div className="flex items-center gap-4">
-            <Dropdown label="Tools" className="text-lg font-semibold " color="black">
+            <Dropdown label="Tools" className="text-lg font-semibold" color="black">
               {documentCategories.map((category) => (
                 <Dropdown.Item key={category.name}>
                   <Link to={`/category/${category.id}`} className="hover:text-[rgb(213,66,11)]">
@@ -143,7 +143,7 @@ const Navbar = (): JSX.Element => {
             </Link>
           </li>
         </ul>
-        <ul className="flex flex-col md:flex-row md:space-x-6 text-white md:items-center">
+        <ul className="flex flex-col md:flex-row md:space-x-6 text-white md:items-center mt-4 md:mt-0">
           {user ? (
             <li>
               <span className="text-white font-semibold">Hello, {user.username}</span>
@@ -184,4 +184,3 @@ const Navbar = (): JSX.Element => {
 };
 
 export default Navbar;
-
