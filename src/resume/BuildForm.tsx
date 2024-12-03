@@ -1,9 +1,10 @@
-import AOS from "aos";
+import * as AOS from 'aos';
 import "aos/dist/aos.css";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import 'tailwindcss/tailwind.css';
 import { skills as skillList, skills } from "../data/skill";
+import { hobbies } from '../data/Hobbies';
 import Select from "react-select";
 import { languages } from "../data/Language";
 
@@ -40,7 +41,7 @@ const BuildForm = () => {
     education: "",
     work_experience: "",
     achievement: "",
-    hobbies: "",
+    hobbies: [],
     reference: "",
     certification: "",
     language: [],
@@ -128,7 +129,9 @@ const BuildForm = () => {
       ...formData,
       template_id: templateId,
       skill: formData.skill.map((option: any) => option.value),
-      language: formData.language.map((option: any) => option.value),};
+      language: formData.language.map((option: any) => option.value),
+      hobbies :formData.language.map((option: any) => option.value),
+    };
 
     try {
       const data = await submitResume(resume, templateId);
@@ -151,6 +154,8 @@ const BuildForm = () => {
 
    skillList.map((skill) => skill.value);
    languages.map((language)=>language.value);
+   hobbies.map((hobby)=>hobby.value);
+   
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-gray-50">
       <div className="w-full lg:w-2/3 p-6 lg:p-8">
@@ -193,7 +198,7 @@ const BuildForm = () => {
                     options={languages} // Use your skills array as options
                     value={formData.language} // Bind to the formData state
                     onChange={(selectedOptions: any) =>
-                      setFormData((prevData) => ({
+                      setFormData((prevData: any) => ({
                         ...prevData,
                         language: selectedOptions || [], // Update selected options or reset to an empty array
                       }))
@@ -206,7 +211,30 @@ const BuildForm = () => {
                 </div>
               );
             }
-            
+            if (key === "hobbies") {
+              return (
+                <div key={key} className="mb-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    {key.toUpperCase()}
+                  </label>
+                  <Select
+                    isMulti // Enables multi-select
+                    options={hobbies} // Use your skills array as options
+                    value={formData.hobbies} // Bind to the formData state
+                    onChange={(selectedOptions: any) =>
+                      setFormData((prevData: any) => ({
+                        ...prevData,
+                        language: selectedOptions || [], // Update selected options or reset to an empty array
+                      }))
+                    }
+                    className="w-full"
+                    closeMenuOnSelect={false} // Keep the dropdown open for multiple selections
+                    placeholder="Select your hobbies"
+                    isClearable // Allow clearing all selections
+                  />
+                </div>
+              );
+            }
 
             const isFileInput = key === "image";
             const inputType = isFileInput ? "file" : key === "email" ? "email" : key === "phone" ? "number" : "text";
