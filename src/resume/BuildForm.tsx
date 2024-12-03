@@ -1,212 +1,271 @@
-import { useState } from 'react';
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import 'tailwindcss/tailwind.css';
+import { skills as skillList, skills } from "../data/skill";
+import Select from "react-select";
+import { languages } from "../data/Language";
 
+AOS.init();
 
+const submitResume = async (resume: Record<string, string | string[]>, templateId: string) => {
+  try {
+    const response = await fetch("http://127.0.0.1:8000/api/documentfield", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...resume, template: templateId }),
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error submitting resume:", error);
+    throw error;
+  }
+};
 
 const BuildForm = () => {
-  const [resume, setResume] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    address: '',
-    skills: '',
-    education: '',
-    work_experience: '',
-    achievements: '',
-    hobbies: '',
-    references: '',
+  const { templateId } = useParams<{ templateId: string }>();
+  const [formData, setFormData] = useState({
+    
+    name: "",
+    email: "",
+    phone: "",
+    position: "",
+    description: "",
+    address: "",
+    skill:[],
+    education: "",
+    work_experience: "",
+    achievement: "",
+    hobbies: "",
+    reference: "",
+    certification: "",
+    language: "",
+    linkedin: "",
+    github: "",
+    website: "",
+    project: "",
+    extra: "",
   });
+  const [html, setHtml] = useState<string>("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>("");
+  const [resumeData, setresumeData] = useState<string[]>([]);
+  
 
-  const handleChange = (e: { target: { name: any; value: any; }; }) => {
-    const { name, value } = e.target;
-    setResume((prev) => ({ ...prev, [name]: value }));
+
+  useEffect(() => {
+    const fetchDocumentData = async () => {
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/api/documentfield/${templateId}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch template.");
+        }
+        const data = await response.json();
+        setresumeData(data);
+      } catch (error) {
+        console.error("Error fetching template:", error);
+      }
+    };
+
+    fetchDocumentData();
+  }, [templateId]);
+
+  useEffect(() => {
+    const fetchTemplate = async () => {
+      if (!templateId) {
+        setError("Template ID is missing.");
+        return;
+      }
+
+      try {
+        setLoading(true);
+        setError("");
+
+        const response = await fetch(`http://127.0.0.1:8000/api/template/${templateId}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch template.");
+        }
+
+        const data = await response.json();
+        setHtml(data.html || "");
+      } catch (err: any) {
+        setError(err.message || "An error occurred.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTemplate();
+  }, [templateId]);
+
+  const handleDownload = () => {
+    const element = document.createElement("a");
+    const file = new Blob([html], { type: "text/html" });
+    element.href = URL.createObjectURL(file);
+    element.download = "resume.html";
+    document.body.appendChild(element);
+    element.click();
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async () => {
+    if (!templateId) {
+      setError("Template ID is missing.");
+      return;
+    }
+
+    const resume  = {
+      ...formData,
+      template_id: templateId,
+      skill: formData.skill.map((option: any) => option.value), // Extract values from selected options
+    };
+
+    try {
+      const data = await submitResume(resume, templateId);
+      console.log("Resume submitted:", data);
+      updateTemplateWithData(data);
+    } catch (error) {
+      setError("Failed to submit resume.");
+    }
+  };
+
+  const updateTemplateWithData = (_data: Record<string, string | string[]>) => {
+    let updatedHtml = html;
+    Object.keys(formData).forEach((key) => {
+      const value = formData[key as keyof typeof formData] || "";
+      updatedHtml = updatedHtml.replace(new RegExp(`{{${key}}}`, 'g'),   Array.isArray(value) ? value.join(', ') : String(value)
+    );
+    });
+    setHtml(updatedHtml);
+  };
+
+   skillList.map((skill) => skill.value);
+   languages.map((language)=>language.value);
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      
-      {/* Left Section: Form */}
-      <div className="w-2/3 p-6">
-        <h1 className="text-xl font-bold mb-6">Build Your Resume</h1>
+    <div className="flex flex-col lg:flex-row min-h-screen bg-gray-50">
+      <div className="w-full lg:w-2/3 p-6 lg:p-8">
+        <h1 className="text-2xl font-bold mb-8 text-center lg:text-left">Build Your Resume</h1>
 
-        {/* Name and Contact Information */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-          <input
-            type="text"
-            name="name"
-            value={resume.name}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Your full name"
-          />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {Object.keys(formData).map((key) => {
+            if (key === "skill") {
+              return (
+                <div key={key} className="mb-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    {key.toUpperCase()}
+                  </label>
+                  <Select
+                    isMulti // Enables multi-select
+                    options={skills} // Use your skills array as options
+                    value={formData.skill} // Bind to the formData state
+                    onChange={(selectedOptions: any) =>
+                      setFormData((prevData) => ({
+                        ...prevData,
+                        skill: selectedOptions || [], // Update selected options or reset to an empty array
+                      }))
+                    }
+                    className="w-full"
+                    closeMenuOnSelect={false} // Keep the dropdown open for multiple selections
+                    placeholder="Select your skills"
+                    isClearable // Allow clearing all selections
+                  />
+                </div>
+              );
+            }
+            if (key === "language") {
+              return (
+                <div key={key} className="mb-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    {key.toUpperCase()}
+                  </label>
+                  <Select
+                    isMulti // Enables multi-select
+                    options={languages} // Use your skills array as options
+                    value={formData.language} // Bind to the formData state
+                    onChange={(selectedOptions: any) =>
+                      setFormData((prevData) => ({
+                        ...prevData,
+                        language: selectedOptions || [], // Update selected options or reset to an empty array
+                      }))
+                    }
+                    className="w-full"
+                    closeMenuOnSelect={false} // Keep the dropdown open for multiple selections
+                    placeholder="Select your languages"
+                    isClearable // Allow clearing all selections
+                  />
+                </div>
+              );
+            }
+            
+
+            const isFileInput = key === "image";
+            const inputType = isFileInput ? "file" : key === "email" ? "email" : key === "phone" ? "number" : "text";
+            const Component = key === "description" ? "textarea" : isFileInput ? "input" : "input";
+
+            return (
+              <div key={key} className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-2">{key.toUpperCase()}</label>
+                <Component
+                  {...(isFileInput && { accept: ".jpg, .jpeg, .png", onChange: (e) => handleChange(e) })}
+                  {...(!isFileInput && { value: formData[key as keyof typeof formData], onChange: (e) => handleChange(e) })}
+                  type={inputType}
+                  name={key}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder={`Enter your ${key}`}
+                />
+              </div>
+            );
+          })}
         </div>
 
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-            <input
-              type="email"
-              name="email"
-              value={resume.email}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="e.g., example@mail.com"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-            <input
-              type="tel"
-              name="phone"
-              value={resume.phone}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="e.g., +123 456 7890"
-            />
-          </div>
-        </div>
-
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
-          <textarea
-            name="address"
-            value={resume.address}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Your address"
-          />
-        </div>
-
-        {/* Skills */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Skills</label>
-          <textarea
-            name="skills"
-            value={resume.skills}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="List your skills"
-          />
-        </div>
-
-        {/* Education */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Education</label>
-          <textarea
-            name="education"
-            value={resume.education}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Your educational background"
-          />
-        </div>
-
-        {/* Work Experience */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Work Experience</label>
-          <textarea
-            name="work_experience"
-            value={resume.work_experience}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Your work experience"
-          />
-        </div>
-
-        {/* Achievements */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Achievements</label>
-          <textarea
-            name="achievements"
-            value={resume.achievements}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Your achievements"
-          />
-        </div>
-
-        {/* Hobbies */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Hobbies</label>
-          <textarea
-            name="hobbies"
-            value={resume.hobbies}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Your hobbies"
-          />
-        </div>
-
-        {/* References */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">References</label>
-          <textarea
-            name="references"
-            value={resume.references}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Your references"
-          />
-        </div>
-
-        {/* Download Button */}
-        <div className="mt-6">
-          <button className="w-full px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700">
+        <div className="mt-6 flex flex-col lg:flex-row gap-4">
+          <button
+            onClick={handleSubmit}
+            className="w-full lg:w-auto px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          >
+            Submit Resume
+          </button>
+          <button
+            onClick={handleDownload}
+            className="w-full lg:w-auto px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
+          >
             Download
           </button>
         </div>
+
+        {error && <p className="text-red-500 mt-4">{error}</p>}
       </div>
 
-      {/* Right Section: Preview */}
-      
-      {/* <div className="w-1/3 bg-white shadow-md p-6">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-blue-600">{resume.name || "Your Name"}</h2>
-        </div>
-
-        <div className="mt-6">
-          <h3 className="text-lg font-semibold text-gray-700">Personal details</h3>
-          <ul className="mt-4 space-y-2">
-            <li className="flex items-center gap-2">
-              <span className="text-blue-500">📧</span>
-              <span>{resume.email || "Your email"}</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <span className="text-blue-500">📞</span>
-              <span>{resume.phone || "Your phone number"}</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <span className="text-blue-500">🏠</span>
-              <span>{resume.address || "Your address"}</span>
-            </li>
-          </ul>
-        </div>
-
-        <div className="mt-6">
-          <h3 className="text-lg font-semibold text-gray-700">Skills</h3>
-          <p>{resume.skills || "Your skills"}</p>
-        </div>
-
-        <div className="mt-6">
-          <h3 className="text-lg font-semibold text-gray-700">Education</h3>
-          <p>{resume.education || "Your education details"}</p>
-        </div>
-
-        <div className="mt-6">
-          <h3 className="text-lg font-semibold text-gray-700">Work Experience</h3>
-          <p>{resume.work_experience || "Your work experience"}</p>
-        </div>
-
-        <div className="mt-6">
-          <h3 className="text-lg font-semibold text-gray-700">Achievements</h3>
-          <p>{resume.achievements || "Your achievements"}</p>
-        </div>
-
-        
-      </div> */}
+      <div className="w-full lg:w-1/3 bg-white shadow-md p-6 lg:p-8 mt-6 lg:mt-0">
+        {loading ? (
+          <p className="text-center text-blue-500">Loading Template...</p>
+        ) : error ? (
+          <p className="text-center text-red-500">{error}</p>
+        ) : (
+          <div>
+            {resumeData.length > 0 ? (
+              resumeData.map((resume: any) => (
+                <div key={resume.id} dangerouslySetInnerHTML={{ __html: resume.html || resume.template }} />
+              ))
+            ) : (
+              <div dangerouslySetInnerHTML={{ __html: html }} />
+            )}
+          </div>
+        )}
       </div>
+    </div>
   );
-}
-export default BuildForm;
+};
 
+export default BuildForm;
 

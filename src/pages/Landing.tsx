@@ -9,6 +9,7 @@ import Testimonial from "./Testimonial";
 import Experience from "../resume/Experience";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 
 interface HeroSection {
@@ -57,7 +58,9 @@ const Landing = () => {
         <p className="text-white text-lg mb-8 max-w-2xl mx-auto" data-aos="fade-up" data-aos-duration="1500">
           {heroSection.description}
         </p>
+        <Link to="/documentcategory">
         <button data-aos="fade-up" data-aos-duration="1500" data-aos-delay="500" className="bg-[#f56c3a] text-[white] text-lg py-3 px-6 rounded hover:bg-red-700">{heroSection.button_text}</button>
+        </Link>
       </div>
 
       <Template/>
