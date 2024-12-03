@@ -146,11 +146,19 @@ const BuildForm = () => {
     let updatedHtml = html;
     Object.keys(formData).forEach((key) => {
       const value = formData[key as keyof typeof formData] || "";
-      updatedHtml = updatedHtml.replace(new RegExp(`{{${key}}}`, 'g'),   Array.isArray(value) ? value.join(', ') : String(value)
-    );
+      updatedHtml = updatedHtml.replace(
+        new RegExp(`{{${key}}}`, "g"),
+        Array.isArray(value)
+          ? value
+              .map((item: { value: string } | string) => (typeof item === "string" ? item : item.value))
+              .join(", ")
+          : String(value)
+      );
     });
+  
     setHtml(updatedHtml);
   };
+  
 
    skillList.map((skill) => skill.value);
    languages.map((language)=>language.value);
@@ -282,7 +290,7 @@ const BuildForm = () => {
         ) : (
           <div>
             {resumeData.length > 0 ? (
-              resumeData.map((resume: any) => (
+              resumeData.map((resume: any ) => (
                 <div key={resume.id} dangerouslySetInnerHTML={{ __html: resume.html || resume.template }} />
               ))
             ) : (
