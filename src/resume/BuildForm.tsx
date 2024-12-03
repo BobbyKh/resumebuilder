@@ -29,21 +29,21 @@ const submitResume = async (resume: Record<string, string | string[]>, templateI
 const BuildForm = () => {
   const { templateId } = useParams<{ templateId: string }>();
   const [formData, setFormData] = useState({
-    
+    image : "",
     name: "",
     email: "",
     phone: "",
     position: "",
     description: "",
     address: "",
-    skill:[],
+    skill: [],
     education: "",
     work_experience: "",
     achievement: "",
     hobbies: "",
     reference: "",
     certification: "",
-    language: "",
+    language: [],
     linkedin: "",
     github: "",
     website: "",
@@ -127,8 +127,8 @@ const BuildForm = () => {
     const resume  = {
       ...formData,
       template_id: templateId,
-      skill: formData.skill.map((option: any) => option.value), // Extract values from selected options
-    };
+      skill: formData.skill.map((option: any) => option.value),
+      language: formData.language.map((option: any) => option.value),};
 
     try {
       const data = await submitResume(resume, templateId);
