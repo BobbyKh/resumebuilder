@@ -7,6 +7,8 @@ import { skills as skillList, skills } from "../data/skill";
 import { hobbies } from '../data/Hobbies';
 import Select from "react-select";
 import { languages } from "../data/Language";
+// @ts-ignore
+import html2pdf from "html2pdf.js";
 
 AOS.init();
 
@@ -103,15 +105,23 @@ const BuildForm = () => {
     fetchTemplate();
   }, [templateId]);
 
- const handleDownload = () => {
-  const element = document.createElement("a");
-  const file = new Blob([html], { type: "text/html" });
-  element.href = URL.createObjectURL(file);
-  element.download = `resume-${templateId}.html`; // Add templateId for uniqueness
-  document.body.appendChild(element);
-  element.click();
-  document.body.removeChild(element); // Cleanup
-};
+  const handleDownload = () => {
+    const element = document.createElement('div');
+    element.style.width = '210mm'; 
+    element.style.minHeight = '297mm';
+    element.style.margin = '0 auto'; 
+    element.innerHTML = html;
+
+    // Configure the options for the PDF download
+    const options = {
+      filename: `resume-${templateId}.pdf`,
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    };
+
+    // Convert the element to a PDF and download it
+    html2pdf(element, options);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData((prevData) => ({
