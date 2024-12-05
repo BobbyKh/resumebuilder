@@ -78,8 +78,11 @@ class DocumentFieldSerializer(serializers.ModelSerializer):
 
     image = serializers.SerializerMethodField()
     def get_image(self, obj):
-        if obj.image:
-            return obj.image.url
+        try:
+            if obj.image:
+                return obj.image.url
+        except Exception as e:
+            return None
         return None
 
     class Meta:

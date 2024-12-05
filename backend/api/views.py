@@ -205,8 +205,8 @@ def fetch_template(request, id: int):
 @api_view(['GET'])
 def fetch_document_data(request, template_id: int):
     try:
-        template = DocumentField.objects.get(template=template_id)
-        serializer = DocumentFieldSerializer(template)
+        templates = DocumentField.objects.filter(template=template_id)
+        serializer = DocumentFieldSerializer(templates, many=True)
         return Response(serializer.data)
     except Template.DoesNotExist:
         return Response({"error": "Template not found"}, status=404)

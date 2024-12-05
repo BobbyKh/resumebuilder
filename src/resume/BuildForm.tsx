@@ -7,12 +7,13 @@ import { skills as skillList, skills } from "../data/skill";
 import { hobbies } from '../data/Hobbies';
 import Select from "react-select";
 import { languages } from "../data/Language";
+import Loader from "react-loader-spinner";
 // @ts-ignore
 import html2pdf from "html2pdf.js";
 import axios from 'axios';
-import { faUserCircle, faBriefcase, faEnvelope, faPhone, faGlobe, faMapMarkerAlt, faInfoCircle, faLightbulb, faLanguage, faHeart, faTrophy, faPlusCircle, faGraduationCap, faCertificate, faIdCard, faChair } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle, faBriefcase, faEnvelope, faPhone, faGlobe, faMapMarkerAlt, faInfoCircle, faLightbulb, faLanguage, faHeart, faTrophy, faPlusCircle, faGraduationCap, faIdCard } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faConnectdevelop, faGithub, faLinkedin, faUpwork } from '@fortawesome/free-brands-svg-icons';
+import { faConnectdevelop, faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
 AOS.init();
 
@@ -41,6 +42,7 @@ const BuildForm = () => {
     website: "",
     project: "",
     extra: "",
+    
   });
 
   interface Template {
@@ -52,10 +54,15 @@ const BuildForm = () => {
   }
   
   const [html, setHtml] = useState<string>("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
   const [resumeData, setresumeData] = useState<string>("");
   const [template, setTemplate] = useState<Template | null>(null);
+
+
+  setTimeout(() => {
+    setLoading(false);
+}, 2000);
 
   useEffect(() => {
     if (!templateId) {
@@ -65,12 +72,13 @@ const BuildForm = () => {
 
     const fetchDocumentData = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/documentfield/${templateId}`);
+        const response = await fetch(`http://127.0.0.1:8000/api/documentfield/${templateId}`);  
         if (!response.ok) {
           throw new Error("Failed to fetch template.");
         }
         const data = await response.json();
         setresumeData(data);
+        console.log(data);
       } catch (error) {
         console.error("Error fetching template:", error);
       }
@@ -80,6 +88,8 @@ const BuildForm = () => {
       try {
         setLoading(true);
         setError("");
+
+      
 
         const response = await fetch(`http://127.0.0.1:8000/api/template/${templateId}`);
         if (!response.ok) {
@@ -169,7 +179,15 @@ const BuildForm = () => {
     }
   };
 
-const handleDownloadPdf = () => {
+const [isGenerating, setIsGenerating] = useState(false);
+const handleDownloadPdf = async () => {
+  setIsGenerating(true);
+  try {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+  } finally {
+    setIsGenerating(false);
+  }
+
 
     const element = document.createElement('div');
     element.style.width = '210mm';
@@ -485,8 +503,16 @@ const handleDownloadPdf = () => {
           <button
             onClick={handleDownloadPdf}
             className="px-4 py-2 bg-blue-600 text-black rounded-md hover:bg-blue-700"
+            disabled={isGenerating}
           >
-            Download PDF
+            {isGenerating ? (
+              <div className="flex items-center">
+                <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24" />
+                Generating...
+              </div>
+            ) : (
+              'Generate Now'
+            )}
           </button>
         </div>
       </div>
