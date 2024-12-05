@@ -211,16 +211,16 @@ const handleDownloadPdf = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-gray-50">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-black">
       <div className="w-full lg:w-2/3 p-6 lg:p-8">
-        <h1 className="text-2xl font-bold mb-8 text-center lg:text-left">Build Your Resume</h1>
+        <h1 className="text-2xl text-[#d5420b] font-bold mb-8 text-center ">Build Your Resume</h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {Object.keys(formData).map((key) => {
             if (key === "skill") {
               return (
                 <div key={key} className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-white mb-2">
                     {key.toUpperCase()}
                   </label>
                   <Select
@@ -244,7 +244,7 @@ const handleDownloadPdf = () => {
             if (key === "language") {
               return (
                 <div key={key} className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-white mb-2">
                     {key.toUpperCase()}
                   </label>
                   <Select
@@ -268,7 +268,7 @@ const handleDownloadPdf = () => {
             if (key === "hobbies") {
               return (
                 <div key={key} className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-white mb-2">
                     {key.toUpperCase()}
                   </label>
                   <Select
@@ -293,7 +293,7 @@ const handleDownloadPdf = () => {
             if (key === "description") {
               return (
                 <div key={key} className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-white mb-2">
                     {key.toUpperCase()}
                   </label>
                   <textarea
@@ -313,7 +313,7 @@ const handleDownloadPdf = () => {
 
             return (
               <div key={key} className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">{key.toUpperCase()}</label>
+                <label className="block text-sm font-medium text-white mb-2">{key.toUpperCase()}</label>
                 <Component
                   {...(isFileInput && { accept: ".jpg, .jpeg, .png", onChange: (e) => handleChange(e) })}
                   {...(!isFileInput && { value: formData[key as keyof typeof formData], onChange: (e) => handleChange(e) })}
@@ -345,26 +345,26 @@ const handleDownloadPdf = () => {
         {error && <p className="text-red-500 mt-4">{error}</p>}
       </div>
 
-      <div className="w-full bg-gradient-to-r from-blue-50 to-gray-100 shadow-md p-6 lg:p-8 mt-6 lg:mt-0 rounded-lg">
-        <div className="text-center bg-white border-b pb-4 mb-6 p-4 shadow-md rounded-lg ">
+      <div className="w-full bg-gradient-to-r from-blue-50 to-gray-100 shadow-md shadow-lg p-6 lg:p-8 mt-6 lg:mt-0 rounded-lg">
+        <div className="text-center bg-white border-b pb-4 mb-6 p-4 shadow-md shadow-lg rounded-lg ">
           <h1 className="text-3xl font-bold text-blue-700">
             <FontAwesomeIcon icon={faUserCircle} className="mr-2" />
             {formData.name || "Your Name"}
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-black">
             <FontAwesomeIcon icon={faBriefcase} className="mr-2" />
             {formData.position || "Your Position"}
           </p>
           <div className="flex justify-center space-x-4 mt-2">
-            <p className="text-gray-600">
+            <p className="text-black">
               <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
               {formData.email || "you@example.com"}
             </p>
-            <p className="text-gray-600">
+            <p className="text-black">
               <FontAwesomeIcon icon={faPhone} className="mr-2" />
               {formData.phone || "123-456-7890"}
             </p>
-            <p className="text-gray-600">
+            <p className="text-black">
               <FontAwesomeIcon icon={faGlobe} className="mr-2" />
               {formData.website || "yourwebsite.com"}
             </p>
@@ -377,7 +377,7 @@ const handleDownloadPdf = () => {
               <FontAwesomeIcon icon={faInfoCircle} className="mr-2" />
               Description
             </h2>
-            <p className="text-gray-700">{formData.description || "A brief description about yourself"}</p>
+            <p className="text-black">{formData.description || "A brief description about yourself"}</p>
           </section>
 
           <section>
@@ -385,16 +385,16 @@ const handleDownloadPdf = () => {
               <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2" />
               Location
             </h2>
-            <p className="text-gray-700">{formData.address || "Your Address"}</p>
+            <p className="text-black">{formData.address || "Your Address"}</p>
           </section>
           <section>
             <h2 className="text-xl font-semibold mb-2 text-yellow-600">
               <FontAwesomeIcon icon={faLightbulb} className="mr-2" />
               Skills
             </h2>
-            <p className='text-gray-700'>
+            <p className='text-black'>
               {formData.skill.length > 0 ? formData.skill.map((skill: any) => (
-                <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2" key={skill.value}>
+                <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-black mr-2" key={skill.value}>
                   {skill.label}
                 </span>
               )) : "List your skills here"}
@@ -405,31 +405,31 @@ const handleDownloadPdf = () => {
               <FontAwesomeIcon icon={faGraduationCap} className="mr-2" />
               Education
             </h2>
-            <p className='text-gray-700 b-2'>{formData.education || "Your education background"}</p>
+            <p className='text-black b-2'>{formData.education || "Your education background"}</p>
           </section>
           <section>
             <h2 className="text-xl font-semibold mb-2 text-blue-600">
               <FontAwesomeIcon icon={faConnectdevelop} className="mr-2" />
               Work Experience
             </h2>
-            <p className="text-gray-700">{formData.work_experience || "Your work experience"}</p>
+            <p className="text-black">{formData.work_experience || "Your work experience"}</p>
           </section>
           <section>
             <h2 className='text-xl font-semibold mb-2 text-pink-600'>
               <FontAwesomeIcon icon={faIdCard} className="mr-2" />
               Certifications
             </h2>
-            <p className='text-gray-700'>{formData.certification || "Your certifications"} </p>
+            <p className='text-black'>{formData.certification || "Your certifications"} </p>
           </section>
           <section>
             <h2 className="text-xl font-semibold mb-2 text-teal-600">
               <FontAwesomeIcon icon={faLanguage} className="mr-2" />
               Language
             </h2>
-            <p className="text-gray-700">
+            <p className="text-black">
               <div className="flex flex-wrap gap-2">
                 {formData.language.length > 0 ? formData.language.map((lang: any) => (
-                  <span className="border border-gray-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700" key={lang.value}>
+                  <span className="border border-gray-300 rounded-full px-3 py-1 text-sm font-semibold text-black" key={lang.value}>
                     {lang.label}
                   </span>
                 )) : "List the languages you speak"}
@@ -441,9 +441,9 @@ const handleDownloadPdf = () => {
               <FontAwesomeIcon icon={faHeart} className="mr-2" />
               Hobbies
             </h2>
-            <p className='text-gray-700 flex flex-wrap gap-2'>
+            <p className='text-black flex flex-wrap gap-2'>
               {formData.hobbies.length > 0 ? formData.hobbies.map((hobby: any) => (
-                <span className="inline-block border border-gray-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700" key={hobby.value}>
+                <span className="inline-block border border-gray-300 rounded-full px-3 py-1 text-sm font-semibold text-black" key={hobby.value}>
                   <FontAwesomeIcon icon={faPlusCircle} className="mr-2" />
                   {hobby.label}
                 </span>
@@ -455,14 +455,14 @@ const handleDownloadPdf = () => {
               <FontAwesomeIcon icon={faTrophy} className="mr-2" />
               Achievements
             </h2>
-            <p className="text-gray-700">{formData.achievement || "Your achievements"}</p>
+            <p className="text-black">{formData.achievement || "Your achievements"}</p>
           </section>
           <section>
             <h2 className="text-xl font-semibold mb-2 text-red-600">
               <FontAwesomeIcon icon={faPlusCircle} className="mr-2" />
               Additional Information
             </h2>
-            <p className="text-gray-700">{formData.extra || "Any additional information"}</p>
+            <p className="text-black">{formData.extra || "Any additional information"}</p>
           </section>
           <section>
             <h2 className="text-xl font-semibold mb-2 text-blue-600">
@@ -470,11 +470,11 @@ const handleDownloadPdf = () => {
               Social
             </h2>
             <div className="flex flex-wrap gap-3">
-              <a href={formData.github || ""} target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900">
+              <a href={formData.github || ""} target="_blank" rel="noopener noreferrer" className="text-black hover:text-gray-900">
                 <FontAwesomeIcon icon={faGithub} className="mr-2" />
                 Github
               </a>
-              <a href={formData.linkedin || ""} target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900">
+              <a href={formData.linkedin || ""} target="_blank" rel="noopener noreferrer" className="text-black hover:text-gray-900">
                 <FontAwesomeIcon icon={faLinkedin} className="mr-2" />
                 LinkedIn
               </a>
@@ -484,7 +484,7 @@ const handleDownloadPdf = () => {
         <div className="flex justify-center mt-4">
           <button
             onClick={handleDownloadPdf}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            className="px-4 py-2 bg-blue-600 text-black rounded-md hover:bg-blue-700"
           >
             Download PDF
           </button>
