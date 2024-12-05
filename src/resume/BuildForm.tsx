@@ -1,7 +1,7 @@
 import * as AOS from 'aos';
 import "aos/dist/aos.css";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import 'tailwindcss/tailwind.css';
 import { skills as skillList, skills } from "../data/skill";
 import { hobbies } from '../data/Hobbies';
@@ -9,30 +9,19 @@ import Select from "react-select";
 import { languages } from "../data/Language";
 // @ts-ignore
 import html2pdf from "html2pdf.js";
+import axios from 'axios';
+import { faUserCircle, faBriefcase, faEnvelope, faPhone, faGlobe, faMapMarkerAlt, faInfoCircle, faLightbulb, faLanguage, faHeart, faTrophy, faPlusCircle, faGraduationCap, faCertificate, faIdCard, faChair } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faConnectdevelop, faGithub, faLinkedin, faUpwork } from '@fortawesome/free-brands-svg-icons';
 
 AOS.init();
 
-const submitResume = async (resume: Record<string, string | string[]>, templateId: string) => {
-  try {
-    const response = await fetch("http://127.0.0.1:8000/api/documentfield", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ...resume, template: templateId }),
-    });
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error submitting resume:", error);
-    throw error;
-  }
-};
-
 const BuildForm = () => {
   const { templateId } = useParams<{ templateId: string }>();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
-    image : "",
+    image: "",
     name: "",
     email: "",
     phone: "",
@@ -53,14 +42,27 @@ const BuildForm = () => {
     project: "",
     extra: "",
   });
+
+  interface Template {
+    id: number;
+    name: string;
+    description: string;
+    image : string;
+    html: string;
+  }
+  
   const [html, setHtml] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>("");
-  const [resumeData, setresumeData] = useState<string[]>([]);
-  
-
+  const [resumeData, setresumeData] = useState<string>("");
+  const [template, setTemplate] = useState<Template | null>(null);
 
   useEffect(() => {
+    if (!templateId) {
+      setError("Template ID is missing.");
+      return;
+    }
+
     const fetchDocumentData = async () => {
       try {
         const response = await fetch(`http://127.0.0.1:8000/api/documentfield/${templateId}`);
@@ -74,16 +76,7 @@ const BuildForm = () => {
       }
     };
 
-    fetchDocumentData();
-  }, [templateId]);
-
-  useEffect(() => {
     const fetchTemplate = async () => {
-      if (!templateId) {
-        setError("Template ID is missing.");
-        return;
-      }
-
       try {
         setLoading(true);
         setError("");
@@ -102,24 +95,29 @@ const BuildForm = () => {
       }
     };
 
+    fetchDocumentData();
     fetchTemplate();
+  }, [templateId]);
+
+  useEffect(() => {
+    axios.get(`http://127.0.0.1:8000/api/template/${templateId}`).then((response) => {
+      setTemplate(response.data);
+    });
   }, [templateId]);
 
   const handleDownload = () => {
     const element = document.createElement('div');
-    element.style.width = '210mm'; 
+    element.style.width = '210mm';
     element.style.minHeight = '297mm';
-    element.style.margin = '0 auto'; 
+    element.style.margin = '0 auto';
     element.innerHTML = html;
 
-    // Configure the options for the PDF download
     const options = {
       filename: `resume-${templateId}.pdf`,
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
     };
 
-    // Convert the element to a PDF and download it
     html2pdf(element, options);
   };
 
@@ -130,30 +128,70 @@ const BuildForm = () => {
     }));
   };
 
-console.log(formData.image)
-
   const handleSubmit = async () => {
     if (!templateId) {
       setError("Template ID is missing.");
       return;
     }
 
-    const resume  = {
+    const resume = {
       ...formData,
       template_id: templateId,
       skill: formData.skill.map((option: any) => option.value),
       language: formData.language.map((option: any) => option.value),
-      hobbies :formData.hobbies.map((option: any) => option.value),
+      hobbies: formData.hobbies.map((option: any) => option.value),
     };
 
     try {
       const data = await submitResume(resume, templateId);
       console.log("Resume submitted:", data);
+      navigate("/generateresume/" + templateId);
       updateTemplateWithData(data);
     } catch (error) {
       setError("Failed to submit resume.");
     }
   };
+
+  const submitResume = async (resume: Record<string, string | string[]>, templateId: string) => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/documentfield", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...resume, template: templateId }),
+      });
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error submitting resume:", error);
+      throw error;
+    }
+  };
+
+const handleDownloadPdf = () => {
+
+    const element = document.createElement('div');
+    element.style.width = '210mm';
+    element.style.minHeight = '297mm';
+    element.style.margin = '0 auto';
+    element.innerHTML = html;
+
+    const options = {
+      filename: `resume-${templateId}.pdf`,
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    };
+
+    html2pdf(element, options).then(() => { 
+        const link = document.createElement('a');
+        link.href = `${options.filename}.pdf`;
+        link.download = options.filename;
+        link.click(); 
+    }
+    );
+  };
+
 
   const updateTemplateWithData = (_data: Record<string, string | string[]>) => {
     let updatedHtml = html;
@@ -168,15 +206,10 @@ console.log(formData.image)
           : String(value)
       );
     });
-  
+
     setHtml(updatedHtml);
   };
-  
 
-   skillList.map((skill) => skill.value);
-   languages.map((language)=>language.value);
-   hobbies.map((hobby)=>hobby.value);
-   
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-gray-50">
       <div className="w-full lg:w-2/3 p-6 lg:p-8">
@@ -191,19 +224,19 @@ console.log(formData.image)
                     {key.toUpperCase()}
                   </label>
                   <Select
-                    isMulti // Enables multi-select
-                    options={skills} // Use your skills array as options
-                    value={formData.skill} // Bind to the formData state
+                    isMulti
+                    options={skills}
+                    value={formData.skill}
                     onChange={(selectedOptions: any) =>
                       setFormData((prevData) => ({
                         ...prevData,
-                        skill: selectedOptions || [], // Update selected options or reset to an empty array
+                        skill: selectedOptions || [],
                       }))
                     }
                     className="w-full"
-                    closeMenuOnSelect={false} // Keep the dropdown open for multiple selections
+                    closeMenuOnSelect={false}
                     placeholder="Select your skills"
-                    isClearable // Allow clearing all selections
+                    isClearable
                   />
                 </div>
               );
@@ -215,19 +248,19 @@ console.log(formData.image)
                     {key.toUpperCase()}
                   </label>
                   <Select
-                    isMulti // Enables multi-select
-                    options={languages} // Use your skills array as options
-                    value={formData.language} // Bind to the formData state
+                    isMulti
+                    options={languages}
+                    value={formData.language}
                     onChange={(selectedOptions: any) =>
                       setFormData((prevData: any) => ({
                         ...prevData,
-                        language: selectedOptions || [], // Update selected options or reset to an empty array
+                        language: selectedOptions || [],
                       }))
                     }
                     className="w-full"
-                    closeMenuOnSelect={false} // Keep the dropdown open for multiple selections
+                    closeMenuOnSelect={false}
                     placeholder="Select your languages"
-                    isClearable // Allow clearing all selections
+                    isClearable
                   />
                 </div>
               );
@@ -239,19 +272,19 @@ console.log(formData.image)
                     {key.toUpperCase()}
                   </label>
                   <Select
-                    isMulti // Enables multi-select
-                    options={hobbies} // Use your skills array as options
-                    value={formData.hobbies} // Bind to the formData state
+                    isMulti
+                    options={hobbies}
+                    value={formData.hobbies}
                     onChange={(selectedOptions: any) =>
                       setFormData((prevData: any) => ({
                         ...prevData,
-                        hobbies: selectedOptions || [], // Update selected options or reset to an empty array
+                        hobbies: selectedOptions || [],
                       }))
                     }
                     className="w-full"
-                    closeMenuOnSelect={false} // Keep the dropdown open for multiple selections
+                    closeMenuOnSelect={false}
                     placeholder="Select your hobbies"
-                    isClearable // Allow clearing all selections
+                    isClearable
                   />
                 </div>
               );
@@ -273,7 +306,6 @@ console.log(formData.image)
                 </div>
               );
             }
-            
 
             const isFileInput = key === "image";
             const inputType = isFileInput ? "file" : key === "email" ? "email" : key === "phone" ? "number" : "text";
@@ -291,7 +323,6 @@ console.log(formData.image)
                   placeholder={`Enter your ${key}`}
                 />
               </div>
-              
             );
           })}
         </div>
@@ -314,30 +345,154 @@ console.log(formData.image)
         {error && <p className="text-red-500 mt-4">{error}</p>}
       </div>
 
-      <div className="w-full lg:w-1/3 bg-white shadow-md p-6 lg:p-8 mt-6 lg:mt-0">
-        {loading ? (
-          <p className="text-center text-blue-500">Loading Template...</p>
-        ) : error ? (
-          <p className="text-center text-red-500">{error}</p>
-        ) : (
-          <div>
-            
-            <h2 className="text-xl font-bold mb-4">Preview</h2>
-            {resumeData && (
-              <div
-                dangerouslySetInnerHTML={{ __html: html }}
-                className="w-full h-screen overflow-y-scroll"
-              />
-            )
-            }
-
-            
+      <div className="w-full bg-gradient-to-r from-blue-50 to-gray-100 shadow-md p-6 lg:p-8 mt-6 lg:mt-0 rounded-lg">
+        <div className="text-center bg-white border-b pb-4 mb-6 p-4 shadow-md rounded-lg ">
+          <h1 className="text-3xl font-bold text-blue-700">
+            <FontAwesomeIcon icon={faUserCircle} className="mr-2" />
+            {formData.name || "Your Name"}
+          </h1>
+          <p className="text-lg text-gray-600">
+            <FontAwesomeIcon icon={faBriefcase} className="mr-2" />
+            {formData.position || "Your Position"}
+          </p>
+          <div className="flex justify-center space-x-4 mt-2">
+            <p className="text-gray-600">
+              <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
+              {formData.email || "you@example.com"}
+            </p>
+            <p className="text-gray-600">
+              <FontAwesomeIcon icon={faPhone} className="mr-2" />
+              {formData.phone || "123-456-7890"}
+            </p>
+            <p className="text-gray-600">
+              <FontAwesomeIcon icon={faGlobe} className="mr-2" />
+              {formData.website || "yourwebsite.com"}
+            </p>
           </div>
-        )}
+        </div>
+        <div className="space-y-6">
+          
+          <section>
+            <h2 className="text-xl font-semibold mb-2 text-purple-600">
+              <FontAwesomeIcon icon={faInfoCircle} className="mr-2" />
+              Description
+            </h2>
+            <p className="text-gray-700">{formData.description || "A brief description about yourself"}</p>
+          </section>
+
+          <section>
+            <h2 className="text-xl font-semibold mb-2 text-green-600">
+              <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2" />
+              Location
+            </h2>
+            <p className="text-gray-700">{formData.address || "Your Address"}</p>
+          </section>
+          <section>
+            <h2 className="text-xl font-semibold mb-2 text-yellow-600">
+              <FontAwesomeIcon icon={faLightbulb} className="mr-2" />
+              Skills
+            </h2>
+            <p className='text-gray-700'>
+              {formData.skill.length > 0 ? formData.skill.map((skill: any) => (
+                <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2" key={skill.value}>
+                  {skill.label}
+                </span>
+              )) : "List your skills here"}
+            </p>
+          </section>
+          <section>
+            <h2 className='text-xl font-semibold mb-2 text-pink-600'>
+              <FontAwesomeIcon icon={faGraduationCap} className="mr-2" />
+              Education
+            </h2>
+            <p className='text-gray-700 b-2'>{formData.education || "Your education background"}</p>
+          </section>
+          <section>
+            <h2 className="text-xl font-semibold mb-2 text-blue-600">
+              <FontAwesomeIcon icon={faConnectdevelop} className="mr-2" />
+              Work Experience
+            </h2>
+            <p className="text-gray-700">{formData.work_experience || "Your work experience"}</p>
+          </section>
+          <section>
+            <h2 className='text-xl font-semibold mb-2 text-pink-600'>
+              <FontAwesomeIcon icon={faIdCard} className="mr-2" />
+              Certifications
+            </h2>
+            <p className='text-gray-700'>{formData.certification || "Your certifications"} </p>
+          </section>
+          <section>
+            <h2 className="text-xl font-semibold mb-2 text-teal-600">
+              <FontAwesomeIcon icon={faLanguage} className="mr-2" />
+              Language
+            </h2>
+            <p className="text-gray-700">
+              <div className="flex flex-wrap gap-2">
+                {formData.language.length > 0 ? formData.language.map((lang: any) => (
+                  <span className="border border-gray-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700" key={lang.value}>
+                    {lang.label}
+                  </span>
+                )) : "List the languages you speak"}
+              </div>
+              </p>
+          </section>
+          <section>
+            <h2 className="text-xl font-semibold mb-2 text-pink-600">
+              <FontAwesomeIcon icon={faHeart} className="mr-2" />
+              Hobbies
+            </h2>
+            <p className='text-gray-700 flex flex-wrap gap-2'>
+              {formData.hobbies.length > 0 ? formData.hobbies.map((hobby: any) => (
+                <span className="inline-block border border-gray-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700" key={hobby.value}>
+                  <FontAwesomeIcon icon={faPlusCircle} className="mr-2" />
+                  {hobby.label}
+                </span>
+              )) : "List your hobbies here"}
+            </p>
+          </section>
+          <section>
+            <h2 className="text-xl font-semibold mb-2 text-indigo-600">
+              <FontAwesomeIcon icon={faTrophy} className="mr-2" />
+              Achievements
+            </h2>
+            <p className="text-gray-700">{formData.achievement || "Your achievements"}</p>
+          </section>
+          <section>
+            <h2 className="text-xl font-semibold mb-2 text-red-600">
+              <FontAwesomeIcon icon={faPlusCircle} className="mr-2" />
+              Additional Information
+            </h2>
+            <p className="text-gray-700">{formData.extra || "Any additional information"}</p>
+          </section>
+          <section>
+            <h2 className="text-xl font-semibold mb-2 text-blue-600">
+              <FontAwesomeIcon icon={faGlobe} className="mr-2" />
+              Social
+            </h2>
+            <div className="flex flex-wrap gap-3">
+              <a href={formData.github || ""} target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900">
+                <FontAwesomeIcon icon={faGithub} className="mr-2" />
+                Github
+              </a>
+              <a href={formData.linkedin || ""} target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900">
+                <FontAwesomeIcon icon={faLinkedin} className="mr-2" />
+                LinkedIn
+              </a>
+            </div>
+          </section>
+        </div>
+        <div className="flex justify-center mt-4">
+          <button
+            onClick={handleDownloadPdf}
+            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          >
+            Download PDF
+          </button>
+        </div>
       </div>
     </div>
-  );
-};
+  )
+};                            
 
 export default BuildForm;
 

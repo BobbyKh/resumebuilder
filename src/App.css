@@ -1,5 +1,5 @@
-body{
+body {
+    padding: none;
+    margin: none;
     overflow-x: hidden;
-
-    background-color: black;
 }

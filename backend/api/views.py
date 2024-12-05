@@ -234,6 +234,31 @@ class DocumentFieldsView(ListCreateAPIView):
     queryset = DocumentField.objects.all()
     serializer_class = DocumentFieldSerializer
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        if not queryset.exists():
+            dummy_data = [
+                {
+                    "Name": "Dummy Name",
+                    "Email": "dummy@example.com",
+                    "Phone": "1234567890",
+                    "Address": "123 Dummy Street",
+                    "Education": "Dummy Education",
+                    "Experience": "Dummy Experience",
+                    "Skills": "Dummy Skills"
+                }
+            ]
+            return Response(dummy_data, status=status.HTTP_200_OK)
+        
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
 @api_view(['GET', 'POST','PUT', 'PATCH' , 'DELETE'])
 def update(request, id):
     try:
