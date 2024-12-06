@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { jsPDF } from "jspdf";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Loader from "../components/Loader";
 
 const GenerateResume = () => {
     const { templateId } = useParams<{ templateId: string }>();
@@ -12,9 +13,20 @@ const GenerateResume = () => {
     const [error, setError] = useState<string>('');
     const htmlRef = useRef<HTMLDivElement>(null);
 
+const [isLoading, setIsLoading] = useState(true);
+    useEffect(() => {
+        const fakeDataFetch = async () => {
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 2000);
+        };
+        fakeDataFetch() ;
+      }, []);
+
     useEffect(() => {
         AOS.init({ duration: 1000 });
     }, []);
+
 
     useEffect(() => {
         const fetchTemplate = async () => {
@@ -61,6 +73,7 @@ const GenerateResume = () => {
 
     return (
         <div className="container mx-auto p-4" data-aos="fade-up">
+            {isLoading && <Loader/>}
             <h1 className="text-xl font-bold mb-6">Resume Generator</h1>
             {error ? (
                 <p className="text-red-500">{error}</p>

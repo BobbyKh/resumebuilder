@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Loader from "../components/Loader";
 
 interface CoverTemplate {
   id: number;
@@ -15,7 +16,16 @@ const CoverTemplate = () => {
   const [templates, setTemplates] = useState<CoverTemplate[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
+  const [isLoading, setIsLoading] = useState(true);
+  
+  useEffect(() => {
+    const fakeDataFetch = async () => {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
+    };
+    fakeDataFetch() ;
+  }, []);
   useEffect(() => {
     // Set the page title dynamically
     document.title = `${id} Templates - Resume Builder`;
@@ -51,10 +61,12 @@ const CoverTemplate = () => {
   }, [id, pathname]); // Re-fetch when the ID or pathname changes
 
   return (
-    <section className="bg-white rounded-lg shadow-lg p-6 md:p-10">
+    
+    <section className="bg-[#0b1320] rounded-lg shadow-lg p-6 md:p-10">
+      {isLoading && <Loader />}
       <header className="text-center mb-10">
-        <h1 className="text-4xl font-extrabold text-gray-800">Templates</h1>
-        <p className="text-xl text-gray-500 mt-2">
+        <h1 className="text-4xl font-extrabold text-[#d5420b]">Templates</h1>
+        <p className="text-xl text-white mt-2">
           Choose a template that best suits your needs
         </p>
       </header>
@@ -73,11 +85,10 @@ const CoverTemplate = () => {
       )}
 
       {/* Templates Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {templates.map((template) => (
           <div
-            className="template-card bg-white rounded-lg shadow-md p-6 transition-transform transform hover:scale-105"
-            key={template.id}
+            className="template-card bg-[#0b1320] rounded-lg shadow-md border border-[#d5420b] p-4 sm:p-6 transition-transform transform hover:scale-105 hover:shadow-lg hover:border-[#d5420b] hover:text-[#d5420b]"
           >
             <a
               data-fancybox="gallery"
@@ -87,13 +98,13 @@ const CoverTemplate = () => {
               <img
                 src={template.image}
                 alt={template.name}
-                className="w-full h-auto mb-4 rounded"
+                className="w-full h-40 sm:h-48 lg:h-56 object-cover mb-4 rounded"
               />
             </a>
-            <h2 className="text-2xl font-semibold text-gray-700">{template.name}</h2>
+            <h2 className="text-lg sm:text-xl lg:text-2xl text-center font-semibold text-[#d5420b]">{template.name}</h2>
             <Link
               to={`/resume/editor/${template.id}`}
-              className="btn block w-full text-center bg-blue-500 text-white py-2 mt-4 rounded-lg hover:bg-blue-600"
+              className="btn block w-full text-center bg-[#d5420b] text-white py-2 mt-4 rounded-lg hover:bg-[#d5420b] hover:text-white"
             >
               Use Template
             </Link>

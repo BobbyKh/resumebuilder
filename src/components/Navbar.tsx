@@ -25,34 +25,39 @@ interface DocumentCategory {
 }
 
 const Navbar = (): JSX.Element => {
-  const [organization, setOrganization] = useState<Organization | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [documentCategories, setDocumentCategories] = useState<DocumentCategory[]>([]);
+  const [organizations, setOrganizations] = useState<Organization[]>([]);
 
-  const loggedInUserId = 1; // Provide a default or fetched loggedInUserId value
+  const loggedInUserId = localStorage.getItem("loggedInUserId");
+   // Provide a default or fetched loggedInUserId value
 
   useEffect(() => {
     AOS.init();
   }, []);
 
-  useEffect(() => {
-    axios
-      .get<Organization>("http://127.0.0.1:8000/api/organization")
-      .then((response) => {
-        setOrganization(response.data);
+
+  useEffect (() => {
+    const fetchOrganizations = async () => {
+      try {
+        const response = await axios.get<Organization[]>("http://127.0.0.1:8000/api/organization");
+        setOrganizations(response.data);
         console.log(response.data);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching organizations:", error);
-      });
-  }, []);
+      }
+    };
+    fetchOrganizations();
+  })
+
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get<User[]>("http://127.0.0.1:8000/api/users");
-        const currentUser = response.data.find((u) => u.id === loggedInUserId);
+        const currentUser = response.data.find((u) => u.id === Number(loggedInUserId));
+        console.log("Current User:", currentUser);
         setUser(currentUser || null);
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -97,18 +102,17 @@ const Navbar = (): JSX.Element => {
   return (
     <header className="bg-black flex flex-col md:flex-row justify-between items-center py-6 px-10 shadow-sm">
       <div className="flex items-center justify-between w-full md:w-auto">
-        <Link to="/">
-          {organization ? (
-            <img src={organization.logo} alt="ResuMaster Logo" className="w-10 h-10 md:w-12 md:h-12 mr-2" />
-          ) : (
-            <div className="w-10 h-10 md:w-12 md:h-12 mr-2 bg-gray-200 flex items-center justify-center">
-              <span className="text-xs text-gray-500">Loading...</span>
-            </div>
-          )}
+      {organizations.map((organization) => (
+          <Link to="/">
+          <h1 className="text-2xl font-bold text-[#d5420b] flex items-center">
+            <img src={organization.logo} alt={organization.name} className="w-10 h-10 mr-2" />
+            <span className="text-[#d5420b]">Resu</span>
+            <span className="text-white">Master</span>
+          </h1>
         </Link>
-        <h1 className="text-2xl font-bold text-[#d5420b]">
-          Resu<span className="text-white">master</span>
-        </h1>
+      ))}
+
+     
         <button
           onClick={toggleMenu}
           className="text-white md:hidden flex items-center justify-center w-10 h-10"
@@ -184,3 +188,4 @@ const Navbar = (): JSX.Element => {
 };
 
 export default Navbar;
+

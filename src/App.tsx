@@ -23,12 +23,29 @@ import BioDataTemplate from "./biodatasection/BioDataTemplate";
 import CoverTemplate from "./coverlettersection/CoverTemplate";
 import DocumentCategory from "./pages/DocumentCategory";
 import GenerateResume from "./resume/GenerateResume";
+import { useEffect, useState } from "react";
+import Loader from "./components/Loader";
 
 
 const App = () => {
 
+  const [isLoading, setIsLoading] = useState(true);
+  
+  useEffect(() => {
+    const fakeDataFetch = async () => {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 4000);
+    };
+    fakeDataFetch() ;
+  }, []);
+  
+
   return (
+
     <div className="App bg-[#0b1320]">
+            {isLoading && <Loader />}
+
       <Navbar />
       <Routes>
         <Route
@@ -56,7 +73,7 @@ const App = () => {
         <Route path="/resumebuild" element={<ResumeBuild />} />
         <Route path="/experience" element={<Experience />} />
         <Route path="/buildresume" element={<BuildForm />} />
-        <Route path="/template" element={<Template />} />
+        <Route path="/template/:id" element={<Template />} />
         <Route path="/appointment" element={<BookAppointment />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/pdftotext" element={<Pdftotext />} />

@@ -126,8 +126,8 @@ const Footer = () => {
                         data-aos="fade-up"
                     >
                         © 2024{' '}
-                        <a href="https://flowbite.com/" className="hover:text-red-600 transition-colors duration-300">
-                            ResuTeam
+                        <a href="https://flowbite.com/" className="hover:text-red-600 text-center transition-colors duration-300">
+                            Developed by Dpyther 
                         </a>
                         . All Rights Reserved.
                     </span>

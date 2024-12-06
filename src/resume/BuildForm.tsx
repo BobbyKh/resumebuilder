@@ -10,7 +10,7 @@ import { languages } from "../data/Language";
 // @ts-ignore
 import html2pdf from "html2pdf.js";
 import axios from 'axios';
-import { faUserCircle, faBriefcase, faEnvelope, faPhone, faGlobe, faMapMarkerAlt, faInfoCircle, faLightbulb, faLanguage, faHeart, faTrophy, faPlusCircle, faGraduationCap, faIdCard } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle, faBriefcase, faEnvelope, faPhone, faGlobe, faMapMarkerAlt, faInfoCircle, faLightbulb, faLanguage, faHeart, faTrophy, faPlusCircle, faGraduationCap, faIdCard, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faConnectdevelop, faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
@@ -186,7 +186,9 @@ const BuildForm = () => {
       skill: formData.skill.map((option: any) => `
         <span class="border p-1 rounded">${option.value}</span>
       `).join(''),
-      language: formData.language.map((option: any) => option.value),
+      language: formData.language.map((option: any) => `
+        <span class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">${option.value}</span>
+      `).join(''),
       hobbies: formData.hobbies.map((option: any) => `
         <div class="p-2 border rounded shadow-sm mb-2">
           <span class="font-medium">${option.value}</span>
@@ -303,7 +305,13 @@ const handleDownloadPdf = async () => {
     <div className="flex flex-col lg:flex-row min-h-screen bg-black">
       <div className="w-full lg:w-2/3 p-6 lg:p-8">
         <h1 className="text-2xl text-[#d5420b] font-bold mb-8 text-center ">Build Your Resume</h1>
-
+        <div className="container mx-auto px-4 mb-8 bg-white rounded-lg shadow-lg ">
+          <div className="flex items-center mb-4">
+            <FontAwesomeIcon icon={faUser} className="text-xl mr-2" />
+            <h1 className="text-2xl font-bold">Personal Information</h1>
+            
+          </div>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {Object.keys(formData).map((key) => {
             if (key === "skill") {
@@ -330,6 +338,7 @@ const handleDownloadPdf = async () => {
                 </div>
               );
             }
+            
             if (key === "language") {
               return (
                 <div key={key} className="mb-6">
@@ -562,10 +571,24 @@ const handleDownloadPdf = async () => {
                   />
                 </div>
               );
-            } 
-            
+            }
+            if (key === "image") {
 
-             
+              return (
+                <div key={key} className="mb-6">
+                  <label className="block text-sm font-medium text-white mb-2">
+                    {key.toUpperCase()}
+                  </label>
+                  <input
+                    type="file"
+                    onChange={handleChange}
+                    name={key}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder={`Enter your ${key}`}
+                  />
+                </div>
+              );
+            }
 
             const isFileInput = key === "image";
             const inputType = isFileInput ? "file" : key === "email" ? "email" : key === "phone" ? "number" : "text";

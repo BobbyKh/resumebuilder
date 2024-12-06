@@ -26,7 +26,7 @@ const Footer = () => {
                     <FontAwesomeIcon icon={faYoutube} className="text-2xl mx-2" />
                 </a>
             </div>
-            <p className="text-sm text-center z-10"> 2023 Resume Builder</p>
+            <p className="text-sm text-center z-10"> Developed by Dpyther @ 2024</p>
         </footer>
     )
 }
