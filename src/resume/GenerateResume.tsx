@@ -65,7 +65,7 @@ const GenerateResume = () => {
             {error ? (
                 <p className="text-red-500">{error}</p>
             ) : (
-                <div className="rounded-lg shadow-lg p-6 bg-white" data-aos="fade-up" data-aos-delay="100">
+                <div className="rounded-lg shadow-lg p-6 bg-[#0b1320]" data-aos="fade-up" data-aos-delay="100">
                     <div className="flex justify-end mb-4">
                         <button
                             onClick={downloadPdf}
@@ -81,8 +81,8 @@ const GenerateResume = () => {
                             updatedHtml = updatedHtml.replace(placeholder, value || '');
                         }
                         return (
-                            <div key={index} className="mb-4 border p-4 bg-gray-100 rounded-lg shadow-md" data-aos="fade-up" data-aos-delay={`${index * 100}`}>
-                                <div dangerouslySetInnerHTML={{ __html: updatedHtml }} />
+                            <div key={index} className="mb-4 border p-4 bg-[#0a111c] rounded-lg shadow-md" data-aos="fade-up" data-aos-delay={`${index * 100}`}>
+                                <div className="mb-4" dangerouslySetInnerHTML={{ __html: updatedHtml }} />
                             </div>
                         );
                     })}

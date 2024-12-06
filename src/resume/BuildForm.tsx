@@ -7,7 +7,6 @@ import { skills } from "../data/skill";
 import { hobbies } from '../data/Hobbies';
 import Select from "react-select";
 import { languages } from "../data/Language";
-import { format, parseISO } from 'date-fns';
 // @ts-ignore
 import html2pdf from "html2pdf.js";
 import axios from 'axios';
@@ -97,15 +96,12 @@ const BuildForm = () => {
   }
   
   const [html, setHtml] = useState<string>("");
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
-  const [resumeData, setresumeData] = useState<Resume | null>(null);
-  const [template, setTemplate] = useState<Template | null>(null);
+  const [, setresumeData] = useState<Resume | null>(null);
+  const [, setTemplate] = useState<Template | null>(null);
 
 
-  setTimeout(() => {
-    setLoading(false);
-}, 2000);
+
 
   useEffect(() => {
     if (!templateId) {
@@ -129,7 +125,6 @@ const BuildForm = () => {
 
     const fetchTemplate = async () => {
       try {
-        setLoading(true);
         setError("");
 
       
@@ -143,9 +138,7 @@ const BuildForm = () => {
         setHtml(data.html || "");
       } catch (err: any) {
         setError(err.message || "An error occurred.");
-      } finally {
-        setLoading(false);
-      }
+      } 
     };
 
     fetchDocumentData();
@@ -201,7 +194,6 @@ const BuildForm = () => {
       `).join(''),
       education: `<ul>${formData.education.map((option: any) => `
         <section class="mb-6">
-  <h2 class="text-xl font-semibold text-indigo-600 mb-4">Education</h2>
   <div class="p-4 border rounded shadow-sm mb-4">
     <ul>
       <li class="flex items-center mb-2">
@@ -394,7 +386,7 @@ const handleDownloadPdf = async () => {
                     {key.toUpperCase()}
                   </label>
                   <textarea
-                    value={formData[key as keyof typeof formData]}
+                    value={formData.description}
                     onChange={handleChange}
                     name={key}
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -405,7 +397,7 @@ const handleDownloadPdf = async () => {
             }
             if (key == "education") {
               return (
-                <div key={key} className="mb-6 space-y-4">
+                <div key={key} className=" mb-6">
                   <label className="block text-sm font-medium text-white mb-2">
                     {key.toUpperCase()}
                   </label>
@@ -471,7 +463,7 @@ const handleDownloadPdf = async () => {
                           placeholder="University"
                         />
                       </div>
-                      <div className="flex items-center space-x-2">
+                      <div className="mb-4">
                         <span className="block text-sm font-medium text-white">
                           From Date
                         </span>
@@ -539,13 +531,13 @@ const handleDownloadPdf = async () => {
             }
             if (key === "work_from_date") {
               return (
-                <div key={key} className="mb-6">
+                <div key={key} className="mb-6 col-span-2" >
                   <label className="block text-sm font-medium text-white mb-2">
                     {key.toUpperCase()}
                   </label>
                   <input
                     type="date"
-                    value={formData[key as keyof typeof formData]}
+                    value={formData.work_from_date}
                     onChange={handleChange}
                     name={key}
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -562,7 +554,7 @@ const handleDownloadPdf = async () => {
                   </label>
                   <input
                     type="date"
-                    value={formData[key as keyof typeof formData]}
+                    value={formData.work_to_date}
                     onChange={handleChange}
                     name={key}
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -582,14 +574,25 @@ const handleDownloadPdf = async () => {
             return (
               <div key={key} className="mb-6">
                 <label className="block text-sm font-medium text-white mb-2">{key.toUpperCase()}</label>
-                <Component
-                  {...(isFileInput && { accept: ".jpg, .jpeg, .png", onChange: (e) => handleChange(e) })}
-                  {...(!isFileInput && { value: formData[key as keyof typeof formData], onChange: (e) => handleChange(e) })}
-                  type={inputType}
-                  name={key}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder={`Enter your ${key}`}
-                />
+                {Component === "textarea" ? (
+                  <textarea
+                    value={formData[key as keyof typeof formData] as string}
+                    onChange={(e) => handleChange(e)}
+                    name={key}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder={`Enter your ${key}`}
+                  ></textarea>
+                ) : (
+                  <input
+                    {...(isFileInput && { accept: ".jpg, .jpeg, .png" })}
+                    value={formData[key as keyof typeof formData] as string}
+                    onChange={(e) => handleChange(e)}
+                    type={inputType}
+                    name={key}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder={`Enter your ${key}`}
+                  />
+                )}
               </div>
             );
           })}
