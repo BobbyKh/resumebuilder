@@ -3,11 +3,11 @@ import "aos/dist/aos.css";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import 'tailwindcss/tailwind.css';
-import { skills as skillList, skills } from "../data/skill";
+import { skills } from "../data/skill";
 import { hobbies } from '../data/Hobbies';
 import Select from "react-select";
 import { languages } from "../data/Language";
-import Loader from "react-loader-spinner";
+import { format, parseISO } from 'date-fns';
 // @ts-ignore
 import html2pdf from "html2pdf.js";
 import axios from 'axios';
@@ -17,6 +17,34 @@ import { faConnectdevelop, faGithub, faLinkedin } from '@fortawesome/free-brands
 
 AOS.init();
 
+
+interface Resume {
+
+  name: string;
+  email: string;
+  phone: string;
+  position: string;
+  description: string;
+  address: string;
+  skill: string[];
+  education: [
+    { college: string; degree: string; university: string; from_date: string; to_date: string; }[]
+    //format: "YYYY-MM-DD"
+
+  ];
+  work_experience: string;
+  work_job_title: string;
+  work_company_name: string;
+  work_from_date: string;
+  work_to_date: string;
+  work_description: string;
+  work_achievements: string;
+  achievement: string;
+  hobbies: string[];
+  reference: string;
+  certification: string;
+
+}
 const BuildForm = () => {
   const { templateId } = useParams<{ templateId: string }>();
   const navigate = useNavigate();
@@ -30,8 +58,23 @@ const BuildForm = () => {
     description: "",
     address: "",
     skill: [],
-    education: "",
+    education:[
+      { 
+        college : "",
+        degree: "",
+        university: "",
+        from_date: "",
+        to_date: "",
+        
+      }
+    ],
     work_experience: "",
+    work_job_title: "",
+    work_company_name: "",
+    work_from_date: "",
+    work_to_date: "",
+    work_description: "",
+    work_achievements: "",
     achievement: "",
     hobbies: [],
     reference: "",
@@ -56,7 +99,7 @@ const BuildForm = () => {
   const [html, setHtml] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
-  const [resumeData, setresumeData] = useState<string>("");
+  const [resumeData, setresumeData] = useState<Resume | null>(null);
   const [template, setTemplate] = useState<Template | null>(null);
 
 
@@ -147,9 +190,45 @@ const BuildForm = () => {
     const resume = {
       ...formData,
       template_id: templateId,
-      skill: formData.skill.map((option: any) => option.value),
+      skill: formData.skill.map((option: any) => `
+        <span class="border p-1 rounded">${option.value}</span>
+      `).join(''),
       language: formData.language.map((option: any) => option.value),
-      hobbies: formData.hobbies.map((option: any) => option.value),
+      hobbies: formData.hobbies.map((option: any) => `
+        <div class="p-2 border rounded shadow-sm mb-2">
+          <span class="font-medium">${option.value}</span>
+        </div>
+      `).join(''),
+      education: `<ul>${formData.education.map((option: any) => `
+        <section class="mb-6">
+  <h2 class="text-xl font-semibold text-indigo-600 mb-4">Education</h2>
+  <div class="p-4 border rounded shadow-sm mb-4">
+    <ul>
+      <li class="flex items-center mb-2">
+        <i class="fas fa-university text-gray-500 mr-2"></i>
+        <strong class="font-medium">College:</strong> ${option.college}
+      </li>
+      <li class="flex items-center mb-2">
+        <i class="fas fa-graduation-cap text-gray-500 mr-2"></i>
+        <strong class="font-medium">Degree:</strong> ${option.degree}
+      </li>
+      <li class="flex items-center mb-2">
+        <i class="fas fa-calendar-alt text-gray-500 mr-2"></i>
+        <strong class="font-medium">From Date:</strong> ${option.from_date}
+      </li>
+      <li class="flex items-center mb-2">
+        <i class="fas fa-calendar-alt text-gray-500 mr-2"></i>
+        <strong class="font-medium">To Date:</strong> ${option.to_date}
+      </li>
+      <li class="flex items-center">
+        <i class="fas fa-university text-gray-500 mr-2"></i>
+        <strong class="font-medium">University:</strong> ${option.university}
+      </li>
+    </ul>
+  </div>
+</section>
+
+      `).join('')}</ul>`
     };
 
     try {
@@ -219,7 +298,7 @@ const handleDownloadPdf = async () => {
         new RegExp(`{{${key}}}`, "g"),
         Array.isArray(value)
           ? value
-              .map((item: { value: string } | string) => (typeof item === "string" ? item : item.value))
+              .map((item) => `<li>${item}</li>`)
               .join(" ")
           : String(value)
       );
@@ -324,10 +403,181 @@ const handleDownloadPdf = async () => {
                 </div>
               );
             }
+            if (key == "education") {
+              return (
+                <div key={key} className="mb-6 space-y-4">
+                  <label className="block text-sm font-medium text-white mb-2">
+                    {key.toUpperCase()}
+                  </label>
+                  {formData.education.map((edu: any, index: number) => (
+                    <div key={index} className="flex flex-col space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <span className="block text-sm font-medium text-white">
+                          College
+                        </span>
+                        <input
+                          type="text"
+                          value={edu.college}
+                          onChange={(e) =>
+                            setFormData((prevData: any) => ({
+                              ...prevData,
+                              education: prevData.education.map((edu2: any, i: number) =>
+                                i === index ? { ...edu2, college: e.target.value } : edu2
+                              ),
+                            }))
+                          }
+                          name={`${key}[${index}].college`}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          placeholder="College"
+                        />
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="block text-sm font-medium text-white">
+                          Degree
+                        </span>
+                        <input
+                          type="text"
+                          value={edu.degree}
+                          onChange={(e) =>
+                            setFormData((prevData: any) => ({
+                              ...prevData,
+                              education: prevData.education.map((edu2: any, i: number) =>
+                                i === index ? { ...edu2, degree: e.target.value } : edu2
+                              ),
+                            }))
+                          }
+                          name={`${key}[${index}].degree`}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          placeholder="Degree"
+                        />
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="block text-sm font-medium text-white">
+                          University
+                        </span>
+                        <input
+                          type="text"
+                          value={edu.university}
+                          onChange={(e) =>
+                            setFormData((prevData: any) => ({
+                              ...prevData,
+                              education: prevData.education.map((edu2: any, i: number) =>
+                                i === index ? { ...edu2, university: e.target.value } : edu2
+                              ),
+                            }))
+                          }
+                          name={`${key}[${index}].university`}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          placeholder="University"
+                        />
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="block text-sm font-medium text-white">
+                          From Date
+                        </span>
+                        <input
+                          type="date"
+                          value={edu.from_date}
+                          onChange={(e) =>
+                            setFormData((prevData: any) => ({
+                              ...prevData,
+                              education: prevData.education.map((edu2: any, i: number) =>
+                                i === index ? { ...edu2, from_date: e.target.value } : edu2
+                              ),
+                            }))
+                          }
+                          name={`${key}[${index}].from_date`}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          placeholder="From Date"
+                        />
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="block text-sm font-medium text-white">
+                          To Date
+                        </span>
+                        <input
+                          type="date"
+                          value={edu.to_date}
+                          onChange={(e) =>
+                            setFormData((prevData: any) => ({
+                              ...prevData,
+                              education: prevData.education.map((edu2: any, i: number) =>
+                                i === index ? { ...edu2, to_date: e.target.value } : edu2
+                              ),
+                            }))
+                          }
+                          name={`${key}[${index}].to_date`}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          placeholder="To Date"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setFormData((prevData: any) => ({
+                        ...prevData,
+                        education: [
+                          ...prevData.education,
+                          {
+                            college: "",
+                            degree: "",
+                            university: "",
+                            from_date: "",
+                            to_date: "",
+                          },
+                        ],
+                      }))
+                    }
+                    className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+                  >
+                    Add
+                  </button>
+                </div>
+              );
+            }
+            if (key === "work_from_date") {
+              return (
+                <div key={key} className="mb-6">
+                  <label className="block text-sm font-medium text-white mb-2">
+                    {key.toUpperCase()}
+                  </label>
+                  <input
+                    type="date"
+                    value={formData[key as keyof typeof formData]}
+                    onChange={handleChange}
+                    name={key}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder={`Enter your ${key}`}
+                  />
+                </div>
+              );
+            }
+            if (key === "work_to_date") {
+              return (
+                <div key={key} className="mb-6">
+                  <label className="block text-sm font-medium text-white mb-2">
+                    {key.toUpperCase()}
+                  </label>
+                  <input
+                    type="date"
+                    value={formData[key as keyof typeof formData]}
+                    onChange={handleChange}
+                    name={key}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder={`Enter your ${key}`}
+                  />
+                </div>
+              );
+            } 
+            
+
+             
 
             const isFileInput = key === "image";
             const inputType = isFileInput ? "file" : key === "email" ? "email" : key === "phone" ? "number" : "text";
-            const Component = key === "description" ? "textarea" : isFileInput ? "input" : "input";
+            const Component = key === "description" ? "textarea" : isFileInput ? "input" : "input" 
 
             return (
               <div key={key} className="mb-6">
@@ -423,7 +673,7 @@ const handleDownloadPdf = async () => {
               <FontAwesomeIcon icon={faGraduationCap} className="mr-2" />
               Education
             </h2>
-            <p className='text-black b-2'>{formData.education || "Your education background"}</p>
+            <p className='text-black b-2'></p>
           </section>
           <section>
             <h2 className="text-xl font-semibold mb-2 text-blue-600">

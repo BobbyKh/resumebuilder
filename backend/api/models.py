@@ -48,7 +48,7 @@ class DocumentField(models.Model):
     education = models.JSONField(default=list, null=True, blank=True) #models.TextField(null=True, blank=True)
     work_job_title = models.CharField(max_length=100, null=True, blank=True)
     work_company_name = models.CharField(max_length=100, null=True, blank=True)
-    work_from_date = models.DateField(null=True, blank=True)
+    work_from_date = models.DateField(null=True, blank=True )
     work_to_date = models.DateField(null=True, blank=True)
     work_description = models.TextField(null=True, blank=True)
     work_achievements = models.TextField(null=True, blank=True)

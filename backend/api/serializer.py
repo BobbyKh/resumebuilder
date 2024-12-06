@@ -75,7 +75,7 @@ class TemplateSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class DocumentFieldSerializer(serializers.ModelSerializer):
-
+    
     image = serializers.SerializerMethodField()
     def get_image(self, obj):
         try:
