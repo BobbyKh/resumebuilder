@@ -43,7 +43,6 @@ const Navbar = (): JSX.Element => {
       try {
         const response = await axios.get<Organization[]>("http://127.0.0.1:8000/api/organization");
         setOrganizations(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error("Error fetching organizations:", error);
       }
@@ -57,7 +56,6 @@ const Navbar = (): JSX.Element => {
       try {
         const response = await axios.get<User[]>("http://127.0.0.1:8000/api/users");
         const currentUser = response.data.find((u) => u.id === Number(loggedInUserId));
-        console.log("Current User:", currentUser);
         setUser(currentUser || null);
       } catch (error) {
         console.error("Error fetching users:", error);

@@ -1,6 +1,6 @@
-
 import { Routes, Route } from "react-router-dom";
-import './App.css'
+import './App.css';
+import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import About from "./pages/About";
 import Landing from "./pages/Landing";
@@ -23,67 +23,64 @@ import BioDataTemplate from "./biodatasection/BioDataTemplate";
 import CoverTemplate from "./coverlettersection/CoverTemplate";
 import DocumentCategory from "./pages/DocumentCategory";
 import GenerateResume from "./resume/GenerateResume";
-import { useEffect, useState } from "react";
 import Loader from "./components/Loader";
 
-
 const App = () => {
-
   const [isLoading, setIsLoading] = useState(true);
-  
+
   useEffect(() => {
     const fakeDataFetch = async () => {
       setTimeout(() => {
         setIsLoading(false);
-      }, 4000);
+      }, 4000); // Simulate a 4-second delay
     };
-    fakeDataFetch() ;
+    fakeDataFetch();
   }, []);
-  
 
   return (
-
-    <div className="App bg-[#0b1320]">
-            {isLoading && <Loader />}
-
-      <Navbar />
-      <Routes>
-        <Route
-          path="*"
-          element={
-            <>
-              <div className="min-h-screen flex flex-col justify-center items-center">
-                <NotFound />
-              </div>
-            </>
-          }
-        />
-        <Route path="/app" element={<BaseApp />} />
-        <Route path="/documentcategory" element={<DocumentCategory />} />
-        <Route path="/pricing/suscribe/:id" element={<Checkout />} />
-        <Route path="/resume/editor/:templateId" element={<BuildForm />} />
-        <Route path="/cv" element={<CVtemplate />} />
-        <Route path="/category/:id" element={<CoverTemplate />} />
-        <Route path="/biodata" element={<BioDataTemplate />} />
-        <Route path="/" element={<Landing />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/portfolio" element={<Portfolio />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/resumebuild" element={<ResumeBuild />} />
-        <Route path="/experience" element={<Experience />} />
-        <Route path="/buildresume" element={<BuildForm />} />
-        <Route path="/template/:id" element={<Template />} />
-        <Route path="/appointment" element={<BookAppointment />} />
-        <Route path="/pricing" element={<Pricing />} />
-        <Route path="/pdftotext" element={<Pdftotext />} />
-        <Route path="/generateresume/:templateId" element={<GenerateResume />} />
-        
-      </Routes>
-      <Footer />
-    </div>
+    <>
+      {isLoading ? (
+        <div className="">
+          <Loader />
+        </div>
+      ) : (
+        <div className="App bg-[#0b1320]">
+          <Navbar />
+          <Routes>
+            <Route
+              path="*"
+              element={
+                <div className="min-h-screen flex flex-col justify-center items-center">
+                  <NotFound />
+                </div>
+              }
+            />
+            <Route path="/app" element={<BaseApp />} />
+            <Route path="/documentcategory" element={<DocumentCategory />} />
+            <Route path="/pricing/suscribe/:id" element={<Checkout />} />
+            <Route path="/resume/editor/:templateId" element={<BuildForm />} />
+            <Route path="/cv" element={<CVtemplate />} />
+            <Route path="/category/:id" element={<CoverTemplate />} />
+            <Route path="/biodata" element={<BioDataTemplate />} />
+            <Route path="/" element={<Landing />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/portfolio" element={<Portfolio />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/resumebuild" element={<ResumeBuild />} />
+            <Route path="/experience" element={<Experience />} />
+            <Route path="/buildresume" element={<BuildForm />} />
+            <Route path="/template/:id" element={<Template />} />
+            <Route path="/appointment" element={<BookAppointment />} />
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/pdftotext" element={<Pdftotext />} />
+            <Route path="/generateresume/:templateId" element={<GenerateResume />} />
+          </Routes>
+          <Footer />
+        </div>
+      )}
+    </>
   );
 };
 
 export default App;
-

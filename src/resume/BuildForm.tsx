@@ -10,7 +10,7 @@ import { languages } from "../data/Language";
 // @ts-ignore
 import html2pdf from "html2pdf.js";
 import axios from 'axios';
-import { faUserCircle, faBriefcase, faEnvelope, faPhone, faGlobe, faMapMarkerAlt, faInfoCircle, faLightbulb, faLanguage, faHeart, faTrophy, faPlusCircle, faGraduationCap, faIdCard, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle, faBriefcase, faEnvelope, faPhone, faGlobe, faMapMarkerAlt, faInfoCircle, faLightbulb, faLanguage, faHeart, faTrophy, faPlusCircle, faGraduationCap, faIdCard, faUser, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faConnectdevelop, faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
@@ -67,13 +67,16 @@ const BuildForm = () => {
         
       }
     ],
-    work_experience: "",
-    work_job_title: "",
-    work_company_name: "",
-    work_from_date: "",
-    work_to_date: "",
-    work_description: "",
-    work_achievements: "",
+    experience: [
+      {
+        job_title: "",
+        company_name: "",
+        from_date: "",
+        to_date: "",
+        description: "",
+        achievements: "",
+      }
+    ],
     achievement: "",
     hobbies: [],
     reference: "",
@@ -194,6 +197,38 @@ const BuildForm = () => {
           <span class="font-medium">${option.value}</span>
         </div>
       `).join(''),
+      experience: formData.experience.map((option: any) => `
+        <section class="mb-6">
+  <div class="p-4 border rounded shadow-sm mb-4">
+    <ul>
+      <li class="flex items-center mb-2">
+        <i class="fas fa-briefcase text-gray-500 mr-2"></i>
+        <strong class="font-medium">Job Title:</strong> ${option.job_title}
+      </li>
+      <li class="flex items-center mb-2">
+        <i class="fas fa-building text-gray-500 mr-2"></i>
+        <strong class="font-medium">Company Name:</strong> ${option.company_name}
+      </li>
+      <li class="flex items-center mb-2">
+        <i class="fas fa-calendar-alt text-gray-500 mr-2"></i>
+        <strong class="font-medium">From Date:</strong> ${option.from_date}
+      </li>
+      <li class="flex items-center mb-2">
+        <i class="fas fa-calendar-alt text-gray-500 mr-2"></i>
+        <strong class="font-medium">To Date:</strong> ${option.to_date}
+      </li>
+
+      <li class="flex items-center">
+        <i class="fas fa-briefcase text-gray-500 mr-2"></i>
+        <strong class="font-medium">Description:</strong> ${option.description}
+      </li>
+    </ul>
+
+  </div>
+</section>
+
+      `).join(''),
+
       education: `<ul>${formData.education.map((option: any) => `
         <section class="mb-6">
   <div class="p-4 border rounded shadow-sm mb-4">
@@ -406,170 +441,316 @@ const handleDownloadPdf = async () => {
             }
             if (key == "education") {
               return (
-                <div key={key} className=" mb-6">
-                  <label className="block text-sm font-medium text-white mb-2">
-                    {key.toUpperCase()}
-                  </label>
-                  {formData.education.map((edu: any, index: number) => (
-                    <div key={index} className="flex flex-col space-y-2">
-                      <div className="flex items-center space-x-2">
-                        <span className="block text-sm font-medium text-white">
-                          College
-                        </span>
-                        <input
-                          type="text"
-                          value={edu.college}
-                          onChange={(e) =>
-                            setFormData((prevData: any) => ({
-                              ...prevData,
-                              education: prevData.education.map((edu2: any, i: number) =>
-                                i === index ? { ...edu2, college: e.target.value } : edu2
-                              ),
-                            }))
-                          }
-                          name={`${key}[${index}].college`}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          placeholder="College"
-                        />
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <span className="block text-sm font-medium text-white">
-                          Degree
-                        </span>
-                        <input
-                          type="text"
-                          value={edu.degree}
-                          onChange={(e) =>
-                            setFormData((prevData: any) => ({
-                              ...prevData,
-                              education: prevData.education.map((edu2: any, i: number) =>
-                                i === index ? { ...edu2, degree: e.target.value } : edu2
-                              ),
-                            }))
-                          }
-                          name={`${key}[${index}].degree`}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          placeholder="Degree"
-                        />
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <span className="block text-sm font-medium text-white">
-                          University
-                        </span>
-                        <input
-                          type="text"
-                          value={edu.university}
-                          onChange={(e) =>
-                            setFormData((prevData: any) => ({
-                              ...prevData,
-                              education: prevData.education.map((edu2: any, i: number) =>
-                                i === index ? { ...edu2, university: e.target.value } : edu2
-                              ),
-                            }))
-                          }
-                          name={`${key}[${index}].university`}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          placeholder="University"
-                        />
-                      </div>
-                      <div className="mb-4">
-                        <span className="block text-sm font-medium text-white">
-                          From Date
-                        </span>
-                        <input
-                          type="date"
-                          value={edu.from_date}
-                          onChange={(e) =>
-                            setFormData((prevData: any) => ({
-                              ...prevData,
-                              education: prevData.education.map((edu2: any, i: number) =>
-                                i === index ? { ...edu2, from_date: e.target.value } : edu2
-                              ),
-                            }))
-                          }
-                          name={`${key}[${index}].from_date`}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          placeholder="From Date"
-                        />
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <span className="block text-sm font-medium text-white">
-                          To Date
-                        </span>
-                        <input
-                          type="date"
-                          value={edu.to_date}
-                          onChange={(e) =>
-                            setFormData((prevData: any) => ({
-                              ...prevData,
-                              education: prevData.education.map((edu2: any, i: number) =>
-                                i === index ? { ...edu2, to_date: e.target.value } : edu2
-                              ),
-                            }))
-                          }
-                          name={`${key}[${index}].to_date`}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          placeholder="To Date"
-                        />
-                      </div>
-                    </div>
-                  ))}
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setFormData((prevData: any) => ({
-                        ...prevData,
-                        education: [
-                          ...prevData.education,
-                          {
-                            college: "",
-                            degree: "",
-                            university: "",
-                            from_date: "",
-                            to_date: "",
-                          },
-                        ],
-                      }))
-                    }
-                    className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
-                  >
-                    Add
-                  </button>
-                </div>
-              );
+                <div key={key} className="mb-8">
+  <label className="block text-lg font-semibold text-gray-100 mb-4">
+    {key.toUpperCase()}
+  </label>
+  <div className="space-y-6">
+    {formData.education.map((edu: any, index: number) => (
+      <div
+        key={index}
+        className="p-4 bg-gray-800 rounded-lg shadow-md space-y-4 border border-gray-700"
+      >
+         {/* Remove Education Button */}
+         <div className="text-right">
+          <button
+            type="button"
+            onClick={() =>
+              setFormData((prevData: any) => ({
+                ...prevData,
+                education: prevData.education.filter(( _: any, i: number) => i !== index),
+              }))
             }
-            if (key === "work_from_date") {
-              return (
-                <div key={key} className="mb-6 col-span-2" >
-                  <label className="block text-sm font-medium text-white mb-2">
-                    {key.toUpperCase()}
-                  </label>
-                  <input
-                    type="date"
-                    value={formData.work_from_date}
-                    onChange={handleChange}
-                    name={key}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder={`Enter your ${key}`}
-                  />
-                </div>
+            className="px-2 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+          >
+            <FontAwesomeIcon icon={faTimes} />
+          </button>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* College */}
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">
+              College
+            </label>
+            <input
+              type="text"
+              value={edu.college}
+              onChange={(e) =>
+                setFormData((prevData: any) => ({
+                  ...prevData,
+                  education: prevData.education.map((edu2: any, i: number) =>
+                    i === index ? { ...edu2, college: e.target.value } : edu2
+                  ),
+                }))
+              }
+              className="w-full px-4 py-2 bg-white text-gray-900 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 capitalize"
+              placeholder="Enter college name"
+            />
+          </div>
+
+          {/* Degree */}
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">
+              Degree
+            </label>
+            <input
+              type="text"
+              value={edu.degree}
+              onChange={(e) =>
+                setFormData((prevData: any) => ({
+                  ...prevData,
+                  education: prevData.education.map((edu2: any, i: number) =>
+                    i === index ? { ...edu2, degree: e.target.value } : edu2
+                  ),
+                }))
+              }
+              className="w-full px-4 py-2 bg-white text-gray-900 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 capitalize "
+              placeholder="Enter degree name"
+            />
+          </div>
+
+          {/* University */}
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">
+              University
+            </label>
+            <input
+              type="text"
+              value={edu.university}
+              onChange={(e) =>
+                setFormData((prevData: any) => ({
+                  ...prevData,
+                  education: prevData.education.map((edu2: any, i: number) =>
+                    i === index ? { ...edu2, university: e.target.value } : edu2
+                  ),
+                }))
+              }
+              className="w-full px-4 py-2 bg-white text-gray-900 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 capitalize"
+              placeholder="Enter university name"
+            />
+          </div>
+
+          {/* From Date */}
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1 capitalize">
+              From Date
+            </label>
+            <input
+              type="date"
+              value={edu.from_date}
+              onChange={(e) =>
+                setFormData((prevData: any) => ({
+                  ...prevData,
+                  education: prevData.education.map((edu2: any, i: number) =>
+                    i === index ? { ...edu2, from_date: e.target.value } : edu2
+                  ),
+                }))
+              }
+              className="w-full px-4 py-2 bg-white text-gray-900 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          {/* To Date */}
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">
+              To Date
+            </label>
+            <input
+              type="date"
+              value={edu.to_date}
+              onChange={(e) =>
+                setFormData((prevData: any) => ({
+                  ...prevData,
+                  education: prevData.education.map((edu2: any, i: number) =>
+                    i === index ? { ...edu2, to_date: e.target.value } : edu2
+                  ),
+                }))
+              }
+              className="w-full px-4 py-2 bg-white text-gray-900 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+        </div>
+
+       
+      </div>
+    ))}
+
+    {/* Add Education Button */}
+    <button
+      type="button"
+      onClick={() =>
+        setFormData((prevData: any) => ({
+          ...prevData,
+          education: [
+            ...prevData.education,
+            {
+              college: "",
+              degree: "",
+              university: "",
+              from_date: "",
+              to_date: "",
+            },
+          ],
+        }))
+      }
+      className="px-6 py-3 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+    >
+      <FontAwesomeIcon icon={faPlusCircle} className="w-5 h-5" />
+    </button>
+  </div>
+</div>
+
               );
-            }
-            if (key === "work_to_date") {
+            } if (key == "experience") {
               return (
                 <div key={key} className="mb-6">
-                  <label className="block text-sm font-medium text-white mb-2">
-                    {key.toUpperCase()}
-                  </label>
-                  <input
-                    type="date"
-                    value={formData.work_to_date}
-                    onChange={handleChange}
-                    name={key}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder={`Enter your ${key}`}
-                  />
-                </div>
+  <label className="block text-lg font-semibold text-white mb-4">
+    {key.toUpperCase()}
+  </label>
+  {formData.experience.map((exp: any, index: number) => (
+    <div
+      key={index}
+      className="p-4 bg-gray-800 rounded-lg shadow-md mb-4 space-y-4"
+    >
+      <div className="flex justify-between items-center">
+        <h3 className="text-lg font-semibold text-white">
+          Experience {index + 1}
+        </h3>
+        <button
+          type="button"
+          onClick={() =>
+            setFormData((prevData: any) => ({
+              ...prevData,
+              experience: prevData.experience.filter((_: any, i: number) => i !== index),
+            }))
+          }
+          className="px-2 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+          >
+            <FontAwesomeIcon icon={faTimes} />
+          </button>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm text-gray-300 mb-1">
+            Company Name
+          </label>
+          <input
+            type="text"
+            value={exp.company_name}
+            onChange={(e) =>
+              setFormData((prevData: any) => ({
+                ...prevData,
+                experience: prevData.experience.map((exp2: any, i: number) =>
+                  i === index ? { ...exp2, company_name: e.target.value } : exp2
+                ),
+              }))
+            }
+            className="w-full px-3 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter company name"
+          />
+        </div>
+        <div>
+          <label className="block text-sm text-gray-300 mb-1">
+            Job Title
+          </label>
+          <input
+            type="text"
+            value={exp.job_title}
+            onChange={(e) =>
+              setFormData((prevData: any) => ({
+                ...prevData,
+                experience: prevData.experience.map((exp2: any, i: number) =>
+                  i === index ? { ...exp2, job_title: e.target.value } : exp2
+                ),
+              }))
+            }
+            className="w-full px-3 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter job title"
+          />
+        </div>
+      </div>
+      <div>
+        <label className="block text-sm text-gray-300 mb-1">
+          Description
+        </label>
+        <textarea
+          value={exp.description}
+          onChange={(e) =>
+            setFormData((prevData: any) => ({
+              ...prevData,
+              experience: prevData.experience.map((exp2: any, i: number) =>
+                i === index ? { ...exp2, description: e.target.value } : exp2
+              ),
+            }))
+          }
+          className="w-full px-3 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Enter a brief description of your role"
+          rows={3}
+        ></textarea>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm text-gray-300 mb-1">
+            From Date
+          </label>
+          <input
+            type="date"
+            value={exp.from_date}
+            onChange={(e) =>
+              setFormData((prevData: any) => ({
+                ...prevData,
+                experience: prevData.experience.map((exp2: any, i: number) =>
+                  i === index ? { ...exp2, from_date: e.target.value } : exp2
+                ),
+              }))
+            }
+            className="w-full px-3 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div>
+          <label className="block text-sm text-gray-300 mb-1">
+            To Date
+          </label>
+          <input
+            type="date"
+            value={exp.to_date}
+            onChange={(e) =>
+              setFormData((prevData: any) => ({
+                ...prevData,
+                experience: prevData.experience.map((exp2: any, i: number) =>
+                  i === index ? { ...exp2, to_date: e.target.value } : exp2
+                ),
+              }))
+            }
+            className="w-full px-3 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+      </div>
+    </div>
+  ))}
+  <button
+    type="button"
+    onClick={() =>
+      setFormData((prevData: any) => ({
+        ...prevData,
+        experience: [
+          ...prevData.experience,
+          {
+            company_name: "",
+            job_title: "",
+            from_date: "",
+            to_date: "",
+            description: "",
+          },
+        ],
+      }))
+    }
+    className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+  >
+    <FontAwesomeIcon icon={faPlusCircle} className="mr-2" />
+  </button>
+</div>
+
               );
             }
             if (key === "image") {
@@ -706,7 +887,6 @@ const handleDownloadPdf = async () => {
               <FontAwesomeIcon icon={faConnectdevelop} className="mr-2" />
               Work Experience
             </h2>
-            <p className="text-black">{formData.work_experience || "Your work experience"}</p>
           </section>
           <section>
             <h2 className='text-xl font-semibold mb-2 text-pink-600'>

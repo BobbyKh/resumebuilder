@@ -1,7 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Loader from "../components/Loader";
 
 interface CoverTemplate {
   id: number;
@@ -16,16 +15,7 @@ const CoverTemplate = () => {
   const [templates, setTemplates] = useState<CoverTemplate[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  
-  useEffect(() => {
-    const fakeDataFetch = async () => {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 2000);
-    };
-    fakeDataFetch() ;
-  }, []);
+
   useEffect(() => {
     // Set the page title dynamically
     document.title = `${id} Templates - Resume Builder`;
@@ -63,7 +53,6 @@ const CoverTemplate = () => {
   return (
     
     <section className="bg-[#0b1320] rounded-lg shadow-lg p-6 md:p-10">
-      {isLoading && <Loader />}
       <header className="text-center mb-10">
         <h1 className="text-4xl font-extrabold text-[#d5420b]">Templates</h1>
         <p className="text-xl text-white mt-2">
@@ -103,7 +92,7 @@ const CoverTemplate = () => {
             </a>
             <h2 className="text-lg sm:text-xl lg:text-2xl text-center font-semibold text-[#d5420b]">{template.name}</h2>
             <Link
-              to={`/resume/editor/${template.id}`}
+              to={`/generateresume/${template.id}`}
               className="btn block w-full text-center bg-[#d5420b] text-white py-2 mt-4 rounded-lg hover:bg-[#d5420b] hover:text-white"
             >
               Use Template
