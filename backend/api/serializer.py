@@ -89,3 +89,7 @@ class DocumentFieldSerializer(serializers.ModelSerializer):
         model = models.DocumentField
         fields = '__all__'
 
+class ExperienceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Experience
+        fields = '__all__'

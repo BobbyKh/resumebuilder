@@ -168,3 +168,18 @@ class FooterSection(models.Model):
     
     def _str_ (self):
         return self.slug
+    
+class Experience(models.Model):
+    years_of_experience = models.PositiveIntegerField(
+        default=0,
+        help_text="Enter the number of years of experience"
+    )
+    is_student = models.BooleanField(
+        default=False,
+        help_text="Indicate whether the user is a student."
+    )
+    decription = models.TextField(null=True, blank=True)
+ 
+    def __str__(self):
+        experience_str = f"{self.years_of_experience} year(s) of experience"
+        return f"{experience_str} ({'Student' if self.is_student else 'Non-Student'})"

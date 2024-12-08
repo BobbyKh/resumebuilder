@@ -27,6 +27,7 @@ urlpatterns = [
     path('documentfield', views.DocumentFieldsView.as_view(), name='documentfield'),
     path('documentfield/<int:template_id>', views.fetch_document_data, name='fetch_document_data'),
     path('documentfield/<int:id>/update', views.update, name='update'),
+    path('experience', views.ExperienceView.as_view(), name='experience'),
     
 ]
 

@@ -32,7 +32,7 @@ const App = () => {
     const fakeDataFetch = async () => {
       setTimeout(() => {
         setIsLoading(false);
-      }, 4000); // Simulate a 4-second delay
+      }, 1000); // Simulate a 1-second delay
     };
     fakeDataFetch();
   }, []);
