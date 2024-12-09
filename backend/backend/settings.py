@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -41,6 +42,8 @@ INSTALLED_APPS = [
     'api',
     'django_browser_reload',
     'rest_framework',
+    'rest_framework_simplejwt',
+    'dj_rest_auth',
     'rest_framework.authtoken',
     'corsheaders',
     'allauth',
@@ -94,20 +97,32 @@ TEMPLATES = [
 AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',
+
 ]
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_STORE_TOKENS  = True
 
 
+REST_FRAMEWORK = {
+   
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+REST_USE_JWT = True
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+}
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'offline',
-        },
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS': {'access_type': 'online'},
     }
 }
+
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 
@@ -141,6 +156,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -171,19 +187,21 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "http://127.0.0.1:3000",
+    "http://127.0.0.1:8000",
 ]
+
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = ['authorization', 'content-type']
+CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'DELETE']
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_ADAPTER = 'allauth.socialaccount.adapter.DefaultSocialAccountAdapter'
 
 
 # SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '46592222542-2858uulreoun7iahvanpi96trh5mhrgo.apps.googleusercontent.com'
 # SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 
-LOGIN_REDIRECT_URL = 'http://localhost:5173/'
-LOGOUT_REDIRECT_URL = 'http://localhost:5173/login'
-SECURE_REFERRER_POLICY= "strict-origin-when-cross-origin"
+
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -193,3 +211,12 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'bgoogly0@gmail.com'
 EMAIL_HOST_PASSWORD = 'gasq mcmh irbp qtxk'
 
+SITE_ID = 1
+
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'optional'  # Can be 'mandatory' or 'none'
+LOGIN_REDIRECT_URL = 'http://localhost:5173/'
+LOGOUT_REDIRECT_URL = 'http://localhost:5173/login'
+SECURE_REFERRER_POLICY= "strict-origin-when-cross-origin"

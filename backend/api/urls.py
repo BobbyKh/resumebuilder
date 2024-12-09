@@ -7,7 +7,7 @@ from django.conf import settings
 urlpatterns = [
 
     path ('users', views.user_list, name='user_list'),
-    path('accounts/google/login/', views.CustomGoogleLoginView.as_view(), name='google_login'),
+    path('accounts/google/login/', views.GoogleLoginView.as_view(), name='google_login'),
     path ('appointments', views.AppointmentList.as_view(), name='appointment_list'),
     path ('appointment_types', views.AppointmentType.as_view(), name='appointment_type_list'),
     path ('pricing',views.PricingType.as_view(), name='pricing_list'),
@@ -28,6 +28,13 @@ urlpatterns = [
     path('documentfield/<int:template_id>', views.fetch_document_data, name='fetch_document_data'),
     path('documentfield/<int:id>/update', views.update, name='update'),
     path('experience', views.ExperienceView.as_view(), name='experience'),
+    
+
+    #AUTH_TOKEN
+
+    path('social-token', views.SocialTokenView.as_view(), name='get_social_token'),
+
+
     
 ]
 

@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 
 from django.conf import settings
 
+
 def redirect_to_google_login(request):
     return redirect('/accounts/google/login/?process=login')
 
@@ -31,7 +32,6 @@ urlpatterns = [
     path ("api/", include("api.urls")),
     path ("accounts/", include("allauth.urls")),
     path('accounts/login/', redirect_to_google_login, name='account_login'),
-
 
 ]
 

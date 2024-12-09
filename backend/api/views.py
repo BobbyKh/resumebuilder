@@ -1,20 +1,27 @@
-from xml.dom.minidom import Document
-from django.http import JsonResponse
+import logging
+logger = logging.getLogger(__name__)
+from rest_framework.authtoken.models import Token
+from allauth.socialaccount.models import SocialToken
 from django.shortcuts import redirect
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from api.models import AboutUs, Appointment, AppointmentType, DocumentCategory, DocumentField, Experience, FooterSection, HeroSection, Organization, Pricing, Template, Testimonial,FAQ
 from api.serializer import AboutUsSerializer, AppointmentSerializer, AppointmentTypeSerializer, DocumentCategorySerializer, DocumentFieldSerializer, ExperienceSerializer,  FAQSerializer, HeroSectionSerializer, OrganizationSerializer, PricingSerializer, TemplateSerializer, TestimonialSerializer, UserSerializer ,FooterSerializer
 from django.contrib.auth.models import User
-from allauth.socialaccount.providers.google.views import OAuth2LoginView
 from rest_framework.generics import ListCreateAPIView
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 from pypdf import PdfReader
+from rest_framework.renderers import JSONRenderer
 from django.core.mail import send_mail
 from django.conf import settings
+from rest_framework.response import Response
+from rest_framework import status
 import re
+from dj_rest_auth.registration.views import SocialLoginView
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from rest_framework import status
 from rest_framework.decorators import api_view
-
 from pypdf import PdfReader
 @api_view(['POST'])
 def logout_user(request):
@@ -63,24 +70,46 @@ class AppointmentList(ListCreateAPIView):
 class AppointmentType(ListCreateAPIView):
     queryset = AppointmentType.objects.all()
     serializer_class = AppointmentTypeSerializer
-    
+
+class GoogleLoginView(SocialLoginView):
+
+    adapter_class = GoogleOAuth2Adapter
+
+    def get_response(self):
+        response = super().get_response()
+        user = self.user  # Authenticated user
+
+        if user.is_authenticated:
+            # Retrieve the social token if it exists
+            try:
+                token = SocialToken.objects.get(account__user=user, account__provider='google')
+                response.data['token'] = token.token
+            except SocialToken.DoesNotExist:
+                # If token doesn't exist, create a new one
+                account = user.socialaccount_set.get(provider='google')
+                token = SocialToken.objects.create(account=account)
+                response.data['token'] = token.token
+
+        # Return the response with the token data included
+        return response
 
 
+class SocialTokenView(APIView):
+    permission_classes = [IsAuthenticated]
 
-
-
-
-    
-
-    
-class CustomGoogleLoginView(OAuth2LoginView):
-    def dispatch(self, request, *args, **kwargs):
-        # Add any custom logic here if needed
+    def get(self, request):
         if request.user.is_authenticated:
-            return redirect('/')
+            try:
+                social_tokens = SocialToken.objects.filter(account__user=request.user)
+                tokens_data = {
+                    token.account.provider: token.token for token in social_tokens
+                }
+                return Response({'token': tokens_data}, status=status.HTTP_200_OK)
+            except SocialToken.DoesNotExist:
+                return Response({'error': 'Social tokens not found'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
     
-        return super().dispatch(request, *args, **kwargs)
-
     
 class PricingType(ListCreateAPIView):
     queryset = Pricing.objects.all()
