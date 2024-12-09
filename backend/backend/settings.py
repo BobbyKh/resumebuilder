@@ -65,6 +65,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_browser_reload.middleware.BrowserReloadMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django_admin_kubi.middleware.SetupMiddleware',  # remove this after initial setup.
 ]
@@ -180,7 +181,7 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 # SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '46592222542-2858uulreoun7iahvanpi96trh5mhrgo.apps.googleusercontent.com'
 # SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 
-LOGIN_REDIRECT_URL = 'http://localhost:5173/resumebuild'
+LOGIN_REDIRECT_URL = 'http://localhost:5173/'
 LOGOUT_REDIRECT_URL = 'http://localhost:5173/login'
 SECURE_REFERRER_POLICY= "strict-origin-when-cross-origin"
 
