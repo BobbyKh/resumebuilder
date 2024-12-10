@@ -262,6 +262,7 @@ def fetch_category_templates(request, category_id: int):
 class DocumentFieldsView(ListCreateAPIView):
     queryset = DocumentField.objects.all()
     serializer_class = DocumentFieldSerializer
+    
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())

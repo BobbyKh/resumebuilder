@@ -76,15 +76,7 @@ class TemplateSerializer(serializers.ModelSerializer):
 
 class DocumentFieldSerializer(serializers.ModelSerializer):
     
-    image = serializers.SerializerMethodField()
-    def get_image(self, obj):
-        try:
-            if obj.image:
-                return obj.image.url
-        except Exception as e:
-            return None
-        return None
-
+    image = serializers.ImageField(use_url=True, allow_empty_file=True, allow_null=True)    
     class Meta:
         model = models.DocumentField
         fields = '__all__'

@@ -17,7 +17,6 @@ AOS.init();
 
 
 interface Resume {
-  image : string;
   name: string;
   email: string;
   phone: string;
@@ -52,7 +51,7 @@ const BuildForm = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    image: "",
+    image : null,
     name: "",
     email: "",
     phone: "",
