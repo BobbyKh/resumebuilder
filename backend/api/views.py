@@ -116,12 +116,6 @@ class PricingType(ListCreateAPIView):
     serializer_class = PricingSerializer
     
 
-
-
-
-
-
-
 @api_view(['POST'])
 def convert_pdf_to_text(request):
     """
