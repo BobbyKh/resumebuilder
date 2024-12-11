@@ -12,8 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class GoogleAuthSerializer(serializers.Serializer):
-    social_token = serializers.CharField()
-    
+    access_token = serializers.CharField() 
 
 class AppointmentTypeSerializer(serializers.ModelSerializer):
     class Meta:

@@ -1,18 +1,18 @@
 import logging
+from django.contrib.auth.models import AnonymousUser
+from django.dispatch import receiver
 logger = logging.getLogger(__name__)
-from rest_framework.authtoken.models import Token
 from allauth.socialaccount.models import SocialToken
 from django.shortcuts import redirect
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view , permission_classes
 from api.models import AboutUs, Appointment, AppointmentType, DocumentCategory, DocumentField, Experience, FooterSection, HeroSection, Organization, Pricing, Template, Testimonial,FAQ
 from api.serializer import AboutUsSerializer, AppointmentSerializer, AppointmentTypeSerializer, DocumentCategorySerializer, DocumentFieldSerializer, ExperienceSerializer,  FAQSerializer, HeroSectionSerializer, OrganizationSerializer, PricingSerializer, TemplateSerializer, TestimonialSerializer, UserSerializer ,FooterSerializer
 from django.contrib.auth.models import User
 from rest_framework.generics import ListCreateAPIView
-from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from allauth.socialaccount.models import SocialAccount
 from pypdf import PdfReader
-from rest_framework.renderers import JSONRenderer
 from django.core.mail import send_mail
 from django.conf import settings
 from rest_framework.response import Response
@@ -34,6 +34,24 @@ def logout_user(request):
         
     return redirect('/login')
 
+
+
+@api_view(['GET'])
+def get_social_accounts(request):
+    if request.user.is_anonymous:
+        return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+    social_accounts = SocialAccount.objects.filter(user=request.user)
+    data = [
+        {
+            "platform": account.provider,
+            "username": account.extra_data.get("name", ""),
+            "email": account.extra_data.get("email", ""),
+            "avatar": account.extra_data.get("picture", ""),
+            "token": SocialToken.objects.filter(account=account).first().token if SocialToken.objects.filter(account=account).exists() else None
+        }
+        for account in social_accounts
+    ]
+    return Response(data)
 
 
 
@@ -94,22 +112,7 @@ class GoogleLoginView(SocialLoginView):
         return response
 
 
-class SocialTokenView(APIView):
-    permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        if request.user.is_authenticated:
-            try:
-                social_tokens = SocialToken.objects.filter(account__user=request.user)
-                tokens_data = {
-                    token.account.provider: token.token for token in social_tokens
-                }
-                return Response({'token': tokens_data}, status=status.HTTP_200_OK)
-            except SocialToken.DoesNotExist:
-                return Response({'error': 'Social tokens not found'}, status=status.HTTP_404_NOT_FOUND)
-        else:
-            return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
-    
     
 class PricingType(ListCreateAPIView):
     queryset = Pricing.objects.all()

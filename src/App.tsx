@@ -57,7 +57,7 @@ const App = () => {
             />
             <Route path="/app" element={<BaseApp />} />
             <Route path="/documentcategory" element={<DocumentCategory />} />
-            <Route path="/pricing/suscribe/:id" element={<Checkout />} />
+            <Route path="/pricing/subscribe/:id" element={<Checkout />} />
             <Route path="/resume/editor/:templateId" element={<BuildForm />} />
             <Route path="/cv" element={<CVtemplate />} />
             <Route path="/category/:id" element={<CoverTemplate />} />

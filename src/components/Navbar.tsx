@@ -1,12 +1,18 @@
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes, faDollarSign, faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { Dropdown } from "flowbite-react";
 
+interface SocialAccount {
+  platform: string;
+  username: string;
+  email: string;
+  avatar: string;
+}
 interface Organization {
   name: string;
   logo: string;
@@ -25,16 +31,11 @@ interface DocumentCategory {
 }
 
 const Navbar = (): JSX.Element => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user] = useState<User | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [documentCategories, setDocumentCategories] = useState<DocumentCategory[]>([]);
   const [organizations, setOrganizations] = useState<Organization[]>([]);
-  const [socialToken, setSocialToken] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  const navigate = useNavigate();
-  const loggedInUserId = localStorage.getItem("loggedInUserId");
-  const authToken = localStorage.getItem("authToken");
+  const [socialAccounts, setSocialAccounts] = useState<SocialAccount[]>([]);
 
   useEffect(() => {
     AOS.init();
@@ -53,53 +54,17 @@ const Navbar = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    const fetchSocialToken = async () => {
-    
-
+    const fetchSocialAccounts = async () => {
       try {
-        const response = await axios.get<{ token: string }>("http://127.0.0.1:8000/api/social-token", {
-          headers: { Authorization: `Bearer ${authToken}` },
-          withCredentials: true,  // Ensure cookies or credentials are sent
-        });
-        setSocialToken(response.data.token);
-        console.log(response.data.token);
-      } catch (error) {
-        console.error("Error fetching social token:", error);
+        const response = await axios.get<SocialAccount[]>("http://127.0.0.1:8000/api/social-accounts");
+        setSocialAccounts(response.data);
+      }
+      catch (error) {
+        console.error("Error fetching social accounts:", error);
       }
     };
-
-
-    fetchSocialToken();
-  }, [authToken]);
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      if (!authToken) {
-        console.error("No auth token found.");
-        return;
-      }
-
-      try {
-        const response = await axios.get<User[]>('http://127.0.0.1:8000/api/users', {
-          headers: { "Authorization": `Bearer ${authToken}` },
-        });
-        const currentUser = response.data.find((u) => u.id === Number(loggedInUserId));
-        setUser(currentUser || null);
-      } catch (error: any) {
-        if (error.response?.status === 403) {
-          console.error("Access forbidden. Logging out user.");
-          localStorage.removeItem("authToken");
-          navigate("/login");
-        } else {
-          console.error("Error fetching social token:", error);
-          console.error("Error fetching user data:", error);
-          setError("Failed to load user data.");
-        }
-      }
-    };
-
-    fetchUsers();
-  }, [authToken, loggedInUserId, navigate]);
+    fetchSocialAccounts();
+  }, []);
 
   useEffect(() => {
     const fetchDocumentCategories = async () => {
@@ -115,21 +80,6 @@ const Navbar = (): JSX.Element => {
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
-  };
-
-  const handleLogout = async () => {
-    setUser(null);
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("loggedInUserId");
-
-    try {
-      await axios.post("http://127.0.0.1:8000/api/logout");
-      console.log("Logged out successfully");
-    } catch (error) {
-      console.error("Error logging out:", error);
-    }
-
-    navigate("/login");
   };
 
   return (
@@ -179,25 +129,23 @@ const Navbar = (): JSX.Element => {
           </li>
         </ul>
         <ul className="flex flex-col md:flex-row md:space-x-6 text-white md:items-center mt-4 md:mt-0">
-          {user ? (
-            <>
-              <li>
-                <span className="text-white font-semibold">Hello, {user.username}</span>
-              </li>
-              <li>
-                <button
-                  onClick={handleLogout}
-                  className="hover:shadow-md hover:animate-pulse hover:text-[#d5420b] flex items-center transition duration-300 ease-in-out"
+            
+            {socialAccounts.map((account) => (
+              <li key={account.username}>
+                <a
+                  href={account.platform === "Email" ? `mailto:${account.email}` : account.username}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#d5420b] flex items-center"
                 >
-                  Logout
-                </button>
+                  <img src={account.avatar} className="mr-2" />
+                  {account.username}
+                </a>
               </li>
-            </>
-          ) : (
-            <li>
-              <span className="text-white font-semibold">Please log in</span>
-            </li>
-          )}
+            ))}
+            
+            
+    
         </ul>
       </nav>
     </header>

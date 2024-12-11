@@ -31,8 +31,8 @@ urlpatterns = [
     
 
     #AUTH_TOKEN
+    path("social-accounts", views.get_social_accounts, name="social-accounts"),
 
-    path('social-token', views.SocialTokenView.as_view(), name='get_social_token'),
 
 
     

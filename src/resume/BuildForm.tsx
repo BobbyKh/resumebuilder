@@ -17,6 +17,7 @@ AOS.init();
 
 
 interface Resume {
+  imae: '';
   name: string;
   email: string;
   phone: string;

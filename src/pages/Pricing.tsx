@@ -85,7 +85,7 @@ const Pricing = () => {
                     </li>
                   )) : null}
                 </ul>
-                <Link to="/pricing/subscription/1">
+                <Link to={`/pricing/subscribe/${plan.id}`}>
                 <button
                   type="button"
                   className="w-full text-center text-lg text-white mt-8 p-3 rounded-lg border-2 border-[#d5420b] shadow-[0_0_10px_#d5420b] transition hover:text-[#d5420b] hover:shadow-[0_0_15px_#d5420b]"
