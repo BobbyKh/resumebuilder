@@ -183,3 +183,16 @@ class Experience(models.Model):
     def __str__(self):
         experience_str = f"{self.years_of_experience} year(s) of experience"
         return f"{experience_str} ({'Student' if self.is_student else 'Non-Student'})"
+
+
+
+class PaymentSystem(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    qr_code = models.ImageField(upload_to='payment_systems/')
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.BooleanField(default=True)
+
+
+    def __str__(self):
+        return self.name
