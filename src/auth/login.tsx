@@ -10,25 +10,50 @@ const Login = () => {
     AOS.init();
   }, []);
 
-  const handleFacebookLogin = () => {
-    // Redirect to Facebook's login page via Django's auth route
-    window.location.href = "http://127.0.0.1:8000/accounts/facebook/login/";
+  const handleSocialLogin = async (provider: 'google' | 'facebook' | 'linkedin' | 'github') => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/social-login/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          provider: provider, // 'google', 'facebook', etc.
+          token: "social_token_here", // yo kaha bata aauxa thabhayena
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to login. Please try again.");
+      }
+  
+      const data = await response.json();
+      // Store the token in localStorage or cookies
+      localStorage.setItem("authToken", data.token);
+  
+      alert("Login successful!");
+    } catch (error) {
+      console.error("Error during login:", error);
+      alert("An error occurred during login. Please try again.");
+    }
   };
+  
   const handleGoogleLogin = () => {
-    // Redirect to Google's login page via Django's auth route
-    window.location.href = "http://127.0.0.1:8000/accounts/google/login/";
+    handleSocialLogin("google"); // Pass only the provider
   };
-
+  
+  const handleFacebookLogin = () => {
+    handleSocialLogin("facebook");
+  };
+  
   const handleLinkedInLogin = () => {
-    // Redirect to LinkedIn's login page via Django's auth route
-    window.location.href = "http://127.0.0.1:8000/accounts/linkedin/login/";
+    handleSocialLogin("linkedin");
   };
-
+  
   const handleGithubLogin = () => {
-    // Redirect to GitHub's login page via Django's auth route
-    window.location.href = "http://127.0.0.1:8000/accounts/github/login/";
+    handleSocialLogin("github");
   };
-
+  
   const darkMode = {
     backgroundColor: "#1A202C",
     color: "#fff",
@@ -91,5 +116,3 @@ const Login = () => {
 };
 
 export default Login;
-
-

@@ -28,6 +28,8 @@ urlpatterns = [
     path('documentfield/<int:template_id>', views.fetch_document_data, name='fetch_document_data'),
     path('documentfield/<int:id>/update', views.update, name='update'),
     path('experience', views.ExperienceView.as_view(), name='experience'),
+    path('social-login/', views.SocialTokenLogin.as_view(), name='social-login'),
+    path('get-auth-token/', views.get_auth_token, name='get-auth-token'),
     
 ]
 
