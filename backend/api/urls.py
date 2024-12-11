@@ -28,6 +28,8 @@ urlpatterns = [
     path('documentfield/<int:template_id>', views.fetch_document_data, name='fetch_document_data'),
     path('documentfield/<int:id>/update', views.update, name='update'),
     path('experience', views.ExperienceView.as_view(), name='experience'),
+    path ('pricing/<int:id>', views.PricingDetail.as_view(), name='suscription'),
+    path ('paymentsystem', views.PaymentSystemView.as_view(), name='paymentsystem'),
     
 
     #AUTH_TOKEN

@@ -25,6 +25,8 @@ class AppointmentSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 class PricingSerializer (serializers.ModelSerializer):
+
+    features = serializers.JSONField()
     class Meta:
         model = models.Pricing
         fields = '__all__'
@@ -83,4 +85,9 @@ class DocumentFieldSerializer(serializers.ModelSerializer):
 class ExperienceSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Experience
+        fields = '__all__'
+
+class PaymentSystemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.PaymentSystem
         fields = '__all__'

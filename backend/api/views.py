@@ -1,24 +1,24 @@
 import logging
-from django.contrib.auth.models import AnonymousUser
-from django.dispatch import receiver
 logger = logging.getLogger(__name__)
 from allauth.socialaccount.models import SocialToken
 from django.shortcuts import redirect
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.decorators import api_view , permission_classes
+from rest_framework.decorators import api_view
+from api.models import Experience, PaymentSystem
+from dj_rest_auth.registration.views import SocialLoginView
+from api.serializer import ExperienceSerializer, PaymentSystemSerializer
 from api.models import AboutUs, Appointment, AppointmentType, DocumentCategory, DocumentField, Experience, FooterSection, HeroSection, Organization, Pricing, Template, Testimonial,FAQ
 from api.serializer import AboutUsSerializer, AppointmentSerializer, AppointmentTypeSerializer, DocumentCategorySerializer, DocumentFieldSerializer, ExperienceSerializer,  FAQSerializer, HeroSectionSerializer, OrganizationSerializer, PricingSerializer, TemplateSerializer, TestimonialSerializer, UserSerializer ,FooterSerializer
 from django.contrib.auth.models import User
 from rest_framework.generics import ListCreateAPIView
 from allauth.socialaccount.models import SocialAccount
 from pypdf import PdfReader
+from rest_framework.views import APIView
 from django.core.mail import send_mail
 from django.conf import settings
 from rest_framework.response import Response
 from rest_framework import status
 import re
-from dj_rest_auth.registration.views import SocialLoginView
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -305,3 +305,21 @@ def update(request, id):
 class ExperienceView(ListCreateAPIView):
     queryset = Experience.objects.all()
     serializer_class = ExperienceSerializer
+
+
+class PricingDetail(APIView):
+    def get(self, request, id: int):
+        try:
+            queryset = Pricing.objects.get(id=id)
+            serializer = PricingSerializer(queryset)
+            return Response(serializer.data)
+        except Pricing.DoesNotExist:
+            return Response({"error": "Object not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+    
+class PaymentSystemView(ListCreateAPIView):
+    queryset = PaymentSystem.objects.all()
+    serializer_class = PaymentSystemSerializer
+
+    
+    
