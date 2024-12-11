@@ -87,11 +87,17 @@ const Pricing = () => {
                 </ul>
                 <Link to={`/pricing/subscribe/${plan.id}`}>
                 <button
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth'  })}
                   type="button"
                   className="w-full text-center text-lg text-white mt-8 p-3 rounded-lg border-2 border-[#d5420b] shadow-[0_0_10px_#d5420b] transition hover:text-[#d5420b] hover:shadow-[0_0_15px_#d5420b]"
                   data-aos="flip-up"
                 >
-                  <span className="font-semibold animate-border animate-font">Suscribe</span>
+                  
+                  {plan.name === 'Student' ? (
+                    <span className="font-semibold animate-border animate-font">Free</span>
+                  ) : (
+                    <span className="font-semibold animate-border animate-font">Suscribe</span>
+                  )}
                 </button>
                 </Link>
               </div>
