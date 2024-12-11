@@ -29,16 +29,18 @@ const Navbar = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [documentCategories, setDocumentCategories] = useState<DocumentCategory[]>([]);
   const [organizations, setOrganizations] = useState<Organization[]>([]);
+  const [socialToken, setSocialToken] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
+  const navigate = useNavigate();
   const loggedInUserId = localStorage.getItem("loggedInUserId");
-   // Provide a default or fetched loggedInUserId value
+  const authToken = localStorage.getItem("authToken");
 
   useEffect(() => {
     AOS.init();
   }, []);
 
-
-  useEffect (() => {
+  useEffect(() => {
     const fetchOrganizations = async () => {
       try {
         const response = await axios.get<Organization[]>("http://127.0.0.1:8000/api/organization");
@@ -48,21 +50,56 @@ const Navbar = (): JSX.Element => {
       }
     };
     fetchOrganizations();
-  })
+  }, []);
 
+  useEffect(() => {
+    const fetchSocialToken = async () => {
+    
+
+      try {
+        const response = await axios.get<{ token: string }>("http://127.0.0.1:8000/api/social-token", {
+          headers: { Authorization: `Bearer ${authToken}` },
+          withCredentials: true,  // Ensure cookies or credentials are sent
+        });
+        setSocialToken(response.data.token);
+        console.log(response.data.token);
+      } catch (error) {
+        console.error("Error fetching social token:", error);
+      }
+    };
+
+
+    fetchSocialToken();
+  }, [authToken]);
 
   useEffect(() => {
     const fetchUsers = async () => {
+      if (!authToken) {
+        console.error("No auth token found.");
+        return;
+      }
+
       try {
-        const response = await axios.get<User[]>("http://127.0.0.1:8000/api/users");
+        const response = await axios.get<User[]>('http://127.0.0.1:8000/api/users', {
+          headers: { "Authorization": `Bearer ${authToken}` },
+        });
         const currentUser = response.data.find((u) => u.id === Number(loggedInUserId));
         setUser(currentUser || null);
-      } catch (error) {
-        console.error("Error fetching users:", error);
+      } catch (error: any) {
+        if (error.response?.status === 403) {
+          console.error("Access forbidden. Logging out user.");
+          localStorage.removeItem("authToken");
+          navigate("/login");
+        } else {
+          console.error("Error fetching social token:", error);
+          console.error("Error fetching user data:", error);
+          setError("Failed to load user data.");
+        }
       }
     };
+
     fetchUsers();
-  }, [loggedInUserId]);
+  }, [authToken, loggedInUserId, navigate]);
 
   useEffect(() => {
     const fetchDocumentCategories = async () => {
@@ -80,19 +117,17 @@ const Navbar = (): JSX.Element => {
     setIsOpen(!isOpen);
   };
 
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
+  const handleLogout = async () => {
     setUser(null);
     localStorage.removeItem("authToken");
+    localStorage.removeItem("loggedInUserId");
 
-    axios.post("http://127.0.0.1:8000/api/logout")
-      .then(() => {
-        console.log("Logged out successfully");
-      })
-      .catch((error) => {
-        console.error("Error logging out:", error);
-      });
+    try {
+      await axios.post("http://127.0.0.1:8000/api/logout");
+      console.log("Logged out successfully");
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
 
     navigate("/login");
   };
@@ -100,17 +135,15 @@ const Navbar = (): JSX.Element => {
   return (
     <header className="bg-black flex flex-col md:flex-row justify-between items-center py-6 px-10 shadow-sm">
       <div className="flex items-center justify-between w-full md:w-auto">
-      {organizations.map((organization) => (
-          <Link to="/">
-          <h1 className="text-2xl font-bold text-[#d5420b] flex items-center">
-            <img src={organization.logo} alt={organization.name} className="w-10 h-10 mr-2" />
-            <span className="text-[#d5420b]">Resu</span>
-            <span className="text-white">Master</span>
-          </h1>
-        </Link>
-      ))}
-
-     
+        {organizations.map((organization) => (
+          <Link to="/" key={organization.name}>
+            <h1 className="text-2xl font-bold text-[#d5420b] flex items-center">
+              <img src={organization.logo} alt={organization.name} className="w-10 h-10 mr-2" />
+              <span className="text-[#d5420b]">Resu</span>
+              <span className="text-white">Maven</span>
+            </h1>
+          </Link>
+        ))}
         <button
           onClick={toggleMenu}
           className="text-white md:hidden flex items-center justify-center w-10 h-10"
@@ -147,36 +180,22 @@ const Navbar = (): JSX.Element => {
         </ul>
         <ul className="flex flex-col md:flex-row md:space-x-6 text-white md:items-center mt-4 md:mt-0">
           {user ? (
-            <li>
-              <span className="text-white font-semibold">Hello, {user.username}</span>
-            </li>
+            <>
+              <li>
+                <span className="text-white font-semibold">Hello, {user.username}</span>
+              </li>
+              <li>
+                <button
+                  onClick={handleLogout}
+                  className="hover:shadow-md hover:animate-pulse hover:text-[#d5420b] flex items-center transition duration-300 ease-in-out"
+                >
+                  Logout
+                </button>
+              </li>
+            </>
           ) : (
             <li>
-              <Link
-                to="/login"
-                className="hover:shadow-md hover:animate-pulse hover:text-[#d5420b] flex items-center transition duration-300 ease-in-out"
-              >
-                Login
-              </Link>
-            </li>
-          )}
-          {user ? (
-            <li>
-              <button
-                onClick={handleLogout}
-                className="hover:shadow-md hover:animate-pulse hover:text-[#d5420b] flex items-center transition duration-300 ease-in-out"
-              >
-                Logout
-              </button>
-            </li>
-          ) : (
-            <li>
-              <Link
-                to="/signup"
-                className="hover:shadow-md hover:animate-pulse hover:text-[#d5420b] flex items-center transition duration-300 ease-in-out"
-              >
-                Signup
-              </Link>
+              <span className="text-white font-semibold">Please log in</span>
             </li>
           )}
         </ul>
