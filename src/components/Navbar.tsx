@@ -31,7 +31,7 @@ interface DocumentCategory {
 }
 
 const Navbar = (): JSX.Element => {
-  const [user] = useState<User | null>(null);
+  const [] = useState<User | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [documentCategories, setDocumentCategories] = useState<DocumentCategory[]>([]);
   const [organizations, setOrganizations] = useState<Organization[]>([]);
