@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-uu4^)vqameolr738s=(i8wr6pfved2=u+mt*55jbynp-xjpz(6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['resumebuilder-1-6ea6.onrender.com','resumebuilder-green.vercel.app']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -189,8 +189,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:8000",
-    'resumebuilder-green.vercel.app',
-    'resumebuilder-1-6ea6.onrender.com',
 ]
 
 CORS_ALLOW_CREDENTIALS = True

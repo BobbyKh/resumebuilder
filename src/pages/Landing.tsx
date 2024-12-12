@@ -26,9 +26,9 @@ const Landing = () => {
     description: '',
     button_text : '',
   });
-const API_URL = 'https://resumebuilder-1-6ea6.onrender.com';
+
   useEffect(() => {
-    axios.get(`${API_URL}/api/hero`)
+    axios.get('http://127.0.0.1:8000/api/hero')
       .then(response => {
         const heroData = response.data[0]; // Extract the first item
         setHeroSection({
