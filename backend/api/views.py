@@ -1,145 +1,24 @@
 import logging
+
 logger = logging.getLogger(__name__)
 from allauth.socialaccount.models import SocialToken
-from django.shortcuts import redirect
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
 from api.models import Experience, PaymentSystem
-from dj_rest_auth.registration.views import SocialLoginView
+# from dj_rest_auth.registration.views import SocialLoginView
 from api.serializer import ExperienceSerializer, PaymentSystemSerializer
 from api.models import AboutUs, Appointment, AppointmentType, DocumentCategory, DocumentField, Experience, FooterSection, HeroSection, Organization, Pricing, Template, Testimonial,FAQ
 from api.serializer import AboutUsSerializer, AppointmentSerializer, AppointmentTypeSerializer, DocumentCategorySerializer, DocumentFieldSerializer, ExperienceSerializer,  FAQSerializer, HeroSectionSerializer, OrganizationSerializer, PricingSerializer, TemplateSerializer, TestimonialSerializer, UserSerializer ,FooterSerializer
 from django.contrib.auth.models import User
 from rest_framework.generics import ListCreateAPIView
-from allauth.socialaccount.models import SocialAccount
 from pypdf import PdfReader
 from rest_framework.views import APIView
 from django.core.mail import send_mail
 from django.conf import settings
-from rest_framework.response import Response
 from rest_framework import status
 import re
-from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
-from rest_framework import status
 from rest_framework.decorators import api_view
 from pypdf import PdfReader
-from rest_framework.authtoken.models import Token
-from django.http import JsonResponse
-from django.shortcuts import redirect
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from rest_framework.authtoken.models import Token
-from rest_framework import status
-from allauth.socialaccount.models import SocialAccount
-from allauth.socialaccount.providers.google.views import OAuth2LoginView
-from django.contrib.auth.models import User
-from rest_framework.views import APIView
-from allauth.socialaccount.providers.oauth2.client import OAuth2Error
 
-class SocialTokenLogin(APIView):
-    """
-    Verify social token and authenticate user.
-    """
-
-    def post(self, request, *args, **kwargs):
-        social_token = request.data.get('token')
-        provider = request.data.get('provider')  # e.g., 'google'
-
-        if not social_token or not provider:
-            return Response({"error": "Token and provider are required."}, status=status.HTTP_400_BAD_REQUEST)
-
-        try:
-            # Verify token using provider's verification logic (e.g., Google, Facebook)
-            user_info = self.verify_social_token(provider, social_token)
-            email = user_info.get("email")
-
-            # Check if a user exists with this email
-            user, created = User.objects.get_or_create(username=email, email=email)
-
-            if created:
-                user.first_name = user_info.get("first_name", "")
-                user.last_name = user_info.get("last_name", "")
-                user.save()
-
-            # Generate or retrieve the user's auth token
-            token, _ = Token.objects.get_or_create(user=user)
-
-            return Response({"token": token.key, "user_id": user.id, "email": user.email}, status=status.HTTP_200_OK)
-
-        except OAuth2Error as e:
-            return Response({"error": f"Social token verification failed: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-    def verify_social_token(self, provider, token):
-        """
-        Verify the provided token using the corresponding provider's API.
-        For Google, you can use the `google.auth` library.
-        """
-        if provider == 'google':
-            from google.oauth2 import id_token
-            from google.auth.transport import requests
-
-            try:
-                idinfo = id_token.verify_oauth2_token(token, requests.Request())
-                if idinfo['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
-                    raise ValueError('Wrong issuer.')
-                return idinfo
-            except ValueError as e:
-                raise OAuth2Error(f"Invalid Google token: {str(e)}")
-
-        # Add logic for other providers (Facebook, etc.)
-        raise OAuth2Error(f"Unsupported provider: {provider}")
-
-
-@api_view(['POST'])
-def logout_user(request):
-    """
-    Logout the user by deleting their auth token.
-    """
-    if request.user.is_authenticated:
-        request.user.auth_token.delete()
-        return Response({"message": "Logged out successfully."}, status=status.HTTP_200_OK)
-    return Response({"error": "User not authenticated."}, status=status.HTTP_401_UNAUTHORIZED)
-
-
-@api_view(['POST'])
-def get_auth_token(request):
-    """
-    Endpoint to generate or retrieve an auth token for a user.
-    """
-    if request.user.is_authenticated:
-        token, created = Token.objects.get_or_create(user=request.user)
-        return Response({"token": token.key}, status=status.HTTP_200_OK)
-    return Response({"error": "Authentication required"}, status=status.HTTP_401_UNAUTHORIZED)
-
-
-class SecureView(APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        return Response({"message": "This is a secure view."})
-
-
-
-
-@api_view(['GET'])
-def get_social_accounts(request):
-    if request.user.is_anonymous:
-        return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
-    social_accounts = SocialAccount.objects.filter(user=request.user)
-    data = [
-        {
-            "platform": account.provider,
-            "username": account.extra_data.get("name", ""),
-            "email": account.extra_data.get("email", ""),
-            "avatar": account.extra_data.get("picture", ""),
-            "token": SocialToken.objects.filter(account=account).first().token if SocialToken.objects.filter(account=account).exists() else None
-        }
-        for account in social_accounts
-    ]
-    return Response(data)
 
 
 
@@ -177,9 +56,6 @@ class AppointmentType(ListCreateAPIView):
     queryset = AppointmentType.objects.all()
     serializer_class = AppointmentTypeSerializer
 
-class GoogleLoginView(SocialLoginView):
-
-    adapter_class = GoogleOAuth2Adapter
 
     def get_response(self):
         response = super().get_response()
@@ -198,6 +74,7 @@ class GoogleLoginView(SocialLoginView):
 
         # Return the response with the token data included
         return response
+
 
 
 
@@ -408,6 +285,7 @@ class PricingDetail(APIView):
 class PaymentSystemView(ListCreateAPIView):
     queryset = PaymentSystem.objects.all()
     serializer_class = PaymentSystemSerializer
+
 
     
     

@@ -2,7 +2,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { faGoogle, faLinkedin, faGithub, faFacebook } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
@@ -10,53 +10,64 @@ const Login = () => {
     AOS.init();
   }, []);
 
-  const handleSocialLogin = async (provider: 'google' | 'facebook' | 'linkedin' | 'github') => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleFacebookLogin = () => {
+    // Redirect to Facebook's login page via Django's auth route
+    window.location.href = "http://127.0.0.1:8000/accounts/facebook/login/";
+  };
+  const handleGoogleLogin = () => {
+    // Redirect to Google's login page via Django's auth route
+    window.location.href = "http://127.0.0.1:8000/accounts/google/login/"
+  };
+
+  const handleLinkedInLogin = () => {
+    // Redirect to LinkedIn's login page via Django's auth route
+    window.location.href = "http://127.0.0.1:8000/accounts/linkedin/login/";
+  };
+
+  const handleGithubLogin = () => {
+    // Redirect to GitHub's login page via Django's auth route
+    window.location.href = "http://127.0.0.1:8000/accounts/github/login/";
+  };
+
+  const darkMode = {
+    backgroundColor: "#1A202C",
+    color: "#fff",
+  };
+
+  const handleSubmit = async (e : React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/social-login/`, {
+      const response = await fetch("http://127.0.0.1:8000/api/token/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          provider: provider, // 'google', 'facebook', etc.
-          token: "social_token_here", // yo kaha bata aauxa thabhayena
+          username,
+          password,
         }),
       });
-  
-      if (!response.ok) {
-        throw new Error("Failed to login. Please try again.");
-      }
-  
+      
       const data = await response.json();
-      // Store the token in localStorage or cookies
-      localStorage.setItem("authToken", data.token);
-  
-      alert("Login successful!");
+      if (response.status !== 200) {
+        setError(data.detail);
+      } else {
+        localStorage.setItem("token", data.access);
+        console.log(data);
+        window.location.href = "/";
+      }
     } catch (error) {
-      console.error("Error during login:", error);
-      alert("An error occurred during login. Please try again.");
+      setError("Something went wrong");
+    } finally {
+      setLoading(false);
     }
-  };
-  
-  const handleGoogleLogin = () => {
-    handleSocialLogin("google"); // Pass only the provider
-  };
-  
-  const handleFacebookLogin = () => {
-    handleSocialLogin("facebook");
-  };
-  
-  const handleLinkedInLogin = () => {
-    handleSocialLogin("linkedin");
-  };
-  
-  const handleGithubLogin = () => {
-    handleSocialLogin("github");
-  };
-  
-  const darkMode = {
-    backgroundColor: "#1A202C",
-    color: "#fff",
   };
 
   return (
@@ -73,6 +84,42 @@ const Login = () => {
           <FontAwesomeIcon icon={faSignInAlt} className="mr-2" />
           Login Options
         </h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+              Username
+            </label>
+            <input
+              type="text"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="username"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+              Password
+            </label>
+            <input
+              type="password"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-full my-2 transition duration-500 transform hover:scale-105"
+            disabled={loading}
+          >
+            {loading ? "Loading..." : "Login"}
+          </button>
+        </form>
         <button
           onClick={handleGoogleLogin}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full my-2 w-full transition duration-500 transform hover:scale-105"
@@ -116,3 +163,4 @@ const Login = () => {
 };
 
 export default Login;
+

@@ -6,8 +6,6 @@ from django.conf import settings
 
 urlpatterns = [
 
-    path ('users', views.user_list, name='user_list'),
-    path('accounts/google/login/', views.GoogleLoginView.as_view(), name='google_login'),
     path ('appointments', views.AppointmentList.as_view(), name='appointment_list'),
     path ('appointment_types', views.AppointmentType.as_view(), name='appointment_type_list'),
     path ('pricing',views.PricingType.as_view(), name='pricing_list'),
@@ -19,7 +17,6 @@ urlpatterns = [
     path('hero', views.HeroSectionView.as_view(), name='hero'),
     path('organization', views.OrganizationView.as_view(), name='organization'),
     path ('footer', views.FooterSectionView.as_view(), name='footer'),
-    path ('logout', views.logout_user, name='logout'),
     path('template', views.TemplateView.as_view(), name='template'),
     path('template/<int:id>', views.fetch_template, name='template'),
     path('documentcategory', views.DocumentCategoryView.as_view(), name='documentcategory'),
@@ -33,7 +30,7 @@ urlpatterns = [
     
 
     #AUTH_TOKEN
-    path("social-accounts", views.get_social_accounts, name="social-accounts"),
+    # path("social-accounts", views.get_social_accounts, name="social-accounts"),
 
 
 
