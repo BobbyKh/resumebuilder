@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-uu4^)vqameolr738s=(i8wr6pfved2=u+mt*55jbynp-xjpz(6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['resumebuilder-1-6ea6.onrender.com']
 
 
 # Application definition
