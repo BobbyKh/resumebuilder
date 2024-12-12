@@ -7,12 +7,12 @@ import { faBars, faTimes, faDollarSign, faQuestionCircle } from "@fortawesome/fr
 import axios from "axios";
 import { Dropdown } from "flowbite-react";
 
-interface SocialAccount {
-  platform: string;
-  username: string;
-  email: string;
-  avatar: string;
-}
+// interface SocialAccount {
+//   platform: string;
+//   username: string;
+//   email: string;
+//   avatar: string;
+// }
 interface Organization {
   name: string;
   logo: string;
@@ -35,7 +35,6 @@ const Navbar = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [documentCategories, setDocumentCategories] = useState<DocumentCategory[]>([]);
   const [organizations, setOrganizations] = useState<Organization[]>([]);
-  const [socialAccounts, setSocialAccounts] = useState<SocialAccount[]>([]);
 
   useEffect(() => {
     AOS.init();
@@ -53,18 +52,7 @@ const Navbar = (): JSX.Element => {
     fetchOrganizations();
   }, []);
 
-  useEffect(() => {
-    const fetchSocialAccounts = async () => {
-      try {
-        const response = await axios.get<SocialAccount[]>("http://127.0.0.1:8000/api/social-accounts");
-        setSocialAccounts(response.data);
-      }
-      catch (error) {
-        console.error("Error fetching social accounts:", error);
-      }
-    };
-    fetchSocialAccounts();
-  }, []);
+
 
   useEffect(() => {
     const fetchDocumentCategories = async () => {
@@ -89,8 +77,8 @@ const Navbar = (): JSX.Element => {
           <Link to="/" key={organization.name}>
             <h1 className="text-2xl font-bold text-[#d5420b] flex items-center">
               <img src={organization.logo} alt={organization.name} className="w-10 h-10 mr-2" />
-              <span className="text-[#d5420b]">Resu</span>
-              <span className="text-white">Maven</span>
+              <span className="text-[#d5420b]">{organization.name}</span>
+              {/* <span className="text-white">Maven</span> */}
             </h1>
           </Link>
         ))}
@@ -128,7 +116,7 @@ const Navbar = (): JSX.Element => {
             </Link>
           </li>
         </ul>
-        <ul className="flex flex-col md:flex-row md:space-x-6 text-white md:items-center mt-4 md:mt-0">
+        {/* <ul className="flex flex-col md:flex-row md:space-x-6 text-white md:items-center mt-4 md:mt-0">
             
             {socialAccounts.map((account) => (
               <li key={account.username}>
@@ -146,7 +134,7 @@ const Navbar = (): JSX.Element => {
             
             
     
-        </ul>
+        </ul> */}
       </nav>
     </header>
   );
