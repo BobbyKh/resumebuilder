@@ -1,57 +1,24 @@
 import logging
+
 logger = logging.getLogger(__name__)
 from allauth.socialaccount.models import SocialToken
-from django.shortcuts import redirect
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
 from api.models import Experience, PaymentSystem
-from dj_rest_auth.registration.views import SocialLoginView
+# from dj_rest_auth.registration.views import SocialLoginView
 from api.serializer import ExperienceSerializer, PaymentSystemSerializer
 from api.models import AboutUs, Appointment, AppointmentType, DocumentCategory, DocumentField, Experience, FooterSection, HeroSection, Organization, Pricing, Template, Testimonial,FAQ
 from api.serializer import AboutUsSerializer, AppointmentSerializer, AppointmentTypeSerializer, DocumentCategorySerializer, DocumentFieldSerializer, ExperienceSerializer,  FAQSerializer, HeroSectionSerializer, OrganizationSerializer, PricingSerializer, TemplateSerializer, TestimonialSerializer, UserSerializer ,FooterSerializer
 from django.contrib.auth.models import User
 from rest_framework.generics import ListCreateAPIView
-from allauth.socialaccount.models import SocialAccount
 from pypdf import PdfReader
 from rest_framework.views import APIView
 from django.core.mail import send_mail
 from django.conf import settings
-from rest_framework.response import Response
 from rest_framework import status
 import re
-from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
-from rest_framework import status
 from rest_framework.decorators import api_view
 from pypdf import PdfReader
-@api_view(['POST'])
-def logout_user(request):
-    print(request.user)
 
-    if request.user.is_authenticated:
-        request.user.auth_token.delete()
-        request.user.is_active = False
-        request.user.save() 
-        
-    return redirect('/login')
-
-
-
-@api_view(['GET'])
-def get_social_accounts(request):
-    if request.user.is_anonymous:
-        return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
-    social_accounts = SocialAccount.objects.filter(user=request.user)
-    data = [
-        {
-            "platform": account.provider,
-            "username": account.extra_data.get("name", ""),
-            "email": account.extra_data.get("email", ""),
-            "avatar": account.extra_data.get("picture", ""),
-            "token": SocialToken.objects.filter(account=account).first().token if SocialToken.objects.filter(account=account).exists() else None
-        }
-        for account in social_accounts
-    ]
-    return Response(data)
 
 
 
@@ -89,9 +56,6 @@ class AppointmentType(ListCreateAPIView):
     queryset = AppointmentType.objects.all()
     serializer_class = AppointmentTypeSerializer
 
-class GoogleLoginView(SocialLoginView):
-
-    adapter_class = GoogleOAuth2Adapter
 
     def get_response(self):
         response = super().get_response()
@@ -110,6 +74,7 @@ class GoogleLoginView(SocialLoginView):
 
         # Return the response with the token data included
         return response
+
 
 
 
@@ -320,6 +285,7 @@ class PricingDetail(APIView):
 class PaymentSystemView(ListCreateAPIView):
     queryset = PaymentSystem.objects.all()
     serializer_class = PaymentSystemSerializer
+
 
     
     
