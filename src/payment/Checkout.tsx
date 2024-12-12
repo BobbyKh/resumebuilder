@@ -4,7 +4,6 @@ import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Review from "../resume/Review";
 import Pricing from "../pages/Pricing";
-// @ts-ignore
 import Modal from "react-modal";
 
 interface Subscription {
