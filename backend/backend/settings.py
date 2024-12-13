@@ -202,6 +202,11 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1",
 ]
 CORS_ALLOW_CREDENTIALS = True
+CSRF_TRUSTED_ORIGINS = [
+    'https://resumaven.net', 
+    'https://www.resumaven.net'
+]
+
 CORS_ALLOW_HEADERS = ['authorization', 'content-type']
 CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'DELETE']
 SOCIALACCOUNT_AUTO_SIGNUP = True
