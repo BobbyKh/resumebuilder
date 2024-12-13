@@ -192,7 +192,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 import os 
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/resumebuilder/backend/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CORS_ALLOWED_ORIGINS = [
     "http://resumaven.net",
