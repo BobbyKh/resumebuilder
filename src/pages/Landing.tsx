@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-const API_URL = process.env.REACT_APP_API_BASE_URL;
 
 
 interface HeroSection {
@@ -30,7 +29,7 @@ const Landing = () => {
   });
 
   useEffect(() => {
-    axios.get(`${API_URL}/hero`)
+    axios.get(`https://resumaven.net/api/hero`)
       .then(response => {
         const heroData = response.data[0]; // Extract the first item
         setHeroSection({
