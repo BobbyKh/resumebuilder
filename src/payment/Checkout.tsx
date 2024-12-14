@@ -51,7 +51,7 @@ const Checkout = () => {
     // Fetch data from API
     const fetchPaymentSystems = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/paymentsystem"); // Adjust the endpoint
+        const response = await fetch("http://127.0.0.1:8000/api/payment"); // Adjust the endpoint
         if (!response.ok) {
           throw new Error("Failed to fetch payment systems");
         }

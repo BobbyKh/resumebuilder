@@ -195,6 +195,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+]
+
+
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = ['authorization', 'content-type']
 CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'DELETE']
