@@ -52,7 +52,7 @@ const BuildForm = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    image : null,
+    image : "",
     name: "",
     email: "",
     phone: "",
