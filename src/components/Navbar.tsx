@@ -43,7 +43,7 @@ const Navbar = (): JSX.Element => {
   useEffect(() => {
     const fetchOrganizations = async () => {
       try {
-        const response = await axios.get<Organization[]>("http://127.0.0.1:8000/api/organization");
+        const response = await axios.get<Organization[]>("https://resumaven.net/api/organization");
         setOrganizations(response.data);
       } catch (error) {
         console.error("Error fetching organizations:", error);
@@ -57,7 +57,7 @@ const Navbar = (): JSX.Element => {
   useEffect(() => {
     const fetchDocumentCategories = async () => {
       try {
-        const response = await axios.get<DocumentCategory[]>("http://127.0.0.1:8000/api/documentcategory");
+        const response = await axios.get<DocumentCategory[]>("https://resumaven.net/api/documentcategory");
         setDocumentCategories(response.data);
       } catch (error) {
         console.error("Error fetching document categories:", error);

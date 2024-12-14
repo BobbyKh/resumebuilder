@@ -26,14 +26,14 @@ const CoverTemplate = () => {
 
     // Fetch templates from the API
     axios
-      .get(`http://127.0.0.1:8000/api/category/${id}/templates`)
+      .get(`https://resumaven.net/api/category/${id}/templates`)
       .then((response) => {
         if (Array.isArray(response.data)) {
           // Update templates if data is valid
           setTemplates(
             response.data.map((template) => ({
               ...template,
-              image: `http://127.0.0.1:8000${template.image}`,
+              image: `https://resumaven.net${template.image}`,
                // Ensure full URL for images
             }))
           );
