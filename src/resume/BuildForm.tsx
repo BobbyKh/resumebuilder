@@ -140,7 +140,7 @@ const BuildForm = () => {
 
     const fetchDocumentData = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/documentfield/${templateId}`);  
+        const response = await fetch(`https://resumaven.net/api/documentfield/${templateId}`);  
         if (!response.ok) {
           throw new Error("Failed to fetch template.");
         }
@@ -177,7 +177,7 @@ const BuildForm = () => {
   }, [templateId]);
 
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/template/${templateId}`).then((response) => {
+    axios.get(`https://resumaven.net/api/template/${templateId}`).then((response) => {
       setTemplate(response.data);
     });
   }, [templateId]);
@@ -352,7 +352,7 @@ const BuildForm = () => {
 
   const submitResume = async (resume: Record<string, string | string[]>, templateId: string) => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/documentfield", {
+      const response = await fetch("https://resumaven.net/api/documentfield", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

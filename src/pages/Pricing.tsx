@@ -10,7 +10,7 @@ const Pricing = () => {
   useEffect(() => {
     const fetchPricing = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/pricing");
+        const response = await axios.get("https://resumaven.net/api/pricing");
         setPricing(response.data);
       } catch (error) {
         console.error("Error fetching pricing data from backend:", error);

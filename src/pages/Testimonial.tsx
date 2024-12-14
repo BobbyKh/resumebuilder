@@ -23,7 +23,7 @@ const Testimonial = () => {
 
     useEffect(() => {
         axios
-            .get("http://127.0.0.1:8000/api/testimonials")
+            .get("https://resumaven.net/api/testimonials")
             .then((response) => {
                 setTestimonials(response.data);
             })

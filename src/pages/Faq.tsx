@@ -15,7 +15,7 @@ const Faq = () => {
     useEffect (() => {
         const fetchFaqs = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:8000/api/faq');
+                const response = await axios.get('https://resumaven.net/api/faq');
                 setFaqs(response.data);
             } catch (error) {
                 console.error('Error fetching FAQs:', error);

@@ -20,7 +20,7 @@ const BookAppointment = () => {
     const [appointmentTypes, setAppointmentTypes] = useState<any[]>([])
     useEffect(() => {
         const fetchAppointmentTypes = async () => {
-            const response = await axios.get('http://127.0.0.1:8000/api/appointment_types')
+            const response = await axios.get('https://resumaven.net/api/appointment_types')
             const data = await response.data
             setAppointmentTypes(data)
         }
