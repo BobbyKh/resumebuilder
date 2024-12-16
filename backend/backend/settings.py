@@ -23,9 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-uu4^)vqameolr738s=(i8wr6pfved2=u+mt*55jbynp-xjpz(6'
 
+DEBUG = True
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
 ALLOWED_HOSTS = ['resumaven.net','www.resumaven.net','95.217.4.187', 'localhost', '127.0.0.1']
 
 
@@ -198,6 +197,9 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
+    'http://127.0.0.1:8000',
+    'https://resumaven.net',
+    'https://www.resumaven.net',
 ]
 
 

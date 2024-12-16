@@ -6,6 +6,8 @@ import "aos/dist/aos.css";
 import { faEdit, faEllipsisV, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import API_URL from "../api/Api";
+// @ts-ignore
+import html2pdf from "html2pdf.js";
 
 const GenerateResume = () => {
     const { templateId } = useParams<{ templateId: string }>();
@@ -35,7 +37,7 @@ const GenerateResume = () => {
     useEffect(() => {
         const fetchTemplate = async () => {
             try {
-                const response = await axios.get(`${API_URL}/template/${templateId}`);
+                const response = await axios.get(`${API_URL}/api/template/${templateId}`);
                 setHtmlTemplate(response.data.html || '');
             } catch (err) {
                 console.error("Error fetching template:", err);
@@ -46,10 +48,34 @@ const GenerateResume = () => {
         if (templateId) fetchTemplate();
     }, [templateId]);
 
+const htmlToPdf = (html: string) => {
+    const opt = {
+        margin: 0,
+        filename: 'resume.pdf',
+        image: { type: 'jpeg', quality: 1.0 } ,
+        pagebreak: { mode: ['avoid-all'] },
+        html2canvas: { 
+            scale: 2, 
+            useCORS: true, 
+            logging: true, 
+            allowTaint: true, 
+            addPage: false,
+        },
+        jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().from(html).set(opt).toPdf().get('pdf').then((pdf : any) => {
+        const link = document.createElement('a');
+        link.href = pdf.output('bloburl');
+        link.download = 'resume.pdf';
+        link.click();
+        console.log("Finished rendering PDF in high quality");
+    });
+}
     useEffect(() => {
         const fetchDocumentData = async () => {
             try {
-                const response = await axios.get(`${API_URL}/documentfield/${templateId}`);
+                const response = await axios.get(`${API_URL}/api/documentfield/${templateId}`);
                 setResumeDataList(response.data);
                 console.log(response.data);
             } catch (error) {
@@ -156,7 +182,7 @@ const GenerateResume = () => {
 
                                     {/* Content */}
                                     <div
-                                        className="h-48 overflow-hidden"
+                                        className="h-48 overflow-hidden text-ellipsis"
                                         dangerouslySetInnerHTML={{ __html: updatedHtml }}
                                     />
                                     <div className="mt-4 text-center">
@@ -186,6 +212,14 @@ const GenerateResume = () => {
                         </button>
                         <div className="p-6">
                             <div dangerouslySetInnerHTML={{ __html: selectedResumeHtml }} />
+                        </div>
+                        <div className="flex items-center justify-center py-4">
+                            <button
+                                className="bg-[#1a202c] hover:bg-[#2d3748] text-white px-4 py-2 rounded transition duration-300 ease-in-out"
+                                onClick={() => htmlToPdf(selectedResumeHtml)}
+                            >
+                                Download Resume
+                            </button>
                         </div>
                     </div>
                 </div>

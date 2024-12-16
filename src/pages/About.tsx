@@ -25,7 +25,7 @@ const [about, setAbout] = useState<About[]>([]);
   useEffect (() => {
     const fetchAbout = async () => {
       try {
-        const response = await axios.get(`${API_URL}/aboutus`);
+        const response = await axios.get(`${API_URL}/api/aboutus`);
         setAbout(response.data);
       } catch (error) {
         console.error('Error fetching About:', error);

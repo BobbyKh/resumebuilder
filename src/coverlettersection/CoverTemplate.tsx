@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import API_URL from "../api/Api";
 
 interface CoverTemplate {
   id: number;
@@ -26,14 +27,14 @@ const CoverTemplate = () => {
 
     // Fetch templates from the API
     axios
-      .get(`https://resumaven.net/api/category/${id}/templates`)
+      .get(`${API_URL}/api/category/${id}/templates`)
       .then((response) => {
         if (Array.isArray(response.data)) {
           // Update templates if data is valid
           setTemplates(
             response.data.map((template) => ({
               ...template,
-              image: `https://resumaven.net${template.image}`,
+              image: `${API_URL}${template.image}`,
                // Ensure full URL for images
             }))
           );

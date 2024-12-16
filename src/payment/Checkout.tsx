@@ -34,7 +34,7 @@ const Checkout = () => {
   useEffect(() => {
     const fetchSubscription = async () => {
       try {
-        const response = await fetch(`${API_URL}/pricing/${id}`);
+        const response = await fetch(`${API_URL}/api/pricing/${id}`);
         const data = await response.json();
         setSubscription(data);
       } catch (error) {
@@ -54,7 +54,7 @@ const Checkout = () => {
     // Fetch data from API
     const fetchPaymentSystems = async () => {
       try {
-        const response = await fetch(`${API_URL}/payment`); // Adjust the endpoint
+        const response = await fetch(`${API_URL}/api/payment`); // Adjust the endpoint
         if (!response.ok) {
           throw new Error("Failed to fetch payment systems");
         }

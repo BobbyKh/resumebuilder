@@ -45,7 +45,7 @@ const Navbar = (): JSX.Element => {
   useEffect(() => {
     const fetchOrganizations = async () => {
       try {
-        const response = await axios.get<Organization[]>(`${API_URL}/organization`);
+        const response = await axios.get<Organization[]>(`${API_URL}/api/organization`);
         setOrganizations(response.data);
       } catch (error) {
         console.error("Error fetching organizations:", error);
@@ -59,7 +59,7 @@ const Navbar = (): JSX.Element => {
   useEffect(() => {
     const fetchDocumentCategories = async () => {
       try {
-        const response = await axios.get<DocumentCategory[]>(`${API_URL}/documentcategory`);
+        const response = await axios.get<DocumentCategory[]>(`${API_URL}/api/documentcategory`);
         setDocumentCategories(response.data);
       } catch (error) {
         console.error("Error fetching document categories:", error);
