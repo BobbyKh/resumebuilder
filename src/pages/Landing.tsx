@@ -10,7 +10,7 @@ import Experience from "../resume/Experience";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
+import API_URL from '../api/Api';
 
 
 interface HeroSection {
@@ -29,7 +29,7 @@ const Landing = () => {
   });
 
   useEffect(() => {
-    axios.get(`https://resumaven.net/api/hero`)
+    axios.get(`${API_URL}/hero`)
       .then(response => {
         const heroData = response.data[0]; // Extract the first item
         setHeroSection({
@@ -48,7 +48,6 @@ const Landing = () => {
   useEffect(() => {
     AOS.init();
   }, []);
-
 
   return (
     <>
@@ -76,4 +75,5 @@ const Landing = () => {
 }
 
 export default Landing;
+
 

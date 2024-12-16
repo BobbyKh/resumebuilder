@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuoteLeft } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import API_URL from "../api/Api";
 
 interface Testimonial {
     id: number;
@@ -23,7 +24,7 @@ const Testimonial = () => {
 
     useEffect(() => {
         axios
-            .get("https://resumaven.net/api/testimonials")
+            .get(`${API_URL}/testimonials`)
             .then((response) => {
                 setTestimonials(response.data);
             })

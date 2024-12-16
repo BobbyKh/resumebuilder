@@ -5,6 +5,9 @@ import { useState, useEffect } from "react";
 import Review from "../resume/Review";
 import Pricing from "../pages/Pricing";
 import Modal from "react-modal";
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import API_URL from "../api/Api";
 
 interface Subscription {
   image: string;
@@ -31,7 +34,7 @@ const Checkout = () => {
   useEffect(() => {
     const fetchSubscription = async () => {
       try {
-        const response = await fetch(`https://resumaven.net/api/pricing/${id}`);
+        const response = await fetch(`${API_URL}/pricing/${id}`);
         const data = await response.json();
         setSubscription(data);
       } catch (error) {
@@ -51,7 +54,7 @@ const Checkout = () => {
     // Fetch data from API
     const fetchPaymentSystems = async () => {
       try {
-        const response = await fetch("https://resumaven.net/api/paymentsystem"); // Adjust the endpoint
+        const response = await fetch(`${API_URL}/payment`); // Adjust the endpoint
         if (!response.ok) {
           throw new Error("Failed to fetch payment systems");
         }
@@ -95,17 +98,19 @@ const Checkout = () => {
               SUBSCRIPTION
             </h2>
             <h1 className="text-[#d5420b] text-3xl title-font font-medium mb-4">
-              {subscription?.name}
+              {subscription?.name?.toUpperCase()}
             </h1>
             <div className="flex mb-4">
               <a className="flex-grow text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-1">
                 {subscription?.description}
               </a>
             </div>
+            
             <ul className="list-disc pl-8">
-              {subscription?.features.split("\r\n").map((feature) => (
-                <li key={feature} className="border-b border-gray-300 py-2">
-                  {feature}
+              {subscription?.features.split(",").map((feature) => (
+                <li key={feature} className="border-b border-gray-300 py-2 flex items-center">
+                  <FontAwesomeIcon icon={faCheckCircle} className="text-[#d5420b] text-500 mr-2" />
+                  <span>{feature}</span>
                 </li>
               ))}
             </ul>
@@ -116,25 +121,25 @@ const Checkout = () => {
               <span className="text-[#d5420b]">Duration</span>
               <span className="ml-auto text-[#d5420b]">
                 <button
-                  className="border-2 border-gray-300 rounded-full px-2 py-1 mr-2"
+                  className="border-2 border-gray-300 rounded-full px-2 py-1 mr-2 hover:bg-gray-700 hover:text-white"
                   onClick={() => setDuration(1)}
                 >
                   1 month
                 </button>
                 <button
-                  className="border-2 border-gray-300 rounded-full px-2 py-1 mr-2"
+                  className="border-2 border-gray-300 rounded-full px-2 py-1 mr-2 hover:bg-gray-700 hover:text-white"
                   onClick={() => setDuration(3)}
                 >
                   3 months
                 </button>
                 <button
-                  className="border-2 border-gray-300 rounded-full px-2 py-1 mr-2"
+                  className="border-2 border-gray-300 rounded-full px-2 py-1 mr-2 hover:bg-gray-700 hover:text-white"
                   onClick={() => setDuration(6)}
                 >
                   6 months
                 </button>
                 <button
-                  className="border-2 border-gray-300 rounded-full px-2 py-1"
+                  className="border-2 border-gray-300 rounded-full px-2 py-1 hover:bg-gray-700 hover:text-white"
                   onClick={() => setDuration(12)}
                 >
                   1 year
@@ -176,13 +181,12 @@ const Checkout = () => {
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={() => setModalIsOpen(false)}
-        contentLabel="Checkout Modal"
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
           },
           content: {
-            backgroundColor: "white",
+            backgroundColor: "d5420b",
             borderRadius: "0.5rem",
             padding: "2rem",
             width: "fit-content",
@@ -190,7 +194,7 @@ const Checkout = () => {
             margin: "auto",
             alignItems: "center",
             justifyContent: "center",
-            boxShadow: "0 0 10px rgba(255, 0, 0, 0.5)",
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
             border: "2px #1f1f1f solid",
           },
         }}
@@ -233,7 +237,7 @@ const Checkout = () => {
             </div>
           ))}
         </ul>
-        <div className="flex flex-col gap-4 bg-gray-100 p-4" data-aos="fade-up" data-aos-duration="1000">
+        <div className="flex flex-col gap-4" data-aos="fade-up" data-aos-duration="1000">
           <label htmlFor="name">
             Name
             <input
@@ -332,7 +336,7 @@ const Checkout = () => {
         </div>
         <div className="flex justify-center mt-4 p-4" data-aos="fade-up" data-aos-duration="1000">
           <button
-            className="bg-gray-200 hover:bg-gray-300 text-black font-bold py-2 px-4 rounded"
+            className="bg-[#d5420b] hover:bg-[#d5420b]/90 text-white font-bold py-2 px-4 rounded"
             onClick={() => setModalIsOpen(false)}
           >
             Close
