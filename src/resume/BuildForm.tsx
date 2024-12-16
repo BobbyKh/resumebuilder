@@ -12,12 +12,13 @@ import html2pdf from "html2pdf.js";
 import axios from 'axios';
 import { faPlusCircle, faUser, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import API_URL from '../api/Api';
 
 AOS.init();
 
 
 interface Resume {
-  imae: '';
+  imae: string;
   name: string;
   email: string;
   phone: string;
@@ -140,7 +141,7 @@ const BuildForm = () => {
 
     const fetchDocumentData = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/documentfield/${templateId}`);  
+        const response = await fetch(`${API_URL}/documentfield/${templateId}`);  
         if (!response.ok) {
           throw new Error("Failed to fetch template.");
         }
@@ -158,7 +159,7 @@ const BuildForm = () => {
 
       
 
-        const response = await fetch(`http://127.0.0.1:8000/api/template/${templateId}`);
+        const response = await fetch(`${API_URL}/template/${templateId}`);
         
         if (!response.ok) {
           throw new Error("Failed to fetch template.");
@@ -177,7 +178,7 @@ const BuildForm = () => {
   }, [templateId]);
 
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/template/${templateId}`).then((response) => {
+    axios.get(`${API_URL}/template/${templateId}`).then((response) => {
       setTemplate(response.data);
     });
   }, [templateId]);
@@ -199,10 +200,23 @@ const BuildForm = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [e.target.name]: e.target.value,
-    }));
+    if (e.target.name === "image" && "files" in e.target) {
+      const file = (e.target as HTMLInputElement).files![0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const base64String = reader.result as string;
+        setFormData((prevData) => ({
+          ...prevData,
+          [e.target.name]: base64String,
+        }));
+      };
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [e.target.name]: e.target.value,
+      }));
+    }
   };
 
   const handleSubmit = async () => {
@@ -352,7 +366,7 @@ const BuildForm = () => {
 
   const submitResume = async (resume: Record<string, string | string[]>, templateId: string) => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/documentfield", {
+      const response = await fetch(`${API_URL}/documentfield`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -1157,7 +1171,7 @@ const BuildForm = () => {
             if (key === "image") {
 
               return (
-                <div key={key} className="mb-6">
+                <div key={key} className="mb-6 flex flex-col items-center">
                   <label className="block text-sm font-medium text-white mb-2">
                     {key.toUpperCase()}
                   </label>
@@ -1168,6 +1182,13 @@ const BuildForm = () => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder={`Enter your ${key}`}
                   />
+                  {formData[key as keyof typeof formData] && (
+                    <img
+                      src={formData[key as keyof typeof formData] as string}
+                      alt="Preview"
+                      className="mt-4 max-w-xs"
+                    />
+                  )}
                 </div>
               );
             }

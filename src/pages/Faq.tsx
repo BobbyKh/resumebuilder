@@ -1,6 +1,7 @@
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import axios from 'axios';
+import API_URL from '../api/Api';
 import { useEffect, useState } from 'react';
 
 const Faq = () => {
@@ -15,7 +16,7 @@ const Faq = () => {
     useEffect (() => {
         const fetchFaqs = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:8000/api/faq');
+                const response = await axios.get(`${API_URL}/faq`);
                 setFaqs(response.data);
             } catch (error) {
                 console.error('Error fetching FAQs:', error);
@@ -49,3 +50,4 @@ const Faq = () => {
 }
 
 export default Faq
+
