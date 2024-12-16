@@ -141,7 +141,7 @@ const BuildForm = () => {
 
     const fetchDocumentData = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/documentfield/${templateId}`);  
+        const response = await fetch(`${API_URL}/documentfield/${templateId}`);  
         if (!response.ok) {
           throw new Error("Failed to fetch template.");
         }
