@@ -160,7 +160,7 @@ const htmlToPdf = (html: string) => {
                                                         onClick={() => {
                                                             axios
                                                                 .delete(
-                                                                    `http://127.0.0.1:8000/api/documentfield/${resumeData.id}`
+                                                                    `${API_URL}/api/documentfield/${resumeData.id}`
                                                                 )
                                                                 .then(() => {
                                                                     setResumeDataList(
