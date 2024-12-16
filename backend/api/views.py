@@ -1,5 +1,4 @@
 import logging
-
 logger = logging.getLogger(__name__)
 from allauth.socialaccount.models import SocialToken
 from rest_framework.response import Response
