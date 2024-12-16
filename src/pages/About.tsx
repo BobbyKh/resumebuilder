@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import API_URL from '../api/Api';
 
 const About = () => {
   useEffect(() => {
@@ -24,7 +25,7 @@ const [about, setAbout] = useState<About[]>([]);
   useEffect (() => {
     const fetchAbout = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/aboutus');
+        const response = await axios.get(`${API_URL}/api/aboutus`);
         setAbout(response.data);
       } catch (error) {
         console.error('Error fetching About:', error);

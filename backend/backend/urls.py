@@ -18,8 +18,10 @@ from django.contrib import admin
 from django.shortcuts import redirect
 from django.urls import include, path
 from django.conf.urls.static import static
-
+from rest_framework_simplejwt.views import TokenObtainPairView , TokenRefreshView
 from django.conf import settings
+from api.views import *
+
 
 def redirect_to_google_login(request):
     return redirect('/accounts/google/login/?process=login')
@@ -30,11 +32,13 @@ urlpatterns = [
     path("__reload__/", include("django_browser_reload.urls")),
     path ("api/", include("api.urls")),
     path ("accounts/", include("allauth.urls")),
-    path('accounts/login/', redirect_to_google_login, name='account_login'),
-
+    path ('ap-auth/', include('rest_framework.urls')),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path ('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+

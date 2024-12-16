@@ -4,6 +4,7 @@ import axios from "axios"
 import React, { useEffect, useState } from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faEnvelope, faPhone, faCalendarAlt, faClock, faCommentDots, faPeopleGroup } from '@fortawesome/free-solid-svg-icons'
+import API_URL from "../api/Api"
 
 interface Appointment {
     id ?: number
@@ -20,7 +21,7 @@ const BookAppointment = () => {
     const [appointmentTypes, setAppointmentTypes] = useState<any[]>([])
     useEffect(() => {
         const fetchAppointmentTypes = async () => {
-            const response = await axios.get('http://127.0.0.1:8000/api/appointment_types')
+            const response = await axios.get(`${API_URL}/api/appointment_types`)
             const data = await response.data
             setAppointmentTypes(data)
         }
@@ -44,7 +45,7 @@ const BookAppointment = () => {
         event.preventDefault()
         setIsSending(true)
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/appointments', appointment)
+            const response = await axios.post(`${API_URL}/api/appointment_types`, appointment)
             const data = await response.data
             console.log(data)
             setIsBooked(true)

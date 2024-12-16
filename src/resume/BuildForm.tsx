@@ -10,15 +10,15 @@ import { languages } from "../data/Language";
 // @ts-ignore
 import html2pdf from "html2pdf.js";
 import axios from 'axios';
-import { faUserCircle, faBriefcase, faEnvelope, faPhone, faGlobe, faMapMarkerAlt, faInfoCircle, faLightbulb, faLanguage, faHeart, faTrophy, faPlusCircle, faGraduationCap, faIdCard, faUser, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle, faUser, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faConnectdevelop, faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import API_URL from '../api/Api';
 
 AOS.init();
 
 
 interface Resume {
-
+  imae: string;
   name: string;
   email: string;
   phone: string;
@@ -31,17 +31,21 @@ interface Resume {
     //format: "YYYY-MM-DD"
 
   ];
-  work_experience: string;
-  work_job_title: string;
-  work_company_name: string;
-  work_from_date: string;
-  work_to_date: string;
-  work_description: string;
-  work_achievements: string;
-  achievement: string;
+  experience: [
+    { job_title: string; company_name: string; from_date: string; to_date: string; description: string; achievements: string; }[]
+    //format: "YYYY-MM-DD"
+  ];
+  achievement: [
+    { title: string; description: string; }[]
+  ];
   hobbies: string[];
   reference: string;
-  certification: string;
+  certification: [
+    { title:string , description:string , issued_date:string }[]
+  ];
+  project : [
+    { title: string; description: string; link: string; }[]
+  ]
 
 }
 const BuildForm = () => {
@@ -49,7 +53,7 @@ const BuildForm = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    image: "",
+    image : "",
     name: "",
     email: "",
     phone: "",
@@ -77,15 +81,36 @@ const BuildForm = () => {
         achievements: "",
       }
     ],
-    achievement: "",
+    achievement:[
+      {
+        title: "",
+        description: "",
+      
+      }
+
+    ],
+    certification:[
+      {
+        title: "",
+        description: "",
+        issued_date: "",
+      }
+    ],
+    project:[
+      {
+        title: "",
+        description: "",
+        link: "",
+      }
+    ],
     hobbies: [],
     reference: "",
-    certification: "",
+   
     language: [],
     linkedin: "",
     github: "",
     website: "",
-    project: "",
+   
     extra: "",
     
   });
@@ -96,6 +121,8 @@ const BuildForm = () => {
     description: string;
     image : string;
     html: string;
+    doc_cat: number
+    template: string;
   }
   
   const [html, setHtml] = useState<string>("");
@@ -114,7 +141,7 @@ const BuildForm = () => {
 
     const fetchDocumentData = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/documentfield/${templateId}`);  
+        const response = await fetch(`${API_URL}/api/documentfield/${templateId}`);  
         if (!response.ok) {
           throw new Error("Failed to fetch template.");
         }
@@ -132,13 +159,15 @@ const BuildForm = () => {
 
       
 
-        const response = await fetch(`http://127.0.0.1:8000/api/template/${templateId}`);
+        const response = await fetch(`${API_URL}/api/template/${templateId}`);
+        
         if (!response.ok) {
           throw new Error("Failed to fetch template.");
         }
 
         const data = await response.json();
         setHtml(data.html || "");
+        setTemplate(data);
       } catch (err: any) {
         setError(err.message || "An error occurred.");
       } 
@@ -149,7 +178,7 @@ const BuildForm = () => {
   }, [templateId]);
 
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/template/${templateId}`).then((response) => {
+    axios.get(`${API_URL}/api/template/${templateId}`).then((response) => {
       setTemplate(response.data);
     });
   }, [templateId]);
@@ -171,10 +200,23 @@ const BuildForm = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [e.target.name]: e.target.value,
-    }));
+    if (e.target.name === "image" && "files" in e.target) {
+      const file = (e.target as HTMLInputElement).files![0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const base64String = reader.result as string;
+        setFormData((prevData) => ({
+          ...prevData,
+          [e.target.name]: base64String,
+        }));
+      };
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [e.target.name]: e.target.value,
+      }));
+    }
   };
 
   const handleSubmit = async () => {
@@ -186,6 +228,7 @@ const BuildForm = () => {
     const resume = {
       ...formData,
       template_id: templateId,
+    
       skill: formData.skill.map((option: any) => `
         <span class="border p-1 rounded">${option.value}</span>
       `).join(''),
@@ -197,6 +240,16 @@ const BuildForm = () => {
           <span class="font-medium">${option.value}</span>
         </div>
       `).join(''),
+      project: formData.project.map((option: any) => `
+        <div class="mt-4">
+          <h3 class="text-gray-800 font-bold">${option.title}</h3>
+          <p class="text-gray-600">${option.description}</p>
+          <p class="text-gray-600 mt-1">
+            GitHub: <a href="${option.link}" class="text-blue-500" target="_blank" rel="noopener noreferrer">${option.link}</a>
+          </p>
+        </div>
+      `).join(''),
+
       experience: formData.experience.map((option: any) => `
         <section class="mb-6">
   <div class="p-4 border rounded shadow-sm mb-4">
@@ -257,8 +310,49 @@ const BuildForm = () => {
   </div>
 </section>
 
-      `).join('')}</ul>`
-    };
+      `).join('')}</ul>`,
+    
+
+
+    certification: formData.certification.map((option: any) => `
+      <section class="mb-6">
+        <div class="p-4 border rounded shadow-sm mb-4">
+          <ul>
+            <li class="flex items-center mb-2">
+              <i class="fas fa-graduation-cap text-gray-500 mr-2"></i>
+              <strong class="font-medium">Certification:</strong> ${option.title}
+            </li>
+            <li class="flex items-center mb-2">
+              <i class="fas fa-calendar-alt text-gray-500 mr-2"></i>
+              <strong class="font-medium">Description:</strong> ${option.description}
+            </li>
+            <li class="flex items-center mb-2">
+              <i class="fas fa-calendar-alt text-gray-500 mr-2"></i>
+              <strong class="font-medium">Issued Date:</strong> ${option.issued_date}
+            </li>
+          </ul>
+        </div>
+      </section>
+    `).join(''),
+
+    achievement: formData.achievement.map((option: any) => `
+      <section class="mb-6">
+        <div class="p-4 border rounded shadow-sm mb-4">
+          <ul>
+            <li class="flex items-center mb-2">
+              <i class="fas fa-trophy text-gray-500 mr-2"></i>
+              <strong class="font-medium">Achievement:</strong> ${option.title}
+            </li>
+            <li class="flex items-center mb-2">
+              <i class="fas fa-calendar-alt text-gray-500 mr-2"></i>
+              <strong class="font-medium">Description:</strong> ${option.description}
+            </li>
+          </ul>
+        </div>
+      </section>
+    `).join(''),
+      }
+
 
     try {
       const data = await submitResume(resume, templateId);
@@ -272,7 +366,7 @@ const BuildForm = () => {
 
   const submitResume = async (resume: Record<string, string | string[]>, templateId: string) => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/documentfield", {
+      const response = await fetch(`${API_URL}/api/documentfield`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -287,36 +381,6 @@ const BuildForm = () => {
     }
   };
 
-const [isGenerating, setIsGenerating] = useState(false);
-const handleDownloadPdf = async () => {
-  setIsGenerating(true);
-  try {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-  } finally {
-    setIsGenerating(false);
-  }
-
-
-    const element = document.createElement('div');
-    element.style.width = '210mm';
-    element.style.minHeight = '297mm';
-    element.style.margin = '0 auto';
-    element.innerHTML = html;
-
-    const options = {
-      filename: `resume-${templateId}.pdf`,
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-    };
-
-    html2pdf(element, options).then(() => { 
-        const link = document.createElement('a');
-        link.href = `${options.filename}.pdf`;
-        link.download = options.filename;
-        link.click(); 
-    }
-    );
-  };
 
 
   const updateTemplateWithData = (_data: Record<string, string | string[]>) => {
@@ -338,7 +402,7 @@ const handleDownloadPdf = async () => {
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-black">
-      <div className="w-full lg:w-2/3 p-6 lg:p-8">
+      <div className="w-full p-6 lg:p-8">
         <h1 className="text-2xl text-[#d5420b] font-bold mb-8 text-center ">Build Your Resume</h1>
         <div className="container mx-auto px-4 mb-8 bg-white rounded-lg shadow-lg ">
           <div className="flex items-center mb-4">
@@ -614,7 +678,6 @@ const handleDownloadPdf = async () => {
     >
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-semibold text-white">
-          Experience {index + 1}
         </h3>
         <button
           type="button"
@@ -623,6 +686,8 @@ const handleDownloadPdf = async () => {
               ...prevData,
               experience: prevData.experience.filter((_: any, i: number) => i !== index),
             }))
+          
+        
           }
           className="px-2 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
           >
@@ -753,10 +818,360 @@ const handleDownloadPdf = async () => {
 
               );
             }
+            if (key === 'project') {
+              return (
+                <div key={key} className="mb-8">
+                  <label className="block text-lg font-semibold text-gray-100 mb-4">
+                    {key.toUpperCase()}
+                  </label>
+                  <div className="space-y-6">
+                    {formData.project.map((project: any, index: number) => (
+                      <div
+                        key={index}
+                        className="p-4 bg-gray-800 rounded-lg shadow-md space-y-4 border border-gray-700"
+                      >
+                        {/* Remove Project Button */}
+                        <div className="text-right">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setFormData((prevData: any) => ({
+                                ...prevData,
+                                project: prevData.project.filter((_: any, i: number) => i !== index),
+                              }))
+                            }
+                            className="px-2 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+                          >
+                            <FontAwesomeIcon icon={faTimes} />
+                          </button>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {/* Title */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-300 mb-1">
+                              Title
+                            </label>
+                            <input
+                              type="text"
+                              value={project.title}
+                              onChange={(e) =>
+                                setFormData((prevData: any) => ({
+                                  ...prevData,
+                                  project: prevData.project.map((proj: any, i: number) =>
+                                    i === index ? { ...proj, title: e.target.value } : proj
+                                  ),
+                                }))
+                              }
+                              className="w-full px-4 py-2 bg-white text-gray-900 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              placeholder="Enter project title"
+                            />
+                          </div>
+
+                          {/* Description */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-300 mb-1">
+                              Description
+                            </label>
+                            <textarea
+                              value={project.description}
+                              onChange={(e) =>
+                                setFormData((prevData: any) => ({
+                                  ...prevData,
+                                  project: prevData.project.map((proj: any, i: number) =>
+                                    i === index ? { ...proj, description: e.target.value } : proj
+                                  ),
+                                }))
+                              }
+                              className="w-full px-4 py-2 bg-white text-gray-900 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              placeholder="Enter project description"
+                              rows={3}
+                            />
+                          </div>
+
+                          {/* Link */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-300 mb-1">
+                              Link
+                            </label>
+                            <input
+                              type="text"
+                              value={project.link}
+                              onChange={(e) =>
+                                setFormData((prevData: any) => ({
+                                  ...prevData,
+                                  project: prevData.project.map((proj: any, i: number) =>
+                                    i === index ? { ...proj, link: e.target.value } : proj
+                                  ),
+                                }))
+                              }
+                              className="w-full px-4 py-2 bg-white text-gray-900 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              placeholder="Project link"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+
+                    {/* Add Project Button */}
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setFormData((prevData: any) => ({
+                          ...prevData,
+                          project: [
+                            ...prevData.project,
+                            {
+                              title: "",
+                              description: "",
+                              link: "",
+                            },
+                          ],
+                        }))
+                      }
+                      className="px-6 py-3 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+                    >
+                      <FontAwesomeIcon icon={faPlusCircle} className="w-5 h-5" />
+                    </button>
+                  </div>
+                </div>
+              );
+            }
+ if (key === "certification") {
+              return (
+                <div key={key} className="mb-8">
+                  <label className="block text-lg font-semibold text-gray-100 mb-4">
+                    {key.toUpperCase()}
+                  </label>
+
+                  <div className="space-y-6">
+                    {formData.certification.map((cert: any, index: number) => (
+                      <div
+                        key={index}
+                        className="p-4 bg-gray-800 rounded-lg shadow-md space-y-4 border border-gray-700"
+                      >
+                        {/* Remove Certification Button */}
+                        <div className="text-right">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setFormData((prevData: any) => ({
+                                ...prevData,
+                                certification: prevData.certification.filter((_: any, i: number) => i !== index),
+                              }))
+                            }
+                            className="px-2 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+                          >
+                            <FontAwesomeIcon icon={faTimes} />
+                          </button>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-300 mb-1">
+                            Title 
+                            </label>
+                            <input
+                            type='text'
+                            value={cert.title}
+                            placeholder='Enter certification title'
+                            onChange={(e) =>
+                              setFormData((prevData: any) => ({
+                                
+                                ...prevData,
+                                certification: prevData.certification.map((cert: any, i: number) =>
+                                  i === index ? { ...cert, title: e.target.value } : cert
+                                ),
+                              }))
+                            }
+                            className="w-full px-4 py-2 bg-white text-gray-900 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-300 mb-1">
+                              Certification
+                                <textarea 
+                                value={cert.description}
+                                placeholder='Enter certification description'
+                                onChange={(e) =>
+                                  setFormData((prevData: any) => ({
+                                    ...prevData,
+                                    certification: prevData.certification.map((cert: any, i: number) =>
+                                      i === index ? { ...cert, description: e.target.value } : cert
+                                    ),
+                                  }))
+                                }
+                                className="w-full px-4 py-2 bg-white text-gray-900 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                                />
+                            </label>
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-300 mb-1">
+                              Issued Date
+                            </label>
+                            <input
+                              type="date"
+                              value={cert.issuedDate}
+                              onChange={(e) =>
+                                setFormData((prevData: any) => ({
+                                  ...prevData,
+                                  certification: prevData.certification.map((cert: any, i: number) =>
+                                    i === index ? { ...cert, issuedDate: e.target.value } : cert
+                                  ),
+                                }))
+                              }
+                              className="w-full px-4 py-2 bg-white text-gray-900 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                          </div>
+                        </div>
+
+                      </div>
+                    ))}
+
+                    {/* Add Certification Button */}
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setFormData((prevData: any) => ({
+                          ...prevData,
+                          certification: [
+                            ...prevData.certification,
+                            {
+                              title: "",
+                              description: "",
+                              issued_date: "",
+                            },
+                          ],
+                        }))
+                      }
+                      className="px-6 py-3 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+                    >
+                      <FontAwesomeIcon icon={faPlusCircle} className="w-5 h-5" />
+                    </button>   
+                  </div>
+                </div>
+              );
+            }
+             
+            if (key === "achievement") {
+              return (
+                <div key={key} className="mb-8">
+                  <label className="block text-lg font-semibold text-gray-100 mb-4">
+                    {key.toUpperCase()}
+                  </label>
+
+                  <div className="space-y-6">
+                    {formData.achievement.map((cert: any, index: number) => (
+                      <div
+                        key={index}
+                        className="p-4 bg-gray-800 rounded-lg shadow-md space-y-4 border border-gray-700"
+                      >
+                        {/* Remove achievement Button */}
+                        <div className="text-right">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setFormData((prevData: any) => ({
+                                ...prevData,
+                                achievement: prevData.achievement.filter((_: any, i: number) => i !== index),
+                              }))
+                            }
+                            className="px-2 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+                          >
+                            <FontAwesomeIcon icon={faTimes} />
+                          </button>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-300 mb-1">
+                            Title 
+                            </label>
+                            <input
+                            type='text'
+                            value={cert.title}
+                            placeholder='Enter achievement title'
+                            onChange={(e) =>
+                              setFormData((prevData: any) => ({
+                                
+                                ...prevData,
+                                achievement: prevData.achievement.map((cert: any, i: number) =>
+                                  i === index ? { ...cert, title: e.target.value } : cert
+                                ),
+                              }))
+                            }
+                            className="w-full px-4 py-2 bg-white text-gray-900 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-300 mb-1">
+                              Description
+                                <textarea 
+                                value={cert.description}
+                                placeholder='Enter achievement description'
+                                onChange={(e) =>
+                                  setFormData((prevData: any) => ({
+                                    ...prevData,
+                                    achievement: prevData.achievement.map((cert: any, i: number) =>
+                                      i === index ? { ...cert, description: e.target.value } : cert
+                                    ),
+                                  }))
+                                }
+                                className="w-full px-4 py-2 bg-white text-gray-900 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                                />
+                            </label>
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-300 mb-1">
+                              Issued Date
+                            </label>
+                            <input
+                              type="date"
+                              value={cert.issuedDate}
+                              onChange={(e) =>
+                                setFormData((prevData: any) => ({
+                                  ...prevData,
+                                  achievement: prevData.achievement.map((cert: any, i: number) =>
+                                    i === index ? { ...cert, issuedDate: e.target.value } : cert
+                                  ),
+                                }))
+                              }
+                              className="w-full px-4 py-2 bg-white text-gray-900 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                          </div>
+                        </div>
+
+                      </div>
+                    ))}
+
+                    {/* Add achievement Button */}
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setFormData((prevData: any) => ({
+                          ...prevData,
+                          achievement: [
+                            ...prevData.achievement,
+                            {
+                              title: "",
+                              description: "",
+                            },
+                          ],
+                        }))
+                      }
+                      className="px-6 py-3 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+                    >
+                      <FontAwesomeIcon icon={faPlusCircle} className="w-5 h-5" />
+                    </button>   
+                  </div>
+                </div>
+              );
+            }
+                
+  
             if (key === "image") {
 
               return (
-                <div key={key} className="mb-6">
+                <div key={key} className="mb-6 flex flex-col items-center">
                   <label className="block text-sm font-medium text-white mb-2">
                     {key.toUpperCase()}
                   </label>
@@ -767,6 +1182,13 @@ const handleDownloadPdf = async () => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder={`Enter your ${key}`}
                   />
+                  {formData[key as keyof typeof formData] && (
+                    <img
+                      src={formData[key as keyof typeof formData] as string}
+                      alt="Preview"
+                      className="mt-4 max-w-xs"
+                    />
+                  )}
                 </div>
               );
             }
@@ -807,7 +1229,7 @@ const handleDownloadPdf = async () => {
             onClick={handleSubmit}
             className="w-full lg:w-auto px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
           >
-            Submit Resume
+            GenerateResume
           </button>
           <button
             onClick={handleDownload}
@@ -819,159 +1241,11 @@ const handleDownloadPdf = async () => {
 
         {error && <p className="text-red-500 mt-4">{error}</p>}
       </div>
-
-      <div className="w-full bg-gradient-to-r from-blue-50 to-gray-100 shadow-md shadow-lg p-6 lg:p-8 mt-6 lg:mt-0 rounded-lg">
-        <div className="text-center bg-white border-b pb-4 mb-6 p-4 shadow-md shadow-lg rounded-lg ">
-          <h1 className="text-3xl font-bold text-blue-700">
-            <FontAwesomeIcon icon={faUserCircle} className="mr-2" />
-            {formData.name || "Your Name"}
-          </h1>
-          <p className="text-lg text-black">
-            <FontAwesomeIcon icon={faBriefcase} className="mr-2" />
-            {formData.position || "Your Position"}
-          </p>
-          <div className="flex justify-center space-x-4 mt-2">
-            <p className="text-black">
-              <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
-              {formData.email || "you@example.com"}
-            </p>
-            <p className="text-black">
-              <FontAwesomeIcon icon={faPhone} className="mr-2" />
-              {formData.phone || "123-456-7890"}
-            </p>
-            <p className="text-black">
-              <FontAwesomeIcon icon={faGlobe} className="mr-2" />
-              {formData.website || "yourwebsite.com"}
-            </p>
-          </div>
-        </div>
-        <div className="space-y-6">
+      {/* <div className="w-full bg-gradient-to-r from-blue-50 to-gray-100 shadow-md shadow-lg p-6 lg:p-8 mt-6 lg:mt-0 rounded-lg">
+        
           
-          <section>
-            <h2 className="text-xl font-semibold mb-2 text-purple-600">
-              <FontAwesomeIcon icon={faInfoCircle} className="mr-2" />
-              Description
-            </h2>
-            <p className="text-black">{formData.description || "A brief description about yourself"}</p>
-          </section>
 
-          <section>
-            <h2 className="text-xl font-semibold mb-2 text-green-600">
-              <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2" />
-              Location
-            </h2>
-            <p className="text-black">{formData.address || "Your Address"}</p>
-          </section>
-          <section>
-            <h2 className="text-xl font-semibold mb-2 text-yellow-600">
-              <FontAwesomeIcon icon={faLightbulb} className="mr-2" />
-              Skills
-            </h2>
-            <p className='text-black'>
-              {formData.skill.length > 0 ? formData.skill.map((skill: any) => (
-                <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-black mr-2" key={skill.value}>
-                  {skill.label}
-                </span>
-              )) : "List your skills here"}
-            </p>
-          </section>
-          <section>
-            <h2 className='text-xl font-semibold mb-2 text-pink-600'>
-              <FontAwesomeIcon icon={faGraduationCap} className="mr-2" />
-              Education
-            </h2>
-            <p className='text-black b-2'></p>
-          </section>
-          <section>
-            <h2 className="text-xl font-semibold mb-2 text-blue-600">
-              <FontAwesomeIcon icon={faConnectdevelop} className="mr-2" />
-              Work Experience
-            </h2>
-          </section>
-          <section>
-            <h2 className='text-xl font-semibold mb-2 text-pink-600'>
-              <FontAwesomeIcon icon={faIdCard} className="mr-2" />
-              Certifications
-            </h2>
-            <p className='text-black'>{formData.certification || "Your certifications"} </p>
-          </section>
-          <section>
-            <h2 className="text-xl font-semibold mb-2 text-teal-600">
-              <FontAwesomeIcon icon={faLanguage} className="mr-2" />
-              Language
-            </h2>
-            <p className="text-black">
-              <div className="flex flex-wrap gap-2">
-                {formData.language.length > 0 ? formData.language.map((lang: any) => (
-                  <span className="border border-gray-300 rounded-full px-3 py-1 text-sm font-semibold text-black" key={lang.value}>
-                    {lang.label}
-                  </span>
-                )) : "List the languages you speak"}
-              </div>
-              </p>
-          </section>
-          <section>
-            <h2 className="text-xl font-semibold mb-2 text-pink-600">
-              <FontAwesomeIcon icon={faHeart} className="mr-2" />
-              Hobbies
-            </h2>
-            <p className='text-black flex flex-wrap gap-2'>
-              {formData.hobbies.length > 0 ? formData.hobbies.map((hobby: any) => (
-                <span className="inline-block border border-gray-300 rounded-full px-3 py-1 text-sm font-semibold text-black" key={hobby.value}>
-                  <FontAwesomeIcon icon={faPlusCircle} className="mr-2" />
-                  {hobby.label}
-                </span>
-              )) : "List your hobbies here"}
-            </p>
-          </section>
-          <section>
-            <h2 className="text-xl font-semibold mb-2 text-indigo-600">
-              <FontAwesomeIcon icon={faTrophy} className="mr-2" />
-              Achievements
-            </h2>
-            <p className="text-black">{formData.achievement || "Your achievements"}</p>
-          </section>
-          <section>
-            <h2 className="text-xl font-semibold mb-2 text-red-600">
-              <FontAwesomeIcon icon={faPlusCircle} className="mr-2" />
-              Additional Information
-            </h2>
-            <p className="text-black">{formData.extra || "Any additional information"}</p>
-          </section>
-          <section>
-            <h2 className="text-xl font-semibold mb-2 text-blue-600">
-              <FontAwesomeIcon icon={faGlobe} className="mr-2" />
-              Social
-            </h2>
-            <div className="flex flex-wrap gap-3">
-              <a href={formData.github || ""} target="_blank" rel="noopener noreferrer" className="text-black hover:text-gray-900">
-                <FontAwesomeIcon icon={faGithub} className="mr-2" />
-                Github
-              </a>
-              <a href={formData.linkedin || ""} target="_blank" rel="noopener noreferrer" className="text-black hover:text-gray-900">
-                <FontAwesomeIcon icon={faLinkedin} className="mr-2" />
-                LinkedIn
-              </a>
-            </div>
-          </section>
-        </div>
-        <div className="flex justify-center mt-4">
-          <button
-            onClick={handleDownloadPdf}
-            className="px-4 py-2 bg-blue-600 text-black rounded-md hover:bg-blue-700"
-            disabled={isGenerating}
-          >
-            {isGenerating ? (
-              <div className="flex items-center">
-                <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24" />
-                Generating...
-              </div>
-            ) : (
-              'Generate Now'
-            )}
-          </button>
-        </div>
-      </div>
+      </div> */}
     </div>
   )
 };                            

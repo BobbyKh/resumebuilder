@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faGithub, faInstagram, faLinkedin, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import API_URL from '../api/Api';
 
 const Footer = () => {
     useEffect(() => {
@@ -36,7 +37,7 @@ const Footer = () => {
             
         try {
 
-            const response = await axios.get('http://127.0.0.1:8000/api/organization');
+            const response = await axios.get(`${API_URL}/api/organization`);
             setSocial(response.data);
             console.log(response.data);
 

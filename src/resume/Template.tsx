@@ -3,6 +3,7 @@ import 'aos/dist/aos.css';
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { Link } from 'react-router-dom';
+import API_URL from '../api/Api';
 
 interface ResumeTemplate {
     id: number;
@@ -21,7 +22,7 @@ const Template = () => {
     useEffect(() => {
         const fetchResumeTemplates = async () => {
             try {
-                const response = await axios.get<ResumeTemplate[]>('http://127.0.0.1:8000/api/template');
+                const response = await axios.get<ResumeTemplate[]>(`${API_URL}/api/template`);
                 setResumeTemplates(response.data.map((template) => {
                     return {
                         ...template,

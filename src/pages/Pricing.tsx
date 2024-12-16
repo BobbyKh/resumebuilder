@@ -1,8 +1,9 @@
 import AOS from "aos";
 import "aos/dist/aos.css";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { Key, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import API_URL from "../api/Api";
 
 const Pricing = () => {
   const [pricing, setPricing] = useState<any>([]);
@@ -10,7 +11,7 @@ const Pricing = () => {
   useEffect(() => {
     const fetchPricing = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/pricing");
+        const response = await axios.get(`${API_URL}/api/pricing`);
         setPricing(response.data);
       } catch (error) {
         console.error("Error fetching pricing data from backend:", error);
@@ -51,9 +52,25 @@ const Pricing = () => {
               data-aos="zoom-in"
             >
               <div className="text-center p-12">
-                <p className="text-3xl lg:text-2xl xl:text-3xl pb-4 text-black font-bold">
-                  {plan.name}
-                </p>
+                <div className="flex items-center mb-4 justify-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-white mr-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                    />
+                  </svg>
+                  <p className="text-2xl font-bold text-white ">
+                    {plan.name.toUpperCase()}
+                  </p>
+                </div>
                 <div className="flex justify-center items-center">
                   <span className="font-extrabold text-5xl lg:text-4xl xl:text-6xl align-text-middle px-3 text-white">
                     ${plan.price}
@@ -65,33 +82,32 @@ const Pricing = () => {
               </div>
               <div className="bg-[#0b1320] rounded-b-xl border-t-2 border-[#d5420b] p-10">
                 <ul className="space-y-4">
-                  {Array.isArray(plan.features) ? plan.features.map((feature: string, index: number) => (
-                    <li key={index} className="flex">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6 mr-3 text-gray-200 animate-pulse"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                      <span className="text-gray-200">{feature}</span>
-                    </li>
-                  )) : null}
+                  {typeof plan.features === 'string'
+                    ? plan.features.split(',').map((feature: string, index: Key | null | undefined) => (
+                        <li key={index} className="flex items-center gap-2 list-disc list-inside">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#d5420b] animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          <span className="text-white">{feature.trim()}</span>
+                        </li>
+                      ))
+                    : plan.features.map((feature: string, index: number) => (
+                        <li key={index} className="list-disc list-inside">{feature}</li>
+                      ))}
                 </ul>
-                <Link to="/pricing/subscription/1">
+                <Link to={`/pricing/subscribe/${plan.id}`}>
                 <button
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth'  })}
                   type="button"
                   className="w-full text-center text-lg text-white mt-8 p-3 rounded-lg border-2 border-[#d5420b] shadow-[0_0_10px_#d5420b] transition hover:text-[#d5420b] hover:shadow-[0_0_15px_#d5420b]"
                   data-aos="flip-up"
                 >
-                  <span className="font-semibold animate-border animate-font">Suscribe</span>
+                  
+                  {plan.name === 'Student' ? (
+                    <span className="font-semibold animate-border animate-font">Free</span>
+                  ) : (
+                    <span className="font-semibold animate-border animate-font">Suscribe</span>
+                  )}
                 </button>
                 </Link>
               </div>

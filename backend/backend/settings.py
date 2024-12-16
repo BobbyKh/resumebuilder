@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -22,10 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-uu4^)vqameolr738s=(i8wr6pfved2=u+mt*55jbynp-xjpz(6'
 
+DEBUG = False
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['resumaven.net','www.resumaven.net','95.217.4.187', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'api',
     'django_browser_reload',
     'rest_framework',
+    'dj_rest_auth',
     'rest_framework.authtoken',
+    'rest_framework_simplejwt',  # Ensure JWT package is installed
     'corsheaders',
     'allauth',
     'allauth.account',
@@ -76,7 +78,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [ BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -94,20 +96,39 @@ TEMPLATES = [
 AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',
+    'api.myauth.MyAuthBackend',
+    
+
 ]
 
 
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+ 
+}
+
+
+APPEND_SLASH=False
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),  # Customize as needed
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+}
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'offline',
-        },
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS': {'access_type': 'online'},
+        'OAUTH_PKCE_ENABLED': True,
+        'FETCH_USERINFO': True,
+    
+
     }
 }
+
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 
@@ -141,6 +162,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -156,7 +178,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/staticfiles/'  
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -164,26 +187,42 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+
 import os 
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+CORS_ORIGIN_ALLOW_ALL = True
+
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:3000",
+    'http://localhost:5173',
+    'http://127.0.0.1:8000',
+    'https://resumaven.net',
+    'https://www.resumaven.net',
 ]
+
+
 CORS_ALLOW_CREDENTIALS = True
+CSRF_TRUSTED_ORIGINS = [
+    'https://resumaven.net', 
+    'https://www.resumaven.net'
+]
 
-SOCIALACCOUNT_LOGIN_ON_GET = True
-
-
+CORS_ALLOW_HEADERS = ['authorization', 'content-type']
+CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'DELETE']
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_STORE_TOKENS  = True
+SOCIALACCOUNT_AUTHENTICATION_METHOD = 'token'
+SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
+SOCIALACCOUNT_AUTO_SIGNUP = True # Automatically sign up every user using their email account.
+SOCIALACCOUNT_ADAPTER = 'allauth.socialaccount.adapter.DefaultSocialAccountAdapter'
+ACCOUNT_ADAPTER = 'api.adapters.MyAccountAdapter'
+SOCIALACCOUNT_ADAPTER = 'api.adapters.MySocialAccountAdapter'
 # SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '46592222542-2858uulreoun7iahvanpi96trh5mhrgo.apps.googleusercontent.com'
 # SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 
-LOGIN_REDIRECT_URL = 'http://localhost:5173/'
-LOGOUT_REDIRECT_URL = 'http://localhost:5173/login'
-SECURE_REFERRER_POLICY= "strict-origin-when-cross-origin"
+
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -193,3 +232,10 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'bgoogly0@gmail.com'
 EMAIL_HOST_PASSWORD = 'gasq mcmh irbp qtxk'
 
+SITE_ID = 1
+
+LOGIN_REDIRECT_URL = 'http://localhost:5173/'
+LOGOUT_REDIRECT_URL = 'http://localhost:5173/login'
+SECURE_REFERRER_POLICY= "strict-origin-when-cross-origin"
+ACCOUNT_SIGNUP_REDIRECT_URL = 'http://localhost:5173/login'  # Redirect to homepage if signup is required
+SOCIALACCOUNT_LOGIN_ON_GET = True

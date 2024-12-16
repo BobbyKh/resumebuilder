@@ -28,7 +28,7 @@ admin.site.register(User, CustomUserAdmin)
 
 # Register other models
 admin.site.register([
-
+    models.PaymentSystem,
     models.AppointmentType,
     models.Appointment,
     models.Pricing,

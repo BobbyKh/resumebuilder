@@ -10,6 +10,7 @@ import Experience from "../resume/Experience";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import API_URL from '../api/Api';
 
 
 interface HeroSection {
@@ -28,7 +29,7 @@ const Landing = () => {
   });
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/api/hero')
+    axios.get(`${API_URL}/api/hero`)
       .then(response => {
         const heroData = response.data[0]; // Extract the first item
         setHeroSection({
@@ -48,18 +49,17 @@ const Landing = () => {
     AOS.init();
   }, []);
 
-
   return (
     <>
-      <div className="text-center py-20 px-6 bg-gradient-to-t from-gray-900 via-gray-800 to-black bg-no-repeat bg-center bg-cover bg-clip-border" style={{ backgroundImage: `url(${heroSection.image})` }} data-aos="fade-in">
-        <h2 className="text-4xl font-bold re mb-6">
-          <span className="block font-serif text-[#d5420b] text-5xl font-bold" data-aos="fade-right" data-aos-duration="1000">{heroSection.name}</span>
+      <div className="text-center py-20 px-6 bg-gradient-to-t from-gray-900 via-gray-800 to-black bg-no-repeat bg-center bg-cover bg-clip-border" style={{ backgroundImage: `url(${heroSection.image})` }} >
+        <h2 className="text-4xl font-bold re mb-6" data-aos="fade-right" data-aos-easing="ease-in-out" data-aos-duration="1500">
+          <span className="block font-serif text-[#d5420b] text-5xl font-bold">{heroSection.name}</span>
         </h2>
-        <p className="text-white text-lg mb-8 max-w-2xl mx-auto" data-aos="fade-up" data-aos-duration="1500">
+        <p className="text-white text-lg mb-8 max-w-2xl mx-auto" data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="1500">
           {heroSection.description}
         </p>
         <Link to="/documentcategory">
-        <button data-aos="fade-up" data-aos-duration="1500" data-aos-delay="500" className="bg-[#f56c3a] text-[white] text-lg py-3 px-6 rounded hover:bg-red-700">{heroSection.button_text}</button>
+        <button data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="1500" data-aos-delay="500" className="bg-[#f56c3a] text-[white] text-lg py-3 px-6 rounded hover:bg-red-700">{heroSection.button_text}</button>
         </Link>
       </div>
 
@@ -75,4 +75,5 @@ const Landing = () => {
 }
 
 export default Landing;
+
 

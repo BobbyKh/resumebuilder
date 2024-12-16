@@ -1,19 +1,23 @@
 from rest_framework import serializers
 from api import models
 from django.contrib.auth.models import User
+from drf_extra_fields.fields import Base64ImageField
+
+
+
+   
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'email')
+        fields = ('id', 'username', 'email', 'password')
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create (self , validated_data):
+        user = User.objects.create_user(**validated_data)
+        return user 
 
 
 
-
-
-
-class GoogleAuthSerializer(serializers.Serializer):
-    auth_token = serializers.CharField()
-    
 
 class AppointmentTypeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,6 +30,8 @@ class AppointmentSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 class PricingSerializer (serializers.ModelSerializer):
+
+    features = serializers.JSONField()
     class Meta:
         model = models.Pricing
         fields = '__all__'
@@ -76,15 +82,7 @@ class TemplateSerializer(serializers.ModelSerializer):
 
 class DocumentFieldSerializer(serializers.ModelSerializer):
     
-    image = serializers.SerializerMethodField()
-    def get_image(self, obj):
-        try:
-            if obj.image:
-                return obj.image.url
-        except Exception as e:
-            return None
-        return None
-
+    image = Base64ImageField(max_length=None, use_url=True)
     class Meta:
         model = models.DocumentField
         fields = '__all__'
@@ -93,3 +91,10 @@ class ExperienceSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Experience
         fields = '__all__'
+
+class PaymentSystemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.PaymentSystem
+        fields = '__all__'
+    
+

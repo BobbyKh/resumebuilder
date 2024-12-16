@@ -24,6 +24,7 @@ import CoverTemplate from "./coverlettersection/CoverTemplate";
 import DocumentCategory from "./pages/DocumentCategory";
 import GenerateResume from "./resume/GenerateResume";
 import Loader from "./components/Loader";
+import Faq from "./pages/Faq";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -57,7 +58,7 @@ const App = () => {
             />
             <Route path="/app" element={<BaseApp />} />
             <Route path="/documentcategory" element={<DocumentCategory />} />
-            <Route path="/pricing/suscribe/:id" element={<Checkout />} />
+            <Route path="/pricing/subscribe/:id" element={<Checkout />} />
             <Route path="/resume/editor/:templateId" element={<BuildForm />} />
             <Route path="/cv" element={<CVtemplate />} />
             <Route path="/category/:id" element={<CoverTemplate />} />
@@ -75,6 +76,7 @@ const App = () => {
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/pdftotext" element={<Pdftotext />} />
             <Route path="/generateresume/:templateId" element={<GenerateResume />} />
+            <Route path="/faq" element={<Faq />} />
           </Routes>
           <Footer />
         </div>

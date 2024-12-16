@@ -1,12 +1,19 @@
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faTimes, faDollarSign, faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faTimes, faDollarSign, faQuestionCircle, faSignInAlt, faUser } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { Dropdown } from "flowbite-react";
+import API_URL from "../api/Api";
 
+// interface SocialAccount {
+//   platform: string;
+//   username: string;
+//   email: string;
+//   avatar: string;
+// }
 interface Organization {
   name: string;
   logo: string;
@@ -25,49 +32,34 @@ interface DocumentCategory {
 }
 
 const Navbar = (): JSX.Element => {
-  const [user, setUser] = useState<User | null>(null);
+  const [] = useState<User | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [documentCategories, setDocumentCategories] = useState<DocumentCategory[]>([]);
   const [organizations, setOrganizations] = useState<Organization[]>([]);
-
-  const loggedInUserId = localStorage.getItem("loggedInUserId");
-   // Provide a default or fetched loggedInUserId value
 
   useEffect(() => {
     AOS.init();
   }, []);
 
 
-  useEffect (() => {
+  useEffect(() => {
     const fetchOrganizations = async () => {
       try {
-        const response = await axios.get<Organization[]>("http://127.0.0.1:8000/api/organization");
+        const response = await axios.get<Organization[]>(`${API_URL}/api/organization`);
         setOrganizations(response.data);
       } catch (error) {
         console.error("Error fetching organizations:", error);
       }
     };
     fetchOrganizations();
-  })
+  }, []);
 
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get<User[]>("http://127.0.0.1:8000/api/users");
-        const currentUser = response.data.find((u) => u.id === Number(loggedInUserId));
-        setUser(currentUser || null);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    };
-    fetchUsers();
-  }, [loggedInUserId]);
 
   useEffect(() => {
     const fetchDocumentCategories = async () => {
       try {
-        const response = await axios.get<DocumentCategory[]>("http://127.0.0.1:8000/api/documentcategory");
+        const response = await axios.get<DocumentCategory[]>(`${API_URL}/api/documentcategory`);
         setDocumentCategories(response.data);
       } catch (error) {
         console.error("Error fetching document categories:", error);
@@ -80,37 +72,18 @@ const Navbar = (): JSX.Element => {
     setIsOpen(!isOpen);
   };
 
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    setUser(null);
-    localStorage.removeItem("authToken");
-
-    axios.post("http://127.0.0.1:8000/api/logout")
-      .then(() => {
-        console.log("Logged out successfully");
-      })
-      .catch((error) => {
-        console.error("Error logging out:", error);
-      });
-
-    navigate("/login");
-  };
-
   return (
     <header className="bg-black flex flex-col md:flex-row justify-between items-center py-6 px-10 shadow-sm">
       <div className="flex items-center justify-between w-full md:w-auto">
-      {organizations.map((organization) => (
-          <Link to="/">
-          <h1 className="text-2xl font-bold text-[#d5420b] flex items-center">
-            <img src={organization.logo} alt={organization.name} className="w-10 h-10 mr-2" />
-            <span className="text-[#d5420b]">Resu</span>
-            <span className="text-white">Master</span>
-          </h1>
-        </Link>
-      ))}
-
-     
+        {organizations.map((organization) => (
+          <Link to="/" key={organization.name}>
+            <h1 className="text-2xl font-bold text-[#d5420b] flex items-center">
+              <img src={organization.logo} alt={organization.name} className="w-10 h-10 mr-2" />
+              <span className="text-[#d5420b]">{organization.name}</span>
+              {/* <span className="text-white">Maven</span> */}
+            </h1>
+          </Link>
+        ))}
         <button
           onClick={toggleMenu}
           className="text-white md:hidden flex items-center justify-center w-10 h-10"
@@ -145,41 +118,21 @@ const Navbar = (): JSX.Element => {
             </Link>
           </li>
         </ul>
-        <ul className="flex flex-col md:flex-row md:space-x-6 text-white md:items-center mt-4 md:mt-0">
-          {user ? (
+          <ul className="hidden md:flex md:space-x-6 text-white md:items-center">
             <li>
-              <span className="text-white font-semibold">Hello, {user.username}</span>
-            </li>
-          ) : (
-            <li>
-              <Link
-                to="/login"
-                className="hover:shadow-md hover:animate-pulse hover:text-[#d5420b] flex items-center transition duration-300 ease-in-out"
-              >
+              <Link to="/login" className="hover:text-[rgb(213,66,11)] flex items-center">
+                <FontAwesomeIcon icon={faSignInAlt} className="mr-2" />
                 Login
               </Link>
             </li>
-          )}
-          {user ? (
             <li>
-              <button
-                onClick={handleLogout}
-                className="hover:shadow-md hover:animate-pulse hover:text-[#d5420b] flex items-center transition duration-300 ease-in-out"
-              >
-                Logout
-              </button>
-            </li>
-          ) : (
-            <li>
-              <Link
-                to="/signup"
-                className="hover:shadow-md hover:animate-pulse hover:text-[#d5420b] flex items-center transition duration-300 ease-in-out"
-              >
+              <Link to="/signup" className="hover:text-[rgb(213,66,11)] flex items-center">
+                <FontAwesomeIcon icon={faUser} className="mr-2" />
                 Signup
               </Link>
             </li>
-          )}
-        </ul>
+          </ul>
+       
       </nav>
     </header>
   );
