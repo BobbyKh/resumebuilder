@@ -35,11 +35,7 @@ const GenerateResume = () => {
     useEffect(() => {
         const fetchTemplate = async () => {
             try {
-<<<<<<< HEAD
-                const response = await axios.get(`https://resumaven.net/api/template/${templateId}`);
-=======
                 const response = await axios.get(`${API_URL}/template/${templateId}`);
->>>>>>> auth.bobby
                 setHtmlTemplate(response.data.html || '');
             } catch (err) {
                 console.error("Error fetching template:", err);
@@ -53,11 +49,7 @@ const GenerateResume = () => {
     useEffect(() => {
         const fetchDocumentData = async () => {
             try {
-<<<<<<< HEAD
-                const response = await axios.get(`https://resumaven.net/api/documentfield/${templateId}`);
-=======
                 const response = await axios.get(`${API_URL}/documentfield/${templateId}`);
->>>>>>> auth.bobby
                 setResumeDataList(response.data);
                 console.log(response.data);
             } catch (error) {

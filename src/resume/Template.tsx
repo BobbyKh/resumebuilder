@@ -22,11 +22,7 @@ const Template = () => {
     useEffect(() => {
         const fetchResumeTemplates = async () => {
             try {
-<<<<<<< HEAD
-                const response = await axios.get<ResumeTemplate[]>('https://resumaven.net/api/template');
-=======
                 const response = await axios.get<ResumeTemplate[]>(`${API_URL}/template`);
->>>>>>> auth.bobby
                 setResumeTemplates(response.data.map((template) => {
                     return {
                         ...template,
