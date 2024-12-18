@@ -155,26 +155,40 @@ const htmlToPdf = (html: string) => {
                                                     </Link>
                                                 </li>
                                                 <li>
-                                                    <a
+                                                    <button
                                                         className="flex items-center gap-2 hover:bg-red-600 p-2 rounded transition duration-300"
+<<<<<<< HEAD
                                                         onClick={() => {
                                                             axios
                                                                 .delete(
                                                                     `${API_URL}/api/documentfield/${resumeData.id}`
+=======
+                                                        onClick={async () => {
+                                                            if (
+                                                                window.confirm(
+                                                                    "Are you sure you want to delete this resume data?"
+>>>>>>> be7ec34b98e75c62825eaaf803a8153811b04804
                                                                 )
-                                                                .then(() => {
+                                                            ) {
+                                                                try {
+                                                                    await axios.delete(
+                                                                        `${API_URL}/documentfield/edit/${templateId}/${resumeData.id}`
+                                                                    );
                                                                     setResumeDataList(
                                                                         resumeDataList.filter(
                                                                             (data) => data.id !== resumeData.id
                                                                         )
                                                                     );
-                                                                })
-                                                                .catch((err) => console.error(err));
+                                                                } catch (err) {
+                                                                    console.error("Error deleting resume data:", err);
+                                                                    alert("Failed to delete the resume data.");
+                                                                }
+                                                            }
                                                         }}
                                                     >
                                                         <FontAwesomeIcon icon={faTrash} />
                                                         <span>Delete</span>
-                                                    </a>
+                                                    </button>
                                                 </li>
                                             </ul>
                                         </div>

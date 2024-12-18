@@ -2,9 +2,14 @@ from rest_framework import serializers
 from api import models
 from django.contrib.auth.models import User
 from drf_extra_fields.fields import Base64ImageField
+from allauth.socialaccount.models import SocialToken
 
 
-
+class SocialToken (serializers.ModelSerializer):
+    
+    class Meta :
+        model = SocialToken
+        fields = '__all__'
    
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -86,6 +91,7 @@ class DocumentFieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.DocumentField
         fields = '__all__'
+        
 
 class ExperienceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -97,4 +103,3 @@ class PaymentSystemSerializer(serializers.ModelSerializer):
         model = models.PaymentSystem
         fields = '__all__'
     
-

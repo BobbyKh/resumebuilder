@@ -25,6 +25,7 @@ import DocumentCategory from "./pages/DocumentCategory";
 import GenerateResume from "./resume/GenerateResume";
 import Loader from "./components/Loader";
 import Faq from "./pages/Faq";
+import ResumeEditor from "./resume/ResumeEditor";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -60,6 +61,7 @@ const App = () => {
             <Route path="/documentcategory" element={<DocumentCategory />} />
             <Route path="/pricing/subscribe/:id" element={<Checkout />} />
             <Route path="/resume/editor/:templateId" element={<BuildForm />} />
+            <Route path="/resume/editor/:templateId/:id" element={<ResumeEditor />} />
             <Route path="/cv" element={<CVtemplate />} />
             <Route path="/category/:id" element={<CoverTemplate />} />
             <Route path="/biodata" element={<BioDataTemplate />} />
