@@ -23,15 +23,14 @@ urlpatterns = [
     path('category/<int:category_id>/templates', views.fetch_category_templates, name='fetch_category_templates'),
     path('documentfield', views.DocumentFieldsView.as_view(), name='documentfield'),
     path('documentfield/<int:template_id>', views.fetch_document_data, name='fetch_document_data'),
-    path('documentfield/<int:id>/update', views.update, name='update'),
+    path('documentfield/edit/<int:template_id>/<int:document_field_id>', views.DocumentFieldEditView.as_view(), name='documentfield'),
     path('experience', views.ExperienceView.as_view(), name='experience'),
     path ('pricing/<int:id>', views.PricingDetail.as_view(), name='suscription'),
     path ('paymentsystem', views.PaymentSystemView.as_view(), name='paymentsystem'),
     
 
     #AUTH_TOKEN
-    # path("social-accounts", views.get_social_accounts, name="social-accounts"),
-
+    path ('socialtoken', views.SocialTokenView, name='socialtoken'),
 
 
     

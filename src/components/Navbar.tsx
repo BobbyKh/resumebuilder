@@ -41,6 +41,22 @@ const Navbar = (): JSX.Element => {
     AOS.init();
   }, []);
 
+  const [, setSocialToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Fetch the social token when the Navbar loads
+    const fetchSocialToken = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/socialtoken`, { withCredentials: true });
+        setSocialToken(response.data.token);
+        console.log('Social Token:', response.data.token);
+      } catch (error) {
+        console.error('Error fetching token:', error);
+      }
+    };
+
+    fetchSocialToken();
+  }, []);
 
   useEffect(() => {
     const fetchOrganizations = async () => {

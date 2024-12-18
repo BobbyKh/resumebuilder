@@ -103,8 +103,8 @@ const Pricing = () => {
                   data-aos="flip-up"
                 >
                   
-                  {plan.name === 'Student' ? (
-                    <span className="font-semibold animate-border animate-font">Free</span>
+                  {plan.name === 'Free' ? (
+                    <span className="font-semibold animate-border animate-font">Get Started</span>
                   ) : (
                     <span className="font-semibold animate-border animate-font">Suscribe</span>
                   )}

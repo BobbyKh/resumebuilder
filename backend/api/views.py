@@ -17,10 +17,106 @@ from rest_framework import status
 import re
 from rest_framework.decorators import api_view
 from pypdf import PdfReader
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])  
+def SocialTokenView(request):
+    
+    print(f"User: {request.user}")
+    print(f"Authenticated: {request.user.is_authenticated}")
+    print(f"Headers: {request.headers}")
 
+    # Check for session-based login
+    session_id = request.session.session_key
+    print(f"Session ID: {session_id}")
 
+    # Attempt to retrieve the token
+    if request.user.is_authenticated:
+        try:
+            social_token = SocialToken.objects.get(account__user=request.user, account__provider='google')
+            print( "Token: " + social_token.token)
+            return Response({'token': social_token.token}, status=status.HTTP_200_OK)
+        
+            
+        except SocialToken.DoesNotExist:
+            return Response({'error': 'Social token not found.'}, status=status.HTTP_404_NOT_FOUND)
+    else:
+        
+        return Response({
+            'error': 'User not authenticated.',
+            'session_id': session_id,
+            'user': str(request.user),
+            
+        }, status=status.HTTP_401_UNAUTHORIZED)
+    
 
+class DocumentFieldEditView (APIView):
+    def get(self, request, *args, **kwargs):
+        template_id = kwargs.get('template_id')
+        try:
+            template = Template.objects.get(id=template_id)
+        except Template.DoesNotExist:
+            return Response({"error": "Template matching query does not exist."}, status=status.HTTP_404_NOT_FOUND)
+        
+        document_field_id = kwargs.get('document_field_id')
+        try:
+            document_field = DocumentField.objects.get(id=document_field_id, template=template)
+        except DocumentField.DoesNotExist:
+            return Response({"error": "Document field matching query does not exist."}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = DocumentFieldSerializer(document_field)
+        return Response(serializer.data)
+
+    def post(self, request, *args, **kwargs):
+        template_id = kwargs.get('template_id')
+        try:
+            template = Template.objects.get(id=template_id)
+        except Template.DoesNotExist:
+            return Response({"error": "Template matching query does not exist."}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = DocumentFieldSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(template=template)
+            return Response(serializer.data)
+        return Response(serializer.errors)
+
+    def put(self, request, *args, **kwargs):
+        template_id = kwargs.get('template_id')
+        try:
+            template = Template.objects.get(id=template_id)
+        except Template.DoesNotExist:
+            return Response({"error": "Template matching query does not exist."}, status=status.HTTP_404_NOT_FOUND)
+        
+        document_field_id = kwargs.get('document_field_id')
+        try:
+            document_field = DocumentField.objects.get(id=document_field_id, template=template)
+        except DocumentField.DoesNotExist:
+            return Response({"error": "Document field matching query does not exist."}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = DocumentFieldSerializer(document_field, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+
+    def delete(self, request, *args, **kwargs):
+        template_id = kwargs.get('template_id')
+        try:
+            template = Template.objects.get(id=template_id)
+        except Template.DoesNotExist:
+            return Response({"error": "Template matching query does not exist."}, status=status.HTTP_404_NOT_FOUND)
+        
+        document_field_id = kwargs.get('document_field_id')
+        try:
+            document_field = DocumentField.objects.get(id=document_field_id, template=template)
+        except DocumentField.DoesNotExist:
+            return Response({"error": "Document field matching query does not exist."}, status=status.HTTP_404_NOT_FOUND)
+        
+        document_field.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+        
 # Create your views here.
 @api_view(['GET'])
 def user_list(request):
