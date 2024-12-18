@@ -157,17 +157,10 @@ const htmlToPdf = (html: string) => {
                                                 <li>
                                                     <button
                                                         className="flex items-center gap-2 hover:bg-red-600 p-2 rounded transition duration-300"
-<<<<<<< HEAD
-                                                        onClick={() => {
-                                                            axios
-                                                                .delete(
-                                                                    `${API_URL}/api/documentfield/${resumeData.id}`
-=======
                                                         onClick={async () => {
                                                             if (
                                                                 window.confirm(
                                                                     "Are you sure you want to delete this resume data?"
->>>>>>> be7ec34b98e75c62825eaaf803a8153811b04804
                                                                 )
                                                             ) {
                                                                 try {
