@@ -43,8 +43,8 @@ INSTALLED_APPS = [
     'django_browser_reload',
     'rest_framework',
     'dj_rest_auth',
+    'dj_rest_auth.registration',
     'rest_framework.authtoken',
-    'rest_framework_simplejwt',  # Ensure JWT package is installed
     'corsheaders',
     'allauth',
     'allauth.account',
@@ -99,17 +99,13 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'api.myauth.MyAuthBackend',
     
+    
 
 ]
 
 
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],
  
-}
 
 
 APPEND_SLASH=False
