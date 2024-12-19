@@ -1,6 +1,10 @@
+import json
 import logging
+
+from django.http import JsonResponse
+from django.shortcuts import redirect
 logger = logging.getLogger(__name__)
-from allauth.socialaccount.models import SocialToken
+from allauth.socialaccount.models import SocialToken 
 from rest_framework.response import Response
 from api.models import Experience, PaymentSystem
 # from dj_rest_auth.registration.views import SocialLoginView
@@ -15,42 +19,86 @@ from django.core.mail import send_mail
 from django.conf import settings
 from rest_framework import status
 import re
-from rest_framework.decorators import api_view
+from allauth.socialaccount.models import SocialAccount
+from django.contrib.auth.decorators import login_required 
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view 
+from rest_framework_simplejwt.tokens import RefreshToken
 from pypdf import PdfReader
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated , AllowAny   
+from rest_framework import generics
+from django.contrib.auth import get_user_model
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])  
-def SocialTokenView(request):
+User = get_user_model()
+
+
+class UserCreate(generics.CreateAPIView):
     
-    print(f"User: {request.user}")
-    print(f"Authenticated: {request.user.is_authenticated}")
-    print(f"Headers: {request.headers}")
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes  = [AllowAny]
 
-    # Check for session-based login
-    session_id = request.session.session_key
-    print(f"Session ID: {session_id}")
-
-    # Attempt to retrieve the token
-    if request.user.is_authenticated:
-        try:
-            social_token = SocialToken.objects.get(account__user=request.user, account__provider='google')
-            print( "Token: " + social_token.token)
-            return Response({'token': social_token.token}, status=status.HTTP_200_OK)
-        
-            
-        except SocialToken.DoesNotExist:
-            return Response({'error': 'Social token not found.'}, status=status.HTTP_404_NOT_FOUND)
-    else:
-        
-        return Response({
-            'error': 'User not authenticated.',
-            'session_id': session_id,
-            'user': str(request.user),
-            
-        }, status=status.HTTP_401_UNAUTHORIZED)
+class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer  
+    permission_classes  = [IsAuthenticated]
     
+    
+    def get_object(self):
+        return self.request.user 
+    
+
+@login_required
+def google_login_callback(request):
+    
+    user = request.user 
+
+    social_accounts = SocialAccount.objects.filter(user=user)
+    print ("Social Accounts for user :", social_accounts)
+    
+    social_account = social_accounts.first()
+    
+    if not social_account:
+        print ("No social account found for user",user)
+        return redirect ('http://localhost:5173/login/callback/?error=NoSocialAccountFound') 
+    
+    token = SocialToken.objects.filter(account=social_account, account__provider = 'google',).first()
+    
+    if token:
+        print ('Google Token found    :', token.token)
+        refresh = RefreshToken.for_user(user)   
+        access_token = str(refresh.access_token)
+        return redirect (f'http://localhost:5173/login/callback/?access_token={access_token}')
+    
+    else :
+        print ( 'No google token found !!')
+        return redirect ( f"http://localhost:5173/login/callback/?error=NoGoogleTokenFound")
+    
+    
+    
+
+@csrf_exempt 
+def validate_google_token(request):
+    
+    if request.method == 'POST':
+        try :
+            
+            data = json.loads(request.body)
+            google_access_token = data.get('access_token')
+            print ('Google Access Token :', google_access_token)
+            
+            if not google_access_token:
+                return JsonResponse({'error': 'No Google Access Token provided'}, status=400)
+            return JsonResponse({'access_token': google_access_token}, status=200)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+    
+      
+    
+
+  
 
 class DocumentFieldEditView (APIView):
     def get(self, request, *args, **kwargs):

@@ -3,10 +3,11 @@ import "aos/dist/aos.css";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faTimes, faDollarSign, faQuestionCircle, faSignInAlt, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faTimes, faDollarSign, faQuestionCircle, faSignInAlt, faUser, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { Dropdown } from "flowbite-react";
 import API_URL from "../api/Api";
+import { useAuthentication } from "../auth/Auth";
 
 // interface SocialAccount {
 //   platform: string;
@@ -36,27 +37,33 @@ const Navbar = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [documentCategories, setDocumentCategories] = useState<DocumentCategory[]>([]);
   const [organizations, setOrganizations] = useState<Organization[]>([]);
+  const { isAuthorized, logout } = useAuthentication();
+
+
+  const handleLogout = () => {
+    logout();
+  };
 
   useEffect(() => {
     AOS.init();
   }, []);
 
-  const [, setSocialToken] = useState<string | null>(null);
+  // const [, setSocialToken] = useState<string | null>(null);
 
-  useEffect(() => {
-    // Fetch the social token when the Navbar loads
-    const fetchSocialToken = async () => {
-      try {
-        const response = await axios.get(`${API_URL}/socialtoken`, { withCredentials: true });
-        setSocialToken(response.data.token);
-        console.log('Social Token:', response.data.token);
-      } catch (error) {
-        console.error('Error fetching token:', error);
-      }
-    };
+  // useEffect(() => {
+  //   // Fetch the social token when the Navbar loads
+  //   const fetchSocialToken = async () => {
+  //     try {
+  //       const response = await axios.get(`${API_URL}/socialtoken`, { withCredentials: true });
+  //       setSocialToken(response.data.token);
+  //       console.log('Social Token:', response.data.token);
+  //     } catch (error) {
+  //       console.error('Error fetching token:', error);
+  //     }
+  //   };
 
-    fetchSocialToken();
-  }, []);
+  //   fetchSocialToken();
+  // }, []);
 
   useEffect(() => {
     const fetchOrganizations = async () => {
@@ -136,16 +143,25 @@ const Navbar = (): JSX.Element => {
         </ul>
           <ul className="hidden md:flex md:space-x-6 text-white md:items-center">
             <li>
-              <Link to="/login" className="hover:text-[rgb(213,66,11)] flex items-center">
-                <FontAwesomeIcon icon={faSignInAlt} className="mr-2" />
-                Login
-              </Link>
+              {!isAuthorized ? (
+                <Link to="/login" className="hover:text-[rgb(213,66,11)] flex items-center">
+                  <FontAwesomeIcon icon={faSignInAlt} className="mr-2" />
+                  Login
+                </Link>
+              ) : (
+                <a href="#" onClick={handleLogout} className="hover:text-[rgb(213,66,11)] flex items-center">
+                  <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
+                  Logout
+                </a>
+              )}
             </li>
             <li>
-              <Link to="/signup" className="hover:text-[rgb(213,66,11)] flex items-center">
-                <FontAwesomeIcon icon={faUser} className="mr-2" />
-                Signup
-              </Link>
+              {!isAuthorized ? (
+                <Link to="/signup" className="hover:text-[rgb(213,66,11)] flex items-center">
+                  <FontAwesomeIcon icon={faUser} className="mr-2" />
+                  Signup
+                </Link>
+              ) : null}
             </li>
           </ul>
        
