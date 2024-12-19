@@ -12,17 +12,21 @@ const Login = () => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [error] = useState("");
+  const [loading] = useState(false);
 
   const handleFacebookLogin = () => {
     // Redirect to Facebook's login page via Django's auth route
     window.location.href = "http://127.0.0.1:8000/accounts/facebook/login/";
   };
   const handleGoogleLogin = () => {
+    // Get the session ID
+    const sessionId = localStorage.getItem("sessionId");
+
     // Redirect to Google's login page via Django's auth route
-    window.location.href = "http://127.0.0.1:8000/accounts/google/login/"
+    window.location.href = `http://127.0.0.1:8000/accounts/google/login/?session_id=${sessionId}`;
   };
+
 
   const handleLinkedInLogin = () => {
     // Redirect to LinkedIn's login page via Django's auth route
@@ -39,36 +43,7 @@ const Login = () => {
     color: "#fff",
   };
 
-  const handleSubmit = async (e : React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-    try {
-      const response = await fetch("http://127.0.0.1:8000/api/token/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username,
-          password,
-        }),
-      });
-      
-      const data = await response.json();
-      if (response.status !== 200) {
-        setError(data.detail);
-      } else {
-        localStorage.setItem("token", data.access);
-        console.log(data);
-        window.location.href = "/";
-      }
-    } catch (error) {
-      setError("Something went wrong");
-    } finally {
-      setLoading(false);
-    }
-  };
+ 
 
   return (
     <div
@@ -84,7 +59,7 @@ const Login = () => {
           <FontAwesomeIcon icon={faSignInAlt} className="mr-2" />
           Login Options
         </h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(e) => e.preventDefault()}>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
               Username
