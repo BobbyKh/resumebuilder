@@ -1,137 +1,175 @@
-import AOS from "aos";
-import "aos/dist/aos.css";
-import { faGoogle, faLinkedin, faGithub, faFacebook } from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
-import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "./Token";
 
 const Login = () => {
-  useEffect(() => {
-    AOS.init();
-  }, []);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [method, setMethod] = useState<'login' | 'register'>('login');
+  const [success, setSuccess] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const loginRoute = "http://127.0.0.1:8000/api/token/";
+  const registerRoute = "http://127.0.0.1:8000/user/register/";
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error] = useState("");
-  const [loading] = useState(false);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    setSuccess(null);
 
-  const handleFacebookLogin = () => {
-    // Redirect to Facebook's login page via Django's auth route
-    window.location.href = "http://127.0.0.1:8000/accounts/facebook/login/";
+    if (method === 'register' && password !== confirmPassword) {
+      setError('Passwords do not match.');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        method === 'login' ? loginRoute : registerRoute,
+        {
+          username,
+          password,
+        }
+      );
+
+      if (method === 'login') {
+        localStorage.setItem(ACCESS_TOKEN, response.data.access);
+        localStorage.setItem(REFRESH_TOKEN, response.data.refresh);
+        navigate('/');
+        window.location.reload();
+      } else {
+        setSuccess('Registration successful. Please log in.');
+        setTimeout(() => {
+          setMethod('login'); // Switch to login after successful registration
+        }, 2000);
+      }
+    } catch (error: any) {
+      console.error(error);
+      if (error.response) {
+        switch (error.response.status) {
+          case 400:
+            setError('Invalid username or password.');
+            break;
+          case 401:
+            setError('Unauthorized.');
+            break;
+          case 404:
+            setError('User not found.');
+            break;
+          case 500:
+            setError('Server error.');
+            break;
+          default:
+            setError('An error occurred.');
+        }
+      } else {
+        setError('Network error, something went wrong.');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
+
   const handleGoogleLogin = () => {
-    // Get the session ID
-    const sessionId = localStorage.getItem("sessionId");
-
-    // Redirect to Google's login page via Django's auth route
-    window.location.href = `http://127.0.0.1:8000/accounts/google/login/?session_id=${sessionId}`;
+    window.location.href = "http://127.0.0.1:8000/accounts/google/login/";
   };
-
-
-  const handleLinkedInLogin = () => {
-    // Redirect to LinkedIn's login page via Django's auth route
-    window.location.href = "http://127.0.0.1:8000/accounts/linkedin/login/";
-  };
-
-  const handleGithubLogin = () => {
-    // Redirect to GitHub's login page via Django's auth route
-    window.location.href = "http://127.0.0.1:8000/accounts/github/login/";
-  };
-
-  const darkMode = {
-    backgroundColor: "#1A202C",
-    color: "#fff",
-  };
-
- 
 
   return (
-    <div
-      className="flex flex-col items-center justify-center min-h-screen"
-      style={darkMode}
-    >
-      <div
-        className="bg-[#1A202C] border-2 border-[#d5420b] shadow-lg shadow-[#d5420b] rounded-lg p-8 m-4 max-w-md w-full"
-        data-aos="fade-up"
-        data-aos-duration="1000"
-      >
-        <h2 className="text-2xl text-[#d5420b] font-bold mb-6 text-center">
-          <FontAwesomeIcon icon={faSignInAlt} className="mr-2" />
-          Login Options
-        </h2>
-        <form onSubmit={(e) => e.preventDefault()}>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+    <div className="h-screen flex flex-col justify-center items-center bg-[#0b1320]">
+      <div className="bg-gray-100 rounded-md p-4 max-w-md w-full mx-auto shadow-md">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <h2 className="text-2xl font-bold text-center">{method === 'register' ? 'Register' : 'Login'}</h2>
+          {error && <p className="text-red-500 text-center">{error}</p>}
+          {success && <p className="text-green-500 text-center">{success}</p>}
+
+          <div className="flex flex-col">
+            <label htmlFor="username" className="sr-only">
               Username
             </label>
             <input
               type="text"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="username"
-              placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              placeholder="Username"
+              name="username"
+              id="username"
+              className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+
+          <div className="flex flex-col">
+            <label htmlFor="password" className="sr-only">
               Password
             </label>
             <input
               type="password"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="password"
-              placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              name="password"
+              id="password"
+              className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
-          {error && <p className="text-red-500 text-sm">{error}</p>}
+
+          {method === 'register' && (
+            <div className="flex flex-col">
+              <label htmlFor="confirmPassword" className="sr-only">
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Confirm Password"
+                name="confirmPassword"
+                id="confirmPassword"
+                className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+          )}
+
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-full my-2 transition duration-500 transform hover:scale-105"
-            disabled={loading}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md w-full shadow-md"
           >
-            {loading ? "Loading..." : "Login"}
+            {method === 'register' ? 'Register' : 'Login'}
           </button>
-        </form>
-        <button
-          onClick={handleGoogleLogin}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full my-2 w-full transition duration-500 transform hover:scale-105"
-          style={{ backgroundColor: "#4285F4" }}
-          data-aos="zoom-in"
-        >
-          <FontAwesomeIcon icon={faGoogle} className="mr-2" />
-          Continue with Google
-        </button>
 
-        <button onClick={handleLinkedInLogin}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full my-2 w-full transition duration-500 transform hover:scale-105"
-          style={{ backgroundColor: "#2867B2" }}
-          data-aos="zoom-in"
-          data-aos-delay="300"
-        >
-          <FontAwesomeIcon icon={faLinkedin} className="mr-2" />
-          Continue with LinkedIn
-        </button>
-        <button onClick={handleGithubLogin}
-          className="bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded-full my-2 w-full transition duration-500 transform hover:scale-105"
-          style={{ backgroundColor: "#333" }}
-          data-aos="zoom-in"
-          data-aos-delay="600"
-        >
-          <FontAwesomeIcon icon={faGithub} className="mr-2" />
-          Continue with GitHub
-        </button>
-        <button onClick={handleFacebookLogin}
-          className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-full my-2 w-full transition duration-500 transform hover:scale-105"
-          style={{ backgroundColor: "#4267B2" }}
-          data-aos="zoom-in"
-          data-aos-delay="900"
-        >
-          <FontAwesomeIcon icon={faFacebook} className="mr-2" />
-          Continue with Facebook
-        </button>
+          <button
+            type="button"
+            onClick={handleGoogleLogin}
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md w-full shadow-md"
+          >
+            {method === 'register' ? 'Register with Google' : 'Login with Google'}
+          </button>
+
+          {method === 'login' ? (
+            <p className="text-center">
+              Don't have an account?{' '}
+              <span
+                onClick={() => setMethod('register')}
+                className="cursor-pointer text-blue-500"
+              >
+                Register
+              </span>
+            </p>
+          ) : (
+            <p className="text-center">
+              Already have an account?{' '}
+              <span
+                onClick={() => setMethod('login')}
+                className="cursor-pointer text-blue-500"
+              >
+                Login
+              </span>
+            </p>
+          )}
+        </form>
       </div>
     </div>
   );

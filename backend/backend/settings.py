@@ -199,16 +199,9 @@ CORS_ALLOWED_ORIGINS = [
 
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_HEADERS = ['authorization', 'content-type']
+CORS_ALLOW_HEADERS = ['authorization', 'content-type', 'accept', 'origin', 'user-agent', 'x-csrftoken', 'x-requested-with']
 CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'DELETE']
-SOCIALACCOUNT_AUTO_SIGNUP = True
-SOCIALACCOUNT_STORE_TOKENS  = True
-SOCIALACCOUNT_AUTHENTICATION_METHOD = 'token'
-SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
-SOCIALACCOUNT_AUTO_SIGNUP = True # Automatically sign up every user using their email account.
-SOCIALACCOUNT_ADAPTER = 'allauth.socialaccount.adapter.DefaultSocialAccountAdapter'
-ACCOUNT_ADAPTER = 'api.adapters.MyAccountAdapter'
-SOCIALACCOUNT_ADAPTER = 'api.adapters.MySocialAccountAdapter'
+
 # SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '46592222542-2858uulreoun7iahvanpi96trh5mhrgo.apps.googleusercontent.com'
 # SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 
@@ -224,8 +217,8 @@ EMAIL_HOST_PASSWORD = 'gasq mcmh irbp qtxk'
 
 SITE_ID = 1
 
-LOGIN_REDIRECT_URL = 'http://localhost:5173/'
+LOGIN_REDIRECT_URL = '/callback/'
 LOGOUT_REDIRECT_URL = 'http://localhost:5173/login'
 SECURE_REFERRER_POLICY= "strict-origin-when-cross-origin"
-ACCOUNT_SIGNUP_REDIRECT_URL = 'http://localhost:5173/login'  # Redirect to homepage if signup is required
-SOCIALACCOUNT_LOGIN_ON_GET = True
+
+SOCIALACCOUNT_STORE_TOKENS = True

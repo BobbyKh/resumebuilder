@@ -1,8 +1,8 @@
-from django.contrib import admin
-from django.urls import include, path
+from django.urls import path
 from django.conf.urls.static import static
 from api import views
 from django.conf import settings
+
 
 urlpatterns = [
 
@@ -30,9 +30,7 @@ urlpatterns = [
     
 
     #AUTH_TOKEN
-    path ('socialtoken', views.SocialTokenView, name='socialtoken'),
-
-
+    
     
 ]
 
