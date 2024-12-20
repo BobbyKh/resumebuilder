@@ -1,12 +1,13 @@
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 import { useEffect, useState } from 'react'
+import API_URL from '../api/Api'
 
 const Tutorial = () => {
   const [tutorials, setTutorials] = useState<any[]>([])
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/tutorial')
+    fetch(`${API_URL}/api/tutorial`)
       .then(response => response.json())
       .then(data => setTutorials(data))
   }, [])
