@@ -196,3 +196,14 @@ class PaymentSystem(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Tutorial(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    video_link = models.TextField( )
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name 

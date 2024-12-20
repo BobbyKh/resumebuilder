@@ -29,6 +29,8 @@ import ResumeEditor from "./resume/ResumeEditor";
 import AuthPage  from "./auth/AuthPage";
 import { useAuthentication } from "./auth/Auth";
 import RedirectGoogleAuth from "./auth/GoogleRedirectHandler";
+import Profile from "./profile/Profile";
+import Tutorial from "./tutorial/Tutorial";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -68,6 +70,8 @@ const App = () => {
             />
             <Route path="/login/google/callback" element={<RedirectGoogleAuth />}></Route>
             <Route path="/app" element={<BaseApp />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path = "/tutorial" element={<Tutorial />} />
             <Route path="/register" element={<AuthPage initialMethod="register" />} />
             <Route path="/login" element={<AuthPage initialMethod="login" />} />
             <Route path="/documentcategory" element={<DocumentCategory />} />
