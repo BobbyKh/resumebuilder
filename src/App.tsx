@@ -35,10 +35,9 @@ import Tutorial from "./tutorial/Tutorial";
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const {isAuthorized} = useAuthentication();
-  const  ProtectedLogin = () => isAuthorized ? <Navigate to="/app" /> : <Login />
+  const  ProtectedLogin = () => isAuthorized ? <Navigate to="/app" /> : <Login method="login" setMethod={() => {}} route="/login" />
 
   const ProtectedRegister = () => isAuthorized ? <Navigate to="/app" /> : <AuthPage initialMethod="register" />
-
 
 
   useEffect(() => {
@@ -105,3 +104,4 @@ const App = () => {
 };
 
 export default App;
+
