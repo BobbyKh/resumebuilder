@@ -78,7 +78,7 @@ const Navbar = (): JSX.Element => {
     const fetchOrganizations = async () => {
       try {
         const response = await axios.get<Organization[]>(
-          `${API_URL}/organization`
+          `${API_URL}/api/organization`
         );
         setOrganizations(response.data);
       } catch (error) {
@@ -92,7 +92,7 @@ const Navbar = (): JSX.Element => {
     const fetchDocumentCategories = async () => {
       try {
         const response = await axios.get<DocumentCategory[]>(
-          `${API_URL}/documentcategory`
+          `${API_URL}/api/documentcategory`
         );
         setDocumentCategories(response.data);
       } catch (error) {

@@ -8,7 +8,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
   const [method, setMethod] = useState<'login' | 'register'>('login');
   const [success, setSuccess] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -79,10 +79,10 @@ const Login = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col justify-center items-center bg-[#0b1320]">
-      <div className="bg-gray-100 rounded-md p-4 max-w-md w-full mx-auto shadow-md">
+    <div className="h-screen flex flex-col justify-center items-center bg-[#0b1320] p-4">
+      <div className="bg-white rounded-md p-6 max-w-md w-full mx-auto shadow-lg border-2 border-[#1e3a8a] hover:shadow-xl transition duration-300 ease-in-out">
         <form onSubmit={handleSubmit} className="space-y-6">
-          <h2 className="text-2xl font-bold text-center">{method === 'register' ? 'Register' : 'Login'}</h2>
+          <h2 className="text-2xl font-bold text-center text-[#1e3a8a]">{method === 'register' ? 'Register' : 'Login'}</h2>
           {error && <p className="text-red-500 text-center">{error}</p>}
           {success && <p className="text-green-500 text-center">{success}</p>}
 
@@ -97,7 +97,7 @@ const Login = () => {
               placeholder="Username"
               name="username"
               id="username"
-              className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent"
             />
           </div>
 
@@ -112,10 +112,10 @@ const Login = () => {
               placeholder="Password"
               name="password"
               id="password"
-              className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent"
             />
           </div>
-
+-
           {method === 'register' && (
             <div className="flex flex-col">
               <label htmlFor="confirmPassword" className="sr-only">
@@ -128,14 +128,14 @@ const Login = () => {
                 placeholder="Confirm Password"
                 name="confirmPassword"
                 id="confirmPassword"
-                className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent"
               />
             </div>
           )}
 
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md w-full shadow-md"
+            className="bg-[#1e3a8a] hover:bg-[#2d4aad] text-white font-bold py-2 px-4 rounded-md w-full shadow-md"
           >
             {method === 'register' ? 'Register' : 'Login'}
           </button>
@@ -143,27 +143,27 @@ const Login = () => {
           <button
             type="button"
             onClick={handleGoogleLogin}
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md w-full shadow-md"
+            className="bg-[#d32f2f] hover:bg-[#f44336] text-white font-bold py-2 px-4 rounded-md w-full shadow-md"
           >
             {method === 'register' ? 'Register with Google' : 'Login with Google'}
           </button>
 
           {method === 'login' ? (
-            <p className="text-center">
+            <p className="text-center text-gray-700">
               Don't have an account?{' '}
               <span
                 onClick={() => setMethod('register')}
-                className="cursor-pointer text-blue-500"
+                className="cursor-pointer text-[#1e3a8a]"
               >
                 Register
               </span>
             </p>
           ) : (
-            <p className="text-center">
+            <p className="text-center text-gray-700">
               Already have an account?{' '}
               <span
                 onClick={() => setMethod('login')}
-                className="cursor-pointer text-blue-500"
+                className="cursor-pointer text-[#1e3a8a]"
               >
                 Login
               </span>
