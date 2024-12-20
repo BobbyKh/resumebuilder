@@ -3,7 +3,13 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "./Token";
 
-const Login = () => {
+interface LoginProps {
+  method: 'login' | 'register';
+  setMethod: (method: 'login' | 'register') => void;
+  route: string;
+}
+
+const Login: React.FC<LoginProps> = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -14,6 +20,8 @@ const Login = () => {
   const navigate = useNavigate();
   const loginRoute = "http://127.0.0.1:8000/api/token/";
   const registerRoute = "http://127.0.0.1:8000/user/register/";
+
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
