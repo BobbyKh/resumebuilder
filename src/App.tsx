@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import './App.css';
 import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
@@ -26,9 +26,20 @@ import GenerateResume from "./resume/GenerateResume";
 import Loader from "./components/Loader";
 import Faq from "./pages/Faq";
 import ResumeEditor from "./resume/ResumeEditor";
+import AuthPage  from "./auth/AuthPage";
+import { useAuthentication } from "./auth/Auth";
+import RedirectGoogleAuth from "./auth/GoogleRedirectHandler";
+import Profile from "./profile/Profile";
+import Tutorial from "./tutorial/Tutorial";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const {isAuthorized} = useAuthentication();
+  const  ProtectedLogin = () => isAuthorized ? <Navigate to="/app" /> : <Login />
+
+  const ProtectedRegister = () => isAuthorized ? <Navigate to="/app" /> : <AuthPage initialMethod="register" />
+
+
 
   useEffect(() => {
     const fakeDataFetch = async () => {
@@ -57,7 +68,12 @@ const App = () => {
                 </div>
               }
             />
+            <Route path="/login/google/callback" element={<RedirectGoogleAuth />}></Route>
             <Route path="/app" element={<BaseApp />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path = "/tutorial" element={<Tutorial />} />
+            <Route path="/register" element={<AuthPage initialMethod="register" />} />
+            <Route path="/login" element={<AuthPage initialMethod="login" />} />
             <Route path="/documentcategory" element={<DocumentCategory />} />
             <Route path="/pricing/subscribe/:id" element={<Checkout />} />
             <Route path="/resume/editor/:templateId" element={<BuildForm />} />
@@ -67,7 +83,8 @@ const App = () => {
             <Route path="/biodata" element={<BioDataTemplate />} />
             <Route path="/" element={<Landing />} />
             <Route path="/about" element={<About />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<ProtectedLogin />} />
+            <Route path="/register" element={<ProtectedRegister />} />
             <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/resumebuild" element={<ResumeBuild />} />
