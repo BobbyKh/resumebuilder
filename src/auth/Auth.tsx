@@ -13,6 +13,8 @@ export const useAuthentication = () => {
 
             console.log('ACCESS_TOKEN:', token || 'None');
             console.log('GOOGLE_ACCESS_TOKEN:', googleAccessToken || 'None');
+            console.log("Query Params:", window.location.search);
+
 
             if (token) {
                 try {

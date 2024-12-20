@@ -149,20 +149,22 @@ const Navbar = (): JSX.Element => {
                   Login
                 </Link>
               ) : (
-                <a href="#" onClick={handleLogout} className="hover:text-[rgb(213,66,11)] flex items-center">
-                  <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
-                  Logout
-                </a>
+                <div className="flex items-center space-x-4">
+                  <Link to="/profile" className="hover:text-[rgb(213,66,11)] flex items-center">
+                    <FontAwesomeIcon icon={faUser} className="mr-2" />
+                    Profile
+                  </Link>
+                  <button onClick={handleLogout} className="hover:text-[rgb(213,66,11)] flex items-center">
+                    <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
+                    Logout
+                  </button>
+                </div>
               )}
+
+                
+              
             </li>
-            <li>
-              {!isAuthorized ? (
-                <Link to="/signup" className="hover:text-[rgb(213,66,11)] flex items-center">
-                  <FontAwesomeIcon icon={faUser} className="mr-2" />
-                  Signup
-                </Link>
-              ) : null}
-            </li>
+         
           </ul>
        
       </nav>
