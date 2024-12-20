@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "./Token";
+import API_URL from "../api/Api";
 
 interface LoginProps {
   method: 'login' | 'register';
@@ -18,8 +19,8 @@ const Login: React.FC<LoginProps> = () => {
   const [method, setMethod] = useState<'login' | 'register'>('login');
   const [success, setSuccess] = useState<string | null>(null);
   const navigate = useNavigate();
-  const loginRoute = "http://127.0.0.1:8000/api/token/";
-  const registerRoute = "http://127.0.0.1:8000/user/register/";
+  const loginRoute = `${API_URL}/api/token/`;
+  const registerRoute = `${API_URL}/user/register/`;
 
 
 
@@ -83,7 +84,7 @@ const Login: React.FC<LoginProps> = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = "http://127.0.0.1:8000/accounts/google/login/";
+    window.location.href = `${API_URL}/accounts/google/login/`;
   };
 
   return (
@@ -184,4 +185,5 @@ const Login: React.FC<LoginProps> = () => {
 };
 
 export default Login;
+
 

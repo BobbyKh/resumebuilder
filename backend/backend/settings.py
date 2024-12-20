@@ -216,7 +216,7 @@ EMAIL_HOST_PASSWORD = 'gasq mcmh irbp qtxk'
 SITE_ID = 1
 
 LOGIN_REDIRECT_URL = '/callback/'
-LOGOUT_REDIRECT_URL = 'http://localhost:5173/login'
+LOGOUT_REDIRECT_URL = 'admin/'
 SECURE_REFERRER_POLICY= "strict-origin-when-cross-origin"
 
 SOCIALACCOUNT_STORE_TOKENS = True

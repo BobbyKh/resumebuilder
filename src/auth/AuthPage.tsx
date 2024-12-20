@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Login from "./login";
+import API_URL from "../api/Api";
 
 interface AuthPageProps {
   initialMethod: "login" | "register";
@@ -14,8 +15,8 @@ const AuthPage: React.FC<AuthPageProps> = ({ initialMethod }) => {
 
   const route =
     method === "login"
-      ? "http://127.0.0.1:8000/api/token/"
-      : "http://127.0.0.1:8000/user/register/";
+      ? `${API_URL}/api/token/`
+      : `${API_URL}/user/register/`;
 
   return (
     <div>
@@ -25,3 +26,4 @@ const AuthPage: React.FC<AuthPageProps> = ({ initialMethod }) => {
 };
 
 export default AuthPage;
+
