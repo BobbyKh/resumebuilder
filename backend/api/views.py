@@ -53,8 +53,9 @@ def google_login_callback(request):
     
     user = request.user 
 
+    print ("User:", user)
+    
     social_accounts = SocialAccount.objects.filter(user=user)
-    print ("Social Accounts for user :", social_accounts)
     
     social_account = social_accounts.first()
     
@@ -62,13 +63,16 @@ def google_login_callback(request):
         print ("No social account found for user",user)
         return redirect ('http://localhost:5173/login/callback/?error=NoSocialAccountFound') 
     
-    token = SocialToken.objects.filter(account=social_account, account__provider = 'google',).first()
+    token = SocialToken.objects.filter(account=social_account).first()
     
     if token:
         print ('Google Token found    :', token.token)
         refresh = RefreshToken.for_user(user)   
         access_token = str(refresh.access_token)
-        return redirect (f'http://localhost:5173/login/callback/?access_token={access_token}')
+        google_access_token = token.token
+        print ('Access Token :', access_token)
+        
+        return redirect (f'http://localhost:5173/login/callback/?access_token={access_token} &google_access_token={google_access_token}')
     
     else :
         print ( 'No google token found !!')
