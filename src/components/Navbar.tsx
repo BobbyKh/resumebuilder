@@ -3,9 +3,11 @@ import "aos/dist/aos.css";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faTimes, faDollarSign, faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faTimes, faDollarSign, faQuestionCircle, faSignInAlt, faUser, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { Dropdown } from "flowbite-react";
+import API_URL from "../api/Api";
+import { useAuthentication } from "../auth/Auth";
 
 // interface SocialAccount {
 //   platform: string;
@@ -35,15 +37,38 @@ const Navbar = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [documentCategories, setDocumentCategories] = useState<DocumentCategory[]>([]);
   const [organizations, setOrganizations] = useState<Organization[]>([]);
+  const { isAuthorized, logout } = useAuthentication();
+
+
+  const handleLogout = () => {
+    logout();
+  };
 
   useEffect(() => {
     AOS.init();
   }, []);
 
+  // const [, setSocialToken] = useState<string | null>(null);
+
+  // useEffect(() => {
+  //   // Fetch the social token when the Navbar loads
+  //   const fetchSocialToken = async () => {
+  //     try {
+  //       const response = await axios.get(`${API_URL}/socialtoken`, { withCredentials: true });
+  //       setSocialToken(response.data.token);
+  //       console.log('Social Token:', response.data.token);
+  //     } catch (error) {
+  //       console.error('Error fetching token:', error);
+  //     }
+  //   };
+
+  //   fetchSocialToken();
+  // }, []);
+
   useEffect(() => {
     const fetchOrganizations = async () => {
       try {
-        const response = await axios.get<Organization[]>("http://127.0.0.1:8000/api/organization");
+        const response = await axios.get<Organization[]>(`${API_URL}/organization`);
         setOrganizations(response.data);
       } catch (error) {
         console.error("Error fetching organizations:", error);
@@ -57,7 +82,7 @@ const Navbar = (): JSX.Element => {
   useEffect(() => {
     const fetchDocumentCategories = async () => {
       try {
-        const response = await axios.get<DocumentCategory[]>("http://127.0.0.1:8000/api/documentcategory");
+        const response = await axios.get<DocumentCategory[]>(`${API_URL}/documentcategory`);
         setDocumentCategories(response.data);
       } catch (error) {
         console.error("Error fetching document categories:", error);
@@ -116,25 +141,30 @@ const Navbar = (): JSX.Element => {
             </Link>
           </li>
         </ul>
-        {/* <ul className="flex flex-col md:flex-row md:space-x-6 text-white md:items-center mt-4 md:mt-0">
-            
-            {socialAccounts.map((account) => (
-              <li key={account.username}>
-                <a
-                  href={account.platform === "Email" ? `mailto:${account.email}` : account.username}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-[#d5420b] flex items-center"
-                >
-                  <img src={account.avatar} className="mr-2" />
-                  {account.username}
+          <ul className="hidden md:flex md:space-x-6 text-white md:items-center">
+            <li>
+              {!isAuthorized ? (
+                <Link to="/login" className="hover:text-[rgb(213,66,11)] flex items-center">
+                  <FontAwesomeIcon icon={faSignInAlt} className="mr-2" />
+                  Login
+                </Link>
+              ) : (
+                <a href="#" onClick={handleLogout} className="hover:text-[rgb(213,66,11)] flex items-center">
+                  <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
+                  Logout
                 </a>
-              </li>
-            ))}
-            
-            
-    
-        </ul> */}
+              )}
+            </li>
+            <li>
+              {!isAuthorized ? (
+                <Link to="/signup" className="hover:text-[rgb(213,66,11)] flex items-center">
+                  <FontAwesomeIcon icon={faUser} className="mr-2" />
+                  Signup
+                </Link>
+              ) : null}
+            </li>
+          </ul>
+       
       </nav>
     </header>
   );

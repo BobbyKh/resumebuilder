@@ -1,7 +1,10 @@
+import json
 import logging
 
+from django.http import JsonResponse
+from django.shortcuts import redirect
 logger = logging.getLogger(__name__)
-from allauth.socialaccount.models import SocialToken
+from allauth.socialaccount.models import SocialToken 
 from rest_framework.response import Response
 from api.models import Experience, PaymentSystem
 # from dj_rest_auth.registration.views import SocialLoginView
@@ -16,12 +19,152 @@ from django.core.mail import send_mail
 from django.conf import settings
 from rest_framework import status
 import re
-from rest_framework.decorators import api_view
+from allauth.socialaccount.models import SocialAccount
+from django.contrib.auth.decorators import login_required 
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view 
+from rest_framework_simplejwt.tokens import RefreshToken
 from pypdf import PdfReader
+from rest_framework.permissions import IsAuthenticated , AllowAny   
+from rest_framework import generics
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
+class UserCreate(generics.CreateAPIView):
+    
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes  = [AllowAny]
 
+class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer  
+    permission_classes  = [IsAuthenticated]
+    
+    
+    def get_object(self):
+        return self.request.user 
+    
 
+@login_required
+def google_login_callback(request):
+    
+    user = request.user 
+
+    social_accounts = SocialAccount.objects.filter(user=user)
+    print ("Social Accounts for user :", social_accounts)
+    
+    social_account = social_accounts.first()
+    
+    if not social_account:
+        print ("No social account found for user",user)
+        return redirect ('http://localhost:5173/login/callback/?error=NoSocialAccountFound') 
+    
+    token = SocialToken.objects.filter(account=social_account, account__provider = 'google',).first()
+    
+    if token:
+        print ('Google Token found    :', token.token)
+        refresh = RefreshToken.for_user(user)   
+        access_token = str(refresh.access_token)
+        return redirect (f'http://localhost:5173/login/callback/?access_token={access_token}')
+    
+    else :
+        print ( 'No google token found !!')
+        return redirect ( f"http://localhost:5173/login/callback/?error=NoGoogleTokenFound")
+    
+    
+    
+
+@csrf_exempt 
+def validate_google_token(request):
+    
+    if request.method == 'POST':
+        try :
+            
+            data = json.loads(request.body)
+            google_access_token = data.get('access_token')
+            print ('Google Access Token :', google_access_token)
+            
+            if not google_access_token:
+                return JsonResponse({'error': 'No Google Access Token provided'}, status=400)
+            return JsonResponse({'access_token': google_access_token}, status=200)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+    
+      
+    
+
+  
+
+class DocumentFieldEditView (APIView):
+    def get(self, request, *args, **kwargs):
+        template_id = kwargs.get('template_id')
+        try:
+            template = Template.objects.get(id=template_id)
+        except Template.DoesNotExist:
+            return Response({"error": "Template matching query does not exist."}, status=status.HTTP_404_NOT_FOUND)
+        
+        document_field_id = kwargs.get('document_field_id')
+        try:
+            document_field = DocumentField.objects.get(id=document_field_id, template=template)
+        except DocumentField.DoesNotExist:
+            return Response({"error": "Document field matching query does not exist."}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = DocumentFieldSerializer(document_field)
+        return Response(serializer.data)
+
+    def post(self, request, *args, **kwargs):
+        template_id = kwargs.get('template_id')
+        try:
+            template = Template.objects.get(id=template_id)
+        except Template.DoesNotExist:
+            return Response({"error": "Template matching query does not exist."}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = DocumentFieldSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(template=template)
+            return Response(serializer.data)
+        return Response(serializer.errors)
+
+    def put(self, request, *args, **kwargs):
+        template_id = kwargs.get('template_id')
+        try:
+            template = Template.objects.get(id=template_id)
+        except Template.DoesNotExist:
+            return Response({"error": "Template matching query does not exist."}, status=status.HTTP_404_NOT_FOUND)
+        
+        document_field_id = kwargs.get('document_field_id')
+        try:
+            document_field = DocumentField.objects.get(id=document_field_id, template=template)
+        except DocumentField.DoesNotExist:
+            return Response({"error": "Document field matching query does not exist."}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = DocumentFieldSerializer(document_field, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+
+    def delete(self, request, *args, **kwargs):
+        template_id = kwargs.get('template_id')
+        try:
+            template = Template.objects.get(id=template_id)
+        except Template.DoesNotExist:
+            return Response({"error": "Template matching query does not exist."}, status=status.HTTP_404_NOT_FOUND)
+        
+        document_field_id = kwargs.get('document_field_id')
+        try:
+            document_field = DocumentField.objects.get(id=document_field_id, template=template)
+        except DocumentField.DoesNotExist:
+            return Response({"error": "Document field matching query does not exist."}, status=status.HTTP_404_NOT_FOUND)
+        
+        document_field.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+        
 # Create your views here.
 @api_view(['GET'])
 def user_list(request):

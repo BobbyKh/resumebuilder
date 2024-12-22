@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import './App.css';
 import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
@@ -25,9 +25,19 @@ import DocumentCategory from "./pages/DocumentCategory";
 import GenerateResume from "./resume/GenerateResume";
 import Loader from "./components/Loader";
 import Faq from "./pages/Faq";
+import ResumeEditor from "./resume/ResumeEditor";
+import AuthPage  from "./auth/AuthPage";
+import { useAuthentication } from "./auth/Auth";
+import RedirectGoogleAuth from "./auth/GoogleRedirectHandler";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const {isAuthorized} = useAuthentication();
+  const  ProtectedLogin = () => isAuthorized ? <Navigate to="/app" /> : <Login />
+
+  const ProtectedRegister = () => isAuthorized ? <Navigate to="/app" /> : <AuthPage initialMethod="register" />
+
+
 
   useEffect(() => {
     const fakeDataFetch = async () => {
@@ -56,16 +66,21 @@ const App = () => {
                 </div>
               }
             />
+            <Route path="/login/google/callback" element={<RedirectGoogleAuth />}></Route>
             <Route path="/app" element={<BaseApp />} />
+            <Route path="/register" element={<AuthPage initialMethod="register" />} />
+            <Route path="/login" element={<AuthPage initialMethod="login" />} />
             <Route path="/documentcategory" element={<DocumentCategory />} />
             <Route path="/pricing/subscribe/:id" element={<Checkout />} />
             <Route path="/resume/editor/:templateId" element={<BuildForm />} />
+            <Route path="/resume/editor/:templateId/:id" element={<ResumeEditor />} />
             <Route path="/cv" element={<CVtemplate />} />
             <Route path="/category/:id" element={<CoverTemplate />} />
             <Route path="/biodata" element={<BioDataTemplate />} />
             <Route path="/" element={<Landing />} />
             <Route path="/about" element={<About />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<ProtectedLogin />} />
+            <Route path="/register" element={<ProtectedRegister />} />
             <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/resumebuild" element={<ResumeBuild />} />

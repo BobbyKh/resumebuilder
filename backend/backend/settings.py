@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-uu4^)vqameolr738s=(i8wr6pfved2=u+mt*55jbynp-xjpz(6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['resumaven.net']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -43,8 +43,8 @@ INSTALLED_APPS = [
     'django_browser_reload',
     'rest_framework',
     'dj_rest_auth',
+    'dj_rest_auth.registration',
     'rest_framework.authtoken',
-    'rest_framework_simplejwt',  # Ensure JWT package is installed
     'corsheaders',
     'allauth',
     'allauth.account',
@@ -97,19 +97,17 @@ TEMPLATES = [
 AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',
+    'rest_framework.authentication.SessionAuthentication',
+    'rest_framework.authentication.TokenAuthentication',
     'api.myauth.MyAuthBackend',
+    
     
 
 ]
 
 
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],
  
-}
 
 
 APPEND_SLASH=False
@@ -196,17 +194,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+]
+
+
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_HEADERS = ['authorization', 'content-type']
+CORS_ALLOW_HEADERS = ['authorization', 'content-type', 'accept', 'origin', 'user-agent', 'x-csrftoken', 'x-requested-with']
 CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'DELETE']
-SOCIALACCOUNT_AUTO_SIGNUP = True
-SOCIALACCOUNT_STORE_TOKENS  = True
-SOCIALACCOUNT_AUTHENTICATION_METHOD = 'token'
-SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
-SOCIALACCOUNT_AUTO_SIGNUP = True # Automatically sign up every user using their email account.
-SOCIALACCOUNT_ADAPTER = 'allauth.socialaccount.adapter.DefaultSocialAccountAdapter'
-ACCOUNT_ADAPTER = 'api.adapters.MyAccountAdapter'
-SOCIALACCOUNT_ADAPTER = 'api.adapters.MySocialAccountAdapter'
+
 # SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '46592222542-2858uulreoun7iahvanpi96trh5mhrgo.apps.googleusercontent.com'
 # SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 
@@ -222,8 +218,8 @@ EMAIL_HOST_PASSWORD = 'gasq mcmh irbp qtxk'
 
 SITE_ID = 1
 
-LOGIN_REDIRECT_URL = 'http://localhost:5173/'
+LOGIN_REDIRECT_URL = '/callback/'
 LOGOUT_REDIRECT_URL = 'http://localhost:5173/login'
 SECURE_REFERRER_POLICY= "strict-origin-when-cross-origin"
-ACCOUNT_SIGNUP_REDIRECT_URL = 'http://localhost:5173/login'  # Redirect to homepage if signup is required
-SOCIALACCOUNT_LOGIN_ON_GET = True
+
+SOCIALACCOUNT_STORE_TOKENS = True

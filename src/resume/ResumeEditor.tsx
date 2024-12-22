@@ -48,7 +48,8 @@ interface Resume {
   ]
 
 }
-const BuildForm = () => {
+const ResumeEditor = () => {
+  const {id} = useParams<{id: string}>();
   const { templateId } = useParams<{ templateId: string }>();
   const navigate = useNavigate();
 
@@ -129,15 +130,29 @@ const BuildForm = () => {
   const [error, setError] = useState<string>("");
   const [, setresumeData] = useState<Resume | null>(null);
   const [, setTemplate] = useState<Template | null>(null);
-
-
-
+  const [ , setOldValue ] = useState<string>("");
 
   useEffect(() => {
     if (!templateId) {
       setError("Template ID is missing.");
       return;
     }
+
+
+    const fetchOldValue = async () => {
+      try {
+        const response = await fetch(`${API_URL}/documentfield/${templateId}/${id}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch template.");
+        }
+        const data = await response.json();
+        setOldValue(data.html || "");
+      } catch (error) {
+        console.error("Error fetching template:", error);
+      }
+    }
+
+    fetchOldValue();
 
     const fetchDocumentData = async () => {
       try {
@@ -366,12 +381,13 @@ const BuildForm = () => {
 
   const submitResume = async (resume: Record<string, string | string[]>, templateId: string) => {
     try {
-      const response = await fetch(`${API_URL}/documentfield`, {
-        method: "POST",
+      const response = await fetch(`${API_URL}/documentfield/edit/${templateId}/${id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ...resume, template: templateId }),
+        body: JSON.stringify({ ...resume, template: templateId , id: id }),
+        
       });
       const data = await response.json();
       return data;
@@ -403,7 +419,7 @@ const BuildForm = () => {
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-black">
       <div className="w-full p-6 lg:p-8">
-        <h1 className="text-2xl text-[#d5420b] font-bold mb-8 text-center ">Build Your Resume</h1>
+        <h1 className="text-2xl text-[#d5420b] font-bold mb-8 text-center ">Update Your Resume</h1>
         <div className="container mx-auto px-4 mb-8 bg-white rounded-lg shadow-lg ">
           <div className="flex items-center mb-4">
             <FontAwesomeIcon icon={faUser} className="text-xl mr-2" />
@@ -412,7 +428,7 @@ const BuildForm = () => {
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {Object.keys(formData).map((key) => {
+          {Object.keys(formData,).map((key) => {
             if (key === "skill") {
               return (
                 <div key={key} className="mb-6">
@@ -1241,14 +1257,14 @@ const BuildForm = () => {
 
         {error && <p className="text-red-500 mt-4">{error}</p>}
       </div>
-      {/* <div className="w-full bg-gradient-to-r from-blue-50 to-gray-100 shadow-md shadow-lg p-6 lg:p-8 mt-6 lg:mt-0 rounded-lg">
+      <div className="w-full bg-gradient-to-r from-blue-50 to-gray-100 shadow-md shadow-lg p-6 lg:p-8 mt-6 lg:mt-0 rounded-lg">
         
-          
+             
 
-      </div> */}
+      </div>
     </div>
   )
 };                            
 
-export default BuildForm;
+export default ResumeEditor;
 

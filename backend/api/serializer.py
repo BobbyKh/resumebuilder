@@ -1,6 +1,11 @@
 from rest_framework import serializers
 from api import models
 from django.contrib.auth.models import User
+from drf_extra_fields.fields import Base64ImageField
+
+
+
+   
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -77,10 +82,11 @@ class TemplateSerializer(serializers.ModelSerializer):
 
 class DocumentFieldSerializer(serializers.ModelSerializer):
     
-    image = serializers.ImageField(use_url=True, allow_empty_file=True, allow_null=True)    
+    image = Base64ImageField(max_length=None, use_url=True)
     class Meta:
         model = models.DocumentField
         fields = '__all__'
+        
 
 class ExperienceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -91,3 +97,4 @@ class PaymentSystemSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.PaymentSystem
         fields = '__all__'
+    

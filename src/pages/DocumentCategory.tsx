@@ -3,6 +3,7 @@ import "aos/dist/aos.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import API_URL from "../api/Api";
 
 const DocumentCategory = () => {
   const [documents, setDocuments] = useState<any>([]);
@@ -10,7 +11,7 @@ const DocumentCategory = () => {
   useEffect(() => {
     const fetchDocuments = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/documentcategory");
+        const response = await axios.get(`${API_URL}/documentcategory`);
         setDocuments(response.data);
       } catch (error) {
         console.error("Error fetching Document data from backend:", error);
