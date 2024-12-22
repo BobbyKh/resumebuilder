@@ -98,3 +98,9 @@ class PaymentSystemSerializer(serializers.ModelSerializer):
         model = models.PaymentSystem
         fields = '__all__'
     
+class TutorialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Tutorial
+        fields = '__all__'
+        
+        

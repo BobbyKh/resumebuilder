@@ -39,7 +39,7 @@ const Login = () => {
       if (method === 'login') {
         localStorage.setItem(ACCESS_TOKEN, response.data.access);
         localStorage.setItem(REFRESH_TOKEN, response.data.refresh);
-        navigate('/');
+        navigate('/'); // Redirect to Google callback
         window.location.reload();
       } else {
         setSuccess('Registration successful. Please log in.');
