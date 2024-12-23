@@ -1,54 +1,20 @@
-import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "./Token";
-import API_URL from "../api/Api";
 
-interface LoginProps {
-  method: 'login' | 'register';
-  setMethod: (method: 'login' | 'register') => void;
-  route: string;
-}
-
-const Login: React.FC<LoginProps> = () => {
+const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [email, setEmail] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [method, setMethod] = useState<'login' | 'register'>('login');
   const [success, setSuccess] = useState<string | null>(null);
   const navigate = useNavigate();
-  const loginRoute = `${API_URL}/api/token/`;
-  const registerRoute = `${API_URL}/user/register/`;
-
-  useEffect(() => {
-    const handleGoogleCallback = async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const googleAccessToken = urlParams.get('google_access_token');
-
-      if (googleAccessToken) {
-        try {
-          const response = await axios.post(`${API_URL}/accounts/google/login/callback/`, {
-            access_token: googleAccessToken,
-          });
-
-          localStorage.setItem(ACCESS_TOKEN, response.data.access);
-          localStorage.setItem(REFRESH_TOKEN, response.data.refresh);
-          navigate('/');
-          window.location.reload();
-        } catch (error: any) {
-          console.error(error);
-          setError('Google login failed.');
-        }
-      }
-    };
-
-    handleGoogleCallback();
-  }, [navigate]);
+  const loginRoute = "http://127.0.0.1:8000/api/token/";
+  const registerRoute = "http://127.0.0.1:8000/user/register/";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -114,87 +80,32 @@ const Login: React.FC<LoginProps> = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = `${API_URL}/accounts/google/login/`;
+    window.location.href = "http://127.0.0.1:8000/accounts/google/login/";
   };
 
   return (
-    <div className="h-screen flex flex-col justify-center items-center bg-[#0b1320] p-4">
-      <div className="bg-white rounded-md p-6 max-w-md w-full mx-auto shadow-lg border-2 border-[#1e3a8a] hover:shadow-xl transition duration-300 ease-in-out transform hover:scale-105">
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <h2 className="text-2xl font-bold text-center text-[#1e3a8a]">{method === 'register' ? 'Register' : 'Login'}</h2>
-        {error && <p className="text-red-500 text-center">{error}</p>}
-        {success && <p className="text-green-500 text-center">{success}</p>}
+    <div className="h-screen flex flex-col justify-center items-center bg-[#0b1320]">
+      <div className="bg-gray-100 rounded-md p-4 max-w-md w-full mx-auto shadow-md">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <h2 className="text-2xl font-bold text-center">{method === 'register' ? 'Register' : 'Login'}</h2>
+          {error && <p className="text-red-500 text-center">{error}</p>}
+          {success && <p className="text-green-500 text-center">{success}</p>}
 
-        <div className="flex flex-col">
-        <label htmlFor="username" className="sr-only">
-          Username
-        </label>
-        <div className="relative">
-          <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Username"
-          name="username"
-          id="username"
-          className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent w-full"
-          />
-          <span className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400">
-          <i className="fas fa-user"></i>
-          </span>
-        </div>
-        </div>
-
-        <div className="flex flex-col">
-        <label htmlFor="password" className="sr-only">
-          Password
-        </label>
-        <div className="relative">
-          <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          name="password"
-          id="password"
-          className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent w-full"
-          />
-          <span className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400">
-          <i className="fas fa-lock"></i>
-          </span>
-        </div>
-        </div>
-
-        {method === 'register' && (
-        <div className="flex flex-col">
-          <label htmlFor="confirmPassword" className="sr-only">
-          Confirm Password
-          </label>
-          <div className="relative">
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="Confirm Password"
-            name="confirmPassword"
-            id="confirmPassword"
-            className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] focus:border-transparent w-full"
-          />
-          <span className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400">
-            <i className="fas fa-lock"></i>
-          </span>
+          <div className="flex flex-col">
+            <label htmlFor="username" className="sr-only">
+              Username
+            </label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Username"
+              name="username"
+              id="username"
+              className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
           </div>
-        </div>
-        )}
 
-<<<<<<< HEAD
-        <button
-        type="submit"
-        className="bg-[#1e3a8a] hover:bg-[#2d4aad] text-white font-bold py-2 px-4 rounded-md w-full shadow-md transition duration-300 ease-in-out transform hover:scale-105"
-        >
-        {method === 'register' ? 'Register' : 'Login'}
-        </button>
-=======
           {method === 'register' && (
             <div className="flex flex-col">
               <label htmlFor="email" className="sr-only">
@@ -226,38 +137,61 @@ const Login: React.FC<LoginProps> = () => {
               className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
->>>>>>> e9f58875e2a593077b1da3f0b09ae24c571c4569
 
-        <button
-        type="button"
-        onClick={handleGoogleLogin}
-        className="bg-[#d32f2f] hover:bg-[#f44336] text-white font-bold py-2 px-4 rounded-md w-full shadow-md transition duration-300 ease-in-out transform hover:scale-105"
-        >
-        {method === 'register' ? 'Register with Google' : 'Login with Google'}
-        </button>
+          {method === 'register' && (
+            <div className="flex flex-col">
+              <label htmlFor="confirmPassword" className="sr-only">
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Confirm Password"
+                name="confirmPassword"
+                id="confirmPassword"
+                className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+          )}
 
-        {method === 'login' ? (
-        <p className="text-center text-gray-700">
-          Don't have an account?{' '}
-          <span
-          onClick={() => setMethod('register')}
-          className="cursor-pointer text-[#1e3a8a] hover:underline"
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md w-full shadow-md"
           >
-          Register
-          </span>
-        </p>
-        ) : (
-        <p className="text-center text-gray-700">
-          Already have an account?{' '}
-          <span
-          onClick={() => setMethod('login')}
-          className="cursor-pointer text-[#1e3a8a] hover:underline"
+            {method === 'register' ? 'Register' : 'Login'}
+          </button>
+
+          <button
+            type="button"
+            onClick={handleGoogleLogin}
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md w-full shadow-md"
           >
-          Login
-          </span>
-        </p>
-        )}
-      </form>
+            {method === 'register' ? 'Register with Google' : 'Login with Google'}
+          </button>
+
+          {method === 'login' ? (
+            <p className="text-center">
+              Don't have an account?{' '}
+              <span
+                onClick={() => setMethod('register')}
+                className="cursor-pointer text-blue-500"
+              >
+                Register
+              </span>
+            </p>
+          ) : (
+            <p className="text-center">
+              Already have an account?{' '}
+              <span
+                onClick={() => setMethod('login')}
+                className="cursor-pointer text-blue-500"
+              >
+                Login
+              </span>
+            </p>
+          )}
+        </form>
       </div>
     </div>
   );
