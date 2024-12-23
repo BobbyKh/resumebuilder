@@ -130,7 +130,7 @@ const ResumeEditor = () => {
   const [error, setError] = useState<string>("");
   const [, setresumeData] = useState<Resume | null>(null);
   const [, setTemplate] = useState<Template | null>(null);
-  const [ , setOldValue ] = useState<string>("");
+  const [ oldValue, setOldValue ] = useState<string>("");
 
   useEffect(() => {
     if (!templateId) {
@@ -139,28 +139,16 @@ const ResumeEditor = () => {
     }
 
 
-    const fetchOldValue = async () => {
-      try {
-        const response = await fetch(`${API_URL}/documentfield/${templateId}/${id}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch template.");
-        }
-        const data = await response.json();
-        setOldValue(data.html || "");
-      } catch (error) {
-        console.error("Error fetching template:", error);
-      }
-    }
-
-    fetchOldValue();
+  
 
     const fetchDocumentData = async () => {
       try {
-        const response = await fetch(`${API_URL}/documentfield/${templateId}`);  
+        const response = await fetch(`${API_URL}/documentfield/${templateId}/${id}`);  
         if (!response.ok) {
           throw new Error("Failed to fetch template.");
         }
         const data = await response.json();
+        setOldValue(data);
         setresumeData(data);
         console.log(data);
       } catch (error) {
@@ -428,8 +416,9 @@ const ResumeEditor = () => {
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {Object.keys(formData,).map((key) => {
-            if (key === "skill") {
+          {Object.keys(formData).map((key) => {
+            const oldValue = formData[key as keyof typeof formData];
+            if (key === "skill" && oldValue) {
               return (
                 <div key={key} className="mb-6">
                   <label className="block text-sm font-medium text-white mb-2">

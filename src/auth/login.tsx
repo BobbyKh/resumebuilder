@@ -16,6 +16,7 @@ const Login: React.FC<LoginProps> = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [, setLoading] = useState(false);
   const [method, setMethod] = useState<'login' | 'register'>('login');
@@ -64,9 +65,13 @@ const Login: React.FC<LoginProps> = () => {
     try {
       const response = await axios.post(
         method === 'login' ? loginRoute : registerRoute,
+        method === 'login'
+          ? { username, password }
+          : { username, password, email },
         {
-          username,
-          password,
+          headers: {
+            'Content-Type': 'application/json',
+          },
         }
       );
 
@@ -182,12 +187,46 @@ const Login: React.FC<LoginProps> = () => {
         </div>
         )}
 
+<<<<<<< HEAD
         <button
         type="submit"
         className="bg-[#1e3a8a] hover:bg-[#2d4aad] text-white font-bold py-2 px-4 rounded-md w-full shadow-md transition duration-300 ease-in-out transform hover:scale-105"
         >
         {method === 'register' ? 'Register' : 'Login'}
         </button>
+=======
+          {method === 'register' && (
+            <div className="flex flex-col">
+              <label htmlFor="email" className="sr-only">
+                Email
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+                name="email"
+                id="email"
+                className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+          )}
+
+          <div className="flex flex-col">
+            <label htmlFor="password" className="sr-only">
+              Password
+            </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              name="password"
+              id="password"
+              className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+>>>>>>> e9f58875e2a593077b1da3f0b09ae24c571c4569
 
         <button
         type="button"

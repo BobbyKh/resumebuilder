@@ -32,6 +32,10 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
 class UserCreate(generics.CreateAPIView):
     
     queryset = User.objects.all()
@@ -149,8 +153,10 @@ class DocumentFieldEditView (APIView):
         
         serializer = DocumentFieldSerializer(document_field, data=request.data)
         if serializer.is_valid():
+            old_value = document_field.value
             serializer.save()
-            return Response(serializer.data)
+            new_value = document_field.value
+            return Response({'old_value': old_value, 'new_value': new_value})
         return Response(serializer.errors)
 
     def delete(self, request, *args, **kwargs):
@@ -166,8 +172,9 @@ class DocumentFieldEditView (APIView):
         except DocumentField.DoesNotExist:
             return Response({"error": "Document field matching query does not exist."}, status=status.HTTP_404_NOT_FOUND)
         
+        old_value = document_field.value
         document_field.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({'old_value': old_value}, status=status.HTTP_204_NO_CONTENT)
         
 # Create your views here.
 @api_view(['GET'])
