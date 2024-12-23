@@ -7,6 +7,7 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [method, setMethod] = useState<'login' | 'register'>('login');
@@ -30,9 +31,13 @@ const Login = () => {
     try {
       const response = await axios.post(
         method === 'login' ? loginRoute : registerRoute,
+        method === 'login'
+          ? { username, password }
+          : { username, password, email },
         {
-          username,
-          password,
+          headers: {
+            'Content-Type': 'application/json',
+          },
         }
       );
 
@@ -100,6 +105,23 @@ const Login = () => {
               className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
+
+          {method === 'register' && (
+            <div className="flex flex-col">
+              <label htmlFor="email" className="sr-only">
+                Email
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+                name="email"
+                id="email"
+                className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+          )}
 
           <div className="flex flex-col">
             <label htmlFor="password" className="sr-only">
