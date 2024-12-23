@@ -7,7 +7,7 @@ interface AuthPageProps {
 }
 
 const AuthPage: React.FC<AuthPageProps> = ({ initialMethod }) => {
-  const [method, setMethod] = useState(initialMethod);
+  const [method, setMethod] = useState<"login" | "register">(initialMethod);
 
   useEffect(() => {
     setMethod(initialMethod);
@@ -19,11 +19,8 @@ const AuthPage: React.FC<AuthPageProps> = ({ initialMethod }) => {
       : `${API_URL}/user/register/`;
 
   return (
-    <div>
-      <Login method={method} setMethod={setMethod} route={route} />
-    </div>
+    <Login method={method} setMethod={setMethod} route={route} />
   );
 };
 
 export default AuthPage;
-

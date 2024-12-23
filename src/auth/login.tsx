@@ -1,20 +1,23 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "./Token";
 
-const Login = () => {
+interface LoginProps {
+  method: "login" | "register";
+  setMethod: Dispatch<SetStateAction<"login" | "register">>;
+  route: string;
+}
+
+const Login: React.FC<LoginProps> = ({ method, setMethod, route }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [email, setEmail] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [method, setMethod] = useState<'login' | 'register'>('login');
+  const [, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
   const navigate = useNavigate();
-  const loginRoute = "http://127.0.0.1:8000/api/token/";
-  const registerRoute = "http://127.0.0.1:8000/user/register/";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,7 +33,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        method === 'login' ? loginRoute : registerRoute,
+        route,
         method === 'login'
           ? { username, password }
           : { username, password, email },

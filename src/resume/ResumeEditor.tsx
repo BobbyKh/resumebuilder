@@ -130,7 +130,7 @@ const ResumeEditor = () => {
   const [error, setError] = useState<string>("");
   const [, setresumeData] = useState<Resume | null>(null);
   const [, setTemplate] = useState<Template | null>(null);
-  const [ oldValue, setOldValue ] = useState<string>("");
+  const [, setOldValue ] = useState<string>("");
 
   useEffect(() => {
     if (!templateId) {
