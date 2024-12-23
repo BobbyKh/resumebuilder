@@ -6,16 +6,6 @@ export default {
   ],
   theme: {
     extend: {
-    },
-  },
-  plugins: [],
-}
-
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ['./src/**/*.{js,jsx,ts,tsx}'],
-  theme: {
-    extend: {
       animation: {
         rotate3d: 'rotate3d 1.5s cubic-bezier(0.25, 1, 0.5, 1) infinite',
         spinReverseFast: 'spinReverseFast 1.2s linear infinite',
