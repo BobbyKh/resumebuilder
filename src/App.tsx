@@ -63,7 +63,7 @@ const App = () => {
               path="*"
               element={
               <div className="min-h-screen flex flex-col justify-center items-center">
-                <NotFound />
+              <NotFound />
               </div>
               }
             />
