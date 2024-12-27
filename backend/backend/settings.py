@@ -195,6 +195,7 @@ CORS_ALLOW_ALL_ORIGINS = True
  
 CSRF_TRUSTED_ORIGINS = ['https://resumaven.net']
 
+CSRF_COOKIE_NAME = 'csrftoken'  # Defaults
 
 
 CORS_ALLOW_CREDENTIALS = True
