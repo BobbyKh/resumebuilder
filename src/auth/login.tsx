@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "./Token";
+import API_URL from "../api/Api";
 
 interface LoginProps {
   method: "login" | "register";
@@ -83,7 +84,7 @@ const Login: React.FC<LoginProps> = ({ method, setMethod, route }) => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = "http://127.0.0.1:8000/accounts/google/login/";
+    window.location.href = `${API_URL}/accounts/google/login/`;
   };
 
   return (

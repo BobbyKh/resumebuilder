@@ -58,44 +58,44 @@ const App = () => {
       ) : (
         <div className="App bg-[#0b1320]">
           <Navbar />
-          <Routes>
+            <Routes>
             <Route
               path="*"
               element={
-                <div className="min-h-screen flex flex-col justify-center items-center">
-                  <NotFound />
-                </div>
+              <div className="min-h-screen flex flex-col justify-center items-center">
+                <NotFound />
+              </div>
               }
             />
             <Route path="/login/google/callback" element={<RedirectGoogleAuth />}></Route>
-            <Route path="/app" element={<BaseApp />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path = "/tutorial" element={<Tutorial />} />
+            <Route path="/app" element={isAuthorized ? <BaseApp /> : <Navigate to="/login" />} />
+            <Route path="/profile" element={isAuthorized ? <Profile /> : <Navigate to="/login" />} />
+            <Route path="/tutorial" element={isAuthorized ? <Tutorial /> : <Navigate to="/login" />} />
             <Route path="/register" element={<AuthPage initialMethod="register" />} />
             <Route path="/login" element={<AuthPage initialMethod="login" />} />
-            <Route path="/documentcategory" element={<DocumentCategory />} />
-            <Route path="/pricing/subscribe/:id" element={<Checkout />} />
-            <Route path="/resume/editor/:templateId" element={<BuildForm />} />
-            <Route path="/resume/editor/:templateId/:id" element={<ResumeEditor />} />
-            <Route path="/cv" element={<CVtemplate />} />
-            <Route path="/category/:id" element={<CoverTemplate />} />
-            <Route path="/biodata" element={<BioDataTemplate />} />
+            <Route path="/documentcategory" element={isAuthorized ? <DocumentCategory /> : <Navigate to="/login" />} />
+            <Route path="/pricing/subscribe/:id" element={isAuthorized ? <Checkout /> : <Navigate to="/login" />} />
+            <Route path="/resume/editor/:templateId" element={isAuthorized ? <BuildForm /> : <Navigate to="/login" />} />
+            <Route path="/resume/editor/:templateId/:id" element={isAuthorized ? <ResumeEditor /> : <Navigate to="/login" />} />
+            <Route path="/cv" element={isAuthorized ? <CVtemplate /> : <Navigate to="/login" />} />
+            <Route path="/category/:id" element={isAuthorized ? <CoverTemplate /> : <Navigate to="/login" />} />
+            <Route path="/biodata" element={isAuthorized ? <BioDataTemplate /> : <Navigate to="/login" />} />
             <Route path="/" element={<Landing />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<ProtectedLogin />} />
             <Route path="/register" element={<ProtectedRegister />} />
-            <Route path="/portfolio" element={<Portfolio />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/resumebuild" element={<ResumeBuild />} />
-            <Route path="/experience" element={<Experience />} />
-            <Route path="/buildresume" element={<BuildForm />} />
-            <Route path="/template/:id" element={<Template />} />
-            <Route path="/appointment" element={<BookAppointment />} />
+            <Route path="/portfolio" element={isAuthorized ? <Portfolio /> : <Navigate to="/login" />} />
+            <Route path="/contact" element={isAuthorized ? <Contact /> : <Navigate to="/login" />} />
+            <Route path="/resumebuild" element={isAuthorized ? <ResumeBuild /> : <Navigate to="/login" />} />
+            <Route path="/experience" element={isAuthorized ? <Experience /> : <Navigate to="/login" />} />
+            <Route path="/buildresume" element={isAuthorized ? <BuildForm /> : <Navigate to="/login" />} />
+            <Route path="/template/:id" element={isAuthorized ? <Template /> : <Navigate to="/login" />} />
+            <Route path="/appointment" element={isAuthorized ? <BookAppointment /> : <Navigate to="/login" />} />
             <Route path="/pricing" element={<Pricing />} />
-            <Route path="/pdftotext" element={<Pdftotext />} />
-            <Route path="/generateresume/:templateId" element={<GenerateResume />} />
+            <Route path="/pdftotext" element={isAuthorized ? <Pdftotext /> : <Navigate to="/login" />} />
+            <Route path="/generateresume/:templateId" element={isAuthorized ? <GenerateResume /> : <Navigate to="/login" />} />
             <Route path="/faq" element={<Faq />} />
-          </Routes>
+            </Routes>
           <Footer />
         </div>
       )}
