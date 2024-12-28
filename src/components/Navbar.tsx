@@ -7,7 +7,6 @@ import {
   faBars,
   faTimes,
   faDollarSign,
-  faSignInAlt,
   faUser,
   faSignOutAlt,
   faBookOpen,

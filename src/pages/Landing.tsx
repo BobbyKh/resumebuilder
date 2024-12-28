@@ -10,6 +10,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import API_URL from '../api/Api';
 import Tutorial from "../tutorial/Tutorial";
+import Template from "../resume/Template";
 
 
 interface HeroSection {
@@ -45,7 +46,11 @@ const Landing = () => {
   }, []);
 
   useEffect(() => {
-    AOS.init();
+    AOS.init({
+      easing: "ease-in-out",
+      duration: 1500,
+      once: false,
+    });
   }, []);
 
   return (
@@ -75,6 +80,7 @@ const Landing = () => {
       {/* <Experience/> */}
       <Review/>
       <Pricing/>
+      <Template/>
       <Faq/>
       <Tutorial/>
       <About/>
@@ -83,5 +89,6 @@ const Landing = () => {
 }
 
 export default Landing;
+
 
 
