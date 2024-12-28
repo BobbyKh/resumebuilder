@@ -1,29 +1,41 @@
+import { useState, useEffect } from 'react';
+
 const Loader = () => {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev < 100) {
+          return prev + 2;
+        } else {
+          clearInterval(interval);
+          return 100;
+        }
+      });
+    }, 50);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-black to-gray-900">
-      <div className="relative">
-        {/* 3D Rotating Outer Sphere */}
-        <div className="absolute inset-0 flex items-center justify-center perspective-1000">
-          <div className="w-36 h-36 border-[6px] border-transparent border-t-blue-500 border-r-pink-500 rounded-full animate-rotate3d"></div>
-        </div>
-
-        {/* Pulsating Inner Glow */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-28 h-28 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full blur-xl opacity-75 animate-pulse"></div>
-        </div>
-
-        {/* 3D Rotating Inner Ring */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-24 h-24 border-[4px] border-transparent border-b-green-400 border-l-yellow-400 rounded-full animate-spin-reverse-fast"></div>
-        </div>
-
-        {/* Central 3D Text */}
-        <div className="flex items-center justify-center rounded-full h-16 w-16 bg-gradient-to-br from-gray-800 to-gray-900 shadow-xl">
-          <span className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-500">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-white to-blue-200">
+      <div className="relative mb-4">
+        {/* Central Text */}
+        <div className="flex items-center justify-center rounded-full h-16 w-16 bg-gradient-to-br from-white to-blue-100 shadow-xl">
+          <span className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-700">
             ResuMaven
           </span>
         </div>
       </div>
+      {/* Progress Bar */}
+      <div className="w-64 bg-gray-200 rounded-full h-4">
+        <div
+          className="bg-blue-500 h-4 rounded-full"
+          style={{ width: `${progress}%` }}
+        ></div>
+      </div>
+      <span className="mt-2 text-blue-700 font-semibold">{progress}%</span>
     </div>
   );
 };

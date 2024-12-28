@@ -44,7 +44,7 @@ const App = () => {
     const fakeDataFetch = async () => {
       setTimeout(() => {
         setIsLoading(false);
-      }, 1000); // Simulate a 1-second delay
+      }, 2000); // Simulate a 1-second delay
     };
     fakeDataFetch();
   }, []);
@@ -56,7 +56,7 @@ const App = () => {
           <Loader />
         </div>
       ) : (
-        <div className="App bg-[#0b1320]">
+        <div className="App bg-white">
           <Navbar />
             <Routes>
             <Route

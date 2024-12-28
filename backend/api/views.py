@@ -314,7 +314,7 @@ class TestimonialView(ListCreateAPIView):
     serializer_class = TestimonialSerializer
 
 class HeroSectionView(ListCreateAPIView):
-    queryset = [HeroSection.objects.first()]
+    queryset = HeroSection.objects.all()
     serializer_class = HeroSectionSerializer
 
 class OrganizationView(ListCreateAPIView):

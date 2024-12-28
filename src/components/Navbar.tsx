@@ -20,7 +20,8 @@ import { useAuthentication } from "../auth/Auth";
 // interface SocialAccount {
 //   platform: string;
 //   username: string;
-//   email: string;
+//   email: string;button in login
+
 //   avatar: string;
 // }
 interface Organization {
@@ -107,24 +108,24 @@ const Navbar = (): JSX.Element => {
   };
 
   return (
-    <header className="bg-black flex flex-col md:flex-row justify-between items-center py-6 px-10 shadow-sm">
+    <header className="bg-white flex flex-col md:flex-row justify-between items-center py-6 px-10 shadow-sm">
       <div className="flex items-center justify-between w-full md:w-auto">
         {organizations.map((organization) => (
           <Link to="/" key={organization.name}>
-            <h1 className="text-2xl font-bold text-[#d5420b] flex items-center">
-              <img
+            <h1 className="text-2xl font-bold text-black flex items-center">
+              {/* <img
                 src={organization.logo}
                 alt={organization.name}
                 className="w-10 h-10 mr-2"
-              />
-              <span className="text-[#d5420b]">{organization.name}</span>
+              /> */}
+                <span className="text-blue-500">{organization.name}</span>
               {/* <span className="text-white">Maven</span> */}
             </h1>
           </Link>
         ))}
         <button
           onClick={toggleMenu}
-          className="text-white md:hidden flex items-center justify-center w-10 h-10"
+          className="text-[#1a91f0] md:hidden flex items-center justify-center w-10 h-10"
         >
           <FontAwesomeIcon
             icon={isOpen ? faTimes : faBars}
@@ -135,76 +136,76 @@ const Navbar = (): JSX.Element => {
       </div>
 
       <nav
-        className={`w-full md:flex md:justify-center md:flex-grow ${
+        className={`w-full md:flex md:justify-center md:flex-grow font-sans ${
           isOpen ? "block" : "hidden"
         } md:block`}
+        style={{ fontFamily: 'TT Commons, system-ui, sans-serif' }}
       >
-        <ul className="flex flex-col md:flex-row md:space-x-6 text-white md:items-center mx-auto mt-4 md:mt-0">
-          <div className="flex items-center gap-4">
-            <Dropdown
-              label="Tools"
-              className="text-lg font-semibold"
-              color="black"
-            >
-              {documentCategories.map((category) => (
-                <Dropdown.Item key={category.name}>
-                  <Link
-                    to={`/category/${category.id}`}
-                    className="hover:text-[rgb(213,66,11)]"
-                  >
-                    {category.name}
-                  </Link>
-                </Dropdown.Item>
-              ))}
-            </Dropdown>
+        <ul className="flex flex-col md:flex-row md:space-x-6 text-black md:items-center mx-auto mt-4 md:mt-0">
+          <div className="flex items-center gap-4 font-semibold">
+        <Dropdown
+          label="Tools"
+          className="text-lg font-semibold"
+          color="black"
+        >
+          {documentCategories.map((category) => (
+            <Dropdown.Item key={category.name}>
+          <Link
+            to={`/category/${category.id}`}
+            className="hover:text-blue-500 font-sans"
+          >
+            {category.name}
+          </Link>
+            </Dropdown.Item>
+          ))}
+        </Dropdown>
           </div>
           <li>
-            <Link
-              to="/pricing"
-              className="hover:text-[rgb(213,66,11)] flex items-center"
-            >
-              <FontAwesomeIcon icon={faDollarSign} className="mr-2" />
-              Pricing
-            </Link>
+        <Link
+          to="/pricing"
+          className="hover:text-blue-500 flex items-center font-sans"
+        >
+          <FontAwesomeIcon icon={faDollarSign} className="mr-2" />
+          Pricing
+        </Link>
           </li>
           <li>
-            <Link
-              to="/tutorial"
-              className="hover:text-[#d5420b] flex items-center"
-            >
-              <FontAwesomeIcon icon={faBookOpen} className="mr-2" />
-              Tutorials
-            </Link>
+        <Link
+          to="/tutorial"
+          className="hover:text-blue-500 flex items-center font-sans"
+        >
+          <FontAwesomeIcon icon={faBookOpen} className="mr-2" />
+          Tutorials
+        </Link>
           </li>
         </ul>
-        <ul className="hidden md:flex md:space-x-6 text-white md:items-center">
+        <ul className="hidden md:flex md:space-x-6 text-black md:items-center">
           <li>
-            {!isAuthorized ? (
-              <Link
-                to="/login"
-                className="hover:text-[rgb(213,66,11)] flex items-center"
-              >
-                <FontAwesomeIcon icon={faSignInAlt} className="mr-2" />
-                Login
-              </Link>
-            ) : (
-              <div className="flex items-center space-x-4">
-                <Link
-                  to="/profile"
-                  className="hover:text-[rgb(213,66,11)] flex items-center"
-                >
-                  <FontAwesomeIcon icon={faUser} className="mr-2" />
-                  Profile
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="hover:text-[rgb(213,66,11)] flex items-center"
-                >
-                  <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
-                  Logout
-                </button>
-              </div>
-            )}
+        {!isAuthorized ? (
+            <button
+            onClick={() => console.log('Button clicked')}
+            className="border border-blue-500 text-black bg-white px-4 py-2 rounded-md hover:bg-blue-100 flex items-center font-sans"
+            >
+            Login
+            </button>
+          ) : (
+          <div className="flex items-center space-x-4">
+            <Link
+          to="/profile"
+          className="hover:text-blue-500 flex items-center font-sans"
+            >
+          <FontAwesomeIcon icon={faUser} className="mr-2" />
+          Profile
+            </Link>
+            <button
+          onClick={handleLogout}
+          className="hover:text-blue-500 flex items-center font-sans"
+            >
+          <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
+          Logout
+            </button>
+          </div>
+        )}
           </li>
         </ul>
       </nav>
