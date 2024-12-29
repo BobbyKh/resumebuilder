@@ -202,16 +202,7 @@ CORS_ALLOWED_ORIGINS = [
 
 
 CORS_ALLOW_CREDENTIALS = True
-<<<<<<< HEAD
-CSRF_TRUSTED_ORIGINS = [
-    'https://resumaven.net', 
-    'https://www.resumaven.net'
-]
-
-CORS_ALLOW_HEADERS = ['authorization', 'content-type']
-=======
 CORS_ALLOW_HEADERS = ['authorization', 'content-type', 'accept', 'origin', 'user-agent', 'x-csrftoken', 'x-requested-with']
->>>>>>> origin/auth.bobby
 CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'DELETE']
 
 # SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '46592222542-2858uulreoun7iahvanpi96trh5mhrgo.apps.googleusercontent.com'
