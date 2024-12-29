@@ -1,19 +1,24 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "./Token";
+import API_URL from "../api/Api";
 
-const Login = () => {
+interface LoginProps {
+  method: "login" | "register";
+  setMethod: Dispatch<SetStateAction<"login" | "register">>;
+  route: string;
+}
+
+const Login: React.FC<LoginProps> = ({ method, setMethod, route }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [method, setMethod] = useState<'login' | 'register'>('login');
+  const [, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
   const navigate = useNavigate();
-  const loginRoute = "http://127.0.0.1:8000/api/token/";
-  const registerRoute = "http://127.0.0.1:8000/user/register/";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,17 +34,21 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        method === 'login' ? loginRoute : registerRoute,
+        route,
+        method === 'login'
+          ? { username, password }
+          : { username, password, email },
         {
-          username,
-          password,
+          headers: {
+            'Content-Type': 'application/json',
+          },
         }
       );
 
       if (method === 'login') {
         localStorage.setItem(ACCESS_TOKEN, response.data.access);
         localStorage.setItem(REFRESH_TOKEN, response.data.refresh);
-        navigate('/');
+        navigate('/'); // Redirect to Google callback
         window.location.reload();
       } else {
         setSuccess('Registration successful. Please log in.');
@@ -75,7 +84,7 @@ const Login = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = "http://127.0.0.1:8000/accounts/google/login/";
+    window.location.href = `${API_URL}/accounts/google/login/`;
   };
 
   return (
@@ -100,6 +109,23 @@ const Login = () => {
               className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
+
+          {method === 'register' && (
+            <div className="flex flex-col">
+              <label htmlFor="email" className="sr-only">
+                Email
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+                name="email"
+                id="email"
+                className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+          )}
 
           <div className="flex flex-col">
             <label htmlFor="password" className="sr-only">
@@ -176,4 +202,3 @@ const Login = () => {
 };
 
 export default Login;
-

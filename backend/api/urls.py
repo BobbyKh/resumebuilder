@@ -27,9 +27,13 @@ urlpatterns = [
     path('experience', views.ExperienceView.as_view(), name='experience'),
     path ('pricing/<int:id>', views.PricingDetail.as_view(), name='suscription'),
     path ('paymentsystem', views.PaymentSystemView.as_view(), name='paymentsystem'),
+    path ('tutorial', views.TutorialView.as_view(), name='tutorial'),
     
 
     #AUTH_TOKEN
+
+    path ('users', views.UserList.as_view(), name='users'),
+    path ('userdetails', views.UserDetailView.as_view(), name='userdetails'),
     
     
 ]

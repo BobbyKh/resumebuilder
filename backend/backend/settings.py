@@ -191,14 +191,11 @@ import os
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_ALL_ORIGINS = True
+ 
+CSRF_TRUSTED_ORIGINS = ['https://resumaven.net']
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',
-    'http://127.0.0.1:8000',
-    'https://resumaven.net',
-    'https://www.resumaven.net',
-]
+CSRF_COOKIE_NAME = 'csrftoken'  # Defaults
 
 
 CORS_ALLOW_CREDENTIALS = True
@@ -221,7 +218,7 @@ EMAIL_HOST_PASSWORD = 'gasq mcmh irbp qtxk'
 SITE_ID = 1
 
 LOGIN_REDIRECT_URL = '/callback/'
-LOGOUT_REDIRECT_URL = 'http://localhost:5173/login'
+LOGOUT_REDIRECT_URL = 'admin/'
 SECURE_REFERRER_POLICY= "strict-origin-when-cross-origin"
 
 SOCIALACCOUNT_STORE_TOKENS = True

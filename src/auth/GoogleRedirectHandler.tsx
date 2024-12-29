@@ -3,48 +3,39 @@ import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
 import { GOOGLE_ACCESS_TOKEN } from "./Token";
-
+import API_URL from "../api/Api";
 
 function RedirectGoogleAuth() {
-
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log("RedirectGoogleAuth mounted");
+        console.log("RedirectHandler mounted successfully");
 
         const queryParams = new URLSearchParams(window.location.search);
-        const accessToken = queryParams.get("access_token");
-
-        console.log ("Query Params:",window.location.search);
-
+        const accessToken = queryParams.get('access_token');
+        console.log("QueryParams: ", window.location.search);
 
         if (accessToken) {
-            console.log("Access Token:", accessToken);
+            console.log("AccessToken found: ", accessToken);
             localStorage.setItem(GOOGLE_ACCESS_TOKEN, accessToken);
-            
 
-            //verify 
-
+            //verify the token from the backend
             axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-            axios.get ("http://127.0.0.1:8000/api/auth/user/").then((response) => {
-                console.log('User details:', response.data);
-                navigate("/");
-            }).catch((error) => {
-                console.log('Error fetching user details:', error.response? error.response.data : error.message);
-                navigate("/login");
-            });
-
-
-                
-
-
-        }else{
-            console.log("Access Token not found");
-            navigate("/login");
+            axios.get(`${API_URL}/api/auth/user/`)
+                .then(response => {
+                    console.log('User data:', response.data);
+                    navigate('/')
+                })
+                .catch(error => {
+                    console.error('Error verfiying token:', error.response ? error.response.data : error.message);
+                    navigate('/login');
+                });
+        } else {
+            console.log('No token found in URL');
+            navigate('/login');
         }
-        }, [navigate]);
+    }, [navigate])
     return <div> Logging in .............................</div>
-
 }
 
 export default RedirectGoogleAuth;

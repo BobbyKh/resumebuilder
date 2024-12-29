@@ -106,7 +106,7 @@ const Pricing = () => {
                   {plan.name === 'Free' ? (
                     <span className="font-semibold animate-border animate-font">Get Started</span>
                   ) : (
-                    <span className="font-semibold animate-border animate-font">Suscribe</span>
+                    <span className="font-semibold animate-border animate-font">Subscribe</span>
                   )}
                 </button>
                 </Link>
