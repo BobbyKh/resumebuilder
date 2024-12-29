@@ -3,6 +3,7 @@ import 'aos/dist/aos.css';
 import axios from 'axios';
 import API_URL from '../api/Api';
 import { useEffect, useState } from 'react';
+import { FaChevronDown, FaChevronUp, FaQuestionCircle } from 'react-icons/fa';
 
 const Faq = () => {
 
@@ -12,6 +13,7 @@ const Faq = () => {
     }
 
     const [faqs, setFaqs] = useState<FAQ[]>([]);
+    const [openIndex, setOpenIndex] = useState<number | null>(null);
         
     useEffect (() => {
         const fetchFaqs = async () => {
@@ -29,25 +31,34 @@ const Faq = () => {
         AOS.init();
     }, [])
 
+    const toggleFaq = (index: number) => {
+        setOpenIndex(openIndex === index ? null : index);
+    };
+
     return (
-        <div className="bg-[#0b1320] py-16 p-5" style={{ backgroundSize: '400% 400%', animation: 'gradient 15s ease infinite' }}>
-            <h1 className="text-4xl text-white font-bold text-center mb-10" data-aos="fade-down">Frequently<span className="text-[#d5420b]"> Asked Questions</span></h1>
-            <div className="max-w-6xl mx-auto" data-aos="fade-up" data-aos-duration="1000">
-                <div className="space-y-6" data-aos="fade-up" data-aos-duration="1000">
-                    {faqs.map((faq) => (
-                        <details key={faq.question} className="bg-white rounded-lg shadow-lg p-6" data-aos="flip-up">
-                            <summary className="font-bold text-xl text-[#d5420b] cursor-pointer">{faq.question}</summary>
-                            <p className="mt-2 text-bold">{faq.answer}</p>
-                        </details>
-                    ))}
-                   
+        <div className="bg-white py-16 px-5 sm:px-10 relative">
+            <img src="question.png" alt="Question" className="absolute top-0 right-0 w-32 h-32 m-4 animate-bounce" />
+            <h1 className="text-4xl text-blue-600 font-bold text-center mb-10" data-aos="fade-down">Frequently Asked Questions</h1>
+            <div className="max-w-4xl mx-auto">
+            <div className="space-y-4">
+                {faqs.map((faq, index) => (
+                <div key={faq.question} className="bg-white rounded-md shadow-md p-4" data-aos="fade-up">
+                    <div className="font-medium text-lg text-gray-700 cursor-pointer flex justify-between items-center" onClick={() => toggleFaq(index)}>
+                    <div className="flex items-center">
+                        <FaQuestionCircle className="mr-2 text-blue-500" />
+                        {faq.question}
+                    </div>
+                    {openIndex === index ? <FaChevronUp /> : <FaChevronDown />}
+                    </div>
+                    <div className={`mt-2 text-gray-600 ${openIndex === index ? 'block' : 'hidden'}`}>
+                    {faq.answer}
+                    </div>
                 </div>
+                ))}
+            </div>
             </div>
         </div>
     )
-    
-
 }
 
-export default Faq
-
+export default Faq;

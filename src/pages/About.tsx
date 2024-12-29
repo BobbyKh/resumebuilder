@@ -1,10 +1,7 @@
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-import { faCss3Alt, faReact } from '@fortawesome/free-brands-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import API_URL from '../api/Api';
 
 const About = () => {
@@ -12,17 +9,17 @@ const About = () => {
     AOS.init();
   }, []);
 
-interface About {
-  id : '';
-  title :string;
-  name: string;
-  description: string;
-  image: string;
-}
+  interface About {
+    id: string;
+    title: string;
+    name: string;
+    description: string;
+    image: string;
+  }
 
-const [about, setAbout] = useState<About[]>([]);
+  const [about, setAbout] = useState<About[]>([]);
 
-  useEffect (() => {
+  useEffect(() => {
     const fetchAbout = async () => {
       try {
         const response = await axios.get(`${API_URL}/api/aboutus`);
@@ -33,59 +30,31 @@ const [about, setAbout] = useState<About[]>([]);
     };
     fetchAbout();
   }, []);
-  
 
   return (
-    <div
-      className="flex flex-col items-center justify-center min-h-screen bg-[rgb(11,19,32)]"
-      data-aos="fade-up"
-      data-aos-duration="1500"
-      data-aos-once="false"
-    >
-      <h1 className="text-4xl font-bold text-center mb-10 text-[#ffffff] hover:text-[#ffffff]" data-aos="fade-up" data-aos-duration="1000">Meet Our <span className="text-[#d5420b]">Experts</span> </h1>
+
+    <section className="text-gray-600 body-font bg-no-repeat bg-right-top bg-contain" style={{ backgroundImage: 'url(bg.png)' }} data-aos="fade-left" data-aos-easing="ease-in-out" data-aos-duration="1500">
       {about.map((about) => (
-        <div key={about.id} className="max-w-md w-full shadow-lg rounded-lg overflow-hidden md:max-w-2xl md:shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] border-[#d5420b] border-2 hover:border-[#d5420b] hover:shadow-[0_0_0_2px_rgba(215,66,11,0.5)] transition-shadow duration-500 ease-in-out">
-          <div className="flex items-center justify-center mt-3">
-            <a
-              href={about.image}
-              data-fancybox
-              data-caption={about.name}
-              className="rounded-full w-48 h-48 shadow-lg hover:shadow-4xl "
-              data-aos="zoom-in"
-              data-aos-duration="100"
-              data-aos-once="false"
-            >
-              <img
-                src={about.image}
-                alt={about.name}
-              />
-            </a>
-          </div>
-          <div className="p-6">
-            <h2 className="text-3xl text-center text-[#d5420b] font-bold mb-4" data-aos="zoom-in" data-aos-duration="1000" data-aos-once="false">
-              {about.name}
-            </h2>
-            <p className="text-lg text-center mb-4 text-[#ffffff]" data-aos="fade-up" data-aos-duration="1500"  data-aos-once="false">
-              {about.description}
-            </p>
-            <div className="flex justify-center space-x-4" data-aos="fade-right" data-aos-duration="1500" data-aos-delay="1500" data-aos-once="false">
-              <FontAwesomeIcon icon={faReact} className="text-blue-500 text-2xl" />
-              <FontAwesomeIcon icon={faCss3Alt} className="text-blue-600 text-2xl" />
-            </div>
-            <div className="flex justify-center mt-4" data-aos="fade-right" data-aos-duration="1500" data-aos-delay="1500" data-aos-once="false">
-              <Link to="/appointment">
-                <button className="bg-[#d5420b] text-[#ffffff] hover:text-[#ffffff] hover:bg-[#d5420b] focus:outline-none focus:ring-2 focus:ring-[#d5420b] focus:ring-opacity-50 py-2 px-4 rounded-md transition duration-500 ease-in-out">
-                  Book an Appointment
-                </button>
-              </Link>
-            </div>
-          </div>
+      <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
+        <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0 rounded-lg shadow-lg">
+        <img className="object-cover object-center rounded-t-lg" alt="hero" src={about.image} />
+        <div className="bg-white rounded-b-lg p-4">
+            <h2 className="text-2xl font-bold mb-2">{about.name}</h2>
+            <p className="text-gray-600">{about.title}</p>
         </div>
+        </div>
+        <div className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
+        <h1 className="text-3xl font-bold mb-4">{about.title}</h1>
+        <h2 className="text-3xl font-bold mb-4">{about.name}</h2>
+        <p className="mb-8 leading-relaxed">{about.description}</p>
+        <div className="flex justify-center">
+          <button className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Book an Appointment</button>
+        </div>
+        </div>
+      </div>
       ))}
-    </div>
-    
+    </section>
   );
 };
 
 export default About;
-

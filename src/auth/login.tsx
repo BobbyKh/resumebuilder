@@ -88,10 +88,10 @@ const Login: React.FC<LoginProps> = ({ method, setMethod, route }) => {
   };
 
   return (
-    <div className="h-screen flex flex-col justify-center items-center bg-[#0b1320]">
-      <div className="bg-gray-100 rounded-md p-4 max-w-md w-full mx-auto shadow-md">
+    <div className="h-screen flex flex-col justify-center items-center bg-[#1A202C]">
+      <div className="bg-white rounded-md p-4 max-w-md w-full mx-auto shadow-md">
         <form onSubmit={handleSubmit} className="space-y-6">
-          <h2 className="text-2xl font-bold text-center">{method === 'register' ? 'Register' : 'Login'}</h2>
+          <h2 className="text-2xl font-bold text-center text-blue-500">{method === 'register' ? 'Register' : 'Login'}</h2>
           {error && <p className="text-red-500 text-center">{error}</p>}
           {success && <p className="text-green-500 text-center">{success}</p>}
 
@@ -169,7 +169,7 @@ const Login: React.FC<LoginProps> = ({ method, setMethod, route }) => {
           <button
             type="button"
             onClick={handleGoogleLogin}
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md w-full shadow-md"
+            className="bg-[#4285F4] hover:bg-[#4285F4]/90 text-white font-bold py-2 px-4 rounded-md w-full shadow-md"
           >
             {method === 'register' ? 'Register with Google' : 'Login with Google'}
           </button>
