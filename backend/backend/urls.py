@@ -27,14 +27,14 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('admin/', include("django_admin_kubi.urls")),  # Django admin kubi URLS
     path("__reload__/", include("django_browser_reload.urls")),
-    path ("api/", include("api.urls")),
-    path ("accounts/", include("allauth.urls")),
-    path ('ap-auth/', include('rest_framework.urls')),
+    path('api/', include('api.urls')),  # This includes all the API URLs defined in backend/api/urls.py
+    path('accounts/', include('allauth.urls')),
+    path('api-auth/', include('rest_framework.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path ('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path ('callback/', google_login_callback, name='callback'),
-    path ('user/register/', UserCreate.as_view(), name='register'),
-    path ('api/auth/user/', UserDetailView.as_view(), name='user'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('callback/', google_login_callback, name='callback'),
+    path('user/register/', UserCreate.as_view(), name='register'),
+    path('api/auth/user/', UserDetailView.as_view(), name='user'),
     path('api/google/validate_token/', validate_google_token, name='validate_google_token'),
     
 

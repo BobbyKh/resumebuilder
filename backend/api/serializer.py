@@ -103,4 +103,3 @@ class TutorialSerializer(serializers.ModelSerializer):
         model = models.Tutorial
         fields = '__all__'
         
-        

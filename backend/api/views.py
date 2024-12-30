@@ -3,6 +3,7 @@ import logging
 
 from django.http import JsonResponse
 from django.shortcuts import redirect
+from django.views import View
 logger = logging.getLogger(__name__)
 from allauth.socialaccount.models import SocialToken 
 from rest_framework.response import Response
@@ -445,5 +446,65 @@ class TutorialView (ListCreateAPIView):
     queryset = Tutorial.objects.all()
     serializer_class = TutorialSerializer
 
+
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from .models import DocumentField 
     
-    
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.views import View
+
+@method_decorator(login_required, name="dispatch")
+class UserProfileView(View):
+    def get(self, request):
+        try:
+            # Fetch document fields for the logged-in user
+            document_fields = DocumentField.objects.filter(user=request.user)
+
+            # If no data exists, return demo data
+            if not document_fields.exists():
+                demo_data = {
+                    "avatar_url": "/static/demo_avatar.png",
+                    "name": "Demo User",
+                    "email": "demo@example.com",
+                    "bio": "This is a demo profile.",
+                    "details": {
+                        "workExperience": "3 years at Demo Company",
+                        "education": "Bachelor's in Computer Science",
+                        "skills": ["Python", "Django", "React"],
+                    },
+                    "resumes": [
+                        {"title": "Sample Resume 1", "date": "2023-12-01"},
+                        {"title": "Sample Resume 2", "date": "2023-10-15"},
+                    ],
+                    "templates": ["Template 1", "Template 2"],
+                }
+                return JsonResponse(demo_data, status=200)
+
+            # Map document field data for a real user
+            user_data = {
+                "avatar_url": request.user.profile_picture.url if hasattr(request.user, "profile_picture") else "",
+                "name": request.user.username,
+                "email": request.user.email,
+                "bio": "This is your profile.",
+                "details": {
+                    "workExperience": ", ".join(
+                        [field.experience for field in document_fields if field.experience]
+                    ),
+                    "education": ", ".join(
+                        [field.education for field in document_fields if field.education]
+                    ),
+                    "skills": [
+                        skill for field in document_fields for skill in field.skill
+                    ] if document_fields else [],
+                },
+                "resumes": [],
+                "templates": [],
+            }
+
+            return JsonResponse(user_data, status=200)
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
