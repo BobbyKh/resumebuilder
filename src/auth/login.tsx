@@ -48,12 +48,12 @@ const Login: React.FC<LoginProps> = ({ method, setMethod, route }) => {
       if (method === 'login') {
         localStorage.setItem(ACCESS_TOKEN, response.data.access);
         localStorage.setItem(REFRESH_TOKEN, response.data.refresh);
-        navigate('/'); // Redirect to Google callback
+        navigate('/');
         window.location.reload();
       } else {
         setSuccess('Registration successful. Please log in.');
         setTimeout(() => {
-          setMethod('login'); // Switch to login after successful registration
+          setMethod('login');
         }, 2000);
       }
     } catch (error: any) {
@@ -88,10 +88,10 @@ const Login: React.FC<LoginProps> = ({ method, setMethod, route }) => {
   };
 
   return (
-    <div className="h-screen flex flex-col justify-center items-center bg-[#1A202C]">
-      <div className="bg-white rounded-md p-4 max-w-md w-full mx-auto shadow-md">
+    <div className="h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('login.jpg')" }}>
+      <div className="bg-white bg-opacity-80 backdrop-blur-md rounded-lg p-6 max-w-md w-full mx-auto shadow-lg animate-fade-in">
         <form onSubmit={handleSubmit} className="space-y-6">
-          <h2 className="text-2xl font-bold text-center text-blue-500">{method === 'register' ? 'Register' : 'Login'}</h2>
+          <h2 className="text-2xl font-bold text-center text-blue-600">{method === 'register' ? 'Register' : 'Login'}</h2>
           {error && <p className="text-red-500 text-center">{error}</p>}
           {success && <p className="text-green-500 text-center">{success}</p>}
 
@@ -161,7 +161,7 @@ const Login: React.FC<LoginProps> = ({ method, setMethod, route }) => {
 
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md w-full shadow-md"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md w-full shadow-md"
           >
             {method === 'register' ? 'Register' : 'Login'}
           </button>
@@ -202,3 +202,4 @@ const Login: React.FC<LoginProps> = ({ method, setMethod, route }) => {
 };
 
 export default Login;
+

@@ -48,14 +48,10 @@ const Footer = () => {
 
         }
         fetchSocial();
-    }
-
-
-
-    , []);
+    });
 
     return (
-        <footer className="bg-initial p-2 md:p-8">
+        <footer style={{ backgroundImage: 'url(https://img.freepik.com/free-photo/blue-toned-pack-paper-sheets-with-copy-space_23-2148320442.jpg)', animation: 'bg 60s ease-in-out infinite' }} className="bg-no-repeat bg-cover bg-center p-2 md:p-8">
             <div className="container mx-auto px-6 md:px-12">
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
                     <div data-aos="fade-up" data-aos-anchor-placement="top-bottom">

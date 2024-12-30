@@ -164,12 +164,12 @@ const Navbar = (): JSX.Element => {
         <ul className="hidden md:flex md:space-x-6 text-black md:items-center">
           <li>
         {!isAuthorized ? (
-            <button
-            onClick={() => console.log('Button clicked')}
+            <Link
+            to="/login"
             className="border border-blue-500 text-black bg-white px-4 py-2 rounded-md hover:bg-blue-100 flex items-center font-sans"
             >
             Login
-            </button>
+            </Link>
           ) : (
           <div className="flex items-center space-x-4">
             <Link
