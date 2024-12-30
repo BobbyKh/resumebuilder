@@ -23,10 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-uu4^)vqameolr738s=(i8wr6pfved2=u+mt*55jbynp-xjpz(6'
 
+DEBUG = False
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['resumaven.net','www.resumaven.net','95.217.4.187', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -79,7 +78,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [ BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -177,7 +176,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/staticfiles/'  
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
@@ -193,8 +192,10 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CORS_ALLOW_ALL_ORIGINS = True
+ 
+CSRF_TRUSTED_ORIGINS = ['https://resumaven.net']
 
-
+CSRF_COOKIE_NAME = 'csrftoken'  # Defaults
 
 
 CORS_ALLOW_CREDENTIALS = True
@@ -217,7 +218,7 @@ EMAIL_HOST_PASSWORD = 'gasq mcmh irbp qtxk'
 SITE_ID = 1
 
 LOGIN_REDIRECT_URL = '/callback/'
-LOGOUT_REDIRECT_URL = 'http://localhost:5173/login'
+LOGOUT_REDIRECT_URL = 'admin/'
 SECURE_REFERRER_POLICY= "strict-origin-when-cross-origin"
 
 SOCIALACCOUNT_STORE_TOKENS = True

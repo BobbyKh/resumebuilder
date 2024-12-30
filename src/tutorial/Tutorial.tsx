@@ -1,12 +1,19 @@
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 import { useEffect, useState } from 'react'
+import API_URL from '../api/Api'
 
 const Tutorial = () => {
   const [tutorials, setTutorials] = useState<any[]>([])
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/tutorial')
+    fetch(`${API_URL}/api/tutorial`)
       .then(response => response.json())
       .then(data => setTutorials(data))
+  }, [])
+
+  useEffect(() => {
+    AOS.init()
   }, [])
 
   return (
@@ -16,9 +23,9 @@ const Tutorial = () => {
           Tutorials
         </h2>
 
-        <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+        <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
           {tutorials.map((tutorial) => (
-            <div key={tutorial.id} className="group relative border border-[#d5420b] shadow-sm rounded-md hover:shadow-md transition duration-150 ease-in-out">
+            <div key={tutorial.id} className="group relative border border-[#d5420b] shadow-sm rounded-md hover:shadow-md transition duration-150 ease-in-out" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="400">
               <div className="w-full overflow-hidden bg-white aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
                 <iframe
                   src={tutorial.video_link}
@@ -41,3 +48,4 @@ const Tutorial = () => {
 }
 
 export default Tutorial
+

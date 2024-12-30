@@ -24,7 +24,7 @@ const Testimonial = () => {
 
     useEffect(() => {
         axios
-            .get(`${API_URL}/testimonials`)
+            .get(`${API_URL}/api/testimonials`)
             .then((response) => {
                 setTestimonials(response.data);
             })

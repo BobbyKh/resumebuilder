@@ -11,7 +11,7 @@ const DocumentCategory = () => {
   useEffect(() => {
     const fetchDocuments = async () => {
       try {
-        const response = await axios.get(`${API_URL}/documentcategory`);
+        const response = await axios.get(`${API_URL}/api/documentcategory`);
         setDocuments(response.data);
       } catch (error) {
         console.error("Error fetching Document data from backend:", error);

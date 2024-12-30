@@ -3,8 +3,8 @@ import {ACCESS_TOKEN, GOOGLE_ACCESS_TOKEN} from "../auth/Token";
 
 const API_URL =
   process.env.NODE_ENV === "development"
-    ? "http://127.0.0.1:8000/api"
-    : "https://resumaven.net/api";
+    ? "http://127.0.0.1:8000"
+    : "https://resumaven.net";
 
 
 export const api = axios.create({

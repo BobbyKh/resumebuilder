@@ -11,7 +11,7 @@ const Pricing = () => {
   useEffect(() => {
     const fetchPricing = async () => {
       try {
-        const response = await axios.get(`${API_URL}/pricing`);
+        const response = await axios.get(`${API_URL}/api/pricing`);
         setPricing(response.data);
       } catch (error) {
         console.error("Error fetching pricing data from backend:", error);
@@ -106,7 +106,7 @@ const Pricing = () => {
                   {plan.name === 'Free' ? (
                     <span className="font-semibold animate-border animate-font">Get Started</span>
                   ) : (
-                    <span className="font-semibold animate-border animate-font">Suscribe</span>
+                    <span className="font-semibold animate-border animate-font">Subscribe</span>
                   )}
                 </button>
                 </Link>

@@ -21,7 +21,7 @@ const BookAppointment = () => {
     const [appointmentTypes, setAppointmentTypes] = useState<any[]>([])
     useEffect(() => {
         const fetchAppointmentTypes = async () => {
-            const response = await axios.get(`${API_URL}/appointment_types`)
+            const response = await axios.get(`${API_URL}/api/appointment_types`)
             const data = await response.data
             setAppointmentTypes(data)
         }
@@ -45,7 +45,7 @@ const BookAppointment = () => {
         event.preventDefault()
         setIsSending(true)
         try {
-            const response = await axios.post(`${API_URL}/appointment_types`, appointment)
+            const response = await axios.post(`${API_URL}/api/appointment_types`, appointment)
             const data = await response.data
             console.log(data)
             setIsBooked(true)

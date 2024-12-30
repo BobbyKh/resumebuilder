@@ -141,7 +141,7 @@ const BuildForm = () => {
 
     const fetchDocumentData = async () => {
       try {
-        const response = await fetch(`${API_URL}/documentfield/${templateId}`);  
+        const response = await fetch(`${API_URL}/api/documentfield/${templateId}`);  
         if (!response.ok) {
           throw new Error("Failed to fetch template.");
         }
@@ -159,7 +159,7 @@ const BuildForm = () => {
 
       
 
-        const response = await fetch(`${API_URL}/template/${templateId}`);
+        const response = await fetch(`${API_URL}/api/template/${templateId}`);
         
         if (!response.ok) {
           throw new Error("Failed to fetch template.");
@@ -178,7 +178,7 @@ const BuildForm = () => {
   }, [templateId]);
 
   useEffect(() => {
-    axios.get(`${API_URL}/template/${templateId}`).then((response) => {
+    axios.get(`${API_URL}/api/template/${templateId}`).then((response) => {
       setTemplate(response.data);
     });
   }, [templateId]);
@@ -366,7 +366,7 @@ const BuildForm = () => {
 
   const submitResume = async (resume: Record<string, string | string[]>, templateId: string) => {
     try {
-      const response = await fetch(`${API_URL}/documentfield`, {
+      const response = await fetch(`${API_URL}/api/documentfield`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
