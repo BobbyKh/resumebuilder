@@ -53,7 +53,7 @@ const Pricing = () => {
           {pricing.map((plan) => (
             <div
               key={plan.id}
-              className="flex-1 gap-4 w-full mb-6 bg-gradient-to-r from-blue-500 to-blue-300 rounded-3xl shadow-2xl transform transition duration-500 hover:scale-105 hover:shadow-3xl hover:translate-y-2"
+              className="flex-1 gap-4 w-full mb-6 bg-[#1a91f0] rounded-3xl shadow-2xl transform transition duration-500 hover:scale-105 hover:shadow-3xl hover:translate-y-2"
               style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}
               data-aos="zoom-in"
             >
@@ -79,7 +79,7 @@ const Pricing = () => {
                   <p className={`text-3xl font-extrabold text-white`}>{plan.name.toUpperCase()}</p>
                 </div>
                 <div className="flex justify-center items-center">
-                  <span className="font-extrabold text-6xl text-yellow-400">${plan.price}</span>
+                  <span className="font-extrabold text-6xl text-black-100">${plan.price}</span>
                   <span className="font-medium text-xl text-gray-100 ml-2">/month</span>
                 </div>
               </div>
@@ -121,7 +121,7 @@ const Pricing = () => {
                   <button
                     onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                     type="button"
-                    className="w-full text-lg font-bold text-white bg-blue-600 mt-8 py-3 rounded-xl shadow-lg hover:bg-blue-700 transition"
+                    className="w-full text-lg font-bold text-white bg-[#1a91f0] mt-8 py-3 rounded-xl shadow-lg hover:bg-blue-700 transition"
                     data-aos="flip-up"
                   >
                     {plan.name === 'Free' ? 'Get Started' : 'Subscribe'}
