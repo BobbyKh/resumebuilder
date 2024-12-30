@@ -57,23 +57,6 @@ const Navbar = (): JSX.Element => {
     AOS.init();
   }, []);
 
-  // const [, setSocialToken] = useState<string | null>(null);
-
-  // useEffect(() => {
-  //   // Fetch the social token when the Navbar loads
-  //   const fetchSocialToken = async () => {
-  //     try {
-  //       const response = await axios.get(`${API_URL}/socialtoken`, { withCredentials: true });
-  //       setSocialToken(response.data.token);
-  //       console.log('Social Token:', response.data.token);
-  //     } catch (error) {
-  //       console.error('Error fetching token:', error);
-  //     }
-  //   };
-
-  //   fetchSocialToken();
-  // }, []);
-
   useEffect(() => {
     const fetchOrganizations = async () => {
       try {
@@ -137,7 +120,7 @@ const Navbar = (): JSX.Element => {
       <nav
         className={`w-full md:flex md:justify-center md:flex-grow font-sans ${
           isOpen ? "block" : "hidden"
-        } md:block`}
+        } md:block animate__animated animate__fadeInDown animate__faster`}
         style={{ fontFamily: 'TT Commons, system-ui, sans-serif' }}
       >
         <ul className="flex flex-col md:flex-row md:space-x-6 text-black md:items-center mx-auto mt-4 md:mt-0">
@@ -213,3 +196,4 @@ const Navbar = (): JSX.Element => {
 };
 
 export default Navbar;
+
