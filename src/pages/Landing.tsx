@@ -4,7 +4,6 @@ import Review from "../resume/Review";
 import Pricing from "./Pricing";
 import Faq from "./Faq";
 import About from "./About";
-import Testimonial from "./Testimonial";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -62,7 +61,7 @@ const Landing = () => {
         <h2 className="text-4xl font-bold re mb-6">
           <span className="block font-serif text-[#1e2532] text-5xl font-bold">{heroSection.name}</span>
         </h2>
-        <p className="text-[#1e2532] text-lg mb-8 max-w-2xl mx-auto">
+        <p className="text-[#1e2532] text-lg mb-8 max-w-2xl mx-auto text-justify">
           {heroSection.description}
         </p>
         <Link to="/documentcategory">
@@ -78,9 +77,9 @@ const Landing = () => {
 
       {/* <Template/> */}
       {/* <Experience/> */}
+      <Template/>
       <Review/>
       <Pricing/>
-      <Template/>
       <Faq/>
       <Tutorial/>
       <About/>

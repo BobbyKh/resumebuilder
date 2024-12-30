@@ -79,7 +79,7 @@ const Review = () => {
           className="text-gray-300 text-xl mr-1"
           />
         </div>
-        <p className="text-[#1e2532] mb-4 p-6">
+        <p className="text-[#1e2532] mb-4 p-6 text-justify">
           This is a great product! It has exceeded my expectations and I
           would highly recommend it to anyone.
         </p>

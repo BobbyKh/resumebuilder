@@ -29,32 +29,42 @@ const Pricing = () => {
   }, []);
 
   return (
-    <div className="min-h-screen pb-28 sm:pb-0 bg-initial hover:bg-#1e3a8a shadow-md bg" style={{ backgroundImage: 'url(https://i.imgur.com/qlmbCA7.png)', backgroundSize: 'cover', backgroundPosition: 'center'  }}>
+    <div
+      className="min-h-screen pb-28 sm:pb-0 bg-gradient-to-b from-blue-900 to-blue-600 shadow-md"
+      style={{
+        backgroundImage: 'url(https://i.imgur.com/qlmbCA7.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
       <div className="max-w-7xl mx-auto p-4 sm:p-10 lg:py-20">
-        <div className="max-w-5xl mx-auto text-center tracking-widest pb-10 lg:pb-20">
-          <p className="pb-4 text-xl font-bold text-[#1e3a8a]" data-aos="fade-up">
+        <div className="max-w-5xl mx-auto text-center tracking-wide pb-10 lg:pb-20">
+          <p className="pb-4 text-4xl font-extrabold text-blue-800" data-aos="fade-up">
             PRICING
           </p>
-          <h1 className="text-3xl sm:text-5xl font-black text-blue-800" data-aos="fade-up">
-            The right price for you, <span className="text-[#1e3a8a]">the right plan</span>
+          <h1 className="text-4xl sm:text-6xl font-black text-blue-600" data-aos="fade-up">
+            The right price for you, <span className="text-black">the right plan</span>
           </h1>
-          <p className="text-xl sm:text-2xl font-light px-10 py-6 text-black" data-aos="fade-up">
-            Lorem ipsum has been the industry's standard dummy text ever since,
-            when an unknown printer took a galley of type and scrambled.
+          <p className="text-lg sm:text-xl font-light px-6 py-6 text-black" data-aos="fade-up">
+            Choose a plan that fits your needs and enjoy premium features at every level.
           </p>
         </div>
         <div className="flex flex-col lg:flex-row justify-center items-center gap-12 lg:gap-6 lg:mt-10">
-          {pricing.map((plan: any) => (
+          {pricing.map((plan) => (
             <div
               key={plan.id}
-              className="flex-1 gap-4 w-full mb-6 bg-blue-200 rounded-xl shadow-gray-500 shadow-xl transition duration-500 hover:scale-105 hover:shadow-lg hover:shadow-gray-500"
+              className="flex-1 gap-4 w-full mb-6 bg-gradient-to-r from-blue-500 to-blue-300 rounded-3xl shadow-2xl transform transition duration-500 hover:scale-105 hover:shadow-3xl hover:translate-y-2"
+              style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}
               data-aos="zoom-in"
             >
-              <div className="text-center p-12">
+              <div
+                className="text-center p-10"
+                style={{ transform: 'rotateY(0deg)', transition: 'transform 0.6s' }}
+              >
                 <div className="flex items-center mb-4 justify-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-black mr-2"
+                    className="h-8 w-8 text-white mr-2"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -66,46 +76,55 @@ const Pricing = () => {
                       d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
                     />
                   </svg>
-                  <p className={`text-2xl font-bold ${plan.name === 'Free' ? 'text-black' : 'text-black'}`}>
-                    {plan.name.toUpperCase()}
-                  </p>
+                  <p className={`text-3xl font-extrabold text-white`}>{plan.name.toUpperCase()}</p>
                 </div>
                 <div className="flex justify-center items-center">
-                  <span className="font-extrabold text-5xl lg:text-4xl xl:text-6xl align-text-middle px-3 text-black">
-                    ${plan.price}
-                  </span>
-                  <span className="font-normal text-xl inline-block align-text-middle">
-                    /month
-                  </span>
+                  <span className="font-extrabold text-6xl text-yellow-400">${plan.price}</span>
+                  <span className="font-medium text-xl text-gray-100 ml-2">/month</span>
                 </div>
               </div>
-              <div className="bg-white rounded-b-xl p-10">
+              <div
+                className="bg-white rounded-b-3xl p-8"
+                style={{ transform: 'rotateY(0deg)', transition: 'transform 0.6s' }}
+              >
                 <ul className="space-y-4">
                   {typeof plan.features === 'string'
-                    ? plan.features.split(',').map((feature: string, index: Key | null | undefined) => (
-                      <li key={index} className="flex items-center gap-2 list-disc list-inside">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#1e3a8a] animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <span className="text-black">{feature.trim()}</span>
-                      </li>
-                    ))
-                    : plan.features.map((feature: string, index: number) => (
-                      <li key={index} className="list-disc list-inside text-black">{feature}</li>
-                    ))}
+                    ? plan.features.split(',').map((feature, index) => (
+                        <li
+                          key={index}
+                          className="flex items-center gap-3 text-lg text-gray-800"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6 text-blue-500"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                          {feature.trim()}
+                        </li>
+                      ))
+                    : plan.features.map((feature, index) => (
+                        <li key={index} className="text-lg text-gray-800">
+                          {feature}
+                        </li>
+                      ))}
                 </ul>
                 <Link to={`/pricing/subscribe/${plan.id}`}>
                   <button
                     onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                     type="button"
-                    className="w-full text-center text-lg text-[#1a91f0] mt-8 p-3 rounded-lg shadow-[0_0_10px_#1e3a8a] transition hover:text-[#1e3a8a] hover:shadow-[0_0_15px_#1e3a8a]"
+                    className="w-full text-lg font-bold text-white bg-blue-600 mt-8 py-3 rounded-xl shadow-lg hover:bg-blue-700 transition"
                     data-aos="flip-up"
                   >
-                    {plan.name === 'Free' ? (
-                      <span className="font-semibold animate-border animate-font">Get Started</span>
-                    ) : (
-                      <span className="font-semibold animate-border animate-font">Subscribe</span>
-                    )}
+                    {plan.name === 'Free' ? 'Get Started' : 'Subscribe'}
                   </button>
                 </Link>
               </div>
@@ -115,6 +134,6 @@ const Pricing = () => {
       </div>
     </div>
   );
-};
-
-export default Pricing;
+};  
+  export default Pricing;
+  

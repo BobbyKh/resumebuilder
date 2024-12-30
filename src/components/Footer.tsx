@@ -55,15 +55,15 @@ const Footer = () => {
     , []);
 
     return (
-        <footer className="bg-[#000000] p-2 md:p-8">
+        <footer className="bg-initial p-2 md:p-8">
             <div className="container mx-auto px-6 md:px-12">
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
                     <div data-aos="fade-up" data-aos-anchor-placement="top-bottom">
-                        <h5 className="text-white font-semibold mb-4">Solutions</h5>
+                        <h5 className="text-black font-semibold mb-4">Solutions</h5>
                         <ul className="space-y-2">
                             {["Marketing", "Analytics", "Automation", "Commerce", "Insights"].map((solution, index) => (
                                 <li key={solution} data-aos="fade-up" data-aos-delay={`${(index + 1) * 100}`}>
-                                    <a href="#" className="hover:text-red-600 transition-colors duration-300 text-white">
+                                    <a href="#" className="hover:text-red-600 transition-colors duration-300 text-black">
                                         {solution}
                                     </a>
                                 </li>
@@ -72,13 +72,13 @@ const Footer = () => {
                     </div>
 
                     <div>
-                        <h5 className="text-white font-semibold mb-4" data-aos="fade-up">
+                        <h5 className="text-black font-semibold mb-4" data-aos="fade-up">
                             Support
                         </h5>
                         <ul className="space-y-2" data-aos="fade-up">
                             {["Submit ticket", "Documentation", "Guides"].map((support, index) => (
                                 <li key={support} data-aos="fade-up" data-aos-delay={`${(index + 1) * 100}`}>
-                                    <a href="#" className="hover:text-red-600 transition-colors duration-300 text-white">
+                                    <a href="#" className="hover:text-red-600 transition-colors duration-300 text-black">
                                         {support}
                                     </a>
                                 </li>
@@ -87,13 +87,13 @@ const Footer = () => {
                     </div>
 
                     <div>
-                        <h5 className="text-white font-semibold mb-4" data-aos="fade-up">
+                        <h5 className="text-black font-semibold mb-4" data-aos="fade-up">
                             Company
                         </h5>
                         <ul className="space-y-2" data-aos="fade-up">
                             {["About", "Blog", "Jobs", "Press"].map((company, index) => (
                                 <li key={company} data-aos="fade-up" data-aos-delay={`${(index + 1) * 100}`}>
-                                    <a href="#" className="hover:text-red-600 transition-colors duration-300 text-white">
+                                    <a href="#" className="hover:text-red-600 transition-colors duration-300 text-black">
                                         {company}
                                     </a>
                                 </li>
@@ -102,13 +102,13 @@ const Footer = () => {
                     </div>
 
                     <div>
-                        <h5 className="text-white font-semibold mb-4" data-aos="fade-up">
+                        <h5 className="text-black font-semibold mb-4" data-aos="fade-up">
                             Legal
                         </h5>
                         <ul className="space-y-2" data-aos="fade-up">
                             {["Terms of service", "Privacy policy", "License"].map((legal, index) => (
                                 <li key={legal} data-aos="fade-up" data-aos-delay={`${(index + 1) * 100}`}>
-                                    <a href="#" className="hover:text-red-600 transition-colors duration-300 text-white">
+                                    <a href="#" className="hover:text-red-600 transition-colors duration-300 text-black">
                                         {legal}
                                     </a>
                                 </li>
@@ -123,7 +123,7 @@ const Footer = () => {
 
                 <div className="sm:flex sm:items-center sm:justify-between">
                     <span
-                        className="text-sm text-white sm:text-center dark:text-gray-400 animate-fadeInUp"
+                        className="text-sm text-black sm:text-center dark:text-gray-400 animate-fadeInUp"
                         data-aos="fade-up"
                     >
                         © 2024{' '}
@@ -134,7 +134,7 @@ const Footer = () => {
                     </span>
                     {social.facebook && social.twitter && social.instagram && social.linkedin && social.github && social.youtube && (
                         <span
-                            className="text-sm text-white sm:text-center dark:text-gray-400 animate-fadeInUp"
+                            className="text-sm text-black sm:text-center dark:text-gray-400 animate-fadeInUp"
                             data-aos="fade-up"
                         >
                             Made with ❤️ by ResuTeam
@@ -142,20 +142,20 @@ const Footer = () => {
                     )}
                     <div className="flex mt-4 space-x-6 sm:justify-center sm:mt-0 ">
                         {[
-                            { icon: faGithub, color: "hover:text-red-600" },
-                            { icon: faLinkedin, color: "hover:text-red-600" },
-                            { icon: faTwitter, color: "hover:text-red-600" },
-                            { icon: faFacebook, color: "hover:text-red-600" },
-                            { icon: faInstagram, color: "hover:text-red-600" },
-                            { icon: faYoutube, color: "hover:text-red-600" },
+                            { icon: faGithub, color: "text-red-800 hover:text-red-200" },
+                            { icon: faLinkedin, color: "text-blue-600 hover:text-blue-900" },
+                            { icon: faTwitter, color: "text-blue-600 hover:text-blue-900" },
+                            { icon: faFacebook, color: "text-blue-600 hover:text-blue-900" },
+                            { icon: faInstagram, color: "text-blue-600 hover:text-blue-900" },
+                            { icon: faYoutube, color: "text-blue-600 hover:text-blue-900" },
                         ].map(({ icon, color }, index) => (
                             <a
                                 key={index}
                                 href="#"
-                                className={`text-red-600 ${color} transition-colors duration-300`}
+                                className={color}
                                 data-aos="fade-up"
                             >
-                                <FontAwesomeIcon icon={icon} className="text-red-600" />
+                                <FontAwesomeIcon icon={icon} className="text-blue-800" />
                             </a>
                         ))}
                     </div>
