@@ -77,46 +77,46 @@ const Profile = () => {
   
 
   return (
-    <div className="container mx-auto p-6" data-aos="fade-in">
+    <div className="bg-initial container mx-auto p-6" data-aos="fade-in">
   <div className="grid gap-6 mb-6 md:grid-cols-2" data-aos="fade-up">
-    <div className="rounded-lg shadow-lg p-4 bg-gray-800 border border-gray-700 animate-fade-in relative" data-aos="zoom-in">
+    <div className="rounded-lg shadow-lg p-6 border border-gray-700 animate-fade-in relative" data-aos="zoom-in">
       <button
-        className="absolute top-2 right-2 text-white hover:text-[#d5420b]"
+        className="absolute top-2 right-2 text-black hover:text-blue-500"
         onClick={() => alert("Settings button clicked!")}
       >
-        <FontAwesomeIcon icon={faGear} className="text-2xl" />
+        <FontAwesomeIcon icon={faGear} className="text-2xl text-blue-800" />
       </button>
       <img
-        className="w-24 h-24 rounded-full border-4 border-[#d5420b] mb-4"
+        className="w-24 h-24 rounded-full border-4 border-blue-800 mb-4"
         src="https://img.freepik.com/premium-vector/man-professional-business-casual-young-avatar-icon-illustration_1277826-623.jpg"
         alt={user.name}
         data-aos="zoom-in"
       />
-      <h2 className="text-2xl font-bold text-white" data-aos="fade-up">{user.name}</h2>
-      <p className="text-sm text-[#d5420b] font-medium" data-aos="fade-up">Software Engineer</p>
+      <h2 className="text-2xl font-bold text-blue-800" data-aos="fade-up">{user.name}</h2>
+      <p className="text-sm text-blue-800 font-medium" data-aos="fade-up">Software Engineer</p>
       <p className="text-sm text-[#d5420b]" data-aos="fade-up">{user.bio}</p>
-      <div className="mt-4 text-white" data-aos="fade-up">
+      <div className="mt-4 text-black" data-aos="fade-up">
         <p className="text-sm">
-          <FontAwesomeIcon icon={faEnvelope} className="mr-2 text-lg text-[#d5420b]" />
+          <FontAwesomeIcon icon={faEnvelope} className="mr-2 text-lg text-blue-800" />
           <span className="font-medium">Email:</span> user@example.com
         </p>
         <p className="text-sm mt-2">
-          <FontAwesomeIcon icon={faPhone} className="mr-2 text-lg text-[#d5420b]" />
+          <FontAwesomeIcon icon={faPhone} className="mr-2 text-lg text-blue-800" />
           <span className="font-medium">Phone:</span> +123 456 7890
         </p>
         <p className="text-sm mt-2">
-          <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2 text-lg text-[#d5420b]" />
+          <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2 text-lg text-blue-800" />
           <span className="font-medium">Address:</span> 123 Main Street, Anytown, USA
         </p>
       </div>
     </div>
 
     <div className="rounded-lg shadow-lg p-4 bg-gray-800 border border-gray-700 animate-fade-in" data-aos="fade-up">
-      <h3 className="text-xl font-semibold text-white mb-4 flex items-center" data-aos="fade-up">
+      <h3 className="text-xl font-semibold text-black mb-4 flex items-center" data-aos="fade-up">
         <FontAwesomeIcon icon={faUser} className="mr-2 text-2xl text-[#d5420b]" />
         Profile Details
       </h3>
-      <ul className="space-y-4 text-white divide-y divide-gray-700" data-aos="fade-up">
+      <ul className="space-y-4 text-black divide-y divide-gray-700" data-aos="fade-up">
         <li className="flex justify-between items-center py-2" data-aos="fade-up">
           <span className="flex items-center">
             <FontAwesomeIcon icon={faCode} className="mr-2 text-lg text-[#d5420b]" />
