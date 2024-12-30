@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-export default{
+export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -24,8 +24,10 @@ export default{
       perspective: {
         1000: '1000px',
       },
+      fontFamily: {
+        sans: ['TT Commons', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Ubuntu', 'Cantarell', 'Noto Sans', 'sans-serif'],
+      },
     },
   },
   plugins: [],
 };
-

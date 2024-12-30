@@ -1,0 +1,50 @@
+.soft-ui {
+  background: #e6e9ef;
+  box-shadow: 8px 8px 15px #c1c4c9,
+             -8px -8px 15px #ffffff;
+  border-radius: 15px;
+  padding: 2rem;
+}
+
+.soft-ui-input {
+  background: #e6e9ef;
+  border: none;
+  box-shadow: inset 5px 5px 10px #c1c4c9,
+              inset -5px -5px 10px #ffffff;
+  border-radius: 10px;
+  padding: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.soft-ui-button {
+  background: linear-gradient(145deg, #f0f3f9, #e6e9ef);
+  box-shadow: 5px 5px 10px #c1c4c9,
+             -5px -5px 10px #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.ats-friendly {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.ats-friendly h1 {
+  font-size: 24px;
+  margin-bottom: 1rem;
+}
+
+.ats-friendly h2 {
+  font-size: 20px;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.ats-friendly-section {
+  margin-bottom: 1.5rem;
+}
