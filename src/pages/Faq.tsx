@@ -36,7 +36,7 @@ const Faq = () => {
     };
 
     return (
-        <div className="bg-white py-16 px-5 sm:px-10 relative">
+        <div className="bg-blue-50 py-16 px-5 sm:px-10 relative">
             <img src="question.png" alt="Question" className="absolute top-0 right-0 w-32 h-32 m-4 animate-bounce" />
             <h1 className="text-4xl text-blue-600 font-bold text-center mb-10" data-aos="fade-down">Frequently Asked Questions</h1>
             <div className="max-w-4xl mx-auto">
@@ -50,7 +50,7 @@ const Faq = () => {
                     </div>
                     {openIndex === index ? <FaChevronUp /> : <FaChevronDown />}
                     </div>
-                    <div className={`mt-2 text-gray-600 ${openIndex === index ? 'block' : 'hidden'}`}>
+                    <div className={`mt-2 text-blue-600 ${openIndex === index ? 'block' : 'hidden'}`}>
                     {faq.answer}
                     </div>
                 </div>
