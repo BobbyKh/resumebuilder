@@ -99,29 +99,26 @@ const Template = () => {
                             <span className="text-[#1e3a8a]">Choose your </span>template
                         </p>
                     </div>
-                    <Slider {...settings}>
+                    <Slider {...settings} arrows={true}>
                         {resumeTemplates.map((resumeTemplate) => (
-                            <div key={resumeTemplate.id} style={{ margin: '0 10px' }} className="group relative my-4 mx-2" data-aos="zoom-in">
-                                <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
+                            <div key={resumeTemplate.id} className="group flex flex-col items-center my-4 mx-2" data-aos="zoom-in">
+                                <div className="relative w-full h-full overflow-hidden rounded-lg shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
                                     <img
                                         src={resumeTemplate.image}
                                         alt={resumeTemplate.name}
-                                        className="h-[400px] w-full group-hover:opacity-75 transition-opacity duration-300 ease-in-out"
+                                        className="h-full w-full object-cover group-hover:opacity-75 transition-opacity duration-300 ease-in-out"
                                     />
-                                    <div className="absolute inset-0 flex items-center justify-center opacity-0 transition duration-300 ease-in-out group-hover:opacity-100">
-                                        <p className="bg-white rounded-lg p-4 text-3xl font-bold text-gray-900">{resumeTemplate.name}</p>
+                                    <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 transition duration-300 ease-in-out group-hover:opacity-100">
+                                        <p className="bg-white rounded-lg p-2 text-xl font-semibold text-gray-900">{resumeTemplate.name}</p>
                                     </div>
                                 </div>
-                                <Link to={`/resume/editor/${resumeTemplate.id}`}>
-                                    <button className="mt-4 block w-full text-gray-900 bg-white font-bold py-2 rounded-lg hover:bg-gray-100 transition duration-300 ease-in-out" data-aos="zoom-in">
+                                <Link to={`/resume/editor/${resumeTemplate.id}`} className="mt-2 w-full">
+                                    <button className="block w-full text-blue-900 bg-white font-bold py-2 rounded-lg hover:bg-blue-200 transition duration-300 ease-in-out" data-aos="zoom-in">
                                         Use Template
                                     </button>
                                 </Link>
                             </div>
                         ))}
-
-                        {/* Add space between two item mapping */}
-                        {resumeTemplates.map((_, index) => (index % 2 === 1 ? <div key={index} className="my-8"></div> : null))}
                     </Slider>
                 </div>
             </div>
