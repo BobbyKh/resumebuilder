@@ -43,6 +43,7 @@ admin.site.register([
     models.DocumentCategory,
     models.Experience,
     models.Tutorial,
+    models.Profile,
    
 ])
 

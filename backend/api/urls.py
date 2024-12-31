@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from api import views
 from django.conf import settings
 
-from api.views import UserProfileView 
+from api.views import ProfileDetailView 
 
 
 
@@ -31,8 +31,7 @@ urlpatterns = [
     path ('pricing/<int:id>', views.PricingDetail.as_view(), name='suscription'),
     path ('paymentsystem', views.PaymentSystemView.as_view(), name='paymentsystem'),
     path ('tutorial', views.TutorialView.as_view(), name='tutorial'),
-    path('user/profile', UserProfileView.as_view(), name='user_profile'),
-    
+    path('profile/', ProfileDetailView.as_view(), name='profile-detail'),
 
     #AUTH_TOKEN
 

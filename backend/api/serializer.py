@@ -1,3 +1,4 @@
+from .models import Profile
 from rest_framework import serializers
 from api import models
 from django.contrib.auth.models import User
@@ -102,4 +103,16 @@ class TutorialSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Tutorial
         fields = '__all__'
-        
+
+class DocumentFieldSerializer(serializers.ModelSerializer):
+    
+    image = Base64ImageField(max_length=None, use_url=True)
+    class Meta:
+        model = models.DocumentField
+        fields = '__all__'       
+class ProfileSerializer(serializers.ModelSerializer):
+    document = DocumentFieldSerializer()
+
+    class Meta:
+        model = Profile
+        fields = ['user', 'document', 'template', 'created_at']

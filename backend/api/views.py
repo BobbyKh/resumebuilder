@@ -7,11 +7,11 @@ from django.views import View
 logger = logging.getLogger(__name__)
 from allauth.socialaccount.models import SocialToken 
 from rest_framework.response import Response
-from api.models import Experience, PaymentSystem, Tutorial
+from api.models import Experience, PaymentSystem, Profile, Tutorial
 # from dj_rest_auth.registration.views import SocialLoginView
-from api.serializer import ExperienceSerializer, PaymentSystemSerializer, TutorialSerializer
+from api.serializer import ExperienceSerializer, PaymentSystemSerializer, ProfileSerializer, TutorialSerializer
 from api.models import AboutUs, Appointment, AppointmentType, DocumentCategory, DocumentField, Experience, FooterSection, HeroSection, Organization, Pricing, Template, Testimonial,FAQ
-from api.serializer import AboutUsSerializer, AppointmentSerializer, AppointmentTypeSerializer, DocumentCategorySerializer, DocumentFieldSerializer, ExperienceSerializer,  FAQSerializer, HeroSectionSerializer, OrganizationSerializer, PricingSerializer, TemplateSerializer, TestimonialSerializer, UserSerializer ,FooterSerializer
+from api.serializer import AboutUsSerializer, AppointmentSerializer, AppointmentTypeSerializer, DocumentCategorySerializer, DocumentFieldSerializer, ExperienceSerializer,  FAQSerializer, HeroSectionSerializer, OrganizationSerializer, PricingSerializer, TemplateSerializer, TestimonialSerializer, UserSerializer ,FooterSerializer,ProfileSerializer
 from django.contrib.auth.models import User
 from rest_framework.generics import ListCreateAPIView
 from pypdf import PdfReader
@@ -447,64 +447,22 @@ class TutorialView (ListCreateAPIView):
     serializer_class = TutorialSerializer
 
 
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from .models import DocumentField 
-    
-from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from django.views import View
 
-@method_decorator(login_required, name="dispatch")
-class UserProfileView(View):
+class ProfileDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
-        try:
-            # Fetch document fields for the logged-in user
-            document_fields = DocumentField.objects.filter(user=request.user)
+        # Get or create the Profile for the logged-in user
+        profile, created = Profile.objects.get_or_create(user=request.user)
 
-            # If no data exists, return demo data
-            if not document_fields.exists():
-                demo_data = {
-                    "avatar_url": "/static/demo_avatar.png",
-                    "name": "Demo User",
-                    "email": "demo@example.com",
-                    "bio": "This is a demo profile.",
-                    "details": {
-                        "workExperience": "3 years at Demo Company",
-                        "education": "Bachelor's in Computer Science",
-                        "skills": ["Python", "Django", "React"],
-                    },
-                    "resumes": [
-                        {"title": "Sample Resume 1", "date": "2023-12-01"},
-                        {"title": "Sample Resume 2", "date": "2023-10-15"},
-                    ],
-                    "templates": ["Template 1", "Template 2"],
-                }
-                return JsonResponse(demo_data, status=200)
+        # Ensure the Profile has a DocumentField
+        if not profile.document:
+            document_field = DocumentField.objects.create(user=request.user, name=request.user.username)
+            profile.document = document_field
+            profile.save()
 
-            # Map document field data for a real user
-            user_data = {
-                "avatar_url": request.user.profile_picture.url if hasattr(request.user, "profile_picture") else "",
-                "name": request.user.username,
-                "email": request.user.email,
-                "bio": "This is your profile.",
-                "details": {
-                    "workExperience": ", ".join(
-                        [field.experience for field in document_fields if field.experience]
-                    ),
-                    "education": ", ".join(
-                        [field.education for field in document_fields if field.education]
-                    ),
-                    "skills": [
-                        skill for field in document_fields for skill in field.skill
-                    ] if document_fields else [],
-                },
-                "resumes": [],
-                "templates": [],
-            }
+        # Serialize and return the Profile
+        serializer = ProfileSerializer(profile)
+        return Response(serializer.data)
 
-            return JsonResponse(user_data, status=200)
 
-        except Exception as e:
-            return JsonResponse({"error": str(e)}, status=500)

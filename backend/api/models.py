@@ -64,7 +64,15 @@ class DocumentField(models.Model):
         return self.name
     
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    document = models.ForeignKey(DocumentField, on_delete=models.CASCADE, null=True, blank=True)
+    template = models.ForeignKey(Template, on_delete=models.CASCADE, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.user.username
 
 
 
