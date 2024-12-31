@@ -72,7 +72,7 @@ const Template = () => {
                     slidesToScroll: 1,
                     initialSlide: 1,
                     centerMode: true,
-                    centerPadding: '30px'
+                    centerPadding: '20px'
                 }
             },
             {
@@ -83,6 +83,15 @@ const Template = () => {
                     centerMode: true,
                     centerPadding: '20px'
                 }
+            },
+            {
+                breakpoint: 320,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    centerMode: true,
+                    centerPadding: '10px'
+                }
             }
         ],
         // add gap between slide items
@@ -92,16 +101,16 @@ const Template = () => {
 
     return (
         <>
-            <div className='min-h-screen flex flex-col justify-center items-center p-2 bg-[url("/bg.svg")] bg-no-repeat bg-cover' data-aos="fade-down" data-aos-duration="1500" data-aos-once="false">
+            <div className='min-h-screen flex flex-col justify-center items-center p-2 bg-[url("https://cdn.enhancv.com/images/1920/i/L19uZXh0L3N0YXRpYy9pbWFnZXMvc2tpbGxzLWJnLTVhZWMwM2UzZTJjZGY5N2FmYmM1YjkzMGY1OWZlYTAyLndlYnA~.webp")] bg-no-repeat bg-cover justify-items-center ' data-aos="fade-down" data-aos-duration="200" data-aos-once="false">
                 <div className="mx-auto max-w-7xl px-6 lg:px-8 mb-4" data-aos="zoom-in">
                     <div className="mx-auto max-w-2xl lg:text-center" data-aos="fade-up">
                         <p className="mt-2 text-4xl font-medium tracking-tight text-[#1e3a8a] sm:text-5xl">
                             <span className="text-[#1e3a8a]">Choose your </span>template
                         </p>
                     </div>
-                    <Slider {...settings} arrows={true}>
+                    <Slider {...settings} arrows={true} className="md:px-8 justify-center">
                         {resumeTemplates.map((resumeTemplate) => (
-                            <div key={resumeTemplate.id} className="group flex flex-col items-center my-4 mx-2" data-aos="zoom-in">
+                            <div key={resumeTemplate.id} className="group flex flex-col items-center my-4 mx-2 md:mx-4 gap-4" data-aos="zoom-in">
                                 <div className="relative w-full h-full overflow-hidden rounded-lg shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
                                     <img
                                         src={resumeTemplate.image}
@@ -127,5 +136,4 @@ const Template = () => {
 }
 
 export default Template
-
 

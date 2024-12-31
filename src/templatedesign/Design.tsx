@@ -1,4 +1,4 @@
-import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useState } from 'react';
+import { Key, useState } from 'react';
 
 type ColorPalette = {
   primary: string;
@@ -12,81 +12,58 @@ const colorPalettes: ColorPalette[] = [
   { primary: 'indigo', secondary: 'yellow' },
   { primary: 'teal', secondary: 'gray' },
 ];
-
+console.log(FormData);
 const ResumeTemplate1 = (formData: any): JSX.Element => {
-  const [colorPalette, setColorPalette] = useState<ColorPalette>(colorPalettes[0]);
+  const [colorPalette] = useState<ColorPalette>(colorPalettes[0]);
 
   return (
-    <div className="max-w-3xl mx-auto p-4 bg-white rounded-lg shadow-md">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className={`text-3xl font-bold text-${colorPalette.primary}-600`}>{formData.name || "John Doe"}</h1>
+    <div className="max-w-3xl mx-auto p-8 bg-initial rounded-lg shadow-md">
+      <div className="flex justify-between items-center ">
+        <h1 className={`text-3xl font-bold text-black`}>{formData.fullname || "John Doe"}</h1>
         {formData.image ? (
           <img src={formData.image} className="h-20 w-20 rounded-full ml-4" />
         ) : (
           <img src="https://picsum.photos/200" className="h-20 w-20 rounded-full ml-4" />
         )}
-      </div>
 
-      <div className="flex flex-col mb-4">
-        <h2 className={`text-2xl font-bold text-${colorPalette.secondary}-600`}>Contact Information</h2>
-        <ul className="list-disc pl-4">
-          <li className="text-lg">
-            Email: 
-            <a href={`mailto:${formData.email || "john.doe@example.com"}`} className="text-blue-600 hover:text-blue-700">
-              {formData.email || "john.doe@example.com"}
-            </a>
-          </li>
-          <li className="text-lg">Phone: {formData.phone || "123-456-7890"}</li>
-          <li className="text-lg">Address: {formData.address || "123 Main St, Anytown, USA"}</li>
-          <li className="text-lg">
-            LinkedIn: 
-            <a href={formData.linkedin || "https://www.linkedin.com/in/johndoe/"} className="text-blue-600 hover:text-blue-700">
-              {formData.linkedin || "https://www.linkedin.com/in/johndoe/"}
-            </a>
-          </li>
-          <li className="text-lg">
-            GitHub: 
-            <a href={formData.github || "https://github.com/johndoe"} className="text-blue-600 hover:text-blue-700">
-              {formData.github || "https://github.com/johndoe"}
-            </a>
-          </li>
-        </ul>
       </div>
-
-      <div className="flex flex-col mb-4">
-        <h2 className={`text-2xl font-bold text-${colorPalette.secondary}-600`}>Summary</h2>
-        <p className="text-lg">{formData.summary || "Highly motivated and detail-oriented software engineer with 5+ years of experience in developing scalable and maintainable applications. Proficient in a range of programming languages, including Java, Python, and JavaScript. Strong understanding of computer science fundamentals and experience with agile development methodologies."}</p>
-      </div>
-
-      <div className="flex flex-col mb-4">
-        <h2 className={`text-2xl font-bold text-${colorPalette.secondary}-600`}>Experience</h2>
-        <ul className="list-disc pl-4">
-          {(formData.experience || []).map((item: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined, index: Key | null | undefined) => (
-            <li className="text-lg" key={index}>{item}</li>
-          ))}
-          {!formData.experience && (
-            <>
-              <li className="text-lg">Software Engineer, ABC Company (2018-2020)</li>
-              <li className="text-lg">Software Engineer, DEF Company (2020-2022)</li>
-            </>
-          )}
-        </ul>
-      </div>
-
-      <div className="flex flex-col mb-4">
-        <h2 className={`text-2xl font-bold text-${colorPalette.secondary}-600`}>Education</h2>
-        <ul className="list-disc pl-4">
-        {formData?.education?.map((item: any, index: number) => (
-          console.log(item),
-  <li className="text-lg" key={index}>
-    {item.institution || "Unknown Institution"} - {item.degree || "Unknown Degree"}
-  </li>
-))}
-        </ul>
-      </div>
+      <p className="text-lg font-semibold mb-4">{formData.position || "Student"}</p>
+      <hr className="my-4" />
+      <p>{formData.email || "Email not provided"} {formData.phone || "Phone not provided"} {formData.address || "Address not provided"}</p>
+      <hr className="my-4" />
+      <p className="text-lg leading-relaxed">{formData.summary || "Summary not provided"}</p>
+      <hr className="my-4" />
+      <h2 className={`text-xl font-bold text-black mb-2`}>Expertise</h2>
+      <ul>
+        {formData.skills?.map((item: any, index: Key) => (
+          <li className="text-lg flex items-center p-1" key={index}>{item}</li>
+        ))}
+      </ul>
+      <hr className="my-4" />
+      <h2 className={`text-xl font-bold text-black`}>Experience</h2>
+      <ul>
+        {formData.experience?.map((item: any, index: Key) => (
+          <li className="text-lg" key={index}>{item.company || "Unknown Company"}</li>
+        ))}
+      </ul>
+      <hr className="my-4" />
+      <h2 className={`text-xl font-bold text-black`}>Education</h2>
+      <ul>
+        {formData.education?.map((item: any, index: Key) => (
+          <li className="text-lg" key={index}>{item.degree || "Unknown Degree"}</li>
+        ))}
+      </ul>
+      <hr className="my-4" />
+      <h2 className={`text-xl font-bold text-black`}>Hobbies</h2>
+      <ul>
+        {formData.hobbies?.map((item: any, index: Key) => (
+          <li className="text-lg" key={index}>{item}</li>
+        ))}
+      </ul>
     </div>
   );
 };
+
 
 
 const ResumeTemplate2 = (formData: any = {}): JSX.Element => {
@@ -94,49 +71,42 @@ const ResumeTemplate2 = (formData: any = {}): JSX.Element => {
 
   const experience = formData.experience || [];
   const education = formData.education || [];
-
+  console.log(formData.education);
   return (
-    <div className="max-w-3xl mx-auto p-4 bg-white rounded-lg shadow-md">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className={`text-3xl font-bold text-${colorPalette.primary}-600`}>{formData.fullname || "Name not provided"}</h1>
-        <button
-          className={`bg-${colorPalette.primary}-600 hover:bg-${colorPalette.primary}-700 text-white font-bold py-2 px-4 rounded`}
-          onClick={() => setColorPalette(colorPalettes[2])}
-        >
-          Change Color
-        </button>
-      </div>
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        <div className="flex flex-col">
-          <h2 className={`text-2xl font-bold text-${colorPalette.secondary}-600`}>Contact Information</h2>
-          <ul>
-            <li className="text-lg">Email: {formData.email || "Email not provided"}</li>
-            <li className="text-lg">Phone: {formData.phone || "Phone not provided"}</li>
-            <li className="text-lg">Address: {formData.address || "Address not provided"}</li>
-          </ul>
-        </div>
-        <div className="flex flex-col">
-          <h2 className={`text-2xl font-bold text-${colorPalette.secondary}-600`}>Summary</h2>
-          <p className="text-lg">{formData.summary || "Summary not provided"}</p>
-        </div>
-      </div>
-      <div className="flex flex-col mb-4">
-        <h2 className={`text-2xl font-bold text-${colorPalette.secondary}-600`}>Experience</h2>
-        <ul>
-          {experience.map((item: any, index: Key) => (
-            <li className="text-lg" key={index}>{item.institution || item.company || "Unknown Company"}</li>
-          ))}
-        </ul>
-      </div>
-      <div className="flex flex-col mb-4">
-        <h2 className={`text-2xl font-bold text-${colorPalette.secondary}-600`}>Education</h2>
-        <ul>
-          {education.map((item: any, index: Key) => (
-            <li className="text-lg" key={index}>{item.institution}</li>
-          ))}
-        </ul>
-      </div>
+    <div className="max-w-3xl mx-auto p-4 border rounded-lg">
+    <div className="mb-4">
+      <h1 className="text-2xl font-bold">{formData.fullname || "Name not provided"}</h1>
     </div>
+    <div className="mb-4">
+      <h2 className="text-xl font-bold">Contact Information</h2>
+      <ul className="list-disc pl-5">
+        <li>Email: {formData.email || "Email not provided"}</li>
+        <li>Phone: {formData.phone || "Phone not provided"}</li>
+        <li>Address: {formData.address || "Address not provided"}</li>
+      </ul>
+    </div>
+    <div className="mb-4">
+      <h2 className="text-xl font-bold">Summary</h2>
+      <p>{formData.summary || "Summary not provided"}</p>
+    </div>
+    <div className="mb-4">
+      <h2 className="text-xl font-bold">Experience</h2>
+      <ul className="list-disc pl-5">
+        {experience.map((item: any, index: Key) => (
+          <li key={index}>{item.institution || item.company || "Unknown Company"}</li>
+        ))}
+      </ul>
+    </div>
+    <div>
+      <h2 className="text-xl font-bold">Education</h2>
+      <ul className="list-disc pl-5">
+        {education.map((item: any, index: Key) => (
+          <li key={index}>{item.institution}</li>
+        ))}
+      </ul>
+    </div>
+  </div>
+  
   );
 };
 
@@ -144,47 +114,74 @@ const ResumeTemplate3 = (formData: any): JSX.Element => {
   const [colorPalette, setColorPalette] = useState<ColorPalette>(colorPalettes[2]);
 
   return (
-    <div className="max-w-3xl mx-auto p-4 bg-white rounded-lg shadow-md">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className={`text-3xl font-bold text-${colorPalette.primary}-600`}>{formData?.name}</h1>
-        <button
-          className={`bg-${colorPalette.primary}-600 hover:bg-${colorPalette.primary}-700 text-white font-bold py-2 px-4 rounded`}
-          onClick={() => setColorPalette(colorPalettes[3])}
-        >
-          Change Color
-        </button>
+    <div className='max-w-3xl mx-auto p-8 bg-white'>
+      <h1 className='text-3xl  text-center'>{formData.fullname || ""}</h1>
+      <h2 className='text-xl font-sans text-center'>{formData.position || ""}</h2>
+      <hr className='my-4' />
+      <div className='personal-details'>
+        <h1 className='text-2xl font-sans '>Personal Details</h1>
+        <hr className='my-4' />
+        <p className='py-2'>Email: {formData.email || "Email not provided"}</p>
+        <p className='py-2'>Phone: {formData.phone || "Phone not provided"}</p>
+        <p className='py-2'>Address: {formData.address || "Address not provided"}</p>
+
       </div>
-      <div className="flex flex-col mb-4">
-        <h2 className={`text-2xl font-bold text-${colorPalette.secondary}-600`}>Summary</h2>
-        <p className="text-lg">{formData?.summary}</p>
+      <hr className='my-4' />
+      <div className='summary'>
+        <h1 className='text-2xl font-sans '>Summary</h1>
+        <hr className='my-4' />
+        <p>{formData.summary || "Summary not provided"}</p>
       </div>
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        <div className="flex flex-col">
-          <h2 className={`text-2xl font-bold text-${colorPalette.secondary}-600`}>Experience</h2>
-          <ul>
-            {formData?.experience?.map((item: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined, index: Key | null | undefined) => (
-              <li className="text-lg" key={index}>{item}</li>
-            ))}
-          </ul>
-        </div>
-        <div className="flex flex-col">
-          <h2 className={`text-2xl font-bold text-${colorPalette.secondary}-600`}>Education</h2>
-          <ul>
-            {formData?.education?.map((item: any, index: Key | null | undefined) => (
-              <li className="text-lg" key={index}>{item.university} - {item.degree}</li>
-            ))}
-          </ul>
-        </div>
-      </div>
-      <div className="flex flex-col mb-4">
-        <h2 className={`text-2xl font-bold text-${colorPalette.secondary}-600`}>Skills</h2>
-        <ul>
-          {formData?.skills?.map((item: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined, index: Key | null | undefined) => (
-            <li className="text-lg" key={index}>{item}</li>
+      <hr className='my-4' />
+      <div className='skills '>
+        <h1 className='text-2xl font-sans '>Skills</h1>
+        <hr className='my-4' />
+        <ul className=' list-inside'>
+          {formData.skills?.map((item: any, index: Key) => (
+            <li className='py-2' key={index}>{item}</li>
           ))}
         </ul>
       </div>
+      <hr className='my-4' />
+      <div className='experience'>
+        <h1 className='text-2xl font-sans '>Experience</h1>
+        <hr className='my-4' />
+        <ul className='list-disc list-inside'>
+          {formData.experience === null ? (
+            <li className='py-2'>No experience</li>
+          ) : (
+            formData.experience?.map((item: any, index: Key) => (
+              <li className='py-2' key={index}>{item}</li>
+            ))
+          )}
+        </ul>
+      </div>
+      <hr className='my-4' />
+      <div className='education'>
+        <h1 className='text-2xl font-sans '>Education</h1>
+        <hr className='my-4' />
+        <ul className='list-disc list-inside'>
+          {formData.education?.map((item: any, index: Key) => (
+            <li className='py-2' key={index}>{item}</li>
+          ))}
+        </ul>
+      </div>
+      <hr className='my-4' />
+      <div className='hobbies'>
+        <h1 className='text-2xl font-sans '>Hobbies</h1>
+        <hr className='my-4' />
+        <ul className=' list-inside'>
+          {formData.hobbies?.map((item: any, index: Key) => (
+            <li className='py-2' key={index}>{item}</li>
+          ))}
+        </ul>
+      </div>
+      <div className='absolute bottom-0 right-0 text-black text-6xl opacity-10 flex items-center justify-center h-full w-full'>
+        <span className='transform rotate-90'>resumaven</span>
+      </div>
+
     </div>
+
   );
 };
 

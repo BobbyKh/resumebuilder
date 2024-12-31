@@ -36,53 +36,29 @@ const Faq = () => {
     };
 
     return (
-        <div className="bg-white py-6 sm:py-8 lg:py-12">
-        <div className="mx-auto max-w-screen-xl px-4 md:px-8">
-            {/* Header Section */}
-            <div className="mb-10 md:mb-16">
-                <h2 className="mb-4 text-center text-2xl font-bold text-gray-800 md:mb-6 lg:text-3xl">
-                    Frequently Asked Questions
-                </h2>
-                <p className="mx-auto max-w-screen-md text-center text-gray-500 md:text-lg">
-                    This section provides answers to some of the most common questions.
-                </p>
-            </div>
-
-            {/* FAQ List */}
-            <div className="grid gap-4 sm:grid-cols-2 md:gap-8">
+        <div className="bg-blue-50 py-16 px-5 sm:px-10 relative">
+            <img src="question.png" alt="Question" className="absolute top-0 right-0 w-32 h-32 m-4 animate-bounce" />
+            <h1 className="text-4xl text-blue-600 font-bold text-center mb-10" data-aos="fade-down">Frequently Asked Questions</h1>
+            <div className="max-w-4xl mx-auto">
+            <div className="space-y-4">
                 {faqs.map((faq, index) => (
-                    <div
-                        key={faq.question}
-                        className="rounded-lg bg-gray-100 p-5 shadow-md"
-                        data-aos="fade-up"
-                    >
-                        <div
-                            className="mb-4 flex items-center justify-between gap-4 border-b pb-4 cursor-pointer"
-                            onClick={() => toggleFaq(index)}
-                        >
-                            <div className="flex items-center">
-                                <FaQuestionCircle className="mr-2 text-indigo-500" />
-                                <h3 className="font-semibold text-indigo-500 sm:text-lg md:text-xl">
-                                    {faq.question}
-                                </h3>
-                            </div>
-                            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-300 text-gray-500">
-                                {openIndex === index ? <FaChevronUp /> : <FaChevronDown />}
-                            </span>
-                        </div>
-                        <div
-                            className={`text-gray-500 transition-all duration-300 ${
-                                openIndex === index ? 'block' : 'hidden'
-                            }`}
-                        >
-                            {faq.answer}
-                        </div>
+                <div key={faq.question} className="bg-white rounded-md shadow-md p-4" data-aos="fade-up">
+                    <div className="font-medium text-lg text-gray-700 cursor-pointer flex justify-between items-center" onClick={() => toggleFaq(index)}>
+                    <div className="flex items-center">
+                        <FaQuestionCircle className="mr-2 text-blue-500" />
+                        {faq.question}
                     </div>
+                    {openIndex === index ? <FaChevronUp /> : <FaChevronDown />}
+                    </div>
+                    <div className={`mt-2 text-blue-600 ${openIndex === index ? 'block' : 'hidden'}`}>
+                    {faq.answer}
+                    </div>
+                </div>
                 ))}
             </div>
+            </div>
         </div>
-    </div>
-);
-};
+    )
+}
 
 export default Faq;
