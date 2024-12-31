@@ -104,3 +104,9 @@ class TutorialSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
         
+        
+class FeatureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Feature
+        fields = '__all__'
+        

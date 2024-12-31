@@ -207,3 +207,13 @@ class Tutorial(models.Model):
 
     def __str__(self):
         return self.name 
+    
+class Feature(models.Model):
+    icon = models.ImageField(upload_to='features/')
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name

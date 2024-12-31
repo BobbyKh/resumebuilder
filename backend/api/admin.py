@@ -43,6 +43,7 @@ admin.site.register([
     models.DocumentCategory,
     models.Experience,
     models.Tutorial,
+    models.Feature,
    
 ])
 
@@ -54,4 +55,7 @@ for model in admin.site._registry.values():
         (None, {'fields': [f for f in model.fieldsets[0][1]['fields'] if f != 'image']}),
         ('Image preview', {'fields': ('image_preview',)}),
     )
+
+
+
 

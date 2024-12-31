@@ -28,6 +28,7 @@ urlpatterns = [
     path ('pricing/<int:id>', views.PricingDetail.as_view(), name='suscription'),
     path ('paymentsystem', views.PaymentSystemView.as_view(), name='paymentsystem'),
     path ('tutorial', views.TutorialView.as_view(), name='tutorial'),
+    path('feature', views.FeatureView.as_view(), name='feature'),
     
 
     #AUTH_TOKEN

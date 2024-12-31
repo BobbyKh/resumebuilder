@@ -37,7 +37,7 @@ const Footer = () => {
             
         try {
 
-            const response = await axios.get(`${API_URL}/api/organization`);
+            const response = await axios.get(`${API_URL}/api/organization/`);
             setSocial(response.data);
             console.log(response.data);
 
