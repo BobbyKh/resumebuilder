@@ -8,7 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAlignCenter, faBookReader, faChevronDown, faPalette, faUpload } from "@fortawesome/free-solid-svg-icons";
 import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { ChevronDownIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
-
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
 const BuildForm = () => {
   type FormFields = "fullname" | "position" | "email" | "phone" | "address" | "headline" | "website" | "summary" | "skills" | "education" | "hobbies";
 
@@ -30,23 +31,55 @@ const BuildForm = () => {
 
   const [experiences, setExperiences] = useState<any[]>([""]);
   const [educations, setEducations] = useState<any[]>([""]);
-  const [awards, setAwards] = useState<any[]>([""]);
-  const [certifications, setCertifications] = useState<any[]>([""]);
-  const [references, setReferences] = useState<any[]>([""]);
-  const [hobbies, setHobbies] = useState<any[]>([""]);
+  // const [awards, setAwards] = useState<any[]>([""]);
+  // const [certifications, setCertifications] = useState<any[]>([""]);
+  // const [references, setReferences] = useState<any[]>([""]);
+  // const [hobbies, setHobbies] = useState<any[]>([""]);
   const [projects, setProjects] = useState<any[]>([""]);
   const [selectedTemplate, setSelectedTemplate] = useState("template1");
+  const [zoomLevel, setZoomLevel] = useState(100);
+
+  const handleZoomIn = () => {
+    setZoomLevel((prevZoom) => Math.min(prevZoom + 10, 200)); // Max zoom level 200%
+  };
+
+  const handleZoomOut = () => {
+    setZoomLevel((prevZoom) => Math.max(prevZoom - 10, 50)); // Min zoom level 50%
+  };
 
 
+
+  const handleResumeDownload = () => {
+      const element = document.getElementById("resume-preview");
+      if (element) {
+        html2canvas(element, {
+          useCORS: true,
+          logging: true,
+          allowTaint: true,
+          scale: 4,
+        }).then((canvas) => {
+          const imgData = canvas.toDataURL("image/png", 1.0);
+          const pdf = new jsPDF("p", "mm", "a4");
+
+          // Calculate dimensions to fit the PDF page
+          const pdfWidth = pdf.internal.pageSize.getWidth();
+          const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+  
+          pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight, undefined, "FAST");
+          pdf.save("resume.pdf");
+        });
+      }
+    };
+    
   const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
+    dots: false,
+    infinite: false,
+    speed: 300,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: true,
-    // autoplay: true,
-    // autoplaySpeed: 1000,
+    arrows: false,
+    autoplay: false,
+    autoplaySpeed: 2000,
   };
 
 
@@ -66,11 +99,12 @@ const BuildForm = () => {
     setFormData((prev) => ({ ...prev, hobbies }));
   };
 
-  const handleExperienceChange = (index: number, value: any) => {
-    const newExperiences = [...experiences];
-    newExperiences[index] = value;
-    setExperiences(newExperiences);
+  const handleExperienceChange = (index: number, updatedExperience: any) => {
+    setExperiences((prev) =>
+      prev.map((exp, i) => (i === index ? updatedExperience : exp))
+    );
   };
+
 
   const handleEducationChange = (index: number, value: any) => {
     const newEducations = [...educations];
@@ -99,11 +133,11 @@ const BuildForm = () => {
 
 
 
-  return ( 
+  return (
     <div className="flex flex-col md:flex-row bg-gray-100 min-h-screen  space-y-4 md:space-y-0">
       {/* Form Section */}
-     
-      <div className="w-full md:w-1/2 p-6 bg-white shadow-md overflow-y-auto ">
+
+      <div className="w-full md:w-1/2 p-6 bg-white shadow-md overflow-y-scroll" style={{ height: "calc(200vh - 12rem)" }} id="resume-form">
         <div className="flex flex-col md:flex-row justify-center md:justify-start p-6 mb-4 bg-white shadow-md rounded-lg gap-4 md:gap-6">
           <div className="flex flex-col md:flex-row gap-4 md:gap-6">
             <label htmlFor="Import Linkedin" className="text-lg flex justify-center items-center px-4 py-3 rounded border cursor-pointer hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full md:w-auto">
@@ -235,8 +269,8 @@ const BuildForm = () => {
         </details>
         <details className="bg-white shadow-md p-4 rounded mt-4 " open>
           <summary className="text-lg font-bold border-b pb-2 flex items-center">Skills
-          <div className="ml-auto flex space-x-2">
-              <button  className="p-1 rounded hover:bg-gray-200 border">
+            <div className="ml-auto flex space-x-2">
+              <button className="p-1 rounded hover:bg-gray-200 border">
                 <PlusIcon className="h-6 w-6" />
               </button>
               <span className="p-1 rounded hover:bg-gray-200 border">
@@ -333,7 +367,7 @@ const BuildForm = () => {
                 </button>
               </div>
             ))}
-         
+
           </div>
         </details>
         <details className="bg-white shadow-md p-4 rounded mt-4 animate-fade-in" open>
@@ -409,7 +443,7 @@ const BuildForm = () => {
                 </button>
               </div>
             ))}
-         
+
           </div>
         </details>
         <details className="bg-white shadow-md p-4 rounded mt-4 animate-fade-in" open>
@@ -439,53 +473,98 @@ const BuildForm = () => {
         </details>
 
 
+        {/* Resume Download Button */}
+        <button
+          type="button"
+          className="flex items-center justify-center bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 mt-4"
+          onClick={handleResumeDownload}
+        >
+          Download Resume
+        </button>
 
       </div>
 
       {/* Preview Section */}
-      <div className="w-full md:w-1/2 bg-white shadow-md p-4 rounded mt-6 md:mt-0 md:ml-6">
+      <div className="w-full md:w-1/2 bg-white shadow-md p-4 rounded mt-6 md:mt-0 md:ml-6  ">
         <div className="">
-          {selectedTemplate && (
-            <div className={`resume-preview ${selectedTemplate}`}>
+        <div className="zoom-controls flex justify-end mb-4">
+                <button
+                  type="button"
+                  className="bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-800 px-2 py-1 rounded mr-2"
+                  onClick={handleZoomOut}
+                >
+                  -
+                </button>
+                <button
+                  type="button"
+                  className="bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-800 px-2 py-1 rounded"
+                  onClick={handleZoomIn}
+                >
+                  +
+                </button>
+              </div>
 
-              {selectedTemplate === "template1" && (
-                <ResumeTemplate1 {...formData} />
-              )}
-              {selectedTemplate === "template2" && (
-                <ResumeTemplate2 {...formData} />
-              )}
-              {selectedTemplate === "template3" && (
-                <ResumeTemplate3 {...formData} />
-              )}
-         
+          {selectedTemplate && (
+            <div  id = "resume-preview"
+              className={`resume-preview ${selectedTemplate}`}
+              style={{
+                transform: `scale(${zoomLevel / 100})`,
+                transformOrigin: "center center",
+                transition: "transform 0.2s ease-in-out",
+                cursor: "zoom-in",
+                overflow: "auto",
+                
+              }}
+            >
+              {/* Zoom Controls */}
+          
+              {/* Render Selected Template */}
+              <div >
+                {selectedTemplate === "template1" && <ResumeTemplate1 {...formData} />}
+                {selectedTemplate === "template2" && <ResumeTemplate2 {...formData} />}
+                {selectedTemplate === "template3" && <ResumeTemplate3 {...formData} />}
+              </div>
             </div>
           )}
         </div>
 
         {/* Template Selection */}
-        <div className="templateview mt-6 mb-6 text-sm">
-          <label className="block font-medium mb-1 text-gray-700">Select Template</label>
-          <Slider {...settings}
+        <div className="templateview flex items-center justify-center">
+          <Slider
+            {...settings}
             dots={true}
             infinite={false}
             speed={500}
             slidesToShow={1}
             slidesToScroll={1}
-            className="template-slider"
+            arrows={true}
+            className="w-full max-h-[500px] overflow-hidden"
           >
             {[1, 2, 3].map((num) => (
               <div
                 key={`template${num}`}
-                className={`p-1 border rounded cursor-pointer ${selectedTemplate === `template${num}` ? "ring-1 ring-blue-500" : ""}`}
+                className={`flex items-center justify-center cursor-pointer ${selectedTemplate === `template${num}` ? "ring-2 ring-blue-500" : ""}`}
                 onClick={() => setSelectedTemplate(`template${num}`)}
               >
-                <h3 className="font-bold">{`Template ${num}`}</h3>
-                <ResumeTemplate1 formData={formData} />
+                <div
+                  className="w-full max-w-[768px] shadow-md bg-white rounded-md overflow-hidden"
+                  style={{
+                    aspectRatio: "8.5 / 11", // Maintain an aspect ratio of 8.5x11 inches for templates
+                    transform: "scale(0.9)", // Scale down for preview
+                    transformOrigin: "center center",
+                  }}
+                >
+                  <h3 className="text-lg font-bold text-center mb-2">{`Template ${num}`}</h3>
+                  {num === 1 && <ResumeTemplate1 {...formData} />}
+                  {num === 2 && <ResumeTemplate2 {...formData} />}
+                  {num === 3 && <ResumeTemplate3 {...formData} />}
+                </div>
               </div>
             ))}
           </Slider>
         </div>
-        <div className="w-full justify-items-center  p-6 bg-white shadow-md rounded-lg mt-6 md:mt-0 md:ml-6 ">
+
+        <div className="w-full justify-items-center  p-6 bg-white shadow-md rounded-lg mt-6 md:mt-0 md:ml-6">
           <div className="flex space-x-4">
             <button
               className="flex items-center border-2 hover:border-blue-800 rounded-md px-4 py-2"
@@ -555,12 +634,31 @@ const BuildForm = () => {
                   <li className="px-4 py-2 hover:bg-gray-200" onClick={() => addLineSpace("double")}>2</li>
                 </ul>
               </div>
+
             </div>
 
           </div>
 
 
         </div>
+        <button
+          className="flex items-center border-2 hover:border-blue-800 rounded-md px-4 py-2"
+          onClick={() => {
+            const resume = document.querySelector('.resume');
+            if (resume) {
+              const link = document.createElement('a');
+              link.setAttribute('href', `data:attachment/pdf,${encodeURIComponent(resume.outerHTML)}`);
+              link.setAttribute('download', 'resume.pdf');
+              link.style.display = 'none';
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            }
+          }}
+        >
+          <FontAwesomeIcon icon={faUpload} className="h-6 w-6 mr-2" />
+          Download
+        </button>
       </div>
 
     </div>
@@ -598,4 +696,5 @@ const showTemplates = () => {
 const colorScheme = () => {
   alert("Color Scheme is coming soon")
 }
+
 

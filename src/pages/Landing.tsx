@@ -12,6 +12,7 @@ import Tutorial from "../tutorial/Tutorial";
 import Template from "../resume/Template";
 import Branding from "../components/Branding";
 import ResumeLayout from "../components/ResumeLayout";
+import MobileApp from "../components/Mobileapp";
 
 
 interface HeroSection {
@@ -85,8 +86,10 @@ const Landing = () => {
       <Branding/>
       <Pricing/>
       <Faq/>
+
       <ResumeLayout/>
       <Tutorial/>
+      <MobileApp/>
       <About/>
     </>
   );
