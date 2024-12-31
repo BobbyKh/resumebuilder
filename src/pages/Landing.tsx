@@ -59,7 +59,7 @@ const Landing = () => {
       <div className="relative p-8">
         <div className="absolute inset-0 bg-no-repeat bg-top" style={{ backgroundImage: `url('https://static.vietcv.io/top-page/dot-bg-top.svg')` }}></div>
         <div className="relative flex flex-col md:flex-row items-center text-center md:text-left py-20 px-6 bg-no-repeat bg-right bg-clip-border text-white" style={{ backgroundImage: `url('https://resume.io/assets/landing/home/hero/texture-889feac6724c2636f78564dabaf59a3f49d2376258b3250ae2d5e14c332ee0e2.webp')` }}>
-          <div className="md:w-1/2 lg:w-2/5 px-8 py-4" data-aos="fade-right" data-aos-easing="ease-in-out" data-aos-duration="1500">
+          <div className="md:w-1/2 lg:w-2/5 px-8 py-4" >
         <h2 className="text-4xl font-bold re mb-6">
           <span className="block font-serif text-[#1e2532] text-5xl font-bold">{heroSection.name}</span>
         </h2>
@@ -67,10 +67,10 @@ const Landing = () => {
           {heroSection.description}
         </p>
         <Link to="/documentcategory">
-          <button data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="1500" data-aos-delay="500" className="bg-[#1a91f0] text-white text-lg py-3 px-6 rounded hover:bg-blue-700">{heroSection.button_text}</button>
+          <button data-aos="fade-up" className="bg-[#1a91f0] text-white text-lg py-3 px-6 rounded hover:bg-blue-700">{heroSection.button_text}</button>
         </Link>
           </div>
-          <div className="w-full md:w-1/2 lg:w-3/5 mt-8 md:mt-0 justify-items-center" data-aos="fade-left" data-aos-easing="ease-in-out" data-aos-duration="1500">
+          <div className="w-full md:w-1/2 lg:w-3/5 mt-8 md:mt-0 justify-items-center" data-aos="fade-left">
         <img src={heroSection.image} alt={heroSection.name} className="rounded shadow-lg w-full max-w-md mx-auto" />
           </div>
         </div>
