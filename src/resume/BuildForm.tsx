@@ -5,11 +5,9 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAlignCenter, faBookAtlas, faBookJournalWhills, faBookReader, faChevronDown, faList, faListSquares, faMinus, faPalette, faPlus, faUpload } from "@fortawesome/free-solid-svg-icons";
+import { faAlignCenter, faBookReader, faChevronDown, faPalette, faUpload } from "@fortawesome/free-solid-svg-icons";
 import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { ChevronDownIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
-import API_URL from "../api/Api";
-import axios from "axios";
 
 const BuildForm = () => {
   type FormFields = "fullname" | "position" | "email" | "phone" | "address" | "headline" | "website" | "summary" | "skills" | "education" | "hobbies";

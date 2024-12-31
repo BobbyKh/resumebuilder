@@ -99,9 +99,9 @@ const Template = () => {
                             <span className="text-[#1e3a8a]">Choose your </span>template
                         </p>
                     </div>
-                    <Slider {...settings} arrows={true}>
+                    <Slider {...settings} arrows={true} className="md:px-8">
                         {resumeTemplates.map((resumeTemplate) => (
-                            <div key={resumeTemplate.id} className="group flex flex-col items-center my-4 mx-2" data-aos="zoom-in">
+                            <div key={resumeTemplate.id} className="group flex flex-col items-center my-4 mx-2 md:mx-4" data-aos="zoom-in">
                                 <div className="relative w-full h-full overflow-hidden rounded-lg shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
                                     <img
                                         src={resumeTemplate.image}
