@@ -192,7 +192,7 @@ const Landing = () => {
         </div>
 
         <div className="overflow-hidden rounded-lg bg-gray-100 shadow-lg">
-          <img src="https://marketplace.canva.com/EAFcO7DTEHM/1/0/1131w/canva-blue-professional-modern-cv-resume-pPAKwLoiobE.jpg" loading="lazy" alt="Photo by Manny Moreno" class="h-full w-full object-fit object-center" />
+          <img src="https://marketplace.canva.com/EAFcO7DTEHM/1/0/1131w/canva-blue-professional-modern-cv-resume-pPAKwLoiobE.jpg" loading="lazy" alt="Photo by Manny Moreno" className="h-full w-full object-fit object-center" />
         </div>
       </div>
     </div>    
