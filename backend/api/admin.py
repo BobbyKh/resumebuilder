@@ -45,6 +45,8 @@ admin.site.register([
     models.Tutorial,
     models.Feature,
     models.Branding,
+    models.ResumeLayout,
+    models.GalleryImage,
    
 ])
 

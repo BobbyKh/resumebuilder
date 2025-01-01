@@ -116,3 +116,18 @@ class BrandingSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Branding
         fields = '__all__'
+        
+        
+
+class ResumeLayoutSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.ResumeLayout
+        fields = '__all__'
+        
+class GalleryImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.GalleryImage
+        fields = '__all__'
+        
+        
+        

@@ -6,9 +6,9 @@ from django.shortcuts import redirect
 logger = logging.getLogger(__name__)
 from allauth.socialaccount.models import SocialToken 
 from rest_framework.response import Response
-from api.models import Branding, Experience, Feature, PaymentSystem, Tutorial
+from api.models import Branding, Experience, Feature, GalleryImage, PaymentSystem, ResumeLayout, Tutorial
 # from dj_rest_auth.registration.views import SocialLoginView
-from api.serializer import BrandingSerializer, ExperienceSerializer, FeatureSerializer, PaymentSystemSerializer, TutorialSerializer
+from api.serializer import BrandingSerializer, ExperienceSerializer, FeatureSerializer, GalleryImageSerializer, PaymentSystemSerializer, ResumeLayoutSerializer, TutorialSerializer
 from api.models import AboutUs, Appointment, AppointmentType, DocumentCategory, DocumentField, Experience, FooterSection, HeroSection, Organization, Pricing, Template, Testimonial,FAQ
 from api.serializer import AboutUsSerializer, AppointmentSerializer, AppointmentTypeSerializer, DocumentCategorySerializer, DocumentFieldSerializer, ExperienceSerializer,  FAQSerializer, HeroSectionSerializer, OrganizationSerializer, PricingSerializer, TemplateSerializer, TestimonialSerializer, UserSerializer ,FooterSerializer
 from django.contrib.auth.models import User
@@ -458,3 +458,14 @@ class FeatureView (ListCreateAPIView):
 class BrandingView (ListCreateAPIView):
     queryset = Branding.objects.all()
     serializer_class = BrandingSerializer
+    
+    
+class ResumeLayoutView (ListCreateAPIView):
+    queryset = ResumeLayout.objects.all()
+    serializer_class = ResumeLayoutSerializer
+    
+
+class GalleryImageView (ListCreateAPIView):
+    queryset = GalleryImage.objects.all()
+    serializer_class = GalleryImageSerializer
+    lookup_field='id'
