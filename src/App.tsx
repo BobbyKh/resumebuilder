@@ -32,6 +32,7 @@ import RedirectGoogleAuth from "./auth/GoogleRedirectHandler";
 import Profile from "./profile/Profile";
 import Tutorial from "./tutorial/Tutorial";
 
+
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const {isAuthorized} = useAuthentication();
@@ -95,6 +96,7 @@ const App = () => {
             <Route path="/pdftotext" element={isAuthorized ? <Pdftotext /> : <Navigate to="/login" />} />
             <Route path="/generateresume/:templateId" element={isAuthorized ? <GenerateResume /> : <Navigate to="/login" />} />
             <Route path="/faq" element={<Faq />} />
+            
             </Routes>
           <Footer />
         </div>

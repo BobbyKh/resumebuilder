@@ -46,7 +46,7 @@ const About = () => {
         <div className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
         <h1 className="text-3xl font-bold mb-4 text-blue-600">{about.title}</h1>
         <h2 className="text-3xl font-bold mb-4">{about.name}</h2>
-        <p className="mb-8 leading-relaxed text-justify"><strong>{about.description}</strong></p>
+        <p className="mb-8 leading-relaxed text-justify p-4"><strong>{about.description}</strong></p>
         <div className="flex justify-center">
           <button className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Book an Appointment</button>
         </div>
