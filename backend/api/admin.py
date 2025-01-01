@@ -44,6 +44,7 @@ admin.site.register([
     models.Experience,
     models.Tutorial,
     models.Feature,
+    models.Branding,
    
 ])
 

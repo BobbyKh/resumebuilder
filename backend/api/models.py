@@ -217,3 +217,19 @@ class Feature(models.Model):
 
     def __str__(self):
         return self.name
+    
+    
+    
+
+class Branding(models.Model):
+    name = models.CharField(max_length=100, help_text="Brand name")
+    subtitle = models.CharField(max_length=300, help_text="Subtitle or tagline for the promotion")
+    logo = models.ImageField(upload_to="brands/", help_text="Logo of the brand")    
+    is_active = models.BooleanField(default=True, help_text="Is this promotion currently active?")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    
+
+    def __str__(self):
+        return f"{self.name} - {self.subtitle}"

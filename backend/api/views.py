@@ -6,9 +6,9 @@ from django.shortcuts import redirect
 logger = logging.getLogger(__name__)
 from allauth.socialaccount.models import SocialToken 
 from rest_framework.response import Response
-from api.models import Experience, Feature, PaymentSystem, Tutorial
+from api.models import Branding, Experience, Feature, PaymentSystem, Tutorial
 # from dj_rest_auth.registration.views import SocialLoginView
-from api.serializer import ExperienceSerializer, FeatureSerializer, PaymentSystemSerializer, TutorialSerializer
+from api.serializer import BrandingSerializer, ExperienceSerializer, FeatureSerializer, PaymentSystemSerializer, TutorialSerializer
 from api.models import AboutUs, Appointment, AppointmentType, DocumentCategory, DocumentField, Experience, FooterSection, HeroSection, Organization, Pricing, Template, Testimonial,FAQ
 from api.serializer import AboutUsSerializer, AppointmentSerializer, AppointmentTypeSerializer, DocumentCategorySerializer, DocumentFieldSerializer, ExperienceSerializer,  FAQSerializer, HeroSectionSerializer, OrganizationSerializer, PricingSerializer, TemplateSerializer, TestimonialSerializer, UserSerializer ,FooterSerializer
 from django.contrib.auth.models import User
@@ -454,3 +454,7 @@ class FeatureView (ListCreateAPIView):
     serializer_class = FeatureSerializer
     
     
+    
+class BrandingView (ListCreateAPIView):
+    queryset = Branding.objects.all()
+    serializer_class = BrandingSerializer

@@ -110,3 +110,9 @@ class FeatureSerializer(serializers.ModelSerializer):
         model = models.Feature
         fields = '__all__'
         
+        
+        
+class BrandingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Branding
+        fields = '__all__'
