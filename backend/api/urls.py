@@ -30,6 +30,8 @@ urlpatterns = [
     path ('tutorial', views.TutorialView.as_view(), name='tutorial'),
     path('feature', views.FeatureView.as_view(), name='feature'),
     path('branding', views.BrandingView.as_view(), name='branding'),
+    path('resumelayout', views.ResumeLayoutView.as_view(), name='resumelayout'),
+    path('galleryimage', views.GalleryImageView.as_view(), name='galleryimage'),
     
 
     #AUTH_TOKEN

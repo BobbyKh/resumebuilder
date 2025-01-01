@@ -233,3 +233,32 @@ class Branding(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.subtitle}"
+    
+    
+class ResumeLayout(models.Model):
+    title = models.CharField(max_length=255, help_text="Title of the resume template")
+    description = models.TextField(help_text="Description of the resume template")
+    image_1 = models.ImageField(upload_to='resume_templates/', help_text="Upload the first image for the resume template")
+    image_2 = models.ImageField(upload_to='resume_templates/', blank=True, null=True, help_text="Upload the second image for the resume template (optional)")
+    created_at = models.DateTimeField(auto_now_add=True, help_text="Date and time when the template was created")
+    updated_at = models.DateTimeField(auto_now=True, help_text="Date and time when the template was last updated")
+    
+    
+    def __str__(self):
+        return self.title
+    
+    
+
+class GalleryImage(models.Model):
+    title = models.CharField(max_length=255, blank=True, null=True)  # Optional title for the image
+    description = models.TextField(blank=True, null=True)  # Optional description for the image
+    image_1 = models.ImageField(upload_to='gallery_images/')
+    image_2 = models.ImageField(upload_to='gallery_images/')
+    image_3 = models.ImageField(upload_to='gallery_images/')
+    image_4 = models.ImageField(upload_to='gallery_images/', null=True, blank=True)
+    image_5 = models.ImageField(upload_to='gallery_images/', null=True, blank=True)
+    image_6 = models.ImageField(upload_to='gallery_images/', null=True, blank=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)  # Automatically set the upload date
+
+    def __str__(self):
+        return self.title if self.title else f"Image {self.id}"
