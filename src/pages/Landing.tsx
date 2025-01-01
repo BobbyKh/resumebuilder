@@ -14,6 +14,7 @@ import Branding from "../components/Branding";
 import MobileApp from "../components/Mobileapp";
 import Feature from "../components/Feature";
 import ResumeLayout from "../components/ResumeLayout";
+import Gallery from "../components/Gallery";
 
 
 interface HeroSection {
@@ -87,15 +88,12 @@ const Landing = () => {
       <Branding/>
       <Pricing/>
       <Faq/>
-     
-  
-
-      <ResumeLayout/>``
+      <ResumeLayout/>
       <Tutorial/>
-  
       <Feature/>
       <MobileApp/>
       <About/>
+      <Gallery/>
     </>
   );
 }

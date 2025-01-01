@@ -40,7 +40,7 @@ const Branding = () => {
         </div>
       </div>
       <div className="grid grid-cols-2 p-8 gap-4 md:grid-cols-3 lg:grid-cols-4">
-        {branding.map((brand) => (
+        {branding.slice(0, 4).map((brand) => (
           <div key={brand.id} className="flex flex-col items-center justify-center p-4 border border-gray-200 rounded-lg">
             <img src={brand.logo} alt={brand.name} className="w-16 h-16 mb-2" />
             <h2 className="text-lg font-sans">{brand.name}</h2>
