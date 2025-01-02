@@ -92,7 +92,7 @@ const BookAppointment = () => {
   }, []);
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex items-center justify-center min-h-screen bg-blue-50">
       <form onSubmit={handleFormSubmit} className="shadow-md border border-gray-300 rounded-lg p-8 bg-white grid grid-cols-1 gap-4 md:grid-cols-2" data-aos="zoom-in">
         <div className="col-span-full" data-aos="fade-up">
           <div className="flex items-center space-x-2">

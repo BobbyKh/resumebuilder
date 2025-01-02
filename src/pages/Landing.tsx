@@ -15,6 +15,7 @@ import MobileApp from "../components/Mobileapp";
 import Feature from "../components/Feature";
 import ResumeLayout from "../components/ResumeLayout";
 import Gallery from "../components/Gallery";
+import Counter from "../components/Counter";
 
 
 interface HeroSection {
@@ -93,6 +94,7 @@ const Landing = () => {
       <Feature/>
       <MobileApp/>
       <About/>
+      <Counter/>
       <Gallery/>
     </>
   );

@@ -3,6 +3,7 @@ import axios from 'axios';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import API_URL from '../api/Api';
+import { Link } from 'react-router-dom';
 
 const About = () => {
   useEffect(() => {
@@ -48,7 +49,9 @@ const About = () => {
         <h2 className="text-3xl font-bold mb-4">{about.name}</h2>
         <p className="mb-8 leading-relaxed text-justify p-4"><strong>{about.description}</strong></p>
         <div className="flex justify-center">
+          <Link to='appointment'>
           <button className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Book an Appointment</button>
+          </Link>
         </div>
         </div>
       </div>
