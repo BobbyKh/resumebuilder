@@ -24,12 +24,8 @@ const BookAppointment = () => {
     const fetchAppointmentTypes = async () => {
       try {
         const response = await axios.get(`${API_URL}/api/appointment_types`);
-<<<<<<< HEAD
-        setAppointmentTypes(response.data);
-=======
         const data = await response.data;
         setAppointmentTypes(data);
->>>>>>> 4951c391df408afe6fbf32021b84759b213adb4d
       } catch (error) {
         console.error("Error fetching appointment types:", error);
       }
@@ -54,20 +50,12 @@ const BookAppointment = () => {
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSending(true);
-<<<<<<< HEAD
-    setErrorMessage("");
-
-    try {
-      const response = await axios.post(`${API_URL}/api/appointments`, appointment);
-      console.log(response.data);
-=======
     setErrorMessage(""); // Reset error message
 
     try {
       const response = await axios.post(`${API_URL}/api/appointments`, appointment);
       const data = await response.data;
       console.log(data);
->>>>>>> 4951c391df408afe6fbf32021b84759b213adb4d
       setIsBooked(true);
       setIsSending(false);
       setAppointment({
@@ -123,11 +111,7 @@ const BookAppointment = () => {
         </div>
         <div className="flex items-center space-x-2" data-aos="fade-up" data-aos-delay="300">
           <FontAwesomeIcon icon={faPhone} className="text-gray-600" />
-<<<<<<< HEAD
-          <input type="tel" name="phone" id="phone" placeholder="Phone" value={appointment.phone} onChange={handleInputChange} className="flex-1 border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required />
-=======
           <input type="number" name="phone" id="phone" placeholder="Phone" value={appointment.phone} onChange={handleInputChange} className="flex-1 border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required />
->>>>>>> 4951c391df408afe6fbf32021b84759b213adb4d
         </div>
         <div className="flex items-center space-x-2" data-aos-delay="400">
           <FontAwesomeIcon icon={faCalendarAlt} className="text-gray-600" />
@@ -160,10 +144,5 @@ const BookAppointment = () => {
     </div>
   );
 };
-<<<<<<< HEAD
-
-export default BookAppointment;
-=======
->>>>>>> 4951c391df408afe6fbf32021b84759b213adb4d
 
 export default BookAppointment;

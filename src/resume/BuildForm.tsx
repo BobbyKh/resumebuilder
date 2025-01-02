@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
-import { ResumeTemplate1, ResumeTemplate2, ResumeTemplate3, } from "../templatedesign/Design";
+import { ResumeTemplate1, ResumeTemplate2, ResumeTemplate3, ResumeTemplate4, ResumeTemplate5, } from "../templatedesign/Design";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -10,8 +10,11 @@ import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { ChevronDownIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
+import API_URL from "../api/Api";
+import axios from "axios";
+
 const BuildForm = () => {
-  type FormFields = "fullname" | "position" | "email" | "phone" | "address" | "headline" | "website" | "summary" | "skills" | "education" | "hobbies";
+  type FormFields = "fullname" | "position" | "email" | "phone" | "address" | "headline" | "website" | "summary" | "skills" | "language" | "education" | "experiences" | "hobbies";
 
   const [formData, setFormData] = useState<Record<FormFields, string | string[] | number | boolean | any>>({
     fullname: "",
@@ -25,13 +28,33 @@ const BuildForm = () => {
     skills: [],
     education: [],
     hobbies: [],
+    experiences: [],
+    language: [],
+
 
 
   });
-
-  const [experiences, setExperiences] = useState<any[]>([""]);
-  const [educations, setEducations] = useState<any[]>([""]);
-  // const [awards, setAwards] = useState<any[]>([""]);
+  const [image , setImage] = useState([]);
+  const fetchImage = async () => {
+  
+    const response = await axios.get(`${API_URL}/api/template`);
+  
+    setImage(response.data);
+  
+  
+  
+  }
+  useEffect(() => {
+    fetchImage();
+  }, []);
+  
+  
+  const [experiences, setExperiences] = useState<any[]>([
+    { company: "", role: "", startDate: "", endDate: "", description: "" },
+  ]);
+  const [educations, setEducations] = useState<any[]>([
+    { institution: "", degree: "", startDate: "", endDate: "", description: "" },
+  ]);  // const [awards, setAwards] = useState<any[]>([""]);
   // const [certifications, setCertifications] = useState<any[]>([""]);
   // const [references, setReferences] = useState<any[]>([""]);
   // const [hobbies, setHobbies] = useState<any[]>([""]);
@@ -50,36 +73,58 @@ const BuildForm = () => {
 
 
   const handleResumeDownload = () => {
-      const element = document.getElementById("resume-preview");
-      if (element) {
-        html2canvas(element, {
-          useCORS: true,
-          logging: true,
-          allowTaint: true,
-          scale: 4,
-        }).then((canvas) => {
-          const imgData = canvas.toDataURL("image/png", 1.0);
-          const pdf = new jsPDF("p", "mm", "a4");
+    const element = document.getElementById("resume-preview");
+    if (element) {
+      html2canvas(element, {
+        useCORS: true,
+        logging: true,
+        allowTaint: true,
+        scale: 4,
+      }).then((canvas) => {
+        const imgData = canvas.toDataURL("image/png", 1.0);
+        const pdf = new jsPDF("p", "mm", "a4");
 
-          // Calculate dimensions to fit the PDF page
-          const pdfWidth = pdf.internal.pageSize.getWidth();
-          const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-  
-          pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight, undefined, "FAST");
-          pdf.save("resume.pdf");
-        });
-      }
-    };
-    
+        // Calculate dimensions to fit the PDF page
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight, undefined, "FAST");
+        pdf.save("resume.pdf");
+      });
+    }
+  };
+  const templates = [
+    { id: "template1", component: <ResumeTemplate1 {...formData} />, name: "Professional" },
+    { id: "template2", component: <ResumeTemplate2 {...formData} />, name: "Chrono" },
+    { id: "template3", component: <ResumeTemplate3 {...formData} />, name: "Elegant" },
+    { id: "template4", component: <ResumeTemplate4 {...formData} />, name: "Circular" },
+    { id: "template5", component: <ResumeTemplate5 {...formData} />, name: "Template 5" }, // Add more templates as needed
+  ];
   const settings = {
-    dots: false,
+    dots: true,
     infinite: false,
-    speed: 300,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: false,
-    autoplay: false,
-    autoplaySpeed: 2000,
+    speed: 500,
+    slidesToShow: 3, // Show one template at a time
+    slidesToScroll: 3,
+    arrows: true,
+    nextArrow: <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}><ChevronDownIcon style={{ height: 20, width: 20 }} /></div>,
+    prevArrow: <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}><ChevronDownIcon style={{ height: 20, width: 20, transform: "rotate(180deg)" }} /></div>,
+    responsive: [ // Add responsiveness
+      {
+        breakpoint: 768, // Adjust breakpoint as needed
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 480, // Adjust breakpoint as needed
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
 
@@ -99,6 +144,12 @@ const BuildForm = () => {
     setFormData((prev) => ({ ...prev, hobbies }));
   };
 
+
+  const handleLanguageChange = (selectedOptions: any) => {
+    const language = selectedOptions ? selectedOptions.map((option: any) => option.value) : [];
+    setFormData((prev) => ({ ...prev, language }));
+
+  }
   const handleExperienceChange = (index: number, updatedExperience: any) => {
     setExperiences((prev) =>
       prev.map((exp, i) => (i === index ? updatedExperience : exp))
@@ -159,12 +210,12 @@ const BuildForm = () => {
           </summary>
           <div className="flex flex-col gap-4 mt-4">
             {[
-              { label: "Job Position", name: "position", type: "text", placeholder: "e.g. Software Engineer" },
+              { label: "HeadTitle", name: "headline", type: "text", placeholder: "e.g.Personal Information" },
               { label: "Full Name", name: "fullname", type: "text", placeholder: "e.g. John Doe" },
+              { label: "Job Position", name: "position", type: "text", placeholder: "e.g. Software Engineer" },
               { label: "Email", name: "email", type: "email", placeholder: "e.g. johndoe@example.com" },
               { label: "Phone", name: "phone", type: "tel", placeholder: "e.g. 123-456-7890" },
               { label: "Address", name: "address", type: "text", placeholder: "e.g. 123 Main St, Anytown, USA" },
-              { label: "Headline", name: "headline", type: "text", placeholder: "e.g. Experienced Software Engineer" },
               { label: "Website", name: "website", type: "url", placeholder: "e.g. https://example.com" },
             ].map((field) => (
               <div className="mb-4" key={field.name}>
@@ -446,6 +497,33 @@ const BuildForm = () => {
 
           </div>
         </details>
+
+        <details className="bg-white shadow-md p-4 rounded mt-4 animate-fade-in" open>
+          <summary className="text-lg font-bold border-b pb-2 flex items-center justify-between">
+            Languages
+            <span className="ml-2 text-gray-500">
+              <ChevronDownIcon className="h-6 w-6" />
+            </span>
+          </summary>
+          <div className="mt-4">
+            <Select
+              name="language"
+              isMulti
+              value={(formData.language as string[]).map((hobby) => ({ value: hobby, label: hobby }))}
+              onChange={handleLanguageChange}
+              options={[
+                { value: "English", label: "English" },
+                { value: "Spanish", label: "Spanish" },
+                { value: "French", label: "French" },
+                { value: "German", label: "German" },
+                { value: "Chinese", label: "Chinese" },
+                { value: "Japanese", label: "Japanese" },
+                { value: "Nepal", label: "Nepal" },
+              ]}
+              className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+        </details>
         <details className="bg-white shadow-md p-4 rounded mt-4 animate-fade-in" open>
           <summary className="text-lg font-bold border-b pb-2 flex items-center justify-between">
             Hobbies
@@ -487,25 +565,25 @@ const BuildForm = () => {
       {/* Preview Section */}
       <div className="w-full md:w-1/2 bg-white shadow-md p-4 rounded mt-6 md:mt-0 md:ml-6  ">
         <div className="">
-        <div className="zoom-controls flex justify-end mb-4">
-                <button
-                  type="button"
-                  className="bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-800 px-2 py-1 rounded mr-2"
-                  onClick={handleZoomOut}
-                >
-                  -
-                </button>
-                <button
-                  type="button"
-                  className="bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-800 px-2 py-1 rounded"
-                  onClick={handleZoomIn}
-                >
-                  +
-                </button>
-              </div>
+          <div className="zoom-controls flex justify-end mb-4">
+            <button
+              type="button"
+              className="bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-800 px-2 py-1 rounded mr-2"
+              onClick={handleZoomOut}
+            >
+              -
+            </button>
+            <button
+              type="button"
+              className="bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-800 px-2 py-1 rounded"
+              onClick={handleZoomIn}
+            >
+              +
+            </button>
+          </div>
 
           {selectedTemplate && (
-            <div  id = "resume-preview"
+            <div id="resume-preview"
               className={`resume-preview ${selectedTemplate}`}
               style={{
                 transform: `scale(${zoomLevel / 100})`,
@@ -513,51 +591,55 @@ const BuildForm = () => {
                 transition: "transform 0.2s ease-in-out",
                 cursor: "zoom-in",
                 overflow: "auto",
-                
+
               }}
             >
               {/* Zoom Controls */}
-          
+
               {/* Render Selected Template */}
               <div >
                 {selectedTemplate === "template1" && <ResumeTemplate1 {...formData} />}
                 {selectedTemplate === "template2" && <ResumeTemplate2 {...formData} />}
                 {selectedTemplate === "template3" && <ResumeTemplate3 {...formData} />}
+                {selectedTemplate === "template4" && <ResumeTemplate4 {...formData} />}
+                {selectedTemplate === "template5" && <ResumeTemplate5 {...formData} />}
               </div>
             </div>
           )}
         </div>
 
+
         {/* Template Selection */}
-        <div className="templateview flex items-center justify-center">
-          <Slider
-            {...settings}
-            dots={true}
-            infinite={false}
-            speed={500}
-            slidesToShow={1}
-            slidesToScroll={1}
-            arrows={true}
-            className="w-full max-h-[500px] overflow-hidden"
-          >
-            {[1, 2, 3].map((num) => (
+        <div className="templateview " style={{ overflow: "auto" }}>
+          <h1 className=" text-xl font-sans text-gray-800   text-center mb-2 justify-center mt-2">Select a Template</h1>
+          <Slider {...settings} className="w-full h-full p-10 overflow-hidden">
+            {templates.map((template) => (
               <div
-                key={`template${num}`}
-                className={`flex items-center justify-center cursor-pointer ${selectedTemplate === `template${num}` ? "ring-2 ring-blue-500" : ""}`}
-                onClick={() => setSelectedTemplate(`template${num}`)}
+                key={template.id}
+                className={`items-center cursor-pointer p-4 shadow-md rounded-md border ${selectedTemplate === template.id ? "" : "border"
+                  }`}
+                onClick={() => setSelectedTemplate(template.id)}
               >
                 <div
-                  className="w-full max-w-[768px] shadow-md bg-white rounded-md overflow-hidden"
+                  className="shadow-md bg-white rounded-md overflow-hidden transform hover:scale-105 transition-transform duration-300"
                   style={{
-                    aspectRatio: "8.5 / 11", // Maintain an aspect ratio of 8.5x11 inches for templates
-                    transform: "scale(0.9)", // Scale down for preview
-                    transformOrigin: "center center",
+                    aspectRatio: "8.5 / 11",
                   }}
                 >
-                  <h3 className="text-lg font-bold text-center mb-2">{`Template ${num}`}</h3>
-                  {num === 1 && <ResumeTemplate1 {...formData} />}
-                  {num === 2 && <ResumeTemplate2 {...formData} />}
-                  {num === 3 && <ResumeTemplate3 {...formData} />}
+                  <div className="mb-4">
+                    <h3 className="text-xl font-sans text-gray-800 text-center mb-2 mt-2">
+                      {template.name}
+                    </h3>
+                  </div>
+                  {image.map((image: any) => (
+                    <img
+                      key={image.id}
+                      src={image.image}
+                      alt={image.name}
+                      className="w-full h-auto mb-4"
+                    />
+                  ))}
+
                 </div>
               </div>
             ))}
@@ -641,24 +723,7 @@ const BuildForm = () => {
 
 
         </div>
-        <button
-          className="flex items-center border-2 hover:border-blue-800 rounded-md px-4 py-2"
-          onClick={() => {
-            const resume = document.querySelector('.resume');
-            if (resume) {
-              const link = document.createElement('a');
-              link.setAttribute('href', `data:attachment/pdf,${encodeURIComponent(resume.outerHTML)}`);
-              link.setAttribute('download', 'resume.pdf');
-              link.style.display = 'none';
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
-            }
-          }}
-        >
-          <FontAwesomeIcon icon={faUpload} className="h-6 w-6 mr-2" />
-          Download
-        </button>
+
       </div>
 
     </div>
