@@ -6,6 +6,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { faReadme } from "@fortawesome/free-brands-svg-icons";
 import 'react-circular-progressbar/dist/styles.css';import "aos/dist/aos.css";
+import API_URL from "../api/Api";
+
 interface Resume {
   title: string;
   date: string;

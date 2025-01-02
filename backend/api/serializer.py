@@ -111,8 +111,8 @@ class DocumentFieldSerializer(serializers.ModelSerializer):
         model = models.DocumentField
         fields = '__all__'       
 class ProfileSerializer(serializers.ModelSerializer):
-    document = DocumentFieldSerializer()
+    document = DocumentFieldSerializer(many=True)
 
     class Meta:
         model = Profile
-        fields = ['user', 'document', 'template', 'created_at']
+        fields = '__all__'

@@ -66,7 +66,7 @@ class DocumentField(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    document = models.ForeignKey(DocumentField, on_delete=models.CASCADE, null=True, blank=True)
+    document = models.ManyToManyField(DocumentField, blank=True)
     template = models.ForeignKey(Template, on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

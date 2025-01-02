@@ -452,17 +452,15 @@ class ProfileDetailView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        # Get or create the Profile for the logged-in user
+        # Ensure the Profile exists for the logged-in user
         profile, created = Profile.objects.get_or_create(user=request.user)
 
-        # Ensure the Profile has a DocumentField
-        if not profile.document:
-            document_field = DocumentField.objects.create(user=request.user, name=request.user.username)
-            profile.document = document_field
-            profile.save()
+        # Get all DocumentFields created by the user
+        documents = DocumentField.objects.filter(user=request.user)
 
-        # Serialize and return the Profile
+        # Associate all documents with the profile
+        profile.document.set(documents)
+
+        # Serialize profile with related documents
         serializer = ProfileSerializer(profile)
         return Response(serializer.data)
-
-

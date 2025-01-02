@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 import Select from "react-select";
-<<<<<<< HEAD
-
-=======
 import { ResumeTemplate1, ResumeTemplate2, ResumeTemplate3, } from "../templatedesign/Design";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -13,13 +10,12 @@ import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { ChevronDownIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
->>>>>>> 02678a7c864991f3f86885d9ace4e1cfdc823451
 const BuildForm = () => {
-  type FormFields = "givenName" | "familyName" | "email" | "phone" | "address" | "headline" | "website" | "summary" | "skills";
+  type FormFields = "fullname" | "position" | "email" | "phone" | "address" | "headline" | "website" | "summary" | "skills" | "education" | "hobbies";
 
-  const [formData, setFormData] = useState<Record<FormFields, string | string[]>>({
-    givenName: "",
-    familyName: "",
+  const [formData, setFormData] = useState<Record<FormFields, string | string[] | number | boolean | any>>({
+    fullname: "",
+    position: "",
     email: "",
     phone: "",
     address: "",
@@ -27,12 +23,12 @@ const BuildForm = () => {
     website: "",
     summary: "",
     skills: [],
+    education: [],
+    hobbies: [],
+
+
   });
 
-<<<<<<< HEAD
-  const [experiences, setExperiences] = useState<string[]>([""]);
-  const [educations, setEducations] = useState<string[]>([""]);
-=======
   const [experiences, setExperiences] = useState<any[]>([""]);
   const [educations, setEducations] = useState<any[]>([""]);
   // const [awards, setAwards] = useState<any[]>([""]);
@@ -40,7 +36,6 @@ const BuildForm = () => {
   // const [references, setReferences] = useState<any[]>([""]);
   // const [hobbies, setHobbies] = useState<any[]>([""]);
   const [projects, setProjects] = useState<any[]>([""]);
->>>>>>> 02678a7c864991f3f86885d9ace4e1cfdc823451
   const [selectedTemplate, setSelectedTemplate] = useState("template1");
   const [zoomLevel, setZoomLevel] = useState(100);
 
@@ -52,8 +47,6 @@ const BuildForm = () => {
     setZoomLevel((prevZoom) => Math.max(prevZoom - 10, 50)); // Min zoom level 50%
   };
 
-<<<<<<< HEAD
-=======
 
 
   const handleResumeDownload = () => {
@@ -91,7 +84,6 @@ const BuildForm = () => {
 
 
 
->>>>>>> 02678a7c864991f3f86885d9ace4e1cfdc823451
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -102,15 +94,6 @@ const BuildForm = () => {
     setFormData((prev) => ({ ...prev, skills }));
   };
 
-<<<<<<< HEAD
-  const handleExperienceChange = (index: number, value: string) => {
-    const newExperiences = [...experiences];
-    newExperiences[index] = value;
-    setExperiences(newExperiences);
-  };
-
-  const handleEducationChange = (index: number, value: string) => {
-=======
   const handleHobbiesChange = (selectedOptions: any) => {
     const hobbies = selectedOptions ? selectedOptions.map((option: any) => option.value) : [];
     setFormData((prev) => ({ ...prev, hobbies }));
@@ -124,11 +107,17 @@ const BuildForm = () => {
 
 
   const handleEducationChange = (index: number, value: any) => {
->>>>>>> 02678a7c864991f3f86885d9ace4e1cfdc823451
     const newEducations = [...educations];
     newEducations[index] = value;
     setEducations(newEducations);
   };
+
+  const handleProjectChange = (index: number, value: any) => {
+    const newProjects = [...projects];
+    newProjects[index] = value;
+    setProjects(newProjects);
+  };
+
 
   const addExperience = () => setExperiences([...experiences, ""]);
   const removeExperience = (index: number) => setExperiences(experiences.filter((_, i) => i !== index));
@@ -136,30 +125,6 @@ const BuildForm = () => {
   const addEducation = () => setEducations([...educations, ""]);
   const removeEducation = (index: number) => setEducations(educations.filter((_, i) => i !== index));
 
-<<<<<<< HEAD
-  return (
-    <div className="flex flex-col md:flex-row bg-gray-100 min-h-screen p-6">
-      {/* Form Section */}
-      <div className="w-full md:w-1/2 p-6 bg-white shadow-md rounded-lg">
-        <h2 className="text-3xl font-bold mb-6 text-gray-800">Resume Form</h2>
-        {[
-          { label: "Given Name", name: "givenName", type: "text" },
-          { label: "Family Name", name: "familyName", type: "text" },
-          { label: "Email", name: "email", type: "email" },
-          { label: "Phone", name: "phone", type: "tel" },
-          { label: "Address", name: "address", type: "text" },
-          { label: "Headline", name: "headline", type: "text" },
-          { label: "Website", name: "website", type: "url" },
-        ].map((field) => (
-          <div className="mb-4" key={field.name}>
-            <label className="block text-sm font-medium mb-1 text-gray-700">{field.label}</label>
-            <input
-              value={formData[field.name as FormFields] as string}
-              name={field.name}
-              onChange={handleInputChange}
-              className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-=======
   const addProject = () => setProjects([...projects, ""]);
   const removeProject = (index: number) => setProjects(projects.filter((_, i) => i !== index));
 
@@ -183,134 +148,46 @@ const BuildForm = () => {
               <FontAwesomeIcon icon={faUpload} className="mr-3 text-4xl md:text-6xl" />
               <h1 className="text-base">Upload Resume</h1>
             </label>
->>>>>>> 02678a7c864991f3f86885d9ace4e1cfdc823451
           </div>
-        ))}
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-1 text-gray-700">Summary</label>
-          <textarea
-            name="summary"
-            value={formData.summary as string}
-            onChange={handleInputChange}
-            className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            rows={4}
-          />
         </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-1 text-gray-700">Skills</label>
-          <Select
-            name="skills"
-            isMulti
-            value={(formData.skills as string[]).map(skill => ({ value: skill, label: skill }))}
-            onChange={handleSkillsChange}
-            options={[
-              { value: "JavaScript", label: "JavaScript" },
-              { value: "React", label: "React" },
-              { value: "TypeScript", label: "TypeScript" },
-              { value: "Node.js", label: "Node.js" },
-              { value: "CSS", label: "CSS" },
-              { value: "HTML", label: "HTML" },
-            ]}
-            className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-1 text-gray-700">Experience</label>
-          {experiences.map((experience, index) => (
-            <div key={index} className="mb-2 flex items-center">
+        <details className="bg-white shadow-md p-4 rounded" open>
+          <summary className="text-xl font-semibold mb-3 border-b pb-2 flex items-center cursor-pointer">
+            Personal Information
+            <span className="ml-auto">
+              <ChevronDownIcon className="h-6 w-6" />
+            </span>
+          </summary>
+          <div className="flex flex-col gap-4 mt-4">
+            {[
+              { label: "Job Position", name: "position", type: "text", placeholder: "e.g. Software Engineer" },
+              { label: "Full Name", name: "fullname", type: "text", placeholder: "e.g. John Doe" },
+              { label: "Email", name: "email", type: "email", placeholder: "e.g. johndoe@example.com" },
+              { label: "Phone", name: "phone", type: "tel", placeholder: "e.g. 123-456-7890" },
+              { label: "Address", name: "address", type: "text", placeholder: "e.g. 123 Main St, Anytown, USA" },
+              { label: "Headline", name: "headline", type: "text", placeholder: "e.g. Experienced Software Engineer" },
+              { label: "Website", name: "website", type: "url", placeholder: "e.g. https://example.com" },
+            ].map((field) => (
+              <div className="mb-4" key={field.name}>
+                <label className="block text-sm font-medium mb-1 text-gray-700">{field.label}</label>
+                <input
+                  value={formData[field.name as FormFields] as string}
+                  name={field.name}
+                  onChange={handleInputChange}
+                  className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  type={field.type}
+                  placeholder={field.placeholder}
+                />
+              </div>
+            ))}
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-1 text-gray-700">Summary</label>
               <textarea
-                value={experience}
-                onChange={(e) => handleExperienceChange(index, e.target.value)}
+                name="summary"
+                value={formData.summary as string}
+                onChange={handleInputChange}
                 className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                rows={2}
+                rows={4}
               />
-<<<<<<< HEAD
-              <button
-                type="button"
-                onClick={() => removeExperience(index)}
-                className="ml-2 text-red-500"
-              >
-                Remove
-              </button>
-            </div>
-          ))}
-          <button
-            type="button"
-            onClick={addExperience}
-            className="mt-2 text-blue-500"
-          >
-            Add Experience
-          </button>
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-1 text-gray-700">Education</label>
-          {educations.map((education, index) => (
-            <div key={index} className="mb-2 flex items-center">
-              <textarea
-                value={education}
-                onChange={(e) => handleEducationChange(index, e.target.value)}
-                className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                rows={2}
-              />
-              <button
-                type="button"
-                onClick={() => removeEducation(index)}
-                className="ml-2 text-red-500"
-              >
-                Remove
-              </button>
-            </div>
-          ))}
-          <button
-            type="button"
-            onClick={addEducation}
-            className="mt-2 text-blue-500"
-          >
-            Add Education
-          </button>
-        </div>
-      </div>
-
-      {/* Preview Section */}
-      <div className="w-full md:w-1/2 p-6 bg-white shadow-md rounded-lg mt-6 md:mt-0 md:ml-6">
-        <h2 className="text-3xl font-bold mb-6 text-gray-800">Resume Preview</h2>
-        <div className={`resume-preview ${selectedTemplate} p-4 border rounded bg-gray-50`}>
-          {selectedTemplate === "template1" && (
-            <div className="template1 canva-style p-6 bg-white shadow-lg rounded-lg">
-              {/* Template 1 Design */}
-              <div className="header flex items-center mb-4">
-                <div className="avatar w-16 h-16 rounded-full bg-gray-300 mr-4"></div>
-                <div>
-                  <h1 className="text-3xl font-bold text-gray-900">{`${formData.givenName} ${formData.familyName}`}</h1>
-                  <p className="text-xl italic text-gray-700">{formData.headline}</p>
-                </div>
-              </div>
-              <div className="contact-info mb-4">
-                <p className="text-gray-600"><strong>Email:</strong> {formData.email}</p>
-                <p className="text-gray-600"><strong>Phone:</strong> {formData.phone}</p>
-                <p className="text-gray-600"><strong>Address:</strong> {formData.address}</p>
-                <p className="text-gray-600"><strong>Website:</strong> {formData.website}</p>
-              </div>
-              <div className="section mb-4">
-                <h3 className="text-xl font-bold text-gray-800">Summary</h3>
-                <p className="text-gray-700">{formData.summary}</p>
-              </div>
-              <div className="section mb-4">
-                <h3 className="text-xl font-bold text-gray-800">Experience</h3>
-                {experiences.map((experience, index) => (
-                  <p key={index} className="text-gray-700">{experience}</p>
-                ))}
-              </div>
-              <div className="section mb-4">
-                <h3 className="text-xl font-bold text-gray-800">Education</h3>
-                {educations.map((education, index) => (
-                  <p key={index} className="text-gray-700">{education}</p>
-                ))}
-              </div>
-              <div className="section">
-                <h3 className="text-xl font-bold text-gray-800">Skills</h3>
-                <p className="text-gray-700">{(formData.skills as string[]).join(", ")}</p>
-=======
             </div>
           </div>
         </details>
@@ -646,22 +523,12 @@ const BuildForm = () => {
                 {selectedTemplate === "template1" && <ResumeTemplate1 {...formData} />}
                 {selectedTemplate === "template2" && <ResumeTemplate2 {...formData} />}
                 {selectedTemplate === "template3" && <ResumeTemplate3 {...formData} />}
->>>>>>> 02678a7c864991f3f86885d9ace4e1cfdc823451
               </div>
             </div>
           )}
-          {/* Other templates... */}
         </div>
 
         {/* Template Selection */}
-<<<<<<< HEAD
-        <div className="mt-6">
-          <label className="block text-sm font-medium mb-1 text-gray-700">Select Template</label>
-          <div className="flex space-x-4 overflow-x-auto">
-            <div
-              className={`p-4 border rounded cursor-pointer flex-shrink-0 ${selectedTemplate === "template1" ? "ring-2 ring-blue-500" : ""}`}
-              onClick={() => setSelectedTemplate("template1")}
-=======
         <div className="templateview flex items-center justify-center">
           <Slider
             {...settings}
@@ -702,54 +569,77 @@ const BuildForm = () => {
             <button
               className="flex items-center border-2 hover:border-blue-800 rounded-md px-4 py-2"
               onClick={showTemplates}
->>>>>>> 02678a7c864991f3f86885d9ace4e1cfdc823451
             >
-              <h3 className="text-lg font-bold">Template 1</h3>
-              <div className="mt-2">
-                <h4 className="text-md font-semibold">John Doe</h4>
-                <p className="text-sm italic">Software Engineer</p>
-                <p className="text-sm">john.doe@example.com</p>
-                <p className="text-sm">123-456-7890</p>
+              <FontAwesomeIcon icon={faBookReader} className="h-4 w-4 mr-2" />
+              Templates
+
+            </button>
+            <div className="relative">
+              <select
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                onChange={selectFonts}
+
+              >
+                Select Font
+                <option value="Arial">Arial</option>
+                <option value="Calibri">Calibri</option>
+                <option value="Courier New">Courier New</option>
+                <option value="Helvetica">Helvetica</option>
+                <option value="Times New Roman">Times New Roman</option>
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                <FontAwesomeIcon icon={faChevronDown} className="h-4 w-4" />
               </div>
             </div>
-            <div
-              className={`p-4 border rounded cursor-pointer flex-shrink-0 ${selectedTemplate === "template2" ? "ring-2 ring-blue-500" : ""}`}
-              onClick={() => setSelectedTemplate("template2")}
+            <button
+              className="flex items-center border-2 hover:border-green-800 rounded-md px-4 py-2"
             >
-              <h3 className="text-lg font-bold">Template 2</h3>
-              <div className="mt-2">
-                <h4 className="text-md font-semibold">John Doe</h4>
-                <p className="text-sm italic">Software Engineer</p>
-                <p className="text-sm">john.doe@example.com</p>
-                <p className="text-sm">123-456-7890</p>
-              </div>
-            </div>
-            <div
-              className={`p-4 border rounded cursor-pointer flex-shrink-0 ${selectedTemplate === "template3" ? "ring-2 ring-blue-500" : ""}`}
-              onClick={() => setSelectedTemplate("template3")}
+              <select
+                className="w-full "
+                onChange={fontSize}
+              >
+
+                <option value="10px">10px</option>
+                <option value="12px">12px</option>
+                <option value="14px">14px</option>
+                <option value="16px">16px</option>
+                <option value="18px">18px</option>
+                <option value="20px">20px</option>
+              </select>
+
+            </button>
+            <button
+              className="flex items-center border-2 hover:border-red-800 rounded-md px-4 py-2"
+              onClick={colorScheme}
             >
-              <h3 className="text-lg font-bold">Template 3</h3>
-              <div className="mt-2">
-                <h4 className="text-md font-semibold">John Doe</h4>
-                <p className="text-sm italic">Software Engineer</p>
-                <p className="text-sm">john.doe@example.com</p>
-                <p className="text-sm">123-456-7890</p>
-              </div>
-            </div>
-            <div
-              className={`p-4 border rounded cursor-pointer flex-shrink-0 ${selectedTemplate === "atsFriendly" ? "ring-2 ring-blue-500" : ""}`}
-              onClick={() => setSelectedTemplate("atsFriendly")}
-            >
-              <h3 className="text-lg font-bold">ATS Friendly</h3>
-              <div className="mt-2">
-                <h4 className="text-md font-semibold">John Doe</h4>
-                <p className="text-sm">Software Engineer</p>
-                <p className="text-sm">john.doe@example.com</p>
-                <p className="text-sm">123-456-7890</p>
+              <FontAwesomeIcon icon={faPalette} className="h-6 w-6 mr-2" />
+
+            </button>
+            <div className="relative">
+              <button
+                className="flex items-center border-2 hover:border-yellow-800 rounded-md px-4 py-2"
+                onClick={() => {
+                  const lineSpaceDropdown = document.querySelector('.line-space-dropdown');
+                  if (lineSpaceDropdown) {
+                    lineSpaceDropdown.classList.toggle('hidden');
+                  }
+                }}
+              >
+                <FontAwesomeIcon icon={faAlignCenter} className="h-6 w-6 mr-2" />
+              </button>
+              <div className="line-space-dropdown hidden absolute left-0 mb-2 bg-white rounded-md shadow-lg">
+                <ul className="m-0 p-0">
+                  <li className="px-4 py-2 hover:bg-gray-200" onClick={() => addLineSpace("single")}>1</li>
+                  <li className="px-4 py-2 hover:bg-gray-200" onClick={() => addLineSpace("half")}>1.5</li>
+                  <li className="px-4 py-2 hover:bg-gray-200" onClick={() => addLineSpace("double")}>2</li>
+                </ul>
               </div>
 
             </div>
+
           </div>
+
+
         </div>
         <button
           className="flex items-center border-2 hover:border-blue-800 rounded-md px-4 py-2"
@@ -770,13 +660,12 @@ const BuildForm = () => {
           Download
         </button>
       </div>
+
     </div>
   );
 };
 
 export default BuildForm;
-<<<<<<< HEAD
-=======
 
 const selectFonts = () => {
   alert("Select Font")
@@ -809,4 +698,3 @@ const colorScheme = () => {
 }
 
 
->>>>>>> 02678a7c864991f3f86885d9ace4e1cfdc823451
