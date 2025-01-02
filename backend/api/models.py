@@ -262,3 +262,18 @@ class GalleryImage(models.Model):
 
     def __str__(self):
         return self.title if self.title else f"Image {self.id}"
+    
+    
+    
+
+
+class Counter(models.Model):
+    title = models.CharField(max_length=255, help_text="Title of the content section")
+    description = models.TextField(help_text="Description of the content section")
+    label = models.CharField(max_length=255, help_text="Label for the statistic (e.g., Users, Subscribes)")
+    value = models.CharField(max_length=50, help_text="Value of the statistic (e.g., 2.7K, 1.8K)")
+    icon = models.CharField(max_length=255, help_text="Icon for the statistic (e.g., fa-users for FontAwesome icons)")
+    image = models.ImageField(upload_to='counters/')
+
+    def __str__(self):
+        return self.title

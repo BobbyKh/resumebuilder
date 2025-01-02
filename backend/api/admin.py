@@ -47,6 +47,8 @@ admin.site.register([
     models.Branding,
     models.ResumeLayout,
     models.GalleryImage,
+    models.Counter,
+  
    
 ])
 
