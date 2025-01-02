@@ -32,6 +32,8 @@ urlpatterns = [
     path('branding', views.BrandingView.as_view(), name='branding'),
     path('resumelayout', views.ResumeLayoutView.as_view(), name='resumelayout'),
     path('galleryimage', views.GalleryImageView.as_view(), name='galleryimage'),
+    path('counter', views.CounterView.as_view(), name='counter'),
+    
     
 
     #AUTH_TOKEN

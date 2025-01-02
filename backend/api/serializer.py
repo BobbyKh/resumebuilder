@@ -131,3 +131,9 @@ class GalleryImageSerializer(serializers.ModelSerializer):
         
         
         
+class CounterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Counter
+        fields = '__all__'
+        
+        

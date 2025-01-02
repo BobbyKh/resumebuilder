@@ -27,27 +27,28 @@ const Branding = () => {
     
     return(
               
-      <section className="bg-white py-8  md:py-16">
-      <div className="mx-auto grid max-w-screen-xl px-4 pb-8 md:grid-cols-12 lg:gap-12 lg:pb-16 xl:gap-0" data-aos="zoom-in" data-aos-easing="ease-in-out" data-aos-duration="1500">
-        <div className="content-center justify-self-start md:col-span-7 md:text-start" data-aos="fade-right" data-aos-easing="ease-in-out" data-aos-duration="1500">
-          <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-[#1a91f0] dark:text-[#1a91f0] md:max-w-2xl md:text-5xl xl:text-6xl">Limited Time Offer!<br /><span className="text-black dark:text-black">Up to 50% OFF!</span></h1>
-          <p className="mb-4 max-w-2xl text-gray-500 dark:text-gray-400 md:mb-12 md:text-lg mb-3 lg:mb-5 lg:text-xl" data-aos="fade-left" data-aos-easing="ease-in-out" data-aos-duration="1500">Don't Wait - Limited Stock at Unbeatable Prices!</p>
-          <a href="#" className="inline-block rounded-lg bg-primary-700 px-6 py-3.5 text-center font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" data-aos="zoom-in" data-aos-easing="ease-in-out" data-aos-duration="1500">Shop Now</a>
-        </div>
-        <div className="hidden md:col-span-5 md:mt-0 md:flex" data-aos="fade-left" data-aos-easing="ease-in-out" data-aos-duration="1500">
-          <img className="dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/girl-shopping-list.svg" alt="shopping illustration" />
-          <img className="hidden dark:block" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/girl-shopping-list-dark.svg" alt="shopping illustration" />
-        </div>
+      <section className="bg-gray-50 py-12">
+  <div className="mx-auto max-w-screen-xl px-4 md:flex md:justify-between" data-aos="zoom-in" data-aos-easing="ease-in-out" data-aos-duration="1500">
+    <div className="flex flex-col justify-center md:w-1/2" data-aos="fade-right" data-aos-easing="ease-in-out" data-aos-duration="1500">
+      <h1 className="text-5xl font-bold text-blue-600 mb-6">Exclusive Offer!<br /><span className="text-gray-800">Save up to 50%!</span></h1>
+      <p className="text-gray-600 text-lg mb-8" data-aos="fade-left" data-aos-easing="ease-in-out" data-aos-duration="1500">Seize the moment - unbeatable prices for a limited time only!</p>
+      <a href="#" className="self-start bg-blue-600 text-white px-8 py-3 rounded-lg shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300" data-aos="zoom-in" data-aos-easing="ease-in-out" data-aos-duration="1500">Create a Resume</a>
+    </div>
+    <div className="md:w-1/2 mt-10 md:mt-0" data-aos="fade-left" data-aos-easing="ease-in-out" data-aos-duration="1500">
+      <img src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/girl-shopping-list.svg" alt="shopping illustration" className="hidden dark:block" />
+      <img src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/girl-shopping-list-dark.svg" alt="shopping illustration" className="dark:hidden" />
+    </div>
+  </div>
+  <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    {branding.slice(0, 4).map((brand) => (
+      <div key={brand.id} className="flex flex-col items-center ">
+        <img src={brand.logo} alt={brand.name} className="w-25 h-24 mb-4 object-fit object-cover" />
+        <h2 className="text-2xl font-semibold text-center text-gray-600 hover:text-blue-600">{brand.name}</h2>
+        {/* <h4 className="text-center text-gray-600 justify-center text-ellipsis text-justify ">{brand.subtitle}</h4> */}
       </div>
-      <div className="grid grid-cols-2 p-8 gap-4 md:grid-cols-3 lg:grid-cols-4">
-        {branding.slice(0, 4).map((brand) => (
-          <div key={brand.id} className="flex flex-col items-center justify-center p-4 border border-gray-200 rounded-lg">
-            <img src={brand.logo} alt={brand.name} className="w-16 h-16 mb-2" />
-            <h2 className="text-lg font-sans">{brand.name}</h2>
-          </div>
-        ))}
-      </div>
-    </section>
+    ))}
+  </div>
+</section>
     )
 }
 
