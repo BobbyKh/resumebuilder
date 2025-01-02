@@ -323,7 +323,7 @@ const BuildForm = () => {
             ))}
           </div>
         </details>
-        {/* <details className="bg-white shadow-md p-4 rounded mt-4 " open>
+        <details className="bg-white shadow-md p-4 rounded mt-4 " open>
           <summary className="text-lg font-bold border-b pb-2 flex items-center">Skills
             <div className="ml-auto flex space-x-2">
               <button className="p-1 rounded hover:bg-gray-200 border">
@@ -501,7 +501,7 @@ const BuildForm = () => {
             ))}
 
           </div>
-        </details> */}
+        </details>
 
         <details className="bg-white shadow-md p-4 rounded mt-4 animate-fade-in" open>
           <summary className="text-lg font-bold border-b pb-2 flex items-center justify-between">
