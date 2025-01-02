@@ -1,4 +1,22 @@
-import { Key, useState } from 'react';
+import { Key } from 'react';
+
+interface ResumeTemplateProps {
+  
+  fullname: string;
+  position: string;
+  email: string;
+  phone: string;
+  address: string;
+  headline: string;
+  website: string;
+  summary: string;
+  skills: string[];
+  education: Array<{ college: string; degree: string; university: string; from_date: string; to_date: string; }>;
+  hobbies: string[];
+  experiences: Array<{ job_title: string; company_name: string; from_date: string; to_date: string; description: string; achievements: string; }>;
+  language: string[];
+}
+
 
 type ColorPalette = {
   primary: string;
@@ -12,119 +30,98 @@ const colorPalettes: ColorPalette[] = [
   { primary: 'indigo', secondary: 'yellow' },
   { primary: 'teal', secondary: 'gray' },
 ];
-console.log(FormData);
-const ResumeTemplate1 = (formData: any): JSX.Element => {
-  const [colorPalette] = useState<ColorPalette>(colorPalettes[0]);
 
+const ResumeTemplate1 = (formData: ResumeTemplateProps) => {
   return (
-<div className="max-w-5xl mx-auto "> <div className="flex">
+    <div className="max-w-5xl mx-auto">
+      <div className="flex">
         <div className="w-1/3 bg-[#e6f0fa] p-8 rounded-l-lg">
-            <div className="mb-6">
-                <h1 className="text-4xl font-bold text-[#003566]">{formData.fullname || "Name not provided"}</h1>
-                <p className="text-lg text-[#003566]">{formData.position || "Title not provided"}</p>
-            </div>
-            <div className="mb-6">
-                <h2 className="text-xl font-semibold mb-2 text-[#003566]">{formData.headline || "Heading not provided"}</h2>
-                <p className="text-gray-700">{formData.summary || "Summary not provided"}</p>
-            </div>
-
-            <div className="mb-6">
-                <h2 className="text-xl font-semibold mb-2 text-[#003566]">Contact</h2>
-                <ul className="list-none pl-0 text-gray-700">
-                    <li className="mb-1">{formData.phone || "+123-456-7890"}</li>
-                    <li className="mb-1">{formData.email || "hello@reallygreatsite.com"}</li>
-                    <li>{formData.address || "123 Anywhere St. Any City"}</li>
-                </ul>
-            </div>
-
-            <div className="mb-6">
-                <h2 className="text-xl font-semibold mb-2 text-[#003566]">Language</h2>
-                <ul className="list-none pl-0 text-gray-700">
-                    {formData?.language?.map((language: string, index: Key) => (
-                        <li key={index}>{language}</li>
-                    ))}               
-                </ul>
-            </div>
-
-            <div>
-                <h2 className="text-xl font-semibold mb-2 text-[#003566]">Expertise</h2>
-                <ul className="list-none pl-0 text-gray-700">
-                  {formData?.skills?.map((skill: string, index: Key) => (
-                    <li key={index}>{skill}</li>
-                  ))}
-             
-
-                </ul>
-            </div>
+          <div className="mb-6">
+            <h1 className="text-4xl font-bold text-[#003566]">
+              {formData.fullname || "Name not provided"}
+            </h1>
+            <p className="text-lg text-[#003566]">
+              {formData.position || "Title not provided"}
+            </p>
+          </div>
+          <div className="mb-6">
+            <h2 className="text-xl font-semibold mb-2 text-[#003566]">
+              {formData.headline || "Heading not provided"}
+            </h2>
+            <p className="text-gray-700">
+              {formData.summary || "Summary not provided"}
+            </p>
+          </div>
+          <div className="mb-6">
+            <h2 className="text-xl font-semibold mb-2 text-[#003566]">
+              Contact
+            </h2>
+            <ul className="list-none pl-0 text-gray-700">
+              <li className="mb-1">{formData.phone || "+123-456-7890"}</li>
+              <li className="mb-1">
+                {formData.email || "hello@reallygreatsite.com"}
+              </li>
+              <li>{formData.address || "123 Anywhere St. Any City"}</li>
+            </ul>
+          </div>
+          <div className="mb-6">
+            <h2 className="text-xl font-semibold mb-2 text-[#003566]">
+              Language
+            </h2>
+            <ul className="list-none pl-0 text-gray-700">
+              {formData?.language?.map((language: string, index: Key) => (
+                <li key={index}>{language}</li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h2 className="text-xl font-semibold mb-2 text-[#003566]">
+              Expertise
+            </h2>
+            <ul className="list-none pl-0 text-gray-700">
+              {formData?.skills?.map((skill: string, index: Key) => (
+                <li key={index}>{skill}</li>
+              ))}
+            </ul>
+          </div>
         </div>
-
         <div className="w-2/3 p-8 rounded-r-lg">
-            <div className="mb-6">
-                <h2 className="text-xl font-semibold mb-2 text-[#003566]">EXPERIENCE</h2>
-                <div className="mb-4">
-                    <h3 className="font-semibold text-[#003566]">Studio Showde</h3>
-                    <p className="text-gray-600">Canberra Australia</p>
-                    <p className="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sit amet quam rhoncus, egestas dui eget, malesuada justo. Ut aliquam augue.</p>
-                </div>
-                <div className="mb-4">
-                    <h3 className="font-semibold text-[#003566]">Elsetown Cor.</h3>
-                    <p className="text-gray-600">Kota Baru - Singapore</p>
-                    <p className="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sit amet quam rhoncus, egestas dui eget. malesuada justo. Ut aliquam augue.</p>
-                </div>
-                <div>
-                    <h3 className="font-semibold text-[#003566]">Studio Showde</h3>
-                    <p className="text-gray-600">Sydney Australia</p>
-                    <p className="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sit amet quam rhoncus, egestas dui eget. malesuada justo. Ut aliquam augue.</p>
-                </div>
-            </div>
-
-            <div>
-                <h2 className="text-xl font-semibold mb-2 text-[#003566]">EDUCATION</h2>
-                <div className="mb-4">
-                    <h3 className="font-semibold text-[#003566]">Borcelle University</h3>
-                    <p className="text-gray-700">Bachelor of Business Management 2014-2023</p>
-                </div>
-                <div>
-                    <h3 className="font-semibold text-[#003566]">Borcelle University</h3>
-                    <p className="text-gray-700">Master of Business Management 2014-2018</p>
-                </div>
-            </div>
-            <div className="mt-6">
-                <h2 className="text-xl font-semibold mb-2 text-[#003566]">SKILLS SUMMARY</h2>
-                <div className="mb-2">
-                  <div className="flex justify-between text-gray-700">
-                    <p>Design Process</p>
-                    <p>78%</p>
-                  </div>
-                  <div className="bg-gray-300 rounded-full h-2">
-                    <div className="bg-[#003566] rounded-full h-full" style={{width: '78%'}}></div>
-                  </div>
-                </div>
-                <div>
-                  <div className="flex justify-between text-gray-700">
-                    <p>Project Management</p>
-                    <p>81%</p>
-                  </div>
-                  <div className="bg-gray-300 rounded-full h-2">
-                    <div className="bg-[#003566] rounded-full h-full" style={{width: '81%'}}></div>
-                  </div>
-                </div>
-              </div>
+          <div className="mb-6">
+            <h2 className="text-xl font-semibold mb-2 text-[#003566]">
+              EXPERIENCE
+            </h2>
+            <ul className="list-none pl-0">
+              {formData?.experiences.map((exp, index) => (
+                <li key={index}>
+                  <h3 className="font-semibold mb-2">
+                    {exp.job_title} at {exp.company_name}
+                  </h3>
+                  <p className="mb-2">
+                    {exp.from_date} - {exp.to_date}
+                  </p>
+                  <p className="mb-4">{exp.description}</p>
+                  <ul className="list-disc pl-4">
+                    {exp.achievements.split(",").map((achievement, i) => (
+                      <li key={i}>{achievement}</li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-
   );
 };
 
 
 
 
+
 const ResumeTemplate2 = (formData: any = {}): JSX.Element => {
 
-  const experience = formData.experience || [];
-  const education = formData.education || [];
-  console.log(formData.education);
+
   return (
     <div className="max-w-3xl mx-auto p-4 border rounded-lg">
     <div className="mb-4">
@@ -145,15 +142,20 @@ const ResumeTemplate2 = (formData: any = {}): JSX.Element => {
     <div className="mb-4">
       <h2 className="text-xl font-bold">Experience</h2>
       <ul className="list-disc pl-5">
-        {experience.map((item: any, index: Key) => (
-          <li key={index}>{item.institution || item.company || "Unknown Company"}</li>
+        {formData.experiences.map((item: any, index: Key) => (
+          <li key={index}>
+            <h3 className="font-semibold">{item.job_title}</h3>
+            <p>{item.company_name}</p>
+            <p>{item.from_date} - {item.to_date}</p>
+       
+          </li>
         ))}
       </ul>
     </div>
     <div>
       <h2 className="text-xl font-bold">Education</h2>
       <ul className="list-disc pl-5">
-        {education.map((item: any, index: Key) => (
+        {formData.education.map((item: any, index: Key) => (
           <li key={index}>{item.institution}</li>
         ))}
       </ul>

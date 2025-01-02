@@ -151,9 +151,9 @@ const BuildForm = () => {
 
   }
   const handleExperienceChange = (index: number, updatedExperience: any) => {
-    setExperiences((prev) =>
-      prev.map((exp, i) => (i === index ? updatedExperience : exp))
-    );
+    const newExperiences = [...experiences];
+    newExperiences[index] = updatedExperience;
+    setExperiences(newExperiences);
   };
 
 
@@ -170,7 +170,12 @@ const BuildForm = () => {
   };
 
 
-  const addExperience = () => setExperiences([...experiences, ""]);
+
+  const addExperience = () =>{
+
+    setExperiences([...experiences, ""]);
+
+  }
   const removeExperience = (index: number) => setExperiences(experiences.filter((_, i) => i !== index));
 
   const addEducation = () => setEducations([...educations, ""]);
@@ -318,7 +323,7 @@ const BuildForm = () => {
             ))}
           </div>
         </details>
-        <details className="bg-white shadow-md p-4 rounded mt-4 " open>
+        {/* <details className="bg-white shadow-md p-4 rounded mt-4 " open>
           <summary className="text-lg font-bold border-b pb-2 flex items-center">Skills
             <div className="ml-auto flex space-x-2">
               <button className="p-1 rounded hover:bg-gray-200 border">
@@ -496,7 +501,7 @@ const BuildForm = () => {
             ))}
 
           </div>
-        </details>
+        </details> */}
 
         <details className="bg-white shadow-md p-4 rounded mt-4 animate-fade-in" open>
           <summary className="text-lg font-bold border-b pb-2 flex items-center justify-between">
@@ -564,7 +569,7 @@ const BuildForm = () => {
 
       {/* Preview Section */}
       <div className="w-full md:w-1/2 bg-white shadow-md p-4 rounded mt-6 md:mt-0 md:ml-6  ">
-        <div className="">
+        <div className="overflow-y-scroll h-screen">
           <div className="zoom-controls flex justify-end mb-4">
             <button
               type="button"
@@ -597,7 +602,7 @@ const BuildForm = () => {
               {/* Zoom Controls */}
 
               {/* Render Selected Template */}
-              <div >
+              <div  className="overflow-auto  ">
                 {selectedTemplate === "template1" && <ResumeTemplate1 {...formData} />}
                 {selectedTemplate === "template2" && <ResumeTemplate2 {...formData} />}
                 {selectedTemplate === "template3" && <ResumeTemplate3 {...formData} />}
@@ -610,7 +615,7 @@ const BuildForm = () => {
 
 
         {/* Template Selection */}
-        <div className="templateview " style={{ overflow: "auto" }}>
+        <div className="templateview overflow-x-scroll">
           <h1 className=" text-xl font-sans text-gray-800   text-center mb-2 justify-center mt-2">Select a Template</h1>
           <Slider {...settings} className="w-full h-full p-10 overflow-hidden">
             {templates.map((template) => (
