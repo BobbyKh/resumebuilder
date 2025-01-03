@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Select from "react-select";
 import { ResumeTemplate1, ResumeTemplate2, ResumeTemplate3, ResumeTemplate4, ResumeTemplate5, } from "../templatedesign/Design";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAlignCenter, faBookReader, faChevronDown, faPalette, faUpload } from "@fortawesome/free-solid-svg-icons";
+import { faAlignCenter, faBookReader, faCamera, faChevronDown, faPalette, faUpload } from "@fortawesome/free-solid-svg-icons";
 import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { ChevronDownIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { jsPDF } from "jspdf";
@@ -13,10 +13,19 @@ import html2canvas from "html2canvas";
 import API_URL from "../api/Api";
 import axios from "axios";
 
+interface Fields {
+    label : string;
+    type : string;
+    placeholder : string
+    name : string
+
+}
+
 const BuildForm = () => {
-  type FormFields = "fullname" | "position" | "email" | "phone" | "address" | "headline" | "website" | "summary" | "skills" | "language" | "education" | "experiences" | "hobbies";
+  type FormFields = "image" | "fullname" | "position" | "email" | "phone" | "address" | "headline" | "website" | "summary" | "skills" | "language" | "education" | "experience" | "projects" | "hobbies";
 
   const [formData, setFormData] = useState<Record<FormFields, string | string[] | number | boolean | any>>({
+    image: "",
     fullname: "",
     position: "",
     email: "",
@@ -26,11 +35,31 @@ const BuildForm = () => {
     website: "",
     summary: "",
     skills: [],
-    education: [],
+    education: [{
+      degree: "",
+      university: "",
+      from_date: "",
+      to_date: "",
+      description: "",
+    }],
     hobbies: [],
-    experiences: [],
+    experience: [
+      {
+        company: "",
+        position: "",
+        from_date: "",
+        to_date: "",
+        description: "",
+      }
+    ],
+    projects: [
+      {
+        name: "",
+        description: "",
+        link: "",
+      }
+    ],
     language: [],
-
 
 
   });
@@ -49,19 +78,17 @@ const BuildForm = () => {
   }, []);
   
   
-  const [experiences, setExperiences] = useState<any[]>([
-    { company: "", role: "", startDate: "", endDate: "", description: "" },
-  ]);
+
+  
   const [educations, setEducations] = useState<any[]>([
-    { institution: "", degree: "", startDate: "", endDate: "", description: "" },
   ]);  // const [awards, setAwards] = useState<any[]>([""]);
   // const [certifications, setCertifications] = useState<any[]>([""]);
   // const [references, setReferences] = useState<any[]>([""]);
   // const [hobbies, setHobbies] = useState<any[]>([""]);
-  const [projects, setProjects] = useState<any[]>([""]);
+  const [projects, setProjects] = useState<any[]>([]);
   const [selectedTemplate, setSelectedTemplate] = useState("template1");
   const [zoomLevel, setZoomLevel] = useState(100);
-
+const [fields , setFields] = useState<Fields[]>([]);
   const handleZoomIn = () => {
     setZoomLevel((prevZoom) => Math.min(prevZoom + 10, 200)); // Max zoom level 200%
   };
@@ -79,7 +106,7 @@ const BuildForm = () => {
         useCORS: true,
         logging: true,
         allowTaint: true,
-        scale: 4,
+        scale: 10,
       }).then((canvas) => {
         const imgData = canvas.toDataURL("image/png", 1.0);
         const pdf = new jsPDF("p", "mm", "a4");
@@ -88,7 +115,18 @@ const BuildForm = () => {
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
-        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight, undefined, "FAST");
+        // Make links clickable
+        const links = element.querySelectorAll("a");
+        links.forEach((link) => {
+          const linkRect = link.getBoundingClientRect();
+          const linkX = linkRect.left;
+          const linkY = linkRect.top;
+          const linkWidth = linkRect.width;
+          const linkHeight = linkRect.height;
+          pdf.link(linkX, linkY, linkWidth, linkHeight, link.href);
+        });
+
+        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight, undefined, "FAST" );
         pdf.save("resume.pdf");
       });
     }
@@ -127,6 +165,7 @@ const BuildForm = () => {
     ],
   };
 
+const inputRef = useRef<HTMLInputElement>(null);
 
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -150,41 +189,82 @@ const BuildForm = () => {
     setFormData((prev) => ({ ...prev, language }));
 
   }
-  const handleExperienceChange = (index: number, updatedExperience: any) => {
-    const newExperiences = [...experiences];
-    newExperiences[index] = updatedExperience;
-    setExperiences(newExperiences);
+  const handleExperienceChange = (index: number, field: string, value: string) => {
+    setFormData((prev) => {
+      const updatedExperience = [...prev.experience];
+      updatedExperience[index] = { ...updatedExperience[index], [field]: value };
+      return { ...prev, experience: updatedExperience };
+    });
   };
 
 
-  const handleEducationChange = (index: number, value: any) => {
-    const newEducations = [...educations];
-    newEducations[index] = value;
-    setEducations(newEducations);
+  const handleEducationChange = (index: number, field: string, value: string) => {
+    setFormData((prev) => {
+      const updatedEducation = [...prev.education];
+      updatedEducation[index] = { ...updatedEducation[index], [field]: value };
+      return { ...prev, education: updatedEducation };
+    });
   };
 
-  const handleProjectChange = (index: number, value: any) => {
-    const newProjects = [...projects];
-    newProjects[index] = value;
-    setProjects(newProjects);
+  const handleProjectChange = (index: number, field: string, value: any ) => {
+    setFormData((prev) => {
+      const updatedProjects = [...prev.projects];
+      updatedProjects[index] = { ...updatedProjects[index], [field]: value };
+      return { ...prev, projects: updatedProjects };
+      
+    })
   };
 
 
 
-  const addExperience = () =>{
+  const addEducation = () =>{
 
-    setExperiences([...experiences, ""]);
+    setFormData((prev) => ({
+      ...prev,
+      education: [
+        ...prev.education,
+        {
+          degree: "",
+          university: "",
+          from_date: "",
+          to_date: "",
+        },
+      ],
+    }));
+  };
 
+  const addExperience = () => {
+    setFormData((prev) => ({
+      ...prev,
+      experience: [
+        ...prev.experience,
+        {
+          company: "",
+          from_date: "",
+          to_date: "",
+          description: "",
+        }
+      ]
+    }))
   }
-  const removeExperience = (index: number) => setExperiences(experiences.filter((_, i) => i !== index));
 
-  const addEducation = () => setEducations([...educations, ""]);
+  const removeExperience = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      experience: prev.experience.filter((_: any, i: number) => i !== index),
+    }));
+  };
+
+
+
   const removeEducation = (index: number) => setEducations(educations.filter((_, i) => i !== index));
 
-  const addProject = () => setProjects([...projects, ""]);
+  const addProject = () => setProjects([
+    ...projects,
+  ]);
   const removeProject = (index: number) => setProjects(projects.filter((_, i) => i !== index));
 
-
+console.log(formData);
 
 
 
@@ -213,7 +293,83 @@ const BuildForm = () => {
               <ChevronDownIcon className="h-6 w-6" />
             </span>
           </summary>
-          <div className="flex flex-col gap-4 mt-4">
+          <div className="w-full gap-4 mt-4 mb-">
+            <div className="w-full">
+            <div className="relative ">
+              <select className="block appearance-none w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500" defaultValue="Select an option" onChange={(e) => {
+                const value = e.target.value;
+                if (value === "1") {
+                  setFields([
+                    { label: "Title", name: "title", type: "text", placeholder: "e.g. John Doe" },
+                    { label: "Field", name: "field", type: "text", placeholder: "e.g. Software Engineer" },
+                  ]);
+                } else if (value === "2") {
+                  setFields([
+                    { label: "Title", name: "title", type: "text", placeholder: "e.g. John Doe" },
+                    { label: "Description", name: "description", type: "text", placeholder: "e.g. Software Engineer" },
+                  ]);
+                } else if (value === "3") {
+                  setFields([
+                    { label: "Multi-Select", name: "multiSelect", type: "text", placeholder: "e.g. Software Engineer" },
+                  ]);
+                } else if (value === "4") {
+                  setFields([
+                    { label: "Title", name: "title", type: "text", placeholder: "e.g. John Doe" },
+                    { label: "Field 1", name: "field1", type: "text", placeholder: "e.g. Software Engineer" },
+                    { label: "Field 2", name: "field2", type: "text", placeholder: "e.g. Software Engineer" },
+                  ]);
+                }
+              }}>
+                <option value="">Create Custom Field</option>
+                <option value="1">Title and Field</option>
+                <option value="2">Title and Description</option>
+                <option value="3">Multi-Select</option>
+                <option value="4">Title with Multi-Fields</option>
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+              </div>
+            </div>
+            {fields.map((field: { label: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; type: string | (string & {}) | undefined; name: string | undefined; placeholder: string | undefined; }, index: React.Key | null | undefined) => (
+              <div className="w-full" key={index}>
+                <label className="block text-sm font-medium text-gray-700">{field.label}</label>
+                <input type={field.type} name={field.name} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder={field.placeholder} />
+              </div>
+            ))}
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-1 text-gray-700">Image</label>
+              <div className="flex items-center">
+                <div className="mr-4">
+                  <button
+                    type="button"
+                    className="flex items-center justify-center w-24 h-24 rounded-full border bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    onClick={() => inputRef.current?.click()}
+                  >
+                    <FontAwesomeIcon icon={faCamera} className="text-gray-600 text-3xl" />
+                  </button>
+                  <input
+                    ref={inputRef}
+                    type="file"
+                    accept=".jpg, .jpeg, .png"
+                    onChange={(e) => {
+                      const file = (e.target as HTMLInputElement).files?.[0];
+                      const reader = new FileReader();
+                      reader.onload = (ev) => {
+                        setFormData((prev) => ({ ...prev, image: ev.target?.result as string }));
+                      };
+                      reader.readAsDataURL(file as Blob);
+                    }}
+                    className="hidden"
+                  />
+                </div>
+                {formData.image && (
+                  <div className="ml-4 ">
+                    <img src={formData.image} className="w-24 h-24 rounded object-cover" alt="Preview" />
+                  </div>
+                )}
+              </div>
+            </div>
             {[
               { label: "HeadTitle", name: "headline", type: "text", placeholder: "e.g.Personal Information" },
               { label: "Full Name", name: "fullname", type: "text", placeholder: "e.g. John Doe" },
@@ -235,6 +391,7 @@ const BuildForm = () => {
                 />
               </div>
             ))}
+         
             <div className="mb-4">
               <label className="block text-sm font-medium mb-1 text-gray-700">Summary</label>
               <textarea
@@ -251,7 +408,7 @@ const BuildForm = () => {
           <summary className="flex items-center justify-between text-lg font-semibold border-b pb-2 cursor-pointer">
             Education
             <div className="ml-auto flex space-x-2">
-              <button onClick={addEducation} className="p-1 rounded hover:bg-gray-200 border">
+              <button onClick={() => addEducation()} className="p-1 rounded hover:bg-gray-200 border">
                 <PlusIcon className="h-6 w-6" />
               </button>
               <span className="p-1 rounded hover:bg-gray-200 border">
@@ -260,15 +417,16 @@ const BuildForm = () => {
             </div>
           </summary>
           <div className="mt-4 mb-4 ">
-            {educations.map((education, index) => (
+            {formData.education.map((education: any, index: any) => (
               <div key={index} className="mb-2 flex flex-col border-2 bg-gray-100 rounded-lg p-4">
                 <div className="mb-2">
                   <label className="block text-sm font-medium mb-1 text-gray-700">Institution</label>
                   <input
-                    value={education.institution}
-                    onChange={(e) => handleEducationChange(index, { ...education, institution: e.target.value })}
+                    value={education.university}
+                    onChange={(e) => handleEducationChange(index, "university", e.target.value)}
                     className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     type="text"
+                    name="university"
                     placeholder="e.g. University of California, Berkeley"
                   />
                 </div>
@@ -276,37 +434,41 @@ const BuildForm = () => {
                   <label className="block text-sm font-medium mb-1 text-gray-700">Degree</label>
                   <input
                     value={education.degree}
-                    onChange={(e) => handleEducationChange(index, { ...education, degree: e.target.value })}
+                    onChange={(e) => handleEducationChange(index, "degree", e.target.value)}
                     className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     type="text"
+                    name="degree"
                     placeholder="e.g. Bachelor of Science in Computer Science"
                   />
                 </div>
                 <div className="mb-2">
                   <label className="block text-sm font-medium mb-1 text-gray-700">Start Date</label>
                   <input
-                    value={education.startDate}
-                    onChange={(e) => handleEducationChange(index, { ...education, startDate: e.target.value })}
+                    value={education.from_date}
+                    onChange={(e) => handleEducationChange(index, "from_date", e.target.value)}
                     className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     type="date"
+                    name="from_date"
                   />
                 </div>
                 <div className="mb-2">
                   <label className="block text-sm font-medium mb-1 text-gray-700">End Date</label>
                   <input
-                    value={education.endDate}
-                    onChange={(e) => handleEducationChange(index, { ...education, endDate: e.target.value })}
+                    value={education.to_date}
+                    onChange={(e) => handleEducationChange(index, "to_date", e.target.value)}
                     className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     type="date"
+                    name="to_date"
                   />
                 </div>
                 <div className="mb-2">
                   <label className="block text-sm font-medium mb-1 text-gray-700">Description</label>
                   <textarea
                     value={education.description}
-                    onChange={(e) => handleEducationChange(index, { ...education, description: e.target.value })}
+                    onChange={(e) => handleEducationChange(index, "description", e.target.value)}
                     className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     rows={2}
+                    name="description"
                   />
                 </div>
                 <div className="flex flex-row gap-2">
@@ -365,13 +527,13 @@ const BuildForm = () => {
             </div>
           </summary>
           <div className="mt-4">
-            {experiences.map((experience, index) => (
+            {formData.experience.map((experience:any, index:any) => (
               <div key={index} className="mb-4 p-4 border rounded-lg bg-gray-50 shadow-sm animate-fade-in">
                 <div className="mb-2">
                   <label className="block text-sm font-medium mb-1 text-gray-700">Company</label>
                   <input
                     value={experience.company}
-                    onChange={(e) => handleExperienceChange(index, { ...experience, company: e.target.value })}
+                    onChange={(e) => handleExperienceChange(index, "company", e.target.value)}
                     className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     type="text"
                     placeholder="e.g. Google"
@@ -381,7 +543,7 @@ const BuildForm = () => {
                   <label className="block text-sm font-medium mb-1 text-gray-700">Position</label>
                   <input
                     value={experience.position}
-                    onChange={(e) => handleExperienceChange(index, { ...experience, position: e.target.value })}
+                    onChange={(e) => handleExperienceChange(index, "position", e.target.value)}
                     className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     type="text"
                     placeholder="e.g. Software Engineer"
@@ -391,7 +553,7 @@ const BuildForm = () => {
                   <label className="block text-sm font-medium mb-1 text-gray-700">Start Date</label>
                   <input
                     value={experience.startDate}
-                    onChange={(e) => handleExperienceChange(index, { ...experience, startDate: e.target.value })}
+                    onChange={(e) => handleExperienceChange(index, "from_date", e.target.value)}
                     className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     type="date"
                   />
@@ -400,7 +562,7 @@ const BuildForm = () => {
                   <label className="block text-sm font-medium mb-1 text-gray-700">End Date</label>
                   <input
                     value={experience.endDate}
-                    onChange={(e) => handleExperienceChange(index, { ...experience, endDate: e.target.value })}
+                    onChange={(e) => handleExperienceChange(index, "to_date", e.target.value)}
                     className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     type="date"
                   />
@@ -409,7 +571,7 @@ const BuildForm = () => {
                   <label className="block text-sm font-medium mb-1 text-gray-700">Description</label>
                   <textarea
                     value={experience.description}
-                    onChange={(e) => handleExperienceChange(index, { ...experience, description: e.target.value })}
+                    onChange={(e) => handleExperienceChange(index, "description", e.target.value)}
                     className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     rows={2}
                   />
@@ -439,7 +601,7 @@ const BuildForm = () => {
             </div>
           </summary>
           <div className="mt-4">
-            {projects.map((project, index) => (
+            {formData.projects.map((project:any, index:any) => (
               <div
                 key={index}
                 className="mb-4 p-4 border rounded-lg bg-gray-50 shadow-sm animate-fade-in"
@@ -451,7 +613,7 @@ const BuildForm = () => {
                   <input
                     value={project.name}
                     onChange={(e) =>
-                      handleProjectChange(index, { ...project, name: e.target.value })
+                      handleProjectChange(index,"name", e.target.value)
                     }
                     className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     type="text"
@@ -465,10 +627,7 @@ const BuildForm = () => {
                   <textarea
                     value={project.description}
                     onChange={(e) =>
-                      handleProjectChange(index, {
-                        ...project,
-                        description: e.target.value,
-                      })
+                      handleProjectChange(index, "description", e.target.value)
                     }
                     className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     rows={2}
@@ -482,7 +641,7 @@ const BuildForm = () => {
                   <input
                     value={project.link}
                     onChange={(e) =>
-                      handleProjectChange(index, { ...project, link: e.target.value })
+                      handleProjectChange(index, "link", e.target.value)
                     }
                     className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     type="text"
