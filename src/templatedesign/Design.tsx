@@ -394,8 +394,8 @@ const ResumeTemplate5 = (formData: any): JSX.Element => {
     <div className="max-w-4xl mx-auto bg-white p-12 shadow-lg">
       <div className="flex justify-between items-start">
         <div>
-          <h1 className="text-4xl font-bold">{formData.fullname || "Name not provided"}</h1>
-          <p className="text-lg mt-2">{formData.position || "Position not provided"}</p>
+          <h1 className="text-4xl font-bold">{formData.fullname || ""}</h1>
+          <p className="text-lg mt-2">{formData.position || ""}</p>
         </div>
         <div>
           <img src="user.png" alt="Profile Picture" className="w-32 h-32 rounded-full hidden">
@@ -405,37 +405,34 @@ const ResumeTemplate5 = (formData: any): JSX.Element => {
       <div className="mt-8 grid grid-cols-2 gap-8 ">
         <div>
           <div className="mb-6">
-            <h2 className="text-xl font-semibold mb-2">About Me</h2>
-            <p>{formData.summary || "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sit amet quam rhoncus, egestas dui eget, malesuada justo. Ut aliquam augue."}</p>
+            <h2 className="text-xl font-semibold mb-2">{formData.header || "" }</h2>
+            <p>{formData.summary || ""}</p>
           </div>
 
           <div>
-            <h2 className="text-xl font-semibold mb-2">Contact</h2>
+            <h2 className="text-xl font-semibold mb-2">{formData.contact || ""}</h2>
             <ul className="list-none pl-0">
-              <li className="mb-1">{formData.phone || "Phone not provided"}</li>
-              <li className="mb-1"> {formData.email || "Email not provided"}</li>
-              <li>{formData.address || "Address not provided"}</li>
+              <li className="mb-1">{formData.phone || ""}</li>
+              <li className="mb-1"> {formData.email || ""}</li>
+              <li>{formData.address || ""}</li>
             </ul>
           </div>
 
           <div className="mt-6">
             <h2 className="text-xl font-semibold mb-2">Language</h2>
             <ul className="list-none pl-0">
-              <li className="mb-1">English</li>
-              <li className="mb-1">Germany (basic)</li>
-              <li>Spain (basic)</li>
+            {formData?.language?.map((language: string, index: Key) => (
+                <li key={index}>{language}</li>
+              ))}
             </ul>
           </div>
 
           <div className="mt-6">
             <h2 className="text-xl font-semibold mb-2">Expertise</h2>
             <ul className="list-none pl-0">
-              <li className="mb-1">Management Skills</li>
-              <li className="mb-1">Creativity</li>
-              <li className="mb-1">Digital Marketing</li>
-              <li className="mb-1">Negotiation</li>
-              <li className="mb-1">Critical Thinking</li>
-              <li>Leadership</li>
+              {formData?.skills?.map((skill: string, index: Key) => (
+                <li key={index}>{skill}</li>
+              ))}
             </ul>
           </div>
         </div>
@@ -443,58 +440,43 @@ const ResumeTemplate5 = (formData: any): JSX.Element => {
         <div>
           <div className="mb-6">
             <h2 className="text-xl font-semibold mb-2">EXPERIENCE</h2>
-            <div className="mb-4">
-              <h3 className="font-semibold">Studio Showde</h3>
-              <p className="text-gray-600">Canberra Australia</p>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sit amet quam rhoncus, egestas dui eget, malesuada justo. Ut aliquam augue.</p>
-            </div>
-            <div className="mb-4">
-              <h3 className="font-semibold">Elsetown Cor.</h3>
-              <p className="text-gray-600">Kota Baru - Singapore 2016-2020</p>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sit amet quam rhoncus, egestas dui eget. malesuada justo. Ut aliquam augue.</p>
-            </div>
-            <div>
-              <h3 className="font-semibold">Studio Showde</h3>
-              <p className="text-gray-600">Sydney Australia 2010-2015</p>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sit amet quam rhoncus, egestas dui eget. malesuada justo. Ut aliquam augue.</p>
-            </div>
+            {formData.experience?.map((item: any) => (
+              <div key={item.company} className="mb-4">
+                <h3 className="font-semibold">{item.company}</h3>
+                <p>{item.position}</p>
+                <p>{item.from_date} - {item.to_date}</p>
+                <p>{item.description}</p>
+              </div>
+            ))}
           </div>
 
           <div>
             <h2 className="text-xl font-semibold mb-2">EDUCATION</h2>
-            <div className="mb-4">
-              <h3 className="font-semibold">Borcelle University</h3>
-              <p>Bachelor of Business Management 2014-2023</p>
-            </div>
-            <div>
-              <h3 className="font-semibold">Borcelle University</h3>
-              <p>Master of Business Management 2014-2018</p>
-            </div>
+            {formData.education.map((edu:any, index: any) => (
+                <div key={index} className="mb-4">
+                  <h3 className="font-semibold mb-1">{edu.degree}</h3>
+                  <p>{edu.university}</p>
+                  <p className="text-sm mt-2">
+                    {edu.from_date} - {edu.to_date}
+                  </p>
+                </div>
+            ))}
           </div>
           <div className="mt-6">
-            <h2 className="text-xl font-semibold mb-2">SKILLS SUMMARY</h2>
-            <div className="mb-2">
-              <div className="flex justify-between">
-                <p>Design Process</p>
-                <p>78%</p>
+            <h2 className="text-xl font-semibold mb-2">PROJECT</h2>
+            {formData.projects?.map((item: any) => (
+              <div key={item.name} className="mb-4">
+                <h3 className="font-semibold">{item.name}</h3>
+                <p>{item.description}</p>
+                <p>{item.link}</p>
               </div>
-              <div className="bg-gray-300 rounded-full h-2">
-                <div style={{ width: "78%" }} className="bg-blue-500 rounded-full h-full"></div>
-              </div>
-            </div>
-            <div>
-              <div className="flex justify-between">
-                <p>Project Management</p>
-                <p>81%</p>
-              </div>
-              <div className="bg-gray-300 rounded-full h-2">
-                <div style={{ width: "81%" }} className="bg-blue-500 rounded-full h-full"></div>
+            ))}
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+     
+    
   );
 }
 

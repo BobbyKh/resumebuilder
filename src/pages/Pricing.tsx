@@ -53,13 +53,17 @@ const Pricing = () => {
           {pricing.map((plan) => (
             <div
               key={plan.id}
-              className="flex-1 gap-4 w-full mb-6 bg-[#1a91f0] rounded-3xl shadow-2xl transform transition duration-500 hover:scale-105 hover:shadow-3xl hover:translate-y-2"
+              className="flex-1 gap-4 w-full mb-6 bg-[#1a91f0] rounded-3xl shadow-2xl"
               style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}
               data-aos="zoom-in"
             >
               <div
                 className="text-center p-10"
-                style={{ transform: 'rotateY(0deg)', transition: 'transform 0.6s' }}
+                style={{
+                  transform: 'rotateY(0deg)',
+                  transition: 'transform 0.5s ease-in-out',
+                  backfaceVisibility: 'hidden',
+                }}
               >
                 <div className="flex items-center mb-4 justify-center">
                   <svg
@@ -121,7 +125,7 @@ const Pricing = () => {
                   <button
                     onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                     type="button"
-                    className="w-full text-lg font-bold text-white bg-[#1a91f0] mt-8 py-3 rounded-xl shadow-lg hover:bg-blue-700 transition"
+                    className="w-full text-lg font-bold text-white bg-[#1a91f0] mt-8 py-3 rounded-xl shadow-lg hover:bg-blue-700 "
                     data-aos="flip-up"
                   >
                     {plan.name === 'Free' ? 'Get Started' : 'Subscribe'}

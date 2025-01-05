@@ -99,10 +99,10 @@ const Navbar = (): JSX.Element => {
     <header className="bg-white flex flex-col md:flex-row justify-between items-center py-6 px-10 shadow-sm">
       <div className="flex items-center justify-between w-full md:w-auto">
         {organizations.map((organization) => (
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 ">
             <img src={organization.logo} alt={`${organization.name} logo`} className="h-10" />
             <Link to="/" key={organization.name} className="text-2xl font-bold text-black">
-              <span className="text-blue-500">{organization.name}</span>
+              <span className="text-blue-800">{organization.name}</span>
             </Link>
           </div>
         ))}

@@ -12,6 +12,7 @@ import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 import API_URL from "../api/Api";
 import axios from "axios";
+import { CoverLetterTemplate1 } from "../templatedesign/CoverTemplateDesign";
 
 interface Fields {
     label : string;
@@ -761,13 +762,19 @@ console.log(formData);
               {/* Zoom Controls */}
 
               {/* Render Selected Template */}
-              <div  className="overflow-auto  ">
-                {selectedTemplate === "template1" && <ResumeTemplate1 {...formData} />}
-                {selectedTemplate === "template2" && <ResumeTemplate2 {...formData} />}
-                {selectedTemplate === "template3" && <ResumeTemplate3 {...formData} />}
-                {selectedTemplate === "template4" && <ResumeTemplate4 {...formData} />}
-                {selectedTemplate === "template5" && <ResumeTemplate5 {...formData} />}
-              </div>
+              <div className="overflow-auto">
+  {selectedTemplate === "template1" && (
+    <>
+      <CoverLetterTemplate1 {...formData} />
+      <ResumeTemplate1 {...formData} />
+    </>
+  )}
+  {selectedTemplate === "template2" && <ResumeTemplate2 {...formData} />}
+  {selectedTemplate === "template3" && <ResumeTemplate3 {...formData} />}
+  {selectedTemplate === "template4" && <ResumeTemplate4 {...formData} />}
+  {selectedTemplate === "template5" && <ResumeTemplate5 {...formData} />}
+</div>
+
             </div>
           )}
         </div>
