@@ -128,16 +128,26 @@ const Navbar = (): JSX.Element => {
           <div className="flex items-center gap-4 font-semibold">
             {/* Dropdown for Tools */}
             <Dropdown label="Tools" className="text-lg font-semibold" color="black">
-              {documentCategories.map((category) => (
-                <Dropdown.Item key={category.name}>
-                  <Link
-                    to={`/category/${category.id}`}
-                    className="hover:text-blue-500 font-sans"
-                  >
-                    {category.name}
-                  </Link>
-                </Dropdown.Item>
-              ))}
+              {documentCategories.map((category) => {
+                const categoryMap: { [key: string]: string } = {
+                  "resume": "/resume/editor",
+                  "coverletter": "/cover/editor",
+                  "bio data": "/biodata/editor"
+                };
+
+                const path = categoryMap[category.name.toLowerCase()] || "/";
+
+                return (
+                  <Dropdown.Item key={category.name}>
+                    <Link
+                      to={path}
+                      className="hover:text-blue-500 font-sans uppercase"
+                    >
+                      {category.name}
+                    </Link>
+                  </Dropdown.Item>
+                );
+              })}
             </Dropdown>
           </div>
           

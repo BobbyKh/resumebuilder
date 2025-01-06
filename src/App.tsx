@@ -76,9 +76,13 @@ const App = () => {
             <Route path="/login" element={<AuthPage initialMethod="login" />} />
             <Route path="/documentcategory" element={<DocumentCategory />} />
             <Route path="/pricing/subscribe/:id" element={<Checkout />} />
-            <Route path="/resume/editor/:templateId" element={<BuildForm />} />
-            <Route path="/cover/editor/:templateId" element={<BuildForm />} />
+            {/* <Route path="/resume/editor/:templateId" element={<BuildForm />} /> */}
+            {/* <Route path="/cover/editor/:templateId" element={<BuildForm />} /> */}
             {/* <Route path="/resume/editor/:templateId/:id" element={<ResumeEditor />} /> */}
+            <Route path="/resume/editor" element={<BuildForm/>} />
+            <Route path="/cover/editor" element={<BuildForm/>} />
+            <Route path="/biodata/editor" element={<BuildForm/>} />
+      
             <Route path="/cv" element={<CVtemplate />} />
             <Route path="/category/:id" element={<CoverTemplate />} />
             <Route path="/biodata" element={<BioDataTemplate />} />

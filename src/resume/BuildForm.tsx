@@ -155,9 +155,9 @@ const [fields , setFields] = useState<Fields[]>([]);
     return [
       { id: "template1", component: <CoverLetterTemplate1 {...formData} />, name: "Template 1" },
       { id: "template2", component: <CoverLetterTemplate2 {...formData} />, name: "Template 2" },
-      { id: "template3", component: <CoverLetterTemplate1 {...formData} />, name: "Template 3" },
-      { id: "template4", component: <CoverLetterTemplate1 {...formData} />, name: "Template 4" },
-      { id: "template5", component: <CoverLetterTemplate1 {...formData} />, name: "Template 5" },
+      { id: "template3", component: <CoverLetterTemplate3 {...formData} />, name: "Template 3" },
+      { id: "template4", component: <CoverLetterTemplate4 {...formData} />, name: "Template 4" },
+      { id: "template5", component: <CoverLetterTemplate5 {...formData} />, name: "Template 5" },
     ];
   } return [];
 }, [viewType, formData]);
@@ -431,6 +431,7 @@ console.log(formData);
                 onChange={handleInputChange}
                 className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                 rows={4}
+                placeholder="Enter your summary , or custom letter content"
               />
             </div>
           </div>
