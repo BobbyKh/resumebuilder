@@ -29,24 +29,29 @@ const Feature = () => {
         });
             
     }
-    return <div><section className="bg-white dark:bg-gray-900 p-8 ">
-    <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
-        <div className=" mb-8 lg:mb-16 justify-center">
-            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white text-center">Features</h2>
-            <p className="text-gray-500 sm:text-xl dark:text-gray-400 text-center text-justify ">Highlights the unique features of ResuMaven, such as ATS-friendly templates, customization options, cloud saving, and multilingual support.
-
-</p>
-        </div>
-        <div className="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
-            {features.map((feature) => (
-                <div key={feature.id} className="flex flex-col items-center justify-center text-center">
-                    <img src={feature.icon} alt={feature.name} className="w-10 h-10 mb-4" />
-                    <h3 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white justify-center">{feature.name}</h3>
-                    <p className="font-light text-gray-500 dark:text-gray-40 text-center text-justify">{feature.description}</p>
-                  
+    return <div><section className="bg-white  p-8 ">
+       <h2 className="text-4xl text-blue-400 font-bold text-center mb-3 ">What we offer ?</h2>  
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-12">
+        {features.map((feature) => (
+            <div 
+                key={feature.id} 
+                className="bg-white rounded-lg shadow-lg p-8 transform transition duration-500 hover:scale-105"
+            >
+                <div className="flex items-center justify-center mb-4">
+                    <img 
+                        src={feature.icon} 
+                        alt={feature.name} 
+                        className="w-12 h-12 animate-bounce" 
+                    />
+                    <h3 className="text-2xl font-bold tracking-tight text-black dark:text-black ml-4">
+                        {feature.name}
+                    </h3>
                 </div>
-            ))}
-        </div>
+                <p className="font-light text-black dark:text-black text-justify">
+                    {feature.description}
+                </p>
+            </div>
+        ))}
     </div>
   </section></div>
 }

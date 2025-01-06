@@ -26,7 +26,7 @@ interface Fields {
 const BuildForm = () => {
   type FormFields = "image" | "fullname" | "position" | "date_of_birth"|"nationality"| "email" | "phone" | "address" | "headline" | "website" | "summary" | "skills" | "language" | "education" | "experience" | "projects" | "hobbies"| "company_name" | "manager_name" | "company_address" | "company_country" | "subject";
 
-  const [formData, setFormData] = useState<Record<FormFields, string | string[] | number | boolean | any>>({
+  const [formData, setFormData] = useState<Record<FormFields, string | string[] | number | boolean | any | any[] >>({
     image: "",
     fullname: "",
     position: "",
@@ -73,29 +73,14 @@ const BuildForm = () => {
 
 
   });
-  const [image , setImage] = useState([]);
-  const fetchImage = async () => {
-  
-    const response = await axios.get(`${API_URL}/api/template`);
-  
-    setImage(response.data);
-  
-  
-  
-  }
-  useEffect(() => {
-    fetchImage();
-  }, []);
+
   
   
 
-  
-  const [educations, setEducations] = useState<any[]>([
-  ]);  // const [awards, setAwards] = useState<any[]>([""]);
+ // const [awards, setAwards] = useState<any[]>([""]);
   // const [certifications, setCertifications] = useState<any[]>([""]);
   // const [references, setReferences] = useState<any[]>([""]);
   // const [hobbies, setHobbies] = useState<any[]>([""]);
-  const [projects, setProjects] = useState<any[]>([]);
   const [selectedTemplate, setSelectedTemplate] = useState("template1");
   const [zoomLevel, setZoomLevel] = useState(100);
 const [fields , setFields] = useState<Fields[]>([]);
@@ -148,11 +133,11 @@ const [fields , setFields] = useState<Fields[]>([]);
   const templates = useMemo(() => {
   if (viewType === "resume") {
     return [
-      { id: "template1", component: <ResumeTemplate1 {...formData} />, name: "Professional" },
-      { id: "template2", component: <ResumeTemplate2 {...formData} />, name: "Chrono" },
-      { id: "template3", component: <ResumeTemplate3 {...formData} />, name: "Elegant" },
-      { id: "template4", component: <ResumeTemplate4 {...formData} />, name: "Circular" },
-      { id: "template5", component: <ResumeTemplate5 {...formData} />, name: "Template 5" },
+      { id: "template1", image: "https://d.novoresume.com/images/doc/skill-based-resume-template.png", component: <ResumeTemplate1 {...formData} />, name: "Professional" },
+      { id: "template2", image: "http://127.0.0.1:8000/media/hero_section/1131w-pPAKwLoiobE.webp", component: <ResumeTemplate2 {...formData} />, name: "Chrono" },
+      { id: "template3", image: "https://static.resumecoach.com/assets/templates/thumbnails/en/withPhoto/munich-736x1041.webp", component: <ResumeTemplate3 {...formData} />, name: "Elegant" },
+      { id: "template4", image: "https://preview.redd.it/whats-the-best-type-of-resume-template-for-the-modern-day-v0-ks0pvr8k6vza1.jpg?width=726&format=pjpg&auto=webp&s=728870a354375289a4d739110176d25cee127c18", component: <ResumeTemplate4 {...formData} />, name: "Circular" },
+      { id: "template5", image: "https://www.theladders.com/wp-content/uploads/znx9yd6didn5eqz5np5g-724x1024.png", component: <ResumeTemplate5 {...formData} />, name: "Template 5" },
     ];
   } else if (viewType === "cover") {
     return [
@@ -215,10 +200,6 @@ const inputRef = useRef<HTMLInputElement>(null);
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSkillsChange = (selectedOptions: any) => {
-    const skills = selectedOptions ? selectedOptions.map((option: any) => option.value) : [];
-    setFormData((prev) => ({ ...prev, skills }));
-  };
 
   const handleHobbiesChange = (selectedOptions: any) => {
     const hobbies = selectedOptions ? selectedOptions.map((option: any) => option.value) : [];
@@ -299,16 +280,38 @@ const inputRef = useRef<HTMLInputElement>(null);
 
 
 
-  const removeEducation = (index: number) => setEducations(educations.filter((_, i) => i !== index));
-
-  const addProject = () => setProjects([
-    ...projects,
-  ]);
-  const removeProject = (index: number) => setProjects(projects.filter((_, i) => i !== index));
-
-console.log(formData);
+  const removeEducation = (index: number) => setFormData((prev) => ({
+    ...prev,
+    education: prev.education.filter((_: any, i: number) => i !== index),
+  }));
 
 
+  const addProject = () => {
+    setFormData((prev) => ({
+      ...prev,
+      projects: [
+        ...prev.projects,
+        {
+          title: "",
+          description: "",
+          link: "",
+        }
+      ]
+    }))
+  }
+
+  const removeProject = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      projects: prev.projects.filter((_: any, i: number) => i !== index),
+    }));
+  };
+
+
+const handleSkillsChange = (selectedOptions: any) => {
+  const updateSkills = selectedOptions ? selectedOptions.map((option: any) => option.value) : [];
+  setFormData((prev) => ({ ...prev, skills: updateSkills }));
+};
 
 
   return (
@@ -547,22 +550,37 @@ console.log(formData);
             </div>
           </summary>
           <div className="mt-4">
-            <Select
-              name="skills"
-              isMulti
-              value={(formData.skills as string[]).map(skill => ({ value: skill, label: skill }))}
-              onChange={handleSkillsChange}
-              options={[
-                { value: "JavaScript", label: "JavaScript" },
-                { value: "React", label: "React" },
-                { value: "TypeScript", label: "TypeScript" },
-                { value: "Node.js", label: "Node.js" },
-                { value: "CSS", label: "CSS" },
-                { value: "HTML", label: "HTML" },
-              ]}
-              className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+      <input
+        type="text"
+        className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Enter a skill (e.g. React, JavaScript, etc.)"
+        value={formData.skills}
+        onChange={(e) => setFormData((prev) => ({ ...prev, skills: e.target.value }))}
+        onKeyPress={(e) => {
+          if (e.key === "Enter" && formData.skills.trim() !== "") {
+            setFormData((prev) => ({
+              ...prev,
+              skills: [...prev.skills, formData.skills.trim()],
+              newSkill: "",
+            }));
+          }
+        }}
+      />
+      <Select
+        name="skills"
+        isMulti
+        isClearable
+        value={formData.skills.map((skill: any) => ({ value: skill, label: skill }))}
+        onChange={handleSkillsChange}
+        options={[
+          { value: 'React', label: 'React' },
+          { value: 'JavaScript', label: 'JavaScript' },
+          { value: 'TypeScript', label: 'TypeScript' },
+          { value: 'CSS', label: 'CSS' },
+        ]}
+        className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 mt-2"
+      />
+    </div>
         </details>
         <details className="bg-white shadow-md p-4 rounded mt-4 animate-fade-in" open>
           <summary className="text-lg font-bold border-b pb-2 flex items-center justify-between">
@@ -849,38 +867,43 @@ console.log(formData);
 
         {/* Template Selection */}
         <div className="templateview overflow-x-scroll">
-          <h1 className=" text-xl font-sans text-gray-800   text-center mb-2 justify-center mt-2">Select a Template</h1>
+          <h1 className="text-xl font-sans text-gray-800 text-center mb-2 justify-center mt-2">Select a Template</h1>
           <Slider {...settings} className="w-full h-full p-10 overflow-hidden">
-            {templates.map((template) => (
-              <div
-                key={template.id}
-                className={`items-center cursor-pointer p-4 shadow-md rounded-md border ${selectedTemplate === template.id ? "" : "border"
-                  }`}
-                onClick={() => setSelectedTemplate(template.id)}
-              >
+            {templates
+              .filter((template, index, self) =>
+                index === self.findIndex((t) => t.id === template.id)
+              )
+              .map((template) => (
                 <div
-                  className="shadow-md bg-white rounded-md overflow-hidden transform hover:scale-105 transition-transform duration-300"
-                  style={{
-                    aspectRatio: "8.5 / 11",
-                  }}
+                  key={template.id}
+                  className={`items-center cursor-pointer p-4 shadow-md rounded-md border ${
+                    selectedTemplate === template.id ? "" : "border"
+                  }`}
+                  onClick={() => setSelectedTemplate(template.id)}
                 >
-                  <div className="mb-4">
-                    <h3 className="text-xl font-sans text-gray-800 text-center mb-2 mt-2">
-                      {template.name}
-                    </h3>
+                  <div
+                    className="shadow-md bg-white rounded-md overflow-hidden transform hover:scale-105 transition-transform duration-300"
+                    style={{
+                      aspectRatio: "8.5 / 11",
+                    }}
+                  >
+                    <div className="mb-4">
+                      <h3 className="text-xl font-sans text-gray-800 text-center mb-2 mt-2">
+                        {template.name}
+                      </h3>
+                    </div>
+                    {template.image ? (
+                <img
+                  src={template.image}
+                  alt={template.name}
+                  className="w-full h-auto mb-4"
+                />
+              ) : (
+                <p className="text-center text-gray-500">No Image Available</p>
+              )}
                   </div>
-                  {image.map((image: any) => (
-                    <img
-                      key={image.id}
-                      src={image.image}
-                      alt={image.name}
-                      className="w-full h-auto mb-4"
-                    />
-                  ))}
-
                 </div>
-              </div>
-            ))}
+              ))}
           </Slider>
         </div>
 

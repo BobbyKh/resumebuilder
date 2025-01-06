@@ -51,8 +51,8 @@ const DocumentCategory = () => {
               data-aos="zoom-in"
             >
               <div className="text-center p-12">
-                <p className="text-3xl lg:text-2xl xl:text-3xl pb-4 text-black font-bold">
-                  {plan.name}
+                <p className=" text-3xl lg:text-2xl xl:text-3xl pb-4 text-black font-sans font-semibold">
+                  {plan.name.toUpperCase()}
                 </p>
                 <div className="flex justify-center items-center">
                   <span className="font-normal text-xl inline-block align-text-middle text-blue-600">
@@ -82,7 +82,7 @@ const DocumentCategory = () => {
                     </li>
                   )) : null}
                 </ul>
-                <Link to={`/category/${plan.id}`}>
+                <Link to={`/${plan.name}/editor/`}>
                   <button
                     type="button"
                     className="w-full text-center text-lg text-white mt-8 p-3 rounded-lg border-2 border-white shadow-[0_0_10px_#1e3a8a] transition hover:text-white hover:shadow-[0_0_15px_#1e3a8a] hover:visible"
