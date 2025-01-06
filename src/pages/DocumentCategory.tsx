@@ -85,7 +85,7 @@ const DocumentCategory = () => {
                 <Link to={`/category/${plan.id}`}>
                   <button
                     type="button"
-                    className="w-full text-center text-lg text-white mt-8 p-3 rounded-lg border-2 border-white shadow-[0_0_10px_#1e3a8a] transition hover:text-white hover:shadow-[0_0_15px_#1e3a8a] hover:visible text-white"
+                    className="w-full text-center text-lg text-white mt-8 p-3 rounded-lg border-2 border-white shadow-[0_0_10px_#1e3a8a] transition hover:text-white hover:shadow-[0_0_15px_#1e3a8a] hover:visible"
                     style={{ visibility: "visible" }}
                     data-aos="flip-up"
                   >

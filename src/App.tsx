@@ -25,7 +25,6 @@ import DocumentCategory from "./pages/DocumentCategory";
 import GenerateResume from "./resume/GenerateResume";
 import Loader from "./components/Loader";
 import Faq from "./pages/Faq";
-import ResumeEditor from "./resume/ResumeEditor";
 import AuthPage  from "./auth/AuthPage";
 import { useAuthentication } from "./auth/Auth";
 import RedirectGoogleAuth from "./auth/GoogleRedirectHandler";

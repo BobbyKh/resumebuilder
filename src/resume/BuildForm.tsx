@@ -14,6 +14,7 @@ import API_URL from "../api/Api";
 import axios from "axios";
 import { CoverLetterTemplate1, CoverLetterTemplate2, CoverLetterTemplate3, CoverLetterTemplate4, CoverLetterTemplate5 } from "../templatedesign/CoverTemplateDesign";
 import { useLocation } from "react-router-dom";
+import { BioDataTemplate1, BioDataTemplate2, BioDataTemplate3, BioDataTemplate4, BioDataTemplate5 } from "../templatedesign/BioDataDesign";
 interface Fields {
     label : string;
     type : string;
@@ -23,15 +24,17 @@ interface Fields {
 }
 
 const BuildForm = () => {
-  type FormFields = "image" | "fullname" | "position" | "email" | "phone" | "address" | "headline" | "website" | "summary" | "skills" | "language" | "education" | "experience" | "projects" | "hobbies"| "company_name" | "manager_name" | "company_address" | "company_country" | "subject";
+  type FormFields = "image" | "fullname" | "position" | "date_of_birth"|"nationality"| "email" | "phone" | "address" | "headline" | "website" | "summary" | "skills" | "language" | "education" | "experience" | "projects" | "hobbies"| "company_name" | "manager_name" | "company_address" | "company_country" | "subject";
 
   const [formData, setFormData] = useState<Record<FormFields, string | string[] | number | boolean | any>>({
     image: "",
     fullname: "",
     position: "",
     email: "",
+    nationality: "",
     phone: "",
     address: "",
+    date_of_birth: "",
     headline: "",
     website: "",
     summary: "",
@@ -159,7 +162,20 @@ const [fields , setFields] = useState<Fields[]>([]);
       { id: "template4", component: <CoverLetterTemplate4 {...formData} />, name: "Template 4" },
       { id: "template5", component: <CoverLetterTemplate5 {...formData} />, name: "Template 5" },
     ];
-  } return [];
+
+  } else if (viewType === "biodata") {
+    return [
+      { id: "template1", component: <BioDataTemplate1 {...formData} />, name: "Template 1" },
+      { id: "template2", component: <BioDataTemplate2 {...formData} />, name: "Professional" },
+      {id : "template3", component: <BioDataTemplate3 {...formData} />, name: "Colorful" },
+      {id : "template4", component: <BioDataTemplate4 {...formData} />, name: "Pretty" },
+      {id : "template5", component: <BioDataTemplate5 {...formData} />, name: "Elegant" },
+      
+    ]
+  } 
+  
+  
+  return [];
 }, [viewType, formData]);
 
   
@@ -402,7 +418,9 @@ console.log(formData);
               { label: "Job Position", name: "position", type: "text", placeholder: "e.g. Software Engineer" },
               { label: "Email", name: "email", type: "email", placeholder: "e.g. johndoe@example.com" },
               { label: "Phone", name: "phone", type: "tel", placeholder: "e.g. 123-456-7890" },
+              {label:"date_of_birth",name:"date_of_birth",type:"date",placeholder:"e.g. 1990-01-01"},
               { label: "Address", name: "address", type: "text", placeholder: "e.g. 123 Main St, Anytown, USA" },
+              {label:"Nationality",name:"nationality",type:"text",placeholder:"e.g. USA"},
               { label: "Website", name: "website", type: "url", placeholder: "e.g. https://example.com" },
               {label:"To Company",name:"company_name",type:"text",placeholder:"e.g. Acme Inc."},
               {label: "Company Address" ,name:"company_address",type:"text",placeholder:"e.g. 123 Main St, Anytown, USA"},
@@ -811,6 +829,16 @@ console.log(formData);
       {selectedTemplate === "template4" && <ResumeTemplate4 {...formData} />}
       {selectedTemplate === "template5" && <ResumeTemplate5 {...formData} />}
     </>
+  )}
+  {viewType === "biodata" && (
+    <>
+    {selectedTemplate === "template1" && <BioDataTemplate1 {...formData} />}
+    {selectedTemplate === "template2" && <BioDataTemplate2 {...formData} />}
+    {selectedTemplate === "template3" && <BioDataTemplate3 {...formData} />}
+    {selectedTemplate === "template4" && <BioDataTemplate4 {...formData} />}
+    {selectedTemplate === "template5" && <BioDataTemplate5 {...formData} />}
+    </>
+    
   )}
 </div>
 
