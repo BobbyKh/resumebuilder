@@ -1,5 +1,5 @@
-import AOS from "aos";
-import "aos/dist/aos.css";
+// import AOS from "aos";
+// import "aos/dist/aos.css";
 import Review from "../resume/Review";
 import Pricing from "./Pricing";
 import Faq from "./Faq";
@@ -51,13 +51,13 @@ const Landing = () => {
       });
   }, []);
 
-  useEffect(() => {
-    AOS.init({
-      easing: "ease-in-out",
-      duration: 1500,
-      once: false,
-    });
-  }, []);
+  // useEffect(() => {
+  //   AOS.init({
+  //     easing: "ease-in-out",
+  //     duration: 1500,
+  //     once: false,
+  //   });
+  // }, []);
 
   return (
     <>

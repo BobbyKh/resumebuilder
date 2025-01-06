@@ -1,6 +1,5 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Select from "react-select";
-import { ResumeTemplate1, ResumeTemplate2, ResumeTemplate3, ResumeTemplate4, ResumeTemplate5, } from "../templatedesign/Design";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -13,7 +12,7 @@ import html2canvas from "html2canvas";
 import API_URL from "../api/Api";
 import axios from "axios";
 import { CoverLetterTemplate1, CoverLetterTemplate2, CoverLetterTemplate3, CoverLetterTemplate4, CoverLetterTemplate5 } from "../templatedesign/CoverTemplateDesign";
-import { useLocation } from "react-router-dom";
+
 interface Fields {
     label : string;
     type : string;
@@ -23,7 +22,7 @@ interface Fields {
 }
 
 const BuildForm = () => {
-  type FormFields = "image" | "fullname" | "position" | "email" | "phone" | "address" | "headline" | "website" | "summary" | "skills" | "language" | "education" | "experience" | "projects" | "hobbies"| "company_name" | "manager_name" | "company_address" | "company_country" | "subject";
+  type FormFields = "image" | "fullname" | "position" | "email" | "phone" | "address" | "headline" | "website" | "summary" | "skills" | "language" | "education" | "experience" | "projects" | "hobbies";
 
   const [formData, setFormData] = useState<Record<FormFields, string | string[] | number | boolean | any>>({
     image: "",
@@ -35,12 +34,6 @@ const BuildForm = () => {
     headline: "",
     website: "",
     summary: "",
-    company_name: "",
-    manager_name: "",
-    company_address: "",
-    company_country: "",
-    subject: "",
-
     skills: [],
     education: [{
       degree: "",
@@ -138,32 +131,13 @@ const [fields , setFields] = useState<Fields[]>([]);
       });
     }
   };
-  const location = useLocation(); // Get the current location
-  const pathSegments = location.pathname.split("/"); // Split the path into segments
-  const viewType = pathSegments[1]; // G
-  console.log('viewType:', viewType);
-  const templates = useMemo(() => {
-  if (viewType === "resume") {
-    return [
-      { id: "template1", component: <ResumeTemplate1 {...formData} />, name: "Professional" },
-      { id: "template2", component: <ResumeTemplate2 {...formData} />, name: "Chrono" },
-      { id: "template3", component: <ResumeTemplate3 {...formData} />, name: "Elegant" },
-      { id: "template4", component: <ResumeTemplate4 {...formData} />, name: "Circular" },
-      { id: "template5", component: <ResumeTemplate5 {...formData} />, name: "Template 5" },
-    ];
-  } else if (viewType === "cover") {
-    return [
-      { id: "template1", component: <CoverLetterTemplate1 {...formData} />, name: "Template 1" },
-      { id: "template2", component: <CoverLetterTemplate2 {...formData} />, name: "Template 2" },
-      { id: "template3", component: <CoverLetterTemplate1 {...formData} />, name: "Template 3" },
-      { id: "template4", component: <CoverLetterTemplate1 {...formData} />, name: "Template 4" },
-      { id: "template5", component: <CoverLetterTemplate1 {...formData} />, name: "Template 5" },
-    ];
-  } return [];
-}, [viewType, formData]);
-
-  
- // Expecting 'view' parameter with values 'resume', 'cover', or 'biodata'
+  const templates = [
+    { id: "template1", component: <CoverLetterTemplate1 {...formData} />, name: "Professional" },
+    { id: "template2", component: <CoverLetterTemplate2 {...formData} />, name: "Chrono" },
+    { id: "template3", component: <CoverLetterTemplate2 {...formData} />, name: "Elegant" },
+    { id: "template4", component: <CoverLetterTemplate3 {...formData} />, name: "Circular" },
+    { id: "template5", component: <CoverLetterTemplate5 {...formData} />, name: "Template 5" }, // Add more templates as needed
+  ];
   const settings = {
     dots: true,
     infinite: false,
@@ -404,11 +378,6 @@ console.log(formData);
               { label: "Phone", name: "phone", type: "tel", placeholder: "e.g. 123-456-7890" },
               { label: "Address", name: "address", type: "text", placeholder: "e.g. 123 Main St, Anytown, USA" },
               { label: "Website", name: "website", type: "url", placeholder: "e.g. https://example.com" },
-              {label:"To Company",name:"company_name",type:"text",placeholder:"e.g. Acme Inc."},
-              {label: "Company Address" ,name:"company_address",type:"text",placeholder:"e.g. 123 Main St, Anytown, USA"},
-              {label: "Company Country" , name:"company_country",type:"text",placeholder:"e.g. USA"},
-              {label: "Subject", name:"subject",type:"text",placeholder:"e.g. your letter subject"},
-              
             ].map((field) => (
               <div className="mb-4" key={field.name}>
                 <label className="block text-sm font-medium mb-1 text-gray-700">{field.label}</label>
@@ -793,24 +762,16 @@ console.log(formData);
 
               {/* Render Selected Template */}
               <div className="overflow-auto">
-  {viewType === "cover" && (
+  {selectedTemplate === "template1" && (
     <>
-      {selectedTemplate === "template1" && <CoverLetterTemplate1 {...formData} />}
-      {selectedTemplate === "template2" && <CoverLetterTemplate2 {...formData} />}
-      {selectedTemplate === "template3" && <CoverLetterTemplate3 {...formData} />}
-      {selectedTemplate === "template4" && <CoverLetterTemplate4 {...formData} />}
-      {selectedTemplate === "template5" && <CoverLetterTemplate5 {...formData} />}
+      <CoverLetterTemplate1 {...formData} />
+      {/* <ResumeTemplate1 {...formData} /> */}
     </>
   )}
-  {viewType === "resume" && (
-    <>
-      {selectedTemplate === "template1" && <ResumeTemplate1 {...formData} />}
-      {selectedTemplate === "template2" && <ResumeTemplate2 {...formData} />}
-      {selectedTemplate === "template3" && <ResumeTemplate3 {...formData} />}
-      {selectedTemplate === "template4" && <ResumeTemplate4 {...formData} />}
-      {selectedTemplate === "template5" && <ResumeTemplate5 {...formData} />}
-    </>
-  )}
+  {selectedTemplate === "template2" && <CoverLetterTemplate1 {...formData} />}
+  {selectedTemplate === "template3" && <CoverLetterTemplate2 {...formData} />}
+  {selectedTemplate === "template4" && <CoverLetterTemplate3 {...formData} />}
+  {selectedTemplate === "template5" && <CoverLetterTemplate4 {...formData} />}
 </div>
 
             </div>

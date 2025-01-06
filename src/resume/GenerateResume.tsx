@@ -98,7 +98,7 @@ const htmlToPdf = (html: string) => {
                     data-aos="fade-up"
                     data-aos-delay="100"
                 >
-                    <Link to={`/resume/editor/${templateId}`}>
+                    <Link to={`/cover/editor/${templateId}`}>
                         <div className="flex justify-end mb-4">
                             <button
                                 className="animate-bounce bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
