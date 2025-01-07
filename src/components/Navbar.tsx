@@ -152,7 +152,7 @@ const Navbar = (): JSX.Element => {
           </div>
           
 
-       <div className="relative group">
+       {/* <div className="relative group">
         {/* Trigger Button */}
         <Link
           to="/resume-templates"
@@ -249,7 +249,7 @@ const Navbar = (): JSX.Element => {
             </Link>
           </div>
         </div>
-      </div>
+      {/* </div>  */}
 
 
 
