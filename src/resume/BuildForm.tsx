@@ -15,6 +15,7 @@ import axios from "axios";
 import { CoverLetterTemplate1, CoverLetterTemplate2, CoverLetterTemplate3, CoverLetterTemplate4, CoverLetterTemplate5 } from "../templatedesign/CoverTemplateDesign";
 import { useLocation } from "react-router-dom";
 import { BioDataTemplate1, BioDataTemplate2, BioDataTemplate3, BioDataTemplate4, BioDataTemplate5 } from "../templatedesign/BioDataDesign";
+import { Label } from "flowbite-react";
 interface Fields {
     label : string;
     type : string;
@@ -24,7 +25,7 @@ interface Fields {
 }
 
 const BuildForm = () => {
-  type FormFields = "image" | "fullname" | "position" | "date_of_birth"|"nationality"| "email" | "phone" | "address" | "headline" | "website" | "summary" | "skills" | "language" | "education" | "experience" | "projects" | "hobbies"| "company_name" | "manager_name" | "company_address" | "company_country" | "subject";
+  type FormFields = "image" | "fullname" | "position" | "date_of_birth"|"nationality"| "email" | "phone" | "address" | "headline" | "website" | "summary" | "skills" | "language" | "education" | "experience" | "projects" | "hobbies"| "company_name" | "manager_name" | "company_address" | "company_country" | "subject" | "marital_status" | "declaration" | "signature" | "father_name" | "religion";
 
   const [formData, setFormData] = useState<Record<FormFields, string | string[] | number | boolean | any | any[] >>({
     image: "",
@@ -43,6 +44,11 @@ const BuildForm = () => {
     company_address: "",
     company_country: "",
     subject: "",
+    marital_status: "",
+    declaration: "",
+    signature: "",
+    father_name:"",
+    religion: "",
 
     skills: [],
     education: [{
@@ -429,6 +435,11 @@ const handleSkillsChange = (selectedOptions: any) => {
               {label: "Company Address" ,name:"company_address",type:"text",placeholder:"e.g. 123 Main St, Anytown, USA"},
               {label: "Company Country" , name:"company_country",type:"text",placeholder:"e.g. USA"},
               {label: "Subject", name:"subject",type:"text",placeholder:"e.g. your letter subject"},
+              {label:"Martial Status",name:"marital_status",type:"text",placeholder:"e.g. Single"},
+              {label:"Declaration",name:"declaration",type:"text",placeholder:"e.g. I declare that the above information is true and accurate to the best of my knowledge."},
+              {label:"Signature",name:"signature",type:"text",placeholder:"e.g. John Doe"},
+              {label:"Father's Name",name:"father_name",type:"text",placeholder:"e.g. Senior John Doe"},
+              {label:"Religion",name:"religion",type:"text",placeholder:"e.g. Hindu"},
               
             ].map((field) => (
               <div className="mb-4" key={field.name}>
