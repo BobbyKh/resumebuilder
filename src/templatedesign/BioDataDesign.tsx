@@ -222,9 +222,9 @@ const BioDataTemplate2 = (formData: BioDataTemplateProps) => {
               >
                 <h3 className="text-xl font-bold text-gray-800">{item.company}</h3>
                 <p className="text-gray-600">{item.position}</p>
-                <p className="text-gray-500 text-sm">
-                  {item.from_date} - {item.to_date}
-                </p>
+                <p className="mb-2">
+                    {item.from_date} - {item.to_date} ({parseInt(item.to_date) - parseInt(item.from_date)} years)
+                  </p>
               </li>
             ))}
           </ul>
