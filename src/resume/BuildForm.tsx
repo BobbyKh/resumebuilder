@@ -101,7 +101,7 @@ const [fields , setFields] = useState<Fields[]>([]);
         useCORS: true,
         logging: true,
         allowTaint: true,
-        scale: 10,
+        scale: 4,
       }).then((canvas) => {
         const imgData = canvas.toDataURL("image/png", 1.0);
         const pdf = new jsPDF("p", "mm", "a4");
