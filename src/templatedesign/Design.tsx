@@ -380,9 +380,7 @@ const ResumeTemplate3 = (formData: any): JSX.Element => {
                   <h3 className="font-sans">{item.degree}</h3>
                   <p className="text-gray-600">{item.from_date} - {item.to_date}</p>
                   <ul className="text-gray-700  pl-5 mt-2 space-y-1">
-                      {item.description.split('\n').map((line: string, index: number) => (
-                        <li key={index}>{line}</li>
-                      ))}
+                    <li>{item.description}</li>
                     </ul>
                 </div>
               ))}

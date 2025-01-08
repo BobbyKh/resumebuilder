@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import Select from "react-select";
 import { ResumeTemplate1, ResumeTemplate2, ResumeTemplate3, ResumeTemplate4, ResumeTemplate5, } from "../templatedesign/Design";
 import Slider from "react-slick";
@@ -10,23 +10,21 @@ import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { ChevronDownIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
-import API_URL from "../api/Api";
-import axios from "axios";
 import { CoverLetterTemplate1, CoverLetterTemplate2, CoverLetterTemplate3, CoverLetterTemplate4, CoverLetterTemplate5 } from "../templatedesign/CoverTemplateDesign";
 import { useLocation } from "react-router-dom";
 import { BioDataTemplate1, BioDataTemplate2, BioDataTemplate3, BioDataTemplate4, BioDataTemplate5 } from "../templatedesign/BioDataDesign";
 interface Fields {
-    label : string;
-    type : string;
-    placeholder : string
-    name : string
+  label: string;
+  type: string;
+  placeholder: string
+  name: string
 
 }
 
 const BuildForm = () => {
-  type FormFields = "image" | "fullname" | "position" | "date_of_birth"|"nationality"| "email" | "phone" | "address" | "headline" | "website" | "summary" | "skills" | "language" | "education" | "experience" | "projects" | "hobbies"| "company_name" | "manager_name" | "company_address" | "company_country" | "subject";
+  type FormFields = "image" | "fullname" | "position" | "date_of_birth" | "nationality" | "email" | "phone" | "address" | "headline" | "website" | "summary" | "skills" | "language" | "education" | "experience" | "projects" | "hobbies" | "company_name" | "manager_name" | "company_address" | "company_country" | "subject";
 
-  const [formData, setFormData] = useState<Record<FormFields, string | string[] | number | boolean | any | any[] >>({
+  const [formData, setFormData] = useState<Record<FormFields, string | string[] | number | boolean | any | any[]>>({
     image: "",
     fullname: "",
     position: "",
@@ -74,16 +72,15 @@ const BuildForm = () => {
 
   });
 
-  
-  
 
- // const [awards, setAwards] = useState<any[]>([""]);
+
+
+  // const [awards, setAwards] = useState<any[]>([""]);
   // const [certifications, setCertifications] = useState<any[]>([""]);
   // const [references, setReferences] = useState<any[]>([""]);
   // const [hobbies, setHobbies] = useState<any[]>([""]);
   const [selectedTemplate, setSelectedTemplate] = useState("template1");
   const [zoomLevel, setZoomLevel] = useState(100);
-const [fields , setFields] = useState<Fields[]>([]);
   const handleZoomIn = () => {
     setZoomLevel((prevZoom) => Math.min(prevZoom + 10, 200)); // Max zoom level 200%
   };
@@ -121,7 +118,7 @@ const [fields , setFields] = useState<Fields[]>([]);
           pdf.link(linkX, linkY, linkWidth, linkHeight, link.href);
         });
 
-        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight, undefined, "FAST" );
+        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight, undefined, "FAST");
         pdf.save("resume.pdf");
       });
     }
@@ -131,40 +128,40 @@ const [fields , setFields] = useState<Fields[]>([]);
   const viewType = pathSegments[1]; // G
   console.log('viewType:', viewType);
   const templates = useMemo(() => {
-  if (viewType === "resume") {
-    return [
-      { id: "template1", image: "https://d.novoresume.com/images/doc/skill-based-resume-template.png", component: <ResumeTemplate1 {...formData} />, name: "Professional" },
-      { id: "template2", image: "http://127.0.0.1:8000/media/hero_section/1131w-pPAKwLoiobE.webp", component: <ResumeTemplate2 {...formData} />, name: "Chrono" },
-      { id: "template3", image: "https://static.resumecoach.com/assets/templates/thumbnails/en/withPhoto/munich-736x1041.webp", component: <ResumeTemplate3 {...formData} />, name: "Elegant" },
-      { id: "template4", image: "https://preview.redd.it/whats-the-best-type-of-resume-template-for-the-modern-day-v0-ks0pvr8k6vza1.jpg?width=726&format=pjpg&auto=webp&s=728870a354375289a4d739110176d25cee127c18", component: <ResumeTemplate4 {...formData} />, name: "Circular" },
-      { id: "template5", image: "https://www.theladders.com/wp-content/uploads/znx9yd6didn5eqz5np5g-724x1024.png", component: <ResumeTemplate5 {...formData} />, name: "Template 5" },
-    ];
-  } else if (viewType === "cover") {
-    return [
-      { id: "template1", component: <CoverLetterTemplate1 {...formData} />, name: "Template 1" },
-      { id: "template2", component: <CoverLetterTemplate2 {...formData} />, name: "Template 2" },
-      { id: "template3", component: <CoverLetterTemplate3 {...formData} />, name: "Template 3" },
-      { id: "template4", component: <CoverLetterTemplate4 {...formData} />, name: "Template 4" },
-      { id: "template5", component: <CoverLetterTemplate5 {...formData} />, name: "Template 5" },
-    ];
+    if (viewType === "resume") {
+      return [
+        { id: "template1", image: "https://d.novoresume.com/images/doc/skill-based-resume-template.png", component: <ResumeTemplate1 {...formData} />, name: "Professional" },
+        { id: "template2", image: "http://127.0.0.1:8000/media/hero_section/1131w-pPAKwLoiobE.webp", component: <ResumeTemplate2 {...formData} />, name: "Chrono" },
+        { id: "template3", image: "https://static.resumecoach.com/assets/templates/thumbnails/en/withPhoto/munich-736x1041.webp", component: <ResumeTemplate3 {...formData} />, name: "Elegant" },
+        { id: "template4", image: "https://preview.redd.it/whats-the-best-type-of-resume-template-for-the-modern-day-v0-ks0pvr8k6vza1.jpg?width=726&format=pjpg&auto=webp&s=728870a354375289a4d739110176d25cee127c18", component: <ResumeTemplate4 {...formData} />, name: "Circular" },
+        { id: "template5", image: "https://www.theladders.com/wp-content/uploads/znx9yd6didn5eqz5np5g-724x1024.png", component: <ResumeTemplate5 {...formData} />, name: "Template 5" },
+      ];
+    } else if (viewType === "cover") {
+      return [
+        { id: "template1", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGn4WfHHZGtdW_60gutDaclL32wVBCbyPtdw&s", component: <CoverLetterTemplate1 {...formData} />, name: "Template 1" },
+        { id: "template2", image:"https://marketplace.canva.com/EAFhHrjw0Qk/1/0/566w/canva-black-and-white-simple-classic-professional-cover-letter-rMilWI_ZZvw.jpg", component: <CoverLetterTemplate2 {...formData} />, name: "Template 2" },
+        { id: "template3", image:"https://www.my-resume-templates.com/wp-content/uploads/2024/01/job-application-cover-letter-example-2.jpg", component: <CoverLetterTemplate3 {...formData} />, name: "Template 3" },
+        { id: "template4", image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_0XcUY2fIeL_NtKVo7aicWUYPs2oTfXygyg&s",component: <CoverLetterTemplate4 {...formData} />, name: "Template 4" },
+        { id: "template5", image:"https://www.resume-now.com/sapp/uploads/2023/12/cover-letter-example-emergency-medical-technician.svg",component: <CoverLetterTemplate5 {...formData} />, name: "Template 5" },
+      ];
 
-  } else if (viewType === "biodata") {
-    return [
-      { id: "template1", component: <BioDataTemplate1 {...formData} />, name: "Template 1" },
-      { id: "template2", component: <BioDataTemplate2 {...formData} />, name: "Professional" },
-      {id : "template3", component: <BioDataTemplate3 {...formData} />, name: "Colorful" },
-      {id : "template4", component: <BioDataTemplate4 {...formData} />, name: "Pretty" },
-      {id : "template5", component: <BioDataTemplate5 {...formData} />, name: "Elegant" },
-      
-    ]
-  } 
-  
-  
-  return [];
-}, [viewType, formData]);
+    } else if (viewType === "biodata") {
+      return [
+        { id: "template1", component: <BioDataTemplate1 {...formData} />, name: "Template 1" },
+        { id: "template2", component: <BioDataTemplate2 {...formData} />, name: "Professional" },
+        { id: "template3", component: <BioDataTemplate3 {...formData} />, name: "Colorful" },
+        { id: "template4", component: <BioDataTemplate4 {...formData} />, name: "Pretty" },
+        { id: "template5", component: <BioDataTemplate5 {...formData} />, name: "Elegant" },
 
-  
- // Expecting 'view' parameter with values 'resume', 'cover', or 'biodata'
+      ]
+    }
+
+
+    return [];
+  }, [viewType, formData]);
+
+
+  // Expecting 'view' parameter with values 'resume', 'cover', or 'biodata'
   const settings = {
     dots: true,
     infinite: false,
@@ -192,7 +189,7 @@ const [fields , setFields] = useState<Fields[]>([]);
     ],
   };
 
-const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -229,18 +226,18 @@ const inputRef = useRef<HTMLInputElement>(null);
     });
   };
 
-  const handleProjectChange = (index: number, field: string, value: any ) => {
+  const handleProjectChange = (index: number, field: string, value: any) => {
     setFormData((prev) => {
       const updatedProjects = [...prev.projects];
       updatedProjects[index] = { ...updatedProjects[index], [field]: value };
       return { ...prev, projects: updatedProjects };
-      
+
     })
   };
 
 
 
-  const addEducation = () =>{
+  const addEducation = () => {
 
     setFormData((prev) => ({
       ...prev,
@@ -308,10 +305,10 @@ const inputRef = useRef<HTMLInputElement>(null);
   };
 
 
-const handleSkillsChange = (selectedOptions: any) => {
-  const updateSkills = selectedOptions ? selectedOptions.map((option: any) => option.value) : [];
-  setFormData((prev) => ({ ...prev, skills: updateSkills }));
-};
+  const handleSkillsChange = (selectedOptions: any) => {
+    const updateSkills = selectedOptions ? selectedOptions.map((option: any) => option.value) : [];
+    setFormData((prev) => ({ ...prev, skills: updateSkills }));
+  };
 
 
   return (
@@ -332,56 +329,57 @@ const handleSkillsChange = (selectedOptions: any) => {
           </div>
         </div>
         <details className="bg-white shadow-md p-4 rounded" open>
-          <summary className="text-xl font-semibold mb-3 border-b pb-2 flex items-center cursor-pointer">
+          <summary className="text-xl font-sans mb-3 border-b pb-2 flex items-center cursor-pointer">
             Personal Information
             <span className="ml-auto">
               <ChevronDownIcon className="h-6 w-6" />
             </span>
           </summary>
           <div className="w-full gap-4 mt-4 mb-">
-            <div className="w-full">
-            <div className="relative ">
-              <select className="block appearance-none w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500" defaultValue="Select an option" onChange={(e) => {
-                const value = e.target.value;
-                if (value === "1") {
-                  setFields([
-                    { label: "Title", name: "title", type: "text", placeholder: "e.g. John Doe" },
-                    { label: "Field", name: "field", type: "text", placeholder: "e.g. Software Engineer" },
-                  ]);
-                } else if (value === "2") {
-                  setFields([
-                    { label: "Title", name: "title", type: "text", placeholder: "e.g. John Doe" },
-                    { label: "Description", name: "description", type: "text", placeholder: "e.g. Software Engineer" },
-                  ]);
-                } else if (value === "3") {
-                  setFields([
-                    { label: "Multi-Select", name: "multiSelect", type: "text", placeholder: "e.g. Software Engineer" },
-                  ]);
-                } else if (value === "4") {
-                  setFields([
-                    { label: "Title", name: "title", type: "text", placeholder: "e.g. John Doe" },
-                    { label: "Field 1", name: "field1", type: "text", placeholder: "e.g. Software Engineer" },
-                    { label: "Field 2", name: "field2", type: "text", placeholder: "e.g. Software Engineer" },
-                  ]);
-                }
-              }}>
-                <option value="">Create Custom Field</option>
-                <option value="1">Title and Field</option>
-                <option value="2">Title and Description</option>
-                <option value="3">Multi-Select</option>
-                <option value="4">Title with Multi-Fields</option>
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+            {/* <div className="w-full">
+              <div className="relative ">
+                <select className="block appearance-none w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500" defaultValue="Select an option" onChange={(e) => {
+                  const value = e.target.value;
+                  if (value === "1") {
+                    setFields([
+                      { label: "Title", name: "title", type: "text", placeholder: "e.g. John Doe" },
+                      { label: "Field", name: "field", type: "text", placeholder: "e.g. Software Engineer" },
+                    ]);
+                  } else if (value === "2") {
+                    setFields([
+                      { label: "Title", name: "title", type: "text", placeholder: "e.g. John Doe" },
+                      { label: "Description", name: "description", type: "text", placeholder: "e.g. Software Engineer" },
+                    ]);
+                  } else if (value === "3") {
+                    setFields([
+                      { label: "Multi-Select", name: "multiSelect", type: "text", placeholder: "e.g. Software Engineer" },
+                    ]);
+                  } else if (value === "4") {
+                    setFields([
+                      { label: "Title", name: "title", type: "text", placeholder: "e.g. John Doe" },
+                      { label: "Field 1", name: "field1", type: "text", placeholder: "e.g. Software Engineer" },
+                      { label: "Field 2", name: "field2", type: "text", placeholder: "e.g. Software Engineer" },
+                    ]);
+                  }
+                }}>
+                  <option value="">Create Custom Field</option>
+                  <option value="1">Title and Field</option>
+                  <option value="2">Title and Description</option>
+                  <option value="3">Multi-Select</option>
+                  <option value="4">Title with Multi-Fields</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                  <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+                </div>
               </div>
-            </div>
-            {fields.map((field: { label: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; type: string | (string & {}) | undefined; name: string | undefined; placeholder: string | undefined; }, index: React.Key | null | undefined) => (
-              <div className="w-full" key={index}>
-                <label className="block text-sm font-medium text-gray-700">{field.label}</label>
-                <input type={field.type} name={field.name} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder={field.placeholder} />
-              </div>
-            ))}
-            </div>
+              {fields.map((field: { label: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; type: string | (string & {}) | undefined; name: string | undefined; placeholder: string | undefined; }, index: React.Key | null | undefined) => (
+                <div className="w-full" key={index}>
+                  <label className="block text-sm font-medium text-gray-700">{field.label}</label>
+                  <input type={field.type} name={field.name} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder={field.placeholder} />
+                </div>
+              ))}
+            </div> */}
+            {viewType!=="cover" && (
             <div className="mb-4">
               <label className="block text-sm font-medium mb-1 text-gray-700">Image</label>
               <div className="flex items-center">
@@ -415,37 +413,53 @@ const handleSkillsChange = (selectedOptions: any) => {
                 )}
               </div>
             </div>
-            {[
-              { label: "HeadTitle", name: "headline", type: "text", placeholder: "e.g.Personal Information" },
-              { label: "Full Name", name: "fullname", type: "text", placeholder: "e.g. John Doe" },
-              { label: "Job Position", name: "position", type: "text", placeholder: "e.g. Software Engineer" },
-              { label: "Email", name: "email", type: "email", placeholder: "e.g. johndoe@example.com" },
-              { label: "Phone", name: "phone", type: "tel", placeholder: "e.g. 123-456-7890" },
-              {label:"date_of_birth",name:"date_of_birth",type:"date",placeholder:"e.g. 1990-01-01"},
-              { label: "Address", name: "address", type: "text", placeholder: "e.g. 123 Main St, Anytown, USA" },
-              {label:"Nationality",name:"nationality",type:"text",placeholder:"e.g. USA"},
-              { label: "Website", name: "website", type: "url", placeholder: "e.g. https://example.com" },
-              {label:"To Company",name:"company_name",type:"text",placeholder:"e.g. Acme Inc."},
-              {label: "Company Address" ,name:"company_address",type:"text",placeholder:"e.g. 123 Main St, Anytown, USA"},
-              {label: "Company Country" , name:"company_country",type:"text",placeholder:"e.g. USA"},
-              {label: "Subject", name:"subject",type:"text",placeholder:"e.g. your letter subject"},
-              
-            ].map((field) => (
-              <div className="mb-4" key={field.name}>
-                <label className="block text-sm font-medium mb-1 text-gray-700">{field.label}</label>
-                <input
-                  value={formData[field.name as FormFields] as string}
-                  name={field.name}
-                  onChange={handleInputChange}
-                  className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  type={field.type}
-                  placeholder={field.placeholder}
-                />
-              </div>
-            ))}
-         
+            )}
+            {viewType === 'cover' ? (
+              [{ label: "Full Name", name: "fullname", type: "text", placeholder: "e.g. John Doe" },
+              { label: "To Company", name: "company_name", type: "text", placeholder: "e.g. Acme Inc." },
+              { label: "Company Address", name: "company_address", type: "text", placeholder: "e.g. 123 Main St, Anytown, USA" },
+              { label: "Company Country", name: "company_country", type: "text", placeholder: "e.g. USA" },
+              { label: "Subject", name: "subject", type: "text", placeholder: "e.g. your letter subject" },
+              ].map((field) => (
+                <div className="mb-4" key={field.name}>
+                  <label className="block text-sm font-medium mb-1 text-gray-700">{field.label}</label>
+                  <input
+                    value={formData[field.name as FormFields] as string}
+                    name={field.name}
+                    onChange={handleInputChange}
+                    className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    type={field.type}
+                    placeholder={field.placeholder}
+                  />
+                </div>
+              ))
+            ) : (
+              [
+                { label: "HeadTitle", name: "headline", type: "text", placeholder: "e.g.Personal Information" },
+                { label: "Full Name", name: "fullname", type: "text", placeholder: "e.g. John Doe" },
+                { label: "Job Position", name: "position", type: "text", placeholder: "e.g. Software Engineer" },
+                { label: "Email", name: "email", type: "email", placeholder: "e.g. johndoe@example.com" },
+                { label: "Phone", name: "phone", type: "tel", placeholder: "e.g. 123-456-7890" },
+                { label: "Date of Birth", name: "date_of_birth", type: "date", placeholder: "e.g. 1990-01-01" },
+                { label: "Address", name: "address", type: "text", placeholder: "e.g. 123 Main St, Anytown, USA" },
+                { label: "Nationality", name: "nationality", type: "text", placeholder: "e.g. USA" },
+                { label: "Website", name: "website", type: "url", placeholder: "e.g. https://example.com" },
+              ].map((field) => (
+                <div className="mb-4" key={field.name}>
+                  <label className="block text-sm font-medium mb-1 text-gray-700">{field.label}</label>
+                  <input
+                    value={formData[field.name as FormFields] as string}
+                    name={field.name}
+                    onChange={handleInputChange}
+                    className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    type={field.type}
+                    placeholder={field.placeholder}
+                  />
+                </div>
+              ))
+            )}
             <div className="mb-4">
-              <label className="block text-sm font-medium mb-1 text-gray-700">Summary</label>
+              <label className="block text-sm font-sans mb-1 text-gray-700">Summary</label>
               <textarea
                 name="summary"
                 value={formData.summary as string}
@@ -458,7 +472,7 @@ const handleSkillsChange = (selectedOptions: any) => {
           </div>
         </details>
         <details className="bg-white shadow-md p-4 rounded mt-4">
-          <summary className="flex items-center justify-between text-lg font-semibold border-b pb-2 cursor-pointer">
+          <summary className="flex items-center justify-between text-lg font-sans border-b pb-2 cursor-pointer">
             Education
             <div className="ml-auto flex space-x-2">
               <button onClick={() => addEducation()} className="p-1 rounded hover:bg-gray-200 border">
@@ -539,7 +553,7 @@ const handleSkillsChange = (selectedOptions: any) => {
           </div>
         </details>
         <details className="bg-white shadow-md p-4 rounded mt-4 " open>
-          <summary className="text-lg font-bold border-b pb-2 flex items-center">Skills
+          <summary className="text-lg font-sans border-b pb-2 flex items-center">Skills
             <div className="ml-auto flex space-x-2">
               <button className="p-1 rounded hover:bg-gray-200 border">
                 <PlusIcon className="h-6 w-6" />
@@ -550,40 +564,40 @@ const handleSkillsChange = (selectedOptions: any) => {
             </div>
           </summary>
           <div className="mt-4">
-      <input
-        type="text"
-        className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-        placeholder="Enter a skill (e.g. React, JavaScript, etc.)"
-        value={formData.skills}
-        onChange={(e) => setFormData((prev) => ({ ...prev, skills: e.target.value }))}
-        onKeyPress={(e) => {
-          if (e.key === "Enter" && formData.skills.trim() !== "") {
-            setFormData((prev) => ({
-              ...prev,
-              skills: [...prev.skills, formData.skills.trim()],
-              newSkill: "",
-            }));
-          }
-        }}
-      />
-      <Select
-        name="skills"
-        isMulti
-        isClearable
-        value={formData.skills.map((skill: any) => ({ value: skill, label: skill }))}
-        onChange={handleSkillsChange}
-        options={[
-          { value: 'React', label: 'React' },
-          { value: 'JavaScript', label: 'JavaScript' },
-          { value: 'TypeScript', label: 'TypeScript' },
-          { value: 'CSS', label: 'CSS' },
-        ]}
-        className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 mt-2"
-      />
-    </div>
+            <input
+              type="text"
+              className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter a skill (e.g. React, JavaScript, etc.)"
+              value={formData.skills}
+              onChange={(e) => setFormData((prev) => ({ ...prev, skills: e.target.value }))}
+              onKeyPress={(e) => {
+                if (e.key === "Enter" && formData.skills.trim() !== "") {
+                  setFormData((prev) => ({
+                    ...prev,
+                    skills: [...prev.skills, formData.skills.trim()],
+                    newSkill: "",
+                  }));
+                }
+              }}
+            />
+            <Select
+              name="skills"
+              isMulti
+              isClearable
+              value={formData.skills.map((skill: any) => ({ value: skill, label: skill }))}
+              onChange={handleSkillsChange}
+              options={[
+                { value: 'React', label: 'React' },
+                { value: 'JavaScript', label: 'JavaScript' },
+                { value: 'TypeScript', label: 'TypeScript' },
+                { value: 'CSS', label: 'CSS' },
+              ]}
+              className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 mt-2"
+            />
+          </div>
         </details>
         <details className="bg-white shadow-md p-4 rounded mt-4 animate-fade-in" open>
-          <summary className="text-lg font-bold border-b pb-2 flex items-center justify-between">
+          <summary className="text-lg font-sans border-b pb-2 flex items-center justify-between">
             Experience
             <div className="ml-auto flex space-x-2">
               <button onClick={addExperience} className="p-1 rounded hover:bg-gray-200 border">
@@ -595,7 +609,7 @@ const handleSkillsChange = (selectedOptions: any) => {
             </div>
           </summary>
           <div className="mt-4">
-            {formData.experience.map((experience:any, index:any) => (
+            {formData.experience.map((experience: any, index: any) => (
               <div key={index} className="mb-4 p-4 border rounded-lg bg-gray-50 shadow-sm animate-fade-in">
                 <div className="mb-2">
                   <label className="block text-sm font-medium mb-1 text-gray-700">Company</label>
@@ -657,7 +671,7 @@ const handleSkillsChange = (selectedOptions: any) => {
           </div>
         </details>
         <details className="bg-white shadow-md p-4 rounded mt-4 animate-fade-in" open>
-          <summary className="text-lg font-bold border-b pb-2 flex items-center justify-between">
+          <summary className="text-lg font-sans border-b pb-2 flex items-center justify-between">
             Projects
             <div className="ml-auto flex space-x-2">
               <button onClick={addProject} className="p-1 rounded hover:bg-gray-200 border">
@@ -669,7 +683,7 @@ const handleSkillsChange = (selectedOptions: any) => {
             </div>
           </summary>
           <div className="mt-4">
-            {formData.projects.map((project:any, index:any) => (
+            {formData.projects.map((project: any, index: any) => (
               <div
                 key={index}
                 className="mb-4 p-4 border rounded-lg bg-gray-50 shadow-sm animate-fade-in"
@@ -681,7 +695,7 @@ const handleSkillsChange = (selectedOptions: any) => {
                   <input
                     value={project.name}
                     onChange={(e) =>
-                      handleProjectChange(index,"name", e.target.value)
+                      handleProjectChange(index, "name", e.target.value)
                     }
                     className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     type="text"
@@ -731,7 +745,7 @@ const handleSkillsChange = (selectedOptions: any) => {
         </details>
 
         <details className="bg-white shadow-md p-4 rounded mt-4 animate-fade-in" open>
-          <summary className="text-lg font-bold border-b pb-2 flex items-center justify-between">
+          <summary className="text-lg font-sans border-b pb-2 flex items-center justify-between">
             Languages
             <span className="ml-2 text-gray-500">
               <ChevronDownIcon className="h-6 w-6" />
@@ -757,7 +771,7 @@ const handleSkillsChange = (selectedOptions: any) => {
           </div>
         </details>
         <details className="bg-white shadow-md p-4 rounded mt-4 animate-fade-in" open>
-          <summary className="text-lg font-bold border-b pb-2 flex items-center justify-between">
+          <summary className="text-lg font-sans border-b pb-2 flex items-center justify-between">
             Hobbies
             <span className="ml-2 text-gray-500">
               <ChevronDownIcon className="h-6 w-6" />
@@ -819,10 +833,10 @@ const handleSkillsChange = (selectedOptions: any) => {
               className={`resume-preview ${selectedTemplate}`}
               style={{
                 transform: `scale(${zoomLevel / 100})`,
-                transformOrigin: "center center",
                 transition: "transform 0.2s ease-in-out",
                 cursor: "zoom-in",
                 overflow: "auto",
+                fontSize: "0.5",
 
               }}
             >
@@ -830,35 +844,35 @@ const handleSkillsChange = (selectedOptions: any) => {
 
               {/* Render Selected Template */}
               <div className="overflow-auto">
-  {viewType === "cover" && (
-    <>
-      {selectedTemplate === "template1" && <CoverLetterTemplate1 {...formData} />}
-      {selectedTemplate === "template2" && <CoverLetterTemplate2 {...formData} />}
-      {selectedTemplate === "template3" && <CoverLetterTemplate3 {...formData} />}
-      {selectedTemplate === "template4" && <CoverLetterTemplate4 {...formData} />}
-      {selectedTemplate === "template5" && <CoverLetterTemplate5 {...formData} />}
-    </>
-  )}
-  {viewType === "resume" && (
-    <>
-      {selectedTemplate === "template1" && <ResumeTemplate1 {...formData} />}
-      {selectedTemplate === "template2" && <ResumeTemplate2 {...formData} />}
-      {selectedTemplate === "template3" && <ResumeTemplate3 {...formData} />}
-      {selectedTemplate === "template4" && <ResumeTemplate4 {...formData} />}
-      {selectedTemplate === "template5" && <ResumeTemplate5 {...formData} />}
-    </>
-  )}
-  {viewType === "biodata" && (
-    <>
-    {selectedTemplate === "template1" && <BioDataTemplate1 {...formData} />}
-    {selectedTemplate === "template2" && <BioDataTemplate2 {...formData} />}
-    {selectedTemplate === "template3" && <BioDataTemplate3 {...formData} />}
-    {selectedTemplate === "template4" && <BioDataTemplate4 {...formData} />}
-    {selectedTemplate === "template5" && <BioDataTemplate5 {...formData} />}
-    </>
-    
-  )}
-</div>
+                {viewType === "cover" && (
+                  <>
+                    {selectedTemplate === "template1" && <CoverLetterTemplate1 {...formData} />}
+                    {selectedTemplate === "template2" && <CoverLetterTemplate2 {...formData} />}
+                    {selectedTemplate === "template3" && <CoverLetterTemplate3 {...formData} />}
+                    {selectedTemplate === "template4" && <CoverLetterTemplate4 {...formData} />}
+                    {selectedTemplate === "template5" && <CoverLetterTemplate5 {...formData} />}
+                  </>
+                )}
+                {viewType === "resume" && (
+                  <>
+                    {selectedTemplate === "template1" && <ResumeTemplate1 {...formData} />}
+                    {selectedTemplate === "template2" && <ResumeTemplate2 {...formData} />}
+                    {selectedTemplate === "template3" && <ResumeTemplate3 {...formData} />}
+                    {selectedTemplate === "template4" && <ResumeTemplate4 {...formData} />}
+                    {selectedTemplate === "template5" && <ResumeTemplate5 {...formData} />}
+                  </>
+                )}
+                {viewType === "biodata" && (
+                  <>
+                    {selectedTemplate === "template1" && <BioDataTemplate1 {...formData} />}
+                    {selectedTemplate === "template2" && <BioDataTemplate2 {...formData} />}
+                    {selectedTemplate === "template3" && <BioDataTemplate3 {...formData} />}
+                    {selectedTemplate === "template4" && <BioDataTemplate4 {...formData} />}
+                    {selectedTemplate === "template5" && <BioDataTemplate5 {...formData} />}
+                  </>
+
+                )}
+              </div>
 
             </div>
           )}
@@ -876,9 +890,8 @@ const handleSkillsChange = (selectedOptions: any) => {
               .map((template) => (
                 <div
                   key={template.id}
-                  className={`items-center cursor-pointer p-4 shadow-md rounded-md border ${
-                    selectedTemplate === template.id ? "" : "border"
-                  }`}
+                  className={`items-center cursor-pointer p-4 shadow-md rounded-md border ${selectedTemplate === template.id ? "" : "border"
+                    }`}
                   onClick={() => setSelectedTemplate(template.id)}
                 >
                   <div
@@ -893,14 +906,14 @@ const handleSkillsChange = (selectedOptions: any) => {
                       </h3>
                     </div>
                     {template.image ? (
-                <img
-                  src={template.image}
-                  alt={template.name}
-                  className="w-full h-auto mb-4"
-                />
-              ) : (
-                <p className="text-center text-gray-500">No Image Available</p>
-              )}
+                      <img
+                        src={template.image}
+                        alt={template.name}
+                        className="w-full h-auto mb-4"
+                      />
+                    ) : (
+                      <p className="text-center text-gray-500">No Image Available</p>
+                    )}
                   </div>
                 </div>
               ))}
