@@ -71,11 +71,11 @@ const Landing = () => {
         <p className="text-[#1e2532] text-lg mb-8 max-w-2xl mx-auto text-justify">
           {heroSection.description}
         </p>
-        <Link to="/documentcategory">
-          <button data-aos="fade-up" className="bg-[#1a91f0] text-white text-lg py-3 px-6 rounded hover:bg-blue-700">{heroSection.button_text}</button>
+        <Link to="/question">
+          <button type="button" className="bg-[#1a91f0] text-white text-lg py-3 px-6 rounded hover:bg-blue-700">{heroSection.button_text}</button>
         </Link>
           </div>
-          <div className="w-full md:w-1/2 lg:w-3/5 mt-8 md:mt-0 justify-items-center" data-aos="fade-left">
+          <div className="w-full md:w-1/2 lg:w-3/5 mt-8 md:mt-0 justify-items-center">
         <img src={heroSection.image} alt={heroSection.name} className="rounded shadow-lg w-full max-w-md mx-auto" />
           </div>
         </div>
@@ -93,7 +93,7 @@ const Landing = () => {
       <ResumeLayout/>
       <Tutorial/>
       <Feature/>
-      <MobileApp/>
+      {/* <MobileApp/> */}
       <About/>
       <Counter/>
       <HowitWorks/>

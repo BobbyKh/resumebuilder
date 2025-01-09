@@ -30,6 +30,7 @@ import { useAuthentication } from "./auth/Auth";
 import RedirectGoogleAuth from "./auth/GoogleRedirectHandler";
 import Profile from "./profile/Profile";
 import Tutorial from "./tutorial/Tutorial";
+import Question from "./pages/Question";
 
 
 const App = () => {
@@ -100,6 +101,7 @@ const App = () => {
             <Route path="/pdftotext" element={<Pdftotext />} />
             <Route path="/generateresume/:templateId" element={<GenerateResume />} />
             <Route path="/faq" element={<Faq />} />
+            <Route path="/question" element={<Question />} />
             </Routes>
           <Footer />
         </div>

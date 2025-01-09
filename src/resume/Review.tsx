@@ -17,7 +17,7 @@ const Review = () => {
     <div
       className="bg-initial md:p-20 relative p-8"
       style={{
-        backgroundImage: `url('https://craft-cv.com/image/en/6/cv-builder-online.png')`,
+        // backgroundImage: `url('https://craft-cv.com/image/en/6/cv-builder-online.png')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         filter: 'brightness(1.0) contrast(1.2)', // Increase brightness and contrast
@@ -25,15 +25,14 @@ const Review = () => {
       }}    >
       <div
       className="flex items-center justify-center mb-6"
-      data-aos="zoom-in"
       >
       <FontAwesomeIcon
         icon={faQuoteLeft}
-        className="text-blue-500 text-6xl md:text-8xl mr-6"
+        className="text-blue-800 text-6xl md:text-8xl mr-6"
       />
-      <h2 className="text-3xl text-[#1e2532] md:text-5xl font-bold text-center ">
+      <h2 className="text-3xl text-blue-800 md:text-5xl font-bold text-center ">
         Customer
-        <span className=" text-blue-500"> Reviews</span>
+        <span className=" text-blue-800"> Reviews</span>
       </h2>
       </div>
       <div
@@ -44,7 +43,6 @@ const Review = () => {
         <div
         key={i}
         className="flex flex-col bg-[#d border border-blue-800 rounded-lg shadow-md overflow-hidden"
-        data-aos="fade-up"
         >
         <div className="flex items-center p-6">
           <img
@@ -85,7 +83,7 @@ const Review = () => {
         </p>
         <a
           href="#"
-          className="text-blue-800 hover:text-blue-800 hover:bg-blue-100 p-6 transition duration-500 ease-in-out hover:text-lightblue-500"
+          className="text-blue-800 hover:text-blue-800 hover:bg-blue-200 p-6 transition duration-500 ease-in-out hover:text-lightblue-500"
         >
           Read more
         </a>

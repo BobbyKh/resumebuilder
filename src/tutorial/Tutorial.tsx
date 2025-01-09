@@ -48,14 +48,14 @@ const Tutorial = () => {
   };
 
   return (
-    <div className="bg-white relative">
-      <div className="absolute top-0 right-0 w-32 h-32 bg-no-repeat bg-cover" style={{ backgroundImage: 'url(https://pa1.aminoapps.com/7029/973e6ac7b7e1d99ee0a296863f659302c08efd30r1-600-450_hq.gif)' }}></div>
+    <div className="bg-gray-200 relative">
+      {/* <div className="absolute top-0 right-0 w-32 h-32 bg-no-repeat bg-cover" style={{ backgroundImage: 'url(https://pa1.aminoapps.com/7029/973e6ac7b7e1d99ee0a296863f659302c08efd30r1-600-450_hq.gif)' }}></div> */}
       <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
       <div className="flex justify-between items-center mb-8">
-        <h2 className="text-3xl font-extrabold tracking-tight text-blue-600">
+        <h2 className="text-3xl font-extrabold tracking-tight text-blue-800">
         Experts Videos
         </h2>
-        <a href="/all-tutorials" className="text-blue-600 hover:underline">
+        <a href="/all-tutorials" className="text-blue-800 hover:underline">
         View All
         </a>
       </div>
@@ -64,10 +64,8 @@ const Tutorial = () => {
         {tutorials.map((tutorial) => (
         <div key={tutorial.id} style={{ margin: '0 10px' }}>
           <div
-          className="border border-blue-600 shadow-sm rounded-md hover:shadow-md transition duration-150 ease-in-out"
-          data-aos="zoom-in"
-          data-aos-duration="1000"
-          data-aos-delay="400"
+          className="border border-blue-800 shadow-sm rounded-md hover:shadow-md cursor-pointer"
+          
           style={{ margin: '0 10px', padding: '10px', height: '100%', maxHeight: '450px' }}
           >
           <div
@@ -83,10 +81,10 @@ const Tutorial = () => {
             />
           </div>
           <div className="mt-4 px-4 py-2">
-            <h3 className="text-lg font-bold text-blue-900">
+            <h3 className="text-lg font-bold text-blue-800">
             {tutorial.title}
             </h3>
-            <p className="mt-2 text-sm text-blue-700 truncate">
+            <p className="mt-2 text-sm text-blue-800 truncate">
             {tutorial.description}
             </p>
           </div>

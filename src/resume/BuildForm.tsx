@@ -147,11 +147,11 @@ const BuildForm = () => {
 
     } else if (viewType === "biodata") {
       return [
-        { id: "template1", component: <BioDataTemplate1 {...formData} />, name: "Template 1" },
-        { id: "template2", component: <BioDataTemplate2 {...formData} />, name: "Professional" },
-        { id: "template3", component: <BioDataTemplate3 {...formData} />, name: "Colorful" },
-        { id: "template4", component: <BioDataTemplate4 {...formData} />, name: "Pretty" },
-        { id: "template5", component: <BioDataTemplate5 {...formData} />, name: "Elegant" },
+        { id: "template1", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGn4WfHHZGtdW_60gutDaclL32wVBCbyPtdw&s", component: <BioDataTemplate1 {...formData} />, name: "Template 1" },
+        { id: "template2", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGn4WfHHZGtdW_60gutDaclL32wVBCbyPtdw&s", component: <BioDataTemplate2 {...formData} />, name: "Professional" },
+        { id: "template3", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGn4WfHHZGtdW_60gutDaclL32wVBCbyPtdw&s", component: <BioDataTemplate3 {...formData} />, name: "Colorful" },
+        { id: "template4", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGn4WfHHZGtdW_60gutDaclL32wVBCbyPtdw&s", component: <BioDataTemplate4 {...formData} />, name: "Pretty" },
+        { id: "template5", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGn4WfHHZGtdW_60gutDaclL32wVBCbyPtdw&s", component: <BioDataTemplate5 {...formData} />, name: "Elegant" },
 
       ]
     }

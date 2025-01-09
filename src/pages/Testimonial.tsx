@@ -36,16 +36,16 @@ const Testimonial = () => {
     return (
         <div className="bg-[url('https://static.vietcv.io/top-page/dot-bg-top.svg')] bg-cover py-12">
             <div className="container mx-auto px-6 md:px-12">
-                <h1 className="text-4xl font-bold text-center mb-4 text-[#1e3a8a] hover:text-[#1e3a8a]" data-aos="fade-up" data-aos-duration="1000">Testimonials</h1>
+                <h1 className="text-4xl font-bold text-center mb-4 text-[#1e3a8a] hover:text-[#1e3a8a]">Testimonials</h1>
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-aos="fade-up" data-aos-duration="1000">
                     {testimonials.slice(0, 3).map((testimonial ) => (
-                        <div key={testimonial.id} className="bg-white p-6 shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] hover:shadow-[0_35px_60px_-15px_rgba(30,58,138,0.5)] rounded-lg border border-[#1e3a8a] hover:border-[#1e3a8a]" data-aos="fade-up" data-aos-duration="1000">
+                        <div key={testimonial.id} className="bg-white p-6 shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] hover:shadow-[0_35px_60px_-15px_rgba(30,58,138,0.5)] rounded-lg border border-[#1e3a8a] hover:border-[#1e3a8a]">
                             <FontAwesomeIcon icon={faQuoteLeft} className="text-5xl text-[#1e3a8a] hover:text-[#1e3a8a]" />
-                            <a data-fancybox="gallery" href={testimonial.image} data-aos="fade-up" data-aos-duration="1000">
+                            <a data-fancybox="gallery" href={testimonial.image}>
                                 <img src={testimonial.image} alt={testimonial.name} className="w-16 h-16 rounded-full mx-auto" />
                             </a>
-                            <p className="mt-6 text-gray-500" data-aos="fade-up" data-aos-duration="1000">{testimonial.name}</p>
-                            <p className="mt-2 text-[#1e3a8a] hover:text-[#1e3a8a]" data-aos="fade-up" data-aos-duration="1000">{testimonial.description}</p>
+                            <p className="mt-6 text-gray-500">{testimonial.name}</p>
+                            <p className="mt-2 text-[#1e3a8a] hover:text-[#1e3a8a]">{testimonial.description}</p>
                         </div>
                     ))}
                 </div>

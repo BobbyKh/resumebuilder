@@ -27,13 +27,13 @@ const HowitWorks = () => {
   }, []);
 
   return (
-    <section className="text-gray-600 body-font pl-12 bg-blue-10">
-  <h1 className="sm:text-4xl text-4xl font-bold text-gray-900 tracking-widest text-center md:text-5xl pt-10">
+    <section className="text-gray-600 body-font pl-12 bg-blue-50">
+  <h1 className="sm:text-4xl text-4xl font-bold text-blue-800 tracking-widest text-center md:text-5xl pt-10">
     How it Works
   </h1>
   <div className="container px-5 py-24 mx-auto">
     {howitworks.map((howitwork) => (
-      <div key={howitwork.id} className="flex flex-col lg:flex-row w-full bg-white shadow-md rounded-lg mb-8">
+      <div key={howitwork.id} className="flex flex-col lg:flex-row w-full bg-blue-50  mb-8">
         <div className="lg:w-2/5 md:w-1/2 p-8 flex flex-col justify-center">
           <div className="flex relative mb-8">
             <div className="flex-shrink-0 w-12 h-12 rounded-full bg-indigo-500 inline-flex items-center justify-center text-white">
@@ -53,7 +53,7 @@ const HowitWorks = () => {
               <h2 className="font-medium title-font text-lg text-gray-900 mb-1">
                 STEP 1
               </h2>
-              <p className="leading-relaxed">
+              <p className="leading-relaxed text-gray-800 text-justify">
                 {howitwork.description_1}
               </p>
             </div>
@@ -76,7 +76,7 @@ const HowitWorks = () => {
               <h2 className="font-medium title-font text-lg text-gray-900 mb-1">
                 STEP 2
               </h2>
-              <p className="leading-relaxed">
+              <p className="leading-relaxed text-justify text-gray-800">
                 {howitwork.description_2}
               </p>
             </div>
@@ -100,7 +100,7 @@ const HowitWorks = () => {
               <h2 className="font-medium title-font text-lg text-gray-900 mb-1">
                 STEP 3
               </h2>
-              <p className="leading-relaxed">
+              <p className="leading-relaxed text-justify text-gray-800">
                 {howitwork.description_3}
               </p>
             </div>
@@ -124,7 +124,7 @@ const HowitWorks = () => {
               <h2 className="font-medium title-font text-lg text-gray-900 mb-1">
                 STEP 4
               </h2>
-              <p className="leading-relaxed">
+              <p className="leading-relaxed text-justify text-gray-800">
                 {howitwork.description_4}
               </p>
             </div>

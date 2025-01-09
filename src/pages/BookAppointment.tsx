@@ -93,35 +93,35 @@ const BookAppointment = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-blue-50">
-      <form onSubmit={handleFormSubmit} className="shadow-md border border-gray-300 rounded-lg p-8 bg-white grid grid-cols-1 gap-4 md:grid-cols-2" data-aos="zoom-in">
-        <div className="col-span-full" data-aos="fade-up">
+      <form onSubmit={handleFormSubmit} className="shadow-md border border-gray-300 rounded-lg p-8 bg-white grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="col-span-full">
           <div className="flex items-center space-x-2">
             <FontAwesomeIcon icon={faCalendarAlt} className="text-gray-600" />
             <p className="text-3xl text-[#d5420b] font-bold">Book an Appointment</p>
           </div>
           <p className="text-lg">Fill out the form below and we will contact you to confirm your appointment.</p>
         </div>
-        <div className="flex items-center space-x-2" data-aos="fade-up" data-aos-delay="100">
+        <div className="flex items-center space-x-2">
           <FontAwesomeIcon icon={faUser} className="text-gray-600" />
           <input type="text" name="name" id="name" placeholder="Name" value={appointment.name} onChange={handleInputChange} className="flex-1 border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required />
         </div>
-        <div className="flex items-center space-x-2" data-aos="fade-up" data-aos-delay="200">
+        <div className="flex items-center space-x-2">
           <FontAwesomeIcon icon={faEnvelope} className="text-gray-600" />
           <input type="email" name="email" id="email" placeholder="Email" value={appointment.email} onChange={handleInputChange} className="flex-1 border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required />
         </div>
-        <div className="flex items-center space-x-2" data-aos="fade-up" data-aos-delay="300">
+        <div className="flex items-center space-x-2">
           <FontAwesomeIcon icon={faPhone} className="text-gray-600" />
           <input type="number" name="phone" id="phone" placeholder="Phone" value={appointment.phone} onChange={handleInputChange} className="flex-1 border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required />
         </div>
-        <div className="flex items-center space-x-2" data-aos-delay="400">
+        <div className="flex items-center space-x-2">
           <FontAwesomeIcon icon={faCalendarAlt} className="text-gray-600" />
           <input type="date" name="date" id="date" value={appointment.date} onChange={handleInputChange} className="flex-1 border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required min={new Date().toISOString().split('T')[0]} />
         </div>
-        <div className="flex items-center space-x-2" data-aos-delay="500">
+        <div className="flex items-center space-x-2">
           <FontAwesomeIcon icon={faClock} className="text-gray-600" />
           <input type="time" name="time" id="time" value={appointment.time} onChange={handleInputChange} className="flex-1 border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required />
         </div>
-        <div className="flex items-center space-x-2" data-aos-delay="600">
+        <div className="flex items-center space-x-2">
           <FontAwesomeIcon icon={faPeopleGroup} className="text-gray-600" />
           <select name="appointment_type" id="appointment_type" value={appointment.appointment_type} onChange={handleInputChange} className="flex-1 border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
             <option value={0}>Select Appointment Type</option>
@@ -130,7 +130,7 @@ const BookAppointment = () => {
             ))}
           </select>
         </div>
-        <div className="flex items-center space-x-2 md:col-span-2" data-aos-delay="700">
+        <div className="flex items-center space-x-2 md:col-span-2">
           <FontAwesomeIcon icon={faCommentDots} className="text-gray-600" />
           <textarea name="message" placeholder="Additional Message" value={appointment.message} onChange={handleInputChange} className="flex-1 border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
         </div>

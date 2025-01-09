@@ -32,13 +32,13 @@ const Gallery = () => {
 
   return (
 
-    <div className="container mx-auto px-5 lg:px-32 lg:pt-12 bg-blue-100">
+    <div className="container mx-auto px-5 lg:px-32 lg:pt-12 bg-blue-200">
         {galleryImages.slice(0, 6).map((image) => (
           <div key={image.id} className="mb-4">
             <div className="relative overflow-hidden">
               <div className="px-6 py-4">
-                <h1 className="text-4xl font-bold text-center text-blue-600">{image.title}</h1>
-                <p className="mt-2 text-lg text-center text-gray-600 text-justify">{image.description}</p>
+                <h1 className="text-4xl font-bold text-center text-blue-800">{image.title}</h1>
+                <p className="mt-2 text-lg text-center text-gray-800 text-justify">{image.description}</p>
               </div>
             </div>
             

@@ -96,7 +96,7 @@ const Navbar = (): JSX.Element => {
   };
 
   return (
-    <header className="bg-white flex flex-col md:flex-row justify-between items-center py-6 px-10 shadow-sm">
+    <header className="bg-white flex flex-col md:flex-row justify-between items-center py-6 px-10 shadow-sm ">
       <div className="flex items-center justify-between w-full md:w-auto">
         {organizations.map((organization) => (
           <div className="flex items-center space-x-2 ">

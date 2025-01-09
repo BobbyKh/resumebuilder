@@ -29,25 +29,25 @@ const Feature = () => {
         });
             
     }
-    return <div ><section className="bg-white  p-8 " >
-       <h2 className="text-4xl text-blue-400 font-bold text-center mb-3 " style={{ backgroundImage: 'url(https://cdn.prod.website-files.com/613513981b0efaf850830620/6707a5809991e0375b0c474a_image3%20(1).webp)', backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>What we offer ?</h2>  
+    return <div ><section className="bg-gray-200  p-8  " >
+       <h2 className="text-4xl text-blue-800 font-bold text-center mb-3 " >What we offer ?</h2>  
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-12">
         {features.map((feature) => (
             <div 
                 key={feature.id} 
-                className="bg-white rounded-lg shadow-lg p-8 transform transition duration-500 hover:scale-105"
+                className="bg-gray-50 rounded-lg shadow-md p-6 "
             >
-                <div className="flex items-center justify-center mb-4">
+                <div className="flex items-center justify-center mb-3">
                     <img 
                         src={feature.icon} 
                         alt={feature.name} 
-                        className="w-12 h-12 animate-bounce" 
+                        className="w-12 h-12" 
                     />
                     <h3 className="text-2xl font-bold tracking-tight text-black dark:text-black ml-4">
                         {feature.name}
                     </h3>
                 </div>
-                <p className="font-light text-black dark:text-black text-justify">
+                <p className="font-light text-gray-800 dark:text-black text-justify">
                     {feature.description}
                 </p>
             </div>

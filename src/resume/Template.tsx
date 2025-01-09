@@ -101,16 +101,16 @@ const Template = () => {
 
     return (
         <>
-            <div className='min-h-screen flex flex-col justify-center items-center p-2 bg-[url("https://cdn.enhancv.com/images/1920/i/L19uZXh0L3N0YXRpYy9pbWFnZXMvc2tpbGxzLWJnLTVhZWMwM2UzZTJjZGY5N2FmYmM1YjkzMGY1OWZlYTAyLndlYnA~.webp")] bg-no-repeat bg-cover justify-items-center ' data-aos="fade-down" data-aos-duration="200" data-aos-once="false">
-                <div className="mx-auto max-w-7xl px-6 lg:px-8 mb-4" data-aos="zoom-in">
-                    <div className="mx-auto max-w-2xl lg:text-center" data-aos="fade-up">
+            <div className="min-h-screen flex flex-col justify-center items-center p-2 md:p-8 bg-blue-400">
+                <div className="mx-auto max-w-7xl px-6 lg:px-8 mb-4">
+                    <div className="mx-auto max-w-2xl lg:text-center">
                         <p className="mt-2 text-4xl font-medium tracking-tight text-[#1e3a8a] sm:text-5xl">
-                            <span className="text-[#1e3a8a]">Choose your </span>template
+                            <span className="text-white font-bold pb-8 ">Choose your template</span >
                         </p>
                     </div>
                     <Slider {...settings} arrows={true} className="md:px-8 justify-center">
                         {resumeTemplates.map((resumeTemplate) => (
-                            <div key={resumeTemplate.id} className="group flex flex-col items-center my-4 mx-2 md:mx-4 gap-4" data-aos="zoom-in">
+                            <div key={resumeTemplate.id} className="group flex flex-col items-center my-8 mx-2 md:mx-4 gap-12">
                                 <div className="relative w-full h-full overflow-hidden rounded-lg shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
                                     <img
                                         src={resumeTemplate.image}
@@ -118,11 +118,11 @@ const Template = () => {
                                         className="h-full w-full object-cover group-hover:opacity-75 transition-opacity duration-300 ease-in-out"
                                     />
                                     <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 transition duration-300 ease-in-out group-hover:opacity-100">
-                                        <p className="bg-white rounded-lg p-2 text-xl font-semibold text-gray-900">{resumeTemplate.name}</p>
+                                        <p className="bg-blue-100 rounded-lg p-2 text-xl font-semibold text-blue-800">{resumeTemplate.name}</p>
                                     </div>
                                 </div>
-                                <Link to={`/resume/editor/${resumeTemplate.id}`} className="mt-2 w-full">
-                                    <button className="block w-full text-blue-900 bg-white font-bold py-2 rounded-lg hover:bg-blue-200 transition duration-300 ease-in-out" data-aos="zoom-in">
+                                <Link to={"/question"} className="mt-2 w-full">
+                                    <button className="block w-full text-blue-900 bg-white font-bold py-2 rounded-lg hover:bg-gray-300 ">
                                         Use Template
                                     </button>
                                 </Link>
@@ -133,7 +133,6 @@ const Template = () => {
             </div>
         </>
     )
-}
+}    
 
 export default Template
-

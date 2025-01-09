@@ -28,15 +28,15 @@ const Counter = () => {
   }, []);
 
   return (
-    <section className="text-gray-600 body-font bg-blue-50">
+    <section className="text-gray-800 body-font bg-blue-50">
       {counter.map((counterItem) => (
         <div key={counterItem.id} className="container px-5 py-24 mx-auto flex flex-wrap">
           <div className="flex flex-wrap -mx-4 mt-auto mb-auto lg:w-1/2 sm:w-2/3 content-start sm:pr-10">
             <div className="w-full sm:p-4 px-4 mb-6">
-              <h1 className="title-font font-medium text-xl mb-2 text-gray-900">
+              <h1 className="text-5xl text-blue-800 font-bold text-center mb-3">
                 {counterItem.title}
               </h1>
-              <div className="leading-relaxed text-justify">{counterItem.description}</div>
+              <div className="leading-relaxed text-justify text-gray-800">{counterItem.description}</div>
             </div>
             <div className="p-4 sm:w-1/2 lg:w-1/4 w-1/2">
               <h2 className="title-font font-medium text-3xl text-gray-900 hover:text-blue-600">
@@ -47,7 +47,7 @@ const Counter = () => {
           </div>
           <div className="lg:w-1/2 sm:w-1/3 w-1/2 rounded-lg overflow-hidden mt-6 sm:mt-0">
             <img
-              className="rounded shadow-lg w-full max-w-md mx-auto"
+              className="rounded shadow-lg w-full max-w-md mx-auto h-100"
               src={counterItem.image} 
               alt="stats"
             />
