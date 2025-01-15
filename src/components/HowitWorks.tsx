@@ -3,148 +3,78 @@ import { useEffect, useState } from "react";
 import API_URL from "../api/Api";
 
 interface HowitWorks {
-  id: number;
+  step_number: number;
   title: string;
-  description_1: string;
-  description_2: string;
-  description_3: string;
-  description_4: string;
-  video_url: string;
+  description: string;
+  icon: string;
 }
 const HowitWorks = () => {
-  const [howitworks, setHowitworks] = useState<HowitWorks[]>([]);
+  const [howitworks, setHowitWorks] = useState<HowitWorks[]>([]);
 
   useEffect(() => {
-    const fetchHowitworks = async () => {
+    const fetchHowitWorks = async () => {
       try {
         const response = await axios.get(`${API_URL}/api/howitworks`);
-        setHowitworks(response.data);
+        setHowitWorks(response.data);
       } catch (error) {
-        console.error("Error fetching howitworks:", error);
+        console.error('Error fetching HowitWorks:', error);
       }
     };
-    fetchHowitworks();
+    fetchHowitWorks();
   }, []);
-
+    
+  
   return (
-    <section className="text-gray-600 body-font pl-12 bg-blue-50">
-  <h1 className="sm:text-4xl text-4xl font-bold text-blue-800 tracking-widest text-center md:text-5xl pt-10">
-    How it Works
-  </h1>
-  <div className="container px-5 py-24 mx-auto">
-    {howitworks.map((howitwork) => (
-      <div key={howitwork.id} className="flex flex-col lg:flex-row w-full bg-blue-50  mb-8">
-        <div className="lg:w-2/5 md:w-1/2 p-8 flex flex-col justify-center">
-          <div className="flex relative mb-8">
-            <div className="flex-shrink-0 w-12 h-12 rounded-full bg-indigo-500 inline-flex items-center justify-center text-white">
-              <svg
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                className="w-6 h-6"
-                viewBox="0 0 24 24"
-              >
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-              </svg>
+    <div className="bg-gray-100 py-16">
+        <div className="container mx-auto px-6">
+            <div className="text-center mb-12">
+                <h2 className="text-4xl font-bold text-blue-800">How It Works</h2>
+                <p className="mt-4 text-lg text-gray-800">
+                    Creating your professional resume has never been easier. Follow these simple steps.
+                </p>
             </div>
-            <div className="ml-4 text-left">
-              <h2 className="font-medium title-font text-lg text-gray-900 mb-1">
-                STEP 1
-              </h2>
-              <p className="leading-relaxed text-gray-800 text-justify">
-                {howitwork.description_1}
-              </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {howitworks.map((step) => (
+                    <div key={step.step_number} className="bg-white shadow-md rounded-lg p-6 text-center">
+                        <div className="flex justify-center mb-4">
+                            <div className="w-16 h-16 bg-blue-800 text-white rounded-full flex items-center justify-center text-2xl font-bold">
+                                {step.step_number}
+                            </div>
+                        </div>
+                        <h3 className="text-xl font-semibold text-gray-800 text-center">{step.title}</h3>
+                        <p className="mt-2 text-gray-800 text-justify">{step.description}</p>
+                    </div>
+                    
+              
+                ))}
             </div>
-          </div>
-          <div className="flex relative mb-8">
-            <div className="flex-shrink-0 w-12 h-12 rounded-full bg-indigo-500 inline-flex items-center justify-center text-white">
-              <svg
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                className="w-6 h-6"
-                viewBox="0 0 24 24"
-              >
-                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-              </svg>
-            </div>
-            <div className="ml-4 text-left">
-              <h2 className="font-medium title-font text-lg text-gray-900 mb-1">
-                STEP 2
-              </h2>
-              <p className="leading-relaxed text-justify text-gray-800">
-                {howitwork.description_2}
-              </p>
-            </div>
-          </div>
-          <div className="flex relative mb-8">
-            <div className="flex-shrink-0 w-12 h-12 rounded-full bg-indigo-500 inline-flex items-center justify-center text-white">
-              <svg
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                className="w-6 h-6"
-                viewBox="0 0 24 24"
-              >
-                <circle cx="12" cy="5" r="3"></circle>
-                <path d="M12 22V8M5 12H2a10 10 0 0020 0h-3"></path>
-              </svg>
-            </div>
-            <div className="ml-4 text-left">
-              <h2 className="font-medium title-font text-lg text-gray-900 mb-1">
-                STEP 3
-              </h2>
-              <p className="leading-relaxed text-justify text-gray-800">
-                {howitwork.description_3}
-              </p>
-            </div>
-          </div>
-          <div className="flex relative">
-            <div className="flex-shrink-0 w-12 h-12 rounded-full bg-indigo-500 inline-flex items-center justify-center text-white">
-              <svg
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                className="w-6 h-6"
-                viewBox="0 0 24 24"
-              >
-                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-              </svg>
-            </div>
-            <div className="ml-4 text-left">
-              <h2 className="font-medium title-font text-lg text-gray-900 mb-1">
-                STEP 4
-              </h2>
-              <p className="leading-relaxed text-justify text-gray-800">
-                {howitwork.description_4}
-              </p>
-            </div>
-          </div>
+            
         </div>
-        <div className="lg:w-3/5 md:w-1/2 rounded-lg overflow-hidden">
+        <div className="mt-16">
+      <div className="text-center">
+        <h3 className="text-2xl font-semibold text-gray-800">Watch How It Works</h3>
+        <p className="mt-4 text-gray-600">
+          See a quick demo of how you can create your resume in just a few minutes.
+        </p>
+      </div>
+      <div className="mt-8 flex justify-center">
+        <div className="relative w-full md:w-2/3 lg:w-1/2 aspect-video bg-gray-200 shadow-lg rounded-lg overflow-hidden">
           <iframe
-            className="w-full h-full"
-            src={howitwork.video_url}
-            title="step"
+            className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-300 ease-in-out hover" 
+            src="https://www.youtube.com/embed/fNU4suUlCDA?si=ktWjfZ4ZaO9XUHpj"
+            title="How It Works Video"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
+            allowFullScreen>
+          </iframe>
         </div>
       </div>
-    ))}
+    </div>
   </div>
-</section>
 
-  )
-}
-export default HowitWorks
+    
+);
+};
+
+export default HowitWorks;

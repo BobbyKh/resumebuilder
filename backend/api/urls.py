@@ -33,7 +33,7 @@ urlpatterns = [
     path('resumelayout', views.ResumeLayoutView.as_view(), name='resumelayout'),
     path('galleryimage', views.GalleryImageView.as_view(), name='galleryimage'),
     path('counter', views.CounterView.as_view(), name='counter'),
-    path('howitworks', views.HowItWorksView.as_view(), name='howitworks'),
+    path('howitworks', views.HowitWorksView.as_view(), name='howitworks'),
     
     
 

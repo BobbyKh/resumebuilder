@@ -101,7 +101,7 @@ const Template = () => {
 
     return (
         <>
-            <div className="min-h-screen flex flex-col justify-center items-center p-2 md:p-8 bg-blue-400">
+            <div className="min-h-screen flex flex-col justify-center items-center p-2 md:p-8 bg-blue-800">
                 <div className="mx-auto max-w-7xl px-6 lg:px-8 mb-4">
                     <div className="mx-auto max-w-2xl lg:text-center">
                         <p className="mt-2 text-4xl font-medium tracking-tight text-[#1e3a8a] sm:text-5xl">

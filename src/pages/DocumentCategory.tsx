@@ -29,16 +29,16 @@ const DocumentCategory = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-no-repeat bg-center bg-cover" style={{ backgroundImage: "url(bg.png)" }}>
+    <div className="min-h-screen bg-no-repeat bg-center bg-cover">
       <div className="max-w-7xl mx-auto p-4 sm:p-10 lg:py-20">
         <div className="max-w-5xl mx-auto text-center tracking-widest pb-10 lg:pb-20">
-          <p className="pb-4 text-xl font-bold text-[#1e3a8a]">
+          <h1 className="pb-4 text-5xl font-bold text-blue-800">
             Document
-          </p>
-          <h1 className="text-3xl sm:text-5xl font-black text-[#1e3a8a]">
-            The right place for you, <span className="text-[#1e3a8a]">the professional document</span>
           </h1>
-          <p className="text-xl sm:text-2xl font-light px-10 py-6 text-black">
+          <h1 className="text-3xl sm:text-4xl font-black text-blue-800">
+            The right place for you, <span className="text-blue-800">the professional document</span>
+          </h1>
+          <p className="text-xl sm:text-xl font-light px-10 py-6 text-black text-center text-justify font-sans">
             Documents are an essential part of any business. They are used to communicate important information, provide evidence of a transaction, and to serve as a proof of a business's existence. Our document templates are designed to be easy to use, customizable, and professional. They can be used to create a wide range of documents, from simple letters to complex contracts.
           </p>
         </div>
@@ -48,7 +48,6 @@ const DocumentCategory = () => {
             <div
               key={plan.id}
               className="flex-1 gap-4 w-full mb-6 bg-white rounded-xl shadow-[#1e3a8a] shadow-xl transition duration-500 hover:scale-105 hover:shadow-lg hover:shadow-[#1e3a8a] border-2 border-[#1e3a8a]"
-              data-aos="zoom-in"
             >
               <div className="text-center p-12">
                 <p className=" text-3xl lg:text-2xl xl:text-3xl pb-4 text-black font-sans font-semibold">
@@ -87,7 +86,7 @@ const DocumentCategory = () => {
                     type="button"
                     className="w-full text-center text-lg text-white mt-8 p-3 rounded-lg border-2 border-white shadow-[0_0_10px_#1e3a8a] transition hover:text-white hover:shadow-[0_0_15px_#1e3a8a] hover:visible"
                     style={{ visibility: "visible" }}
-                    data-aos="flip-up"
+                    
                   >
                     <span className="font-semibold animate-border animate-font">View</span>
                   </button>

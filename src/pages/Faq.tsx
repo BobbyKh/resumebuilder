@@ -36,13 +36,13 @@ const Faq = () => {
     };
 
     return (
-        <div className="bg-blue-200 py-16 px-5 sm:px-10 relative">
+        <div className="bg-white py-16 px-5 sm:px-10 relative">
             <img src="question.png" alt="Question" className="absolute top-0 right-0 w-32 h-32 m-4 animate-bounce" />
             <h1 className="text-4xl text-blue-900 font-bold text-center mb-10">Frequently Asked Questions</h1>
             <div className="max-w-4xl mx-auto">
             <div className="space-y-3">
                 {faqs.map((faq, index) => (
-                <div key={faq.question} className="bg-gradient-to-r from-gray-100 to-blue-200 rounded-md shadow-md p-4">
+                <div key={faq.question} className=" rounded-md shadow-md p-4">
                     <div className="font-medium text-lg text-gray-700 cursor-pointer flex justify-between items-center" onClick={() => toggleFaq(index)}>
                     <div className="flex items-center">
                         <FaQuestionCircle className="mr-2 text-blue-500" />

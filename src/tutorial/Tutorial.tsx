@@ -48,53 +48,94 @@ const Tutorial = () => {
   };
 
   return (
-    <div className="bg-gray-200 relative">
-      {/* <div className="absolute top-0 right-0 w-32 h-32 bg-no-repeat bg-cover" style={{ backgroundImage: 'url(https://pa1.aminoapps.com/7029/973e6ac7b7e1d99ee0a296863f659302c08efd30r1-600-450_hq.gif)' }}></div> */}
-      <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
-      <div className="flex justify-between items-center mb-8">
-        <h2 className="text-3xl font-extrabold tracking-tight text-blue-800">
-        Experts Videos
-        </h2>
-        <a href="/all-tutorials" className="text-blue-800 hover:underline">
-        View All
-        </a>
+    <div className="bg-white py-16">
+      
+  <div className="container mx-auto px-4">
+ 
+    <div className="text-center mb-12">
+      <h2 className="text-4xl font-extrabold text-blue-800">Expert Videos</h2>
+      <p className="text-lg text-gray-800 mt-4">Explore insights and expertise from professionals in the field.</p>
+    </div>
+
+  
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+     
+      <div className="group relative bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
+        <div className="relative pb-56">
+          <iframe
+            className="absolute inset-0 w-full h-full"
+            src="https://www.youtube.com/embed/example1"
+            title="Professional Video"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        </div>
+        <div className="p-6">
+          <h3 className="text-xl text-justify font-semibold text-gray-800 group-hover:text-blue-800 transition-colors duration-300">
+            Expert Insights on Technology
+          </h3>
+          <p className="text-gray-600 mt-2 text-justify">
+            Learn about the latest advancements and strategies in the tech world.
+          </p>
+        </div>
       </div>
 
-      <Slider {...settings}>
-        {tutorials.map((tutorial) => (
-        <div key={tutorial.id} style={{ margin: '0 10px' }}>
-          <div
-          className="border border-blue-800 shadow-sm rounded-md hover:shadow-md cursor-pointer"
-          
-          style={{ margin: '0 10px', padding: '10px', height: '100%', maxHeight: '450px' }}
-          >
-          <div
-            className="w-full overflow-hidden bg-gray-100 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75"
-            style={{ height: '250px' }}
-          >
-            <iframe
-            src={tutorial.video_link}
-            title={tutorial.title}
-            className="w-full h-full"
+     
+      <div className="group relative bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
+        <div className="relative pb-56">
+          <iframe
+            className="absolute inset-0 w-full h-full"
+            src="https://www.youtube.com/embed/example2"
+            title="Professional Video"
             frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
-            />
-          </div>
-          <div className="mt-4 px-4 py-2">
-            <h3 className="text-lg font-bold text-blue-800">
-            {tutorial.title}
-            </h3>
-            <p className="mt-2 text-sm text-blue-800 truncate">
-            {tutorial.description}
-            </p>
-          </div>
-          </div>
+          ></iframe>
         </div>
-        ))}
-      </Slider>
+        <div className="p-6">
+          <h3 className="text-xl text-justify font-semibold text-gray-800 group-hover:text-blue-800 transition-colors duration-300">
+            Leadership Skills for Success
+          </h3>
+          <p className="text-gray-600 mt-2 text-justify">
+            Gain insights into effective leadership techniques and practices.
+          </p>
+        </div>
+      </div>
+
+      <div className="group relative bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
+        <div className="relative pb-56">
+          <iframe
+            className="absolute inset-0 w-full h-full"
+            src="https://www.youtube.com/embed/example3"
+            title="Professional Video"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        </div>
+        <div className="p-6">
+          <h3 className="text-xl font-semibold text-gray-800 group-hover:text-blue-600 transition-colors duration-300">
+            Design Thinking in Action
+          </h3>
+          <p className="text-gray-600 mt-2">
+            Discover how design thinking can revolutionize your projects.
+          </p>
+        </div>
       </div>
     </div>
-  )
-}
 
-export default Tutorial
+  
+    <div className="text-center mt-12">
+      <a
+        href="https://www.youtube.com/@managementloop/videos"
+        className="inline-block px-6 py-3 text-lg font-semibold text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300"
+      >
+        View More Videos
+      </a>
+    </div>
+  </div>
+</div>
+  );
+};
+export default Tutorial;

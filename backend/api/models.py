@@ -281,13 +281,14 @@ class Counter(models.Model):
 
 
 
-class HowItWorks(models.Model):
-    title = models.CharField(max_length=255, help_text="Main title displayed on the page")
-    description_1 = models.TextField(help_text="First paragraph description")
-    description_2 = models.TextField(help_text="Second paragraph description", blank=True, null=True)
-    description_3 = models.TextField(help_text="Third paragraph description", blank=True, null=True)
-    description_4 = models.TextField(help_text="Fourth paragraph description", blank=True, null=True)
-    video_url = models.CharField(max_length=255, help_text="Normal YouTube link for the video")
+class HowitWorks(models.Model):
+    step_number = models.PositiveIntegerField()
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    icon = models.ImageField(upload_to='how_it_works_icons/', blank=True, null=True)
+
+    class Meta:
+        ordering = ['step_number']
 
     def __str__(self):
-        return self.title
+        return f"Step {self.step_number}: {self.title}"
