@@ -13,6 +13,7 @@ import html2canvas from "html2canvas";
 import { CoverLetterTemplate1, CoverLetterTemplate2, CoverLetterTemplate3, CoverLetterTemplate4, CoverLetterTemplate5 } from "../templatedesign/CoverTemplateDesign";
 import { useLocation } from "react-router-dom";
 import { BioDataTemplate1, BioDataTemplate2, BioDataTemplate3, BioDataTemplate4, BioDataTemplate5 } from "../templatedesign/BioDataDesign";
+import { Label } from "flowbite-react";
 interface Fields {
   label: string;
   type: string;
@@ -22,7 +23,7 @@ interface Fields {
 }
 
 const BuildForm = () => {
-  type FormFields = "image" | "fullname" | "position" | "date_of_birth" | "nationality" | "email" | "phone" | "address" | "headline" | "website" | "summary" | "skills" | "language" | "education" | "experience" | "projects" | "hobbies" | "company_name" | "manager_name" | "company_address" | "company_country" | "subject";
+  type FormFields = "image" | "fullname" | "position" | "date_of_birth" | "nationality" | "email" | "phone" | "address" | "headline" | "website" | "summary" | "skills" | "language" | "education" | "experience" | "projects" | "hobbies" | "company_name" | "manager_name" | "company_address" | "company_country" | "subject" | "marital_status" | "declaration" | "signature" | "father_name" | "religion";
 
   const [formData, setFormData] = useState<Record<FormFields, string | string[] | number | boolean | any | any[]>>({
     image: "",
@@ -41,6 +42,11 @@ const BuildForm = () => {
     company_address: "",
     company_country: "",
     subject: "",
+    marital_status: "",
+    declaration: "",
+    signature: "",
+    father_name:"",
+    religion: "",
 
     skills: [],
     education: [{
@@ -414,6 +420,41 @@ const BuildForm = () => {
               </div>
             </div>
             )}
+            {[
+              { label: "HeadTitle", name: "headline", type: "text", placeholder: "e.g.Personal Information" },
+              { label: "Full Name", name: "fullname", type: "text", placeholder: "e.g. John Doe" },
+              { label: "Job Position", name: "position", type: "text", placeholder: "e.g. Software Engineer" },
+              { label: "Email", name: "email", type: "email", placeholder: "e.g. johndoe@example.com" },
+              { label: "Phone", name: "phone", type: "tel", placeholder: "e.g. 123-456-7890" },
+              {label:"date_of_birth",name:"date_of_birth",type:"date",placeholder:"e.g. 1990-01-01"},
+              { label: "Address", name: "address", type: "text", placeholder: "e.g. 123 Main St, Anytown, USA" },
+              {label:"Nationality",name:"nationality",type:"text",placeholder:"e.g. USA"},
+              { label: "Website", name: "website", type: "url", placeholder: "e.g. https://example.com" },
+              {label:"To Company",name:"company_name",type:"text",placeholder:"e.g. Acme Inc."},
+              {label: "Company Address" ,name:"company_address",type:"text",placeholder:"e.g. 123 Main St, Anytown, USA"},
+              {label: "Company Country" , name:"company_country",type:"text",placeholder:"e.g. USA"},
+              {label: "Subject", name:"subject",type:"text",placeholder:"e.g. your letter subject"},
+              {label:"Martial Status",name:"marital_status",type:"text",placeholder:"e.g. Single"},
+              {label:"Declaration",name:"declaration",type:"text",placeholder:"e.g. I declare that the above information is true and accurate to the best of my knowledge."},
+              {label:"Signature",name:"signature",type:"image",placeholder:"e.g. John Doe"},
+              {label:"Father's Name",name:"father_name",type:"text",placeholder:"e.g. Senior John Doe"},
+              {label:"Religion",name:"religion",type:"text",placeholder:"e.g. Hindu"},
+              
+            ].map((field) => (
+              <div className="mb-4" key={field.name}>
+                <label className="block text-sm font-medium mb-1 text-gray-700">{field.label}</label>
+                <input
+                  value={formData[field.name as FormFields] as string}
+                  name={field.name}
+                  onChange={handleInputChange}
+                  className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  type={field.type}
+                  placeholder={field.placeholder}
+                />
+              </div>
+            ))}
+         
+            
             {viewType === 'cover' ? (
               [{ label: "Full Name", name: "fullname", type: "text", placeholder: "e.g. John Doe" },
               { label: "To Company", name: "company_name", type: "text", placeholder: "e.g. Acme Inc." },
