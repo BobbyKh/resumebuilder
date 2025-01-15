@@ -19,6 +19,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from rest_framework import status
 import re
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth.decorators import login_required 
 from django.views.decorators.csrf import csrf_exempt
@@ -28,10 +29,19 @@ from pypdf import PdfReader
 from rest_framework.permissions import IsAuthenticated , AllowAny   
 from rest_framework import generics
 from django.contrib.auth import get_user_model
+from dj_rest_auth.registration.views import SocialLoginView
+from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 User = get_user_model()
+@method_decorator(csrf_exempt, name='dispatch')
+class GoogleLogin(SocialLoginView):
+    adapter_class = GoogleOAuth2Adapter
+    callback_url = "http://127.0.0.1:8000/accounts/google/login/callback/"
+    client_class = OAuth2Client
 
-
+    
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer

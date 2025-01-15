@@ -23,6 +23,7 @@ from django.conf import settings
 from api.views import *
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('admin/', include("django_admin_kubi.urls")),  # Django admin kubi URLS
@@ -32,10 +33,11 @@ urlpatterns = [
     path ('ap-auth/', include('rest_framework.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path ('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path ('callback/', google_login_callback, name='callback'),
+    path('accounts/google/login/', GoogleLogin.as_view(), name='google_login'),
     path ('user/register/', UserCreate.as_view(), name='register'),
     path ('api/auth/user/', UserDetailView.as_view(), name='user'),
     path('api/google/validate_token/', validate_google_token, name='validate_google_token'),
+
     
 
 ]
