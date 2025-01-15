@@ -29,13 +29,13 @@ const Feature = () => {
         });
             
     }
-    return <div ><section className="bg-gray-200  p-8  " >
+    return <div ><section className="bg-white  p-8  " >
        <h2 className="text-4xl text-blue-800 font-bold text-center mb-3 " >What we offer ?</h2>  
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-12">
         {features.map((feature) => (
             <div 
                 key={feature.id} 
-                className="bg-gray-50 rounded-lg shadow-md p-6 "
+                className="bg-white  p-6 "
             >
                 <div className="flex items-center justify-center mb-3">
                     <img 

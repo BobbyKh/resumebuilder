@@ -56,42 +56,52 @@ const Gallery = () => {
     </div>
     <div className="flex w-1/3 flex-wrap">
       <div className="w-full p-1 md:p-2 hover:scale-105 duration-300">
+      <Link to='/login'>
         <img
           alt="gallery"
           className="block h-full w-full rounded-lg object-cover object-center"
           src={image.image_2} />
+          </Link>
       </div>
     </div>
     <div className="flex w-1/3 flex-wrap">
       <div className="w-full p-1 md:p-2 hover:scale-105 duration-300">
+      <Link to='/login'>
         <img
           alt="gallery"
           className="block h-full w-full rounded-lg object-cover object-center"
           src={image.image_3} />
+          </Link>
       </div>
     </div>
     <div className="flex w-1/3 flex-wrap">
       <div className="w-full p-1 md:p-2 hover:scale-105 duration-300">
+      <Link to='/login'>
         <img
           alt="gallery"
           className="block h-full w-full rounded-lg object-cover object-center"
           src={image.image_4} />
+          </Link>
       </div>
     </div>
     <div className="flex w-1/3 flex-wrap">
       <div className="w-full p-1 md:p-2 hover:scale-105 duration-300">
+      <Link to='/login'>
         <img
           alt="gallery"
           className="block h-full w-full rounded-lg object-cover object-center"
           src={image.image_5} />
+          </Link>
       </div>
     </div>
     <div className="flex w-1/3 flex-wrap">
       <div className="w-full p-1 md:p-2 hover:scale-105 duration-300">
+      <Link to='/login'>
         <img
           alt="gallery"
           className="block h-full w-full rounded-lg object-cover object-center"
           src={image.image_6} />
+          </Link>
       </div>
     </div>
   </div>

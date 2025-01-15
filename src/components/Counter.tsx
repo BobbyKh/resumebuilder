@@ -28,33 +28,55 @@ const Counter = () => {
   }, []);
 
   return (
-    <section className="text-gray-800 body-font bg-blue-50">
-      {counter.map((counterItem) => (
-        <div key={counterItem.id} className="container px-5 py-24 mx-auto flex flex-wrap">
-          <div className="flex flex-wrap -mx-4 mt-auto mb-auto lg:w-1/2 sm:w-2/3 content-start sm:pr-10">
-            <div className="w-full sm:p-4 px-4 mb-6">
-              <h1 className="text-5xl text-blue-800 font-bold text-center mb-3">
-                {counterItem.title}
-              </h1>
-              <div className="leading-relaxed text-justify text-gray-800">{counterItem.description}</div>
-            </div>
-            <div className="p-4 sm:w-1/2 lg:w-1/4 w-1/2">
-              <h2 className="title-font font-medium text-3xl text-gray-900 hover:text-blue-600">
-                {counterItem.value}
-              </h2>
-              <p className="leading-relaxed hover:text-blue-600">{counterItem.label}</p>
-            </div>
-          </div>
-          <div className="lg:w-1/2 sm:w-1/3 w-1/2 rounded-lg overflow-hidden mt-6 sm:mt-0">
-            <img
-              className="rounded shadow-lg w-full max-w-md mx-auto h-100"
-              src={counterItem.image} 
-              alt="stats"
-            />
+    <div className="bg-blue-800 py-16">
+    <div className="container mx-auto flex flex-col lg:flex-row items-center">
+ 
+      <div className="w-full lg:w-1/2 mb-10 lg:mb-0">
+        <div className="relative">
+          <img
+            src="https://cvcreatoronline.com/wp-content/uploads/2021/12/Douglas-Hammond.png"
+            alt="Resume Builder Image"
+            className="rounded-xl shadow-lg max-w-xs ml-8 "
+          />
+          <div className="absolute top-0 left-0 bg-white bg-opacity-70 py-1 px-3 rounded-br-lg ml-8">
+            <h4 className="text-lg font-bold text-blue-800">Trusted by Professionals</h4>
           </div>
         </div>
-      ))}
-    </section>
+      </div>
+  
+
+      <div className="w-full lg:w-1/2 text-white">
+        <h2 className="text-4xl font-bold mb-6">Our Impact</h2>
+        <p className="text-lg mb-8">
+          We empower professionals to build resumes that stand out and secure their dream jobs. Here's what we've achieved so far:
+        </p>
+        <div className="grid grid-cols-2 gap-8">
+         
+          <div className="text-center">
+            <h3 className="text-5xl font-extrabold">2,000+</h3>
+            <p className="mt-2 text-lg">Resumes Built</p>
+          </div>
+         
+          <div className="text-center">
+            <h3 className="text-5xl font-extrabold">1,800+</h3>
+            <p className="mt-2 text-lg">Happy Users</p>
+          </div>
+         
+          <div className="text-center">
+            <h3 className="text-5xl font-extrabold">400+</h3>
+            <p className="mt-2 text-lg">Unique Templates</p>
+          </div>
+         
+          <div className="text-center">
+            <h3 className="text-5xl font-extrabold">60+</h3>
+            <p className="mt-2 text-lg">Industries Covered</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
   );
 };
 

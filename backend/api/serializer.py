@@ -137,8 +137,7 @@ class CounterSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
         
-class HowItWorksSerializer(serializers.ModelSerializer):
+class HowitWorksSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.HowItWorks
+        model = models.HowitWorks
         fields = '__all__'
-        
