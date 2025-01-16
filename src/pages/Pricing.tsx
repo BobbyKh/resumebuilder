@@ -92,7 +92,7 @@ const Pricing = () => {
                 className="bg-white rounded-b-2xl p-6"
                 style={{ transform: 'rotateY(0deg)', transition: 'transform 0.6s' }}
               >
-                <ul className="space-y-3">
+                {/* <ul className="space-y-3">
                   {typeof plan.features === 'string'
                     ? plan.features.split(',').map((feature:any, index:any) => (
                         <li
@@ -121,7 +121,7 @@ const Pricing = () => {
                           {feature}
                         </li>
                       ))}
-                </ul>
+                </ul> */}
                 <Link to={`/pricing/subscribe/${plan.id}`}>
                   <button
                     onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
