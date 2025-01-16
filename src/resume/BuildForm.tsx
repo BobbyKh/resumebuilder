@@ -13,13 +13,6 @@ import html2canvas from "html2canvas";
 import { CoverLetterTemplate1, CoverLetterTemplate2, CoverLetterTemplate3, CoverLetterTemplate4, CoverLetterTemplate5 } from "../templatedesign/CoverTemplateDesign";
 import { useLocation } from "react-router-dom";
 import { BioDataTemplate1, BioDataTemplate2, BioDataTemplate3, BioDataTemplate4, BioDataTemplate5 } from "../templatedesign/BioDataDesign";
-interface Fields {
-  label: string;
-  type: string;
-  placeholder: string
-  name: string
-
-}
 
 const BuildForm = () => {
   type FormFields = "image" | "fullname" | "position" | "date_of_birth" | "nationality" | "email" | "phone" | "address" | "headline" | "website" | "summary" | "skills" | "language" | "education" | "experience" | "projects" | "hobbies" | "company_name" | "manager_name" | "company_address" | "company_country" | "subject" | "marital_status" | "declaration" | "signature" | "father_name" | "religion";

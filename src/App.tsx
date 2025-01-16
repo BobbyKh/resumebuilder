@@ -1,11 +1,10 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import './App.css';
 import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import About from "./pages/About";
 import Landing from "./pages/Landing";
 import Footer from "./components/Footer";
-import Login from "./auth/login";
 import Portfolio from "./pages/Portfolio";
 import Contact from "./pages/Contact";
 import ResumeBuild from "./resume/ResumeBuild";
@@ -36,10 +35,8 @@ import Question from "./pages/Question";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const {isAuthorized} = useAuthentication();
-  const  ProtectedLogin = () => isAuthorized ? <Navigate to="/app" /> : <Login method="login" setMethod={() => {}} route="/login" />
+  useAuthentication();
 
-  const ProtectedRegister = () => isAuthorized ? <Navigate to="/app" /> : <AuthPage initialMethod="register" />
 
 
   useEffect(() => {
