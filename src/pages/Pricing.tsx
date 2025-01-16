@@ -51,11 +51,12 @@ const Pricing = () => {
             Choose a plan that fits your needs and enjoy premium features at every level.
           </p>
         </div>
-        <div className="flex flex-col lg:flex-row justify-center items-center gap-8 lg:gap-4 ">
+        <div className="flex flex-col lg:flex-row justify-center items-center gap-8 lg:gap-4 md:px-12">
           {pricing.map((plan: { id: Key | null | undefined; name: string; price: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; features: { split: (arg0: string) => any[]; map: (arg0: (feature: any, index: any) => JSX.Element) => string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; }; }) => (
             <div
               key={plan.id}
-              className="flex-1 gap-2 w-full mb-4 bg-blue-400 rounded-2xl shadow-xl">
+              className="flex-1 gap-2 w-full md:w-1/3 mb-4 bg-blue-400 rounded-2xl shadow-xl"
+            >
               
               <div
                 className="text-center p-8"
@@ -92,36 +93,29 @@ const Pricing = () => {
                 className="bg-white rounded-b-2xl p-6"
                 style={{ transform: 'rotateY(0deg)', transition: 'transform 0.6s' }}
               >
-                {/* <ul className="space-y-3">
-                  {typeof plan.features === 'string'
-                    ? plan.features.split(',').map((feature:any, index:any) => (
-                        <li
-                          key={index}
-                          className="flex items-center gap-2 text-base text-gray-800"
+                <ul className="space-y-3">
+                  <ul className="space-y-2">
+                    {plan.features.split(',').map((feature: any, index: any) => (
+                      <li key={index} className="flex items-start">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5 text-blue-600 mr-2"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5 text-blue-500"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                          </svg>
-                          {feature.trim()}
-                        </li>
-                      ))
-                    : plan.features.map((feature, index) => (
-                        <li key={index} className="text-base text-gray-800">
-                          {feature}
-                        </li>
-                      ))}
-                </ul> */}
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                        <p className="text-base font-medium text-gray-900">{feature}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </ul>
                 <Link to={`/pricing/subscribe/${plan.id}`}>
                   <button
                     onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}

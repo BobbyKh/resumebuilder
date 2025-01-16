@@ -25,42 +25,48 @@ const ResumeLayout = () => {
     fetchResumeLayout();
   }, []);
 
-  
 
+  return (
+    <div className="overflow-hidden bg-blue-800 p-8">
+      <section className="mx-auto max-w-7xl">
+        {resumeLayout.map((resume) => (
+          <div
+            key={resume.id}
+            className="mb-8 flex flex-col justify-between md:mb-16 lg:flex-row lg:justify-between lg:items-center lg:space-x-8"
+          >
+            <div className="flex w-full flex-col justify-center text-center md:w-1/2 lg:w-2/5">
+              <h1 className="font-bold text-white sm:text-4xl md:text-5xl lg:text-6xl text-center md:text-left">
+                {resume.title}
+              </h1>
+              <p className="max-w-md mx-auto  text-white text-center md:text-left md:mx-0">
+                {resume.description}
+              </p>
+            </div>
 
-    return <div className="overflow-hidden min-h-screen bg-blue-800" >
+            <div className="flex w-full md:w-1/2 lg:w-3/5 lg:flex-row lg:space-x-4 lg:mt-0 mt-8 md:mt-0">
+              <div className="overflow-hidden rounded-lg bg-gray-100 shadow-lg w-full lg:w-1/2">
+                <img
+                  src={resume.image_1}
+                  loading="lazy"
+                  alt="Resume Image 1"
+                  className="h-full w-full object-cover object-center"
+                />
+              </div>
 
-             
-  <section className="mx-auto max-w-screen-2xl px-8 md:px-8">
-    {resumeLayout.map((resume) => (
-      
-      <div key={resume.id} className="mb-8 flex flex-wrap justify-between md:mb-16">
-        <div className="flex w-1/2 flex-col justify-center text-center ">
-          <h1 className="font-bold text-white sm:text-5xl md:text-6xl text-center ">{resume.title}</h1>
-
-          <p className="max-w-md leading-relaxed text-white text-justify ml-8">{resume.description}</p>
-        </div>
-
-        <div className="flex w-1/2">
-          <div className="overflow-hidden rounded-lg bg-gray-100 shadow-lg mt-16 mr-8">
-            <img src={resume.image_1} loading="lazy" alt="Photo by Kaung Htet" className="h-full w-full object-fit object-center" />
+              <div className="overflow-hidden rounded-lg bg-gray-100 shadow-lg w-full lg:w-1/2">
+                <img
+                  src={resume.image_2}
+                  loading="lazy"
+                  alt="Resume Image 2"
+                  className="h-full w-full object-cover object-center"
+                />
+              </div>
+            </div>
           </div>
-          
-
-          <div className="overflow-hidden rounded-lg bg-gray-100 shadow-lg mt-16">
-            <img src={resume.image_2} loading="lazy" alt="Photo by Manny Moreno" className="h-full w-full object-fit object-center" />
-          </div>
-
-      </div>
-    </div> 
-      
-    ))}
-       
-  </section>
-
-
-
+        ))}
+      </section>
     </div>
+  )
 };
 
 
