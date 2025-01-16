@@ -38,7 +38,7 @@ const ResumeLayout = () => {
         <div className="flex w-1/2 flex-col justify-center text-center ">
           <h1 className="font-bold text-white sm:text-5xl md:text-6xl text-center ">{resume.title}</h1>
 
-          <p className="max-w-md leading-relaxed text-white text-justify text-center ml-8">{resume.description}</p>
+          <p className="max-w-md leading-relaxed text-white text-justify ml-8">{resume.description}</p>
         </div>
 
         <div className="flex w-1/2">
