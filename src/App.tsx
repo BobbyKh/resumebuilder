@@ -40,6 +40,7 @@ const App = () => {
 
 
   useEffect(() => {
+
     const fakeDataFetch = async () => {
       setTimeout(() => {
         setIsLoading(false);

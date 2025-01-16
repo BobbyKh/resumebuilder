@@ -38,7 +38,7 @@ const Gallery = () => {
             <div className="relative overflow-hidden">
               <div className="px-6 py-4">
                 <h1 className="text-4xl font-bold text-center text-blue-800">{image.title}</h1>
-                <p className="mt-2 text-lg text-center text-gray-800 text-justify">{image.description}</p>
+                <p className="mt-2 text-lg  text-gray-800 text-justify">{image.description}</p>
               </div>
             </div>
             
