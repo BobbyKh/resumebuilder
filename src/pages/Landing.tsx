@@ -11,7 +11,6 @@ import API_URL from '../api/Api';
 import Tutorial from "../tutorial/Tutorial";
 import Template from "../resume/Template";
 import Branding from "../components/Branding";
-import MobileApp from "../components/Mobileapp";
 import Feature from "../components/Feature";
 import ResumeLayout from "../components/ResumeLayout";
 import Gallery from "../components/Gallery";
