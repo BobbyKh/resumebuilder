@@ -13,7 +13,7 @@ interface Counter {
 }
 
 const Counter = () => {
-  const [, setCounter] = useState<Counter[]>([]);
+  const [counter, setCounter] = useState<Counter[]>([]);
 
   useEffect(() => {
     const fetchCounter = async () => {

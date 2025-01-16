@@ -4,7 +4,7 @@ import axios from "axios";
 import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import API_URL from "../api/Api";
-
+import { JSX } from "react/jsx-runtime";
 
 
 const Pricing = () => {
@@ -52,7 +52,7 @@ const Pricing = () => {
           </p>
         </div>
         <div className="flex flex-col lg:flex-row justify-center items-center gap-8 lg:gap-4 ">
-          {pricing.map((plan: { id: Key | null | undefined; name: string; price: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; features: string[]; }) => (
+          {pricing.map((plan: { id: Key | null | undefined; name: string; price: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; features: { split: (arg0: string) => any[]; map: (arg0: (feature: any, index: any) => JSX.Element) => string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; }; }) => (
             <div
               key={plan.id}
               className="flex-1 gap-2 w-full mb-4 bg-blue-400 rounded-2xl shadow-xl">
@@ -93,28 +93,34 @@ const Pricing = () => {
                 style={{ transform: 'rotateY(0deg)', transition: 'transform 0.6s' }}
               >
                 <ul className="space-y-3">
-                  {plan.features.map((feature, index) => (
-                    <li
-                      key={index}
-                      className="flex items-center gap-2 text-base text-gray-800"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 text-blue-500"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
-                      {feature.trim()}
-                    </li>
-                  ))}
+                  {typeof plan.features === 'string'
+                    ? plan.features.split(',').map((feature:any, index:any) => (
+                        <li
+                          key={index}
+                          className="flex items-center gap-2 text-base text-gray-800"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5 text-blue-500"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                          {feature.trim()}
+                        </li>
+                      ))
+                    : plan.features.map((feature, index) => (
+                        <li key={index} className="text-base text-gray-800">
+                          {feature}
+                        </li>
+                      ))}
                 </ul>
                 <Link to={`/pricing/subscribe/${plan.id}`}>
                   <button
