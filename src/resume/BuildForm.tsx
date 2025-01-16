@@ -13,11 +13,6 @@ import html2canvas from "html2canvas";
 import { CoverLetterTemplate1, CoverLetterTemplate2, CoverLetterTemplate3, CoverLetterTemplate4, CoverLetterTemplate5 } from "../templatedesign/CoverTemplateDesign";
 import { useLocation } from "react-router-dom";
 import { BioDataTemplate1, BioDataTemplate2, BioDataTemplate3, BioDataTemplate4, BioDataTemplate5 } from "../templatedesign/BioDataDesign";
-<<<<<<< HEAD
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
-=======
-import { Label } from "flowbite-react";
->>>>>>> 796cf676cafe79203f920aafab33fa32068e275e
 interface Fields {
   label: string;
   type: string;
@@ -49,7 +44,7 @@ const BuildForm = () => {
     marital_status: "",
     declaration: "",
     signature: "",
-    father_name:"",
+    father_name: "",
     religion: "",
 
     skills: [],
@@ -115,6 +110,9 @@ const BuildForm = () => {
         const imgData = canvas.toDataURL("image/png", 1.0);
         const pdf = new jsPDF("p", "mm", "a4");
 
+        // Make font smaller
+       
+
         // Calculate dimensions to fit the PDF page
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
@@ -151,10 +149,10 @@ const BuildForm = () => {
     } else if (viewType === "cover") {
       return [
         { id: "template1", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGn4WfHHZGtdW_60gutDaclL32wVBCbyPtdw&s", component: <CoverLetterTemplate1 {...formData} />, name: "Template 1" },
-        { id: "template2", image:"https://marketplace.canva.com/EAFhHrjw0Qk/1/0/566w/canva-black-and-white-simple-classic-professional-cover-letter-rMilWI_ZZvw.jpg", component: <CoverLetterTemplate2 {...formData} />, name: "Template 2" },
-        { id: "template3", image:"https://www.my-resume-templates.com/wp-content/uploads/2024/01/job-application-cover-letter-example-2.jpg", component: <CoverLetterTemplate3 {...formData} />, name: "Template 3" },
-        { id: "template4", image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_0XcUY2fIeL_NtKVo7aicWUYPs2oTfXygyg&s",component: <CoverLetterTemplate4 {...formData} />, name: "Template 4" },
-        { id: "template5", image:"https://www.resume-now.com/sapp/uploads/2023/12/cover-letter-example-emergency-medical-technician.svg",component: <CoverLetterTemplate5 {...formData} />, name: "Template 5" },
+        { id: "template2", image: "https://marketplace.canva.com/EAFhHrjw0Qk/1/0/566w/canva-black-and-white-simple-classic-professional-cover-letter-rMilWI_ZZvw.jpg", component: <CoverLetterTemplate2 {...formData} />, name: "Template 2" },
+        { id: "template3", image: "https://www.my-resume-templates.com/wp-content/uploads/2024/01/job-application-cover-letter-example-2.jpg", component: <CoverLetterTemplate3 {...formData} />, name: "Template 3" },
+        { id: "template4", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_0XcUY2fIeL_NtKVo7aicWUYPs2oTfXygyg&s", component: <CoverLetterTemplate4 {...formData} />, name: "Template 4" },
+        { id: "template5", image: "https://www.resume-now.com/sapp/uploads/2023/12/cover-letter-example-emergency-medical-technician.svg", component: <CoverLetterTemplate5 {...formData} />, name: "Template 5" },
       ];
 
     } else if (viewType === "biodata") {
@@ -391,40 +389,40 @@ const BuildForm = () => {
                 </div>
               ))}
             </div> */}
-            {viewType!=="cover" && (
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-1 text-gray-700">Image</label>
-              <div className="flex items-center">
-                <div className="mr-4">
-                  <button
-                    type="button"
-                    className="flex items-center justify-center w-24 h-24 rounded-full border bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    onClick={() => inputRef.current?.click()}
-                  >
-                    <FontAwesomeIcon icon={faCamera} className="text-gray-600 text-3xl" />
-                  </button>
-                  <input
-                    ref={inputRef}
-                    type="file"
-                    accept=".jpg, .jpeg, .png"
-                    onChange={(e) => {
-                      const file = (e.target as HTMLInputElement).files?.[0];
-                      const reader = new FileReader();
-                      reader.onload = (ev) => {
-                        setFormData((prev) => ({ ...prev, image: ev.target?.result as string }));
-                      };
-                      reader.readAsDataURL(file as Blob);
-                    }}
-                    className="hidden"
-                  />
-                </div>
-                {formData.image && (
-                  <div className="ml-4 ">
-                    <img src={formData.image} className="w-24 h-24 rounded object-cover" alt="Preview" />
+            {viewType !== "cover" && (
+              <div className="mb-4">
+                <label className="block text-sm font-medium mb-1 text-gray-700">Image</label>
+                <div className="flex items-center">
+                  <div className="mr-4">
+                    <button
+                      type="button"
+                      className="flex items-center justify-center w-24 h-24 rounded-full border bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      onClick={() => inputRef.current?.click()}
+                    >
+                      <FontAwesomeIcon icon={faCamera} className="text-gray-600 text-3xl" />
+                    </button>
+                    <input
+                      ref={inputRef}
+                      type="file"
+                      accept=".jpg, .jpeg, .png"
+                      onChange={(e) => {
+                        const file = (e.target as HTMLInputElement).files?.[0];
+                        const reader = new FileReader();
+                        reader.onload = (ev) => {
+                          setFormData((prev) => ({ ...prev, image: ev.target?.result as string }));
+                        };
+                        reader.readAsDataURL(file as Blob);
+                      }}
+                      className="hidden"
+                    />
                   </div>
-                )}
+                  {formData.image && (
+                    <div className="ml-4 ">
+                      <img src={formData.image} className="w-24 h-24 rounded object-cover" alt="Preview" />
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
             )}
             {[
               { label: "HeadTitle", name: "headline", type: "text", placeholder: "e.g.Personal Information" },
@@ -432,20 +430,20 @@ const BuildForm = () => {
               { label: "Job Position", name: "position", type: "text", placeholder: "e.g. Software Engineer" },
               { label: "Email", name: "email", type: "email", placeholder: "e.g. johndoe@example.com" },
               { label: "Phone", name: "phone", type: "tel", placeholder: "e.g. 123-456-7890" },
-              {label:"date_of_birth",name:"date_of_birth",type:"date",placeholder:"e.g. 1990-01-01"},
+              { label: "date_of_birth", name: "date_of_birth", type: "date", placeholder: "e.g. 1990-01-01" },
               { label: "Address", name: "address", type: "text", placeholder: "e.g. 123 Main St, Anytown, USA" },
-              {label:"Nationality",name:"nationality",type:"text",placeholder:"e.g. USA"},
+              { label: "Nationality", name: "nationality", type: "text", placeholder: "e.g. USA" },
               { label: "Website", name: "website", type: "url", placeholder: "e.g. https://example.com" },
-              {label:"To Company",name:"company_name",type:"text",placeholder:"e.g. Acme Inc."},
-              {label: "Company Address" ,name:"company_address",type:"text",placeholder:"e.g. 123 Main St, Anytown, USA"},
-              {label: "Company Country" , name:"company_country",type:"text",placeholder:"e.g. USA"},
-              {label: "Subject", name:"subject",type:"text",placeholder:"e.g. your letter subject"},
-              {label:"Martial Status",name:"marital_status",type:"text",placeholder:"e.g. Single"},
-              {label:"Declaration",name:"declaration",type:"text",placeholder:"e.g. I declare that the above information is true and accurate to the best of my knowledge."},
-              {label:"Signature",name:"signature",type:"image",placeholder:"e.g. John Doe"},
-              {label:"Father's Name",name:"father_name",type:"text",placeholder:"e.g. Senior John Doe"},
-              {label:"Religion",name:"religion",type:"text",placeholder:"e.g. Hindu"},
-              
+              { label: "To Company", name: "company_name", type: "text", placeholder: "e.g. Acme Inc." },
+              { label: "Company Address", name: "company_address", type: "text", placeholder: "e.g. 123 Main St, Anytown, USA" },
+              { label: "Company Country", name: "company_country", type: "text", placeholder: "e.g. USA" },
+              { label: "Subject", name: "subject", type: "text", placeholder: "e.g. your letter subject" },
+              { label: "Martial Status", name: "marital_status", type: "text", placeholder: "e.g. Single" },
+              { label: "Declaration", name: "declaration", type: "text", placeholder: "e.g. I declare that the above information is true and accurate to the best of my knowledge." },
+              { label: "Signature", name: "signature", type: "image", placeholder: "e.g. John Doe" },
+              { label: "Father's Name", name: "father_name", type: "text", placeholder: "e.g. Senior John Doe" },
+              { label: "Religion", name: "religion", type: "text", placeholder: "e.g. Hindu" },
+
             ].map((field) => (
               <div className="mb-4" key={field.name}>
                 <label className="block text-sm font-medium mb-1 text-gray-700">{field.label}</label>
@@ -459,8 +457,8 @@ const BuildForm = () => {
                 />
               </div>
             ))}
-         
-            
+
+
             {viewType === 'cover' ? (
               [{ label: "Full Name", name: "fullname", type: "text", placeholder: "e.g. John Doe" },
               { label: "To Company", name: "company_name", type: "text", placeholder: "e.g. Acme Inc." },
@@ -611,7 +609,7 @@ const BuildForm = () => {
             </div>
           </summary>
           <div className="mt-4">
-            <input
+            {/* <input
               type="text"
               className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter a skill (e.g. React, JavaScript, etc.)"
@@ -626,7 +624,7 @@ const BuildForm = () => {
                   }));
                 }
               }}
-            />
+            /> */}
             <Select
               name="skills"
               isMulti
@@ -843,16 +841,19 @@ const BuildForm = () => {
           </div>
         </details>
 
+        <button
+          type="button"
+          className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          onClick={handleResumeDownload}
+        >
+          Download Resume
+        </button>
 
-        {/* Resume Download Button */}
-        <GoogleLogin
-  onSuccess={credentialResponse => {
-    console.log(credentialResponse);
-  }}
-  onError={() => {
-    console.log('Login Failed');
-  }}
-/>;
+
+
+
+
+
 
         {showLoginPopup && (
           <div className="fixed inset-0 z-10 overflow-y-auto bg-gray-500 bg-opacity-75">

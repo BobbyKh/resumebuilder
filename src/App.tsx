@@ -31,7 +31,7 @@ import RedirectGoogleAuth from "./auth/GoogleRedirectHandler";
 import Profile from "./profile/Profile";
 import Tutorial from "./tutorial/Tutorial";
 import Question from "./pages/Question";
-import ProtectedRoute from "./auth/AuthAccess";
+
 
 
 const App = () => {
@@ -80,16 +80,14 @@ const App = () => {
             {/* <Route path="/resume/editor/:templateId" element={<BuildForm />} /> */}
             {/* <Route path="/cover/editor/:templateId" element={<BuildForm />} /> */}
             {/* <Route path="/resume/editor/:templateId/:id" element={<ResumeEditor />} /> */}
-            <Route path="/resume/editor" element={<ProtectedRoute><BuildForm/></ProtectedRoute>} />
-            <Route path="/cover/editor" element={<ProtectedRoute><BuildForm/></ProtectedRoute>} />
-            <Route path="/biodata/editor" element={<ProtectedRoute><BuildForm/></ProtectedRoute>} />      
+            <Route path="/resume/editor" element={<BuildForm />} />
+            <Route path="/cover/editor" element={<BuildForm />} />
+            <Route path="/biodata/editor" element={<BuildForm />} />      
             <Route path="/cv" element={<CVtemplate />} />
             <Route path="/category/:id" element={<CoverTemplate />} />
             <Route path="/biodata" element={<BioDataTemplate />} />
             <Route path="/" element={<Landing />} />
             <Route path="/about" element={<About />} />
-            <Route path="/login" element={<ProtectedLogin />} />
-            <Route path="/register" element={<ProtectedRegister />} />
             <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/resumebuild" element={<ResumeBuild />} />
@@ -111,4 +109,5 @@ const App = () => {
 };
 
 export default App;
+
 
