@@ -32,7 +32,7 @@ const Gallery = () => {
 
   return (
 
-    <div className="container mx-auto px-5 lg:px-32 lg:pt-12 bg-blue-200">
+    <div className="container mx-auto px-4 lg:px-32 lg:pt-1 bg-initial">
         {galleryImages.slice(0, 6).map((image) => (
           <div key={image.id} className="mb-4">
             <div className="relative overflow-hidden">
@@ -43,7 +43,7 @@ const Gallery = () => {
             </div>
             
   <div  className="-m-1 flex flex-wrap p-8 md:-m-2">
-    <div className="flex w-1/3 flex-wrap">
+    <div className="flex w-1/3 ">
     
       <div className="w-full p-1 md:p-2 hover:scale-105 duration-300">
         <Link to='/login'>
