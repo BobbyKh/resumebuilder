@@ -1,12 +1,19 @@
 import AOS from "aos";
 import "aos/dist/aos.css";
 import axios from "axios";
-import { Key, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import API_URL from "../api/Api";
 
+interface Plan {
+  id: number;
+  name: string;
+  price: number;
+  features: string | string[];
+}
+
 const Pricing = () => {
-  const [pricing, setPricing] = useState<any>([]);
+  const [pricing, setPricing] = useState<Plan[]>([]);
 
   useEffect(() => {
     const fetchPricing = async () => {

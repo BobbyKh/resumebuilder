@@ -1,31 +1,31 @@
-import axios from "axios";
-import API_URL from "../api/Api";
-import { useEffect, useState } from "react";
+// import axios from "axios";
+// import API_URL from "../api/Api";
+// import { useEffect, useState } from "react";
 
-interface Counter {
-  id: number;
-  title: string;
-  description: string;
-  label: string;
-  value: string;
-  icon: string;
-  image: string;
-}
+// interface Counter {
+//   id: number;
+//   title: string;
+//   description: string;
+//   label: string;
+//   value: string;
+//   icon: string;
+//   image: string;
+// }
 
 const Counter = () => {
-  const [counter, setCounter] = useState<Counter[]>([]);
+  // const [counter, setCounter] = useState<Counter[]>([]);
 
-  useEffect(() => {
-    const fetchCounter = async () => {
-      try {
-        const response = await axios.get(`${API_URL}/api/counter`);
-        setCounter(response.data);
-      } catch (error) {
-        console.error("Error fetching Counter:", error);
-      }
-    };
-    fetchCounter();
-  }, []);
+  // useEffect(() => {
+  //   const fetchCounter = async () => {
+  //     try {
+  //       const response = await axios.get(`${API_URL}/api/counter`);
+  //       setCounter(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching Counter:", error);
+  //     }
+  //   };
+  //   fetchCounter();
+  // }, []);
 
   return (
     <div className="bg-blue-800 py-16">
