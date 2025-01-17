@@ -1,6 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.EmailField()
+
+    def __str__(self):
+        return self.user.username
 # Create your models here.
 class DocumentCategory(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -14,7 +22,15 @@ class DocumentCategory(models.Model):
         verbose_name = "Document Category"
         verbose_name_plural = "Document Categories"
 
+class UserToken(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="auth_tokens")
+    access_token = models.TextField()
+    refresh_token = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return f"Tokens for {self.user.username}"
 
 class Template(models.Model):
     image = models.ImageField(upload_to='resume_templates/')

@@ -2,10 +2,19 @@ from django.urls import path
 from django.conf.urls.static import static
 from api import views
 from django.conf import settings
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
+
+from .views import  MyTokenObtainPairView
+# from .views import get_csrf_token
 
 urlpatterns = [
 
+    # path("login/", LoginView.as_view(), name="login"),
+    # path("register/", RegisterView.as_view(), name="register"),
+    path('profile/', views.get_profile),
+    path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path ('appointments', views.AppointmentList.as_view(), name='appointment_list'),
     path ('appointment_types', views.AppointmentType.as_view(), name='appointment_type_list'),
     path ('pricing',views.PricingType.as_view(), name='pricing_list'),
@@ -24,7 +33,7 @@ urlpatterns = [
     path('documentfield', views.DocumentFieldsView.as_view(), name='documentfield'),
     path('documentfield/<int:template_id>', views.fetch_document_data, name='fetch_document_data'),
     path('documentfield/edit/<int:template_id>/<int:document_field_id>', views.DocumentFieldEditView.as_view(), name='documentfield'),
-    path('experience', views.ExperienceView.as_view(), name='experience'),
+    # path('experience', views.ExperienceView.as_view(), name='experience'),
     path ('pricing/<int:id>', views.PricingDetail.as_view(), name='suscription'),
     path ('paymentsystem', views.PaymentSystemView.as_view(), name='paymentsystem'),
     path ('tutorial', views.TutorialView.as_view(), name='tutorial'),

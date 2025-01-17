@@ -1,3 +1,4 @@
+from profile import Profile
 from rest_framework import serializers
 from api import models
 from django.contrib.auth.models import User
@@ -5,13 +6,17 @@ from drf_extra_fields.fields import Base64ImageField
 
 
 
-   
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'password')
-        extra_kwargs = {'password': {'write_only': True}}
+        fields = '__all__'
 
+class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer(many=False, read_only=True)
+    class Meta:
+        model = Profile
+        fields = ('user', 'first_name', 'last_name', 'email')
     def create (self , validated_data):
         user = User.objects.create_user(**validated_data)
         return user 

@@ -8,7 +8,7 @@ from allauth.socialaccount.models import SocialToken
 from rest_framework.response import Response
 from api.models import Branding, Counter, Experience, Feature, GalleryImage, HowItWorks, PaymentSystem, ResumeLayout, Tutorial
 # from dj_rest_auth.registration.views import SocialLoginView
-from api.serializer import BrandingSerializer, CounterSerializer, ExperienceSerializer, FeatureSerializer, GalleryImageSerializer, HowItWorksSerializer, PaymentSystemSerializer, ResumeLayoutSerializer, TutorialSerializer
+from api.serializer import BrandingSerializer, CounterSerializer, ExperienceSerializer, FeatureSerializer, GalleryImageSerializer, HowItWorksSerializer, PaymentSystemSerializer, ProfileSerializer, ResumeLayoutSerializer, TutorialSerializer
 from api.models import AboutUs, Appointment, AppointmentType, DocumentCategory, DocumentField, Experience, FooterSection, HeroSection, Organization, Pricing, Template, Testimonial,FAQ
 from api.serializer import AboutUsSerializer, AppointmentSerializer, AppointmentTypeSerializer, DocumentCategorySerializer, DocumentFieldSerializer, ExperienceSerializer,  FAQSerializer, HeroSectionSerializer, OrganizationSerializer, PricingSerializer, TemplateSerializer, TestimonialSerializer, UserSerializer ,FooterSerializer
 from django.contrib.auth.models import User
@@ -19,6 +19,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from rest_framework import status
 import re
+from rest_framework.decorators import api_view, permission_classes
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth.decorators import login_required 
 from django.views.decorators.csrf import csrf_exempt
@@ -28,6 +29,37 @@ from pypdf import PdfReader
 from rest_framework.permissions import IsAuthenticated , AllowAny   
 from rest_framework import generics
 from django.contrib.auth import get_user_model
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import authenticate
+from .models import UserToken
+from django.middleware.csrf import get_token
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        token['username'] = user.username
+
+        return token
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_profile(request):
+    user = request.user
+    profile = user.profile  # Potential source of error
+    serializer = ProfileSerializer(profile, many=False)
+    return Response(serializer.data)
+
 
 User = get_user_model()
 
@@ -104,9 +136,6 @@ def validate_google_token(request):
 
     
       
-    
-
-  
 
 class DocumentFieldEditView (APIView):
     def get(self, request, *args, **kwargs):
@@ -232,7 +261,7 @@ class AppointmentType(ListCreateAPIView):
 
 
 
-    
+@permission_classes([IsAuthenticated])   
 class PricingType(ListCreateAPIView):
     queryset = Pricing.objects.all()
     serializer_class = PricingSerializer
@@ -297,41 +326,49 @@ def convert_pdf_to_text(request):
 
 
 
-
+@permission_classes([IsAuthenticated]) 
 class FAQ(ListCreateAPIView):
     queryset = FAQ.objects.filter(status=True)
     serializer_class = FAQSerializer
 
 
+@permission_classes([IsAuthenticated]) 
 class AboutUsView(ListCreateAPIView):
     queryset = AboutUs.objects.all()
     serializer_class = AboutUsSerializer
 
 
     
+@permission_classes([IsAuthenticated]) 
 class TestimonialView(ListCreateAPIView):
     queryset = Testimonial.objects.all()
     serializer_class = TestimonialSerializer
 
+
+@permission_classes([IsAuthenticated]) 
 class HeroSectionView(ListCreateAPIView):
     queryset = HeroSection.objects.all()
     serializer_class = HeroSectionSerializer
 
+@permission_classes([IsAuthenticated]) 
 class OrganizationView(ListCreateAPIView):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
 
 
+@permission_classes([IsAuthenticated]) 
 class FooterSectionView(ListCreateAPIView):
     queryset = FooterSection.objects.filter(slug='Solution')
     serializer_class = FooterSerializer
 
 
 
+@permission_classes([IsAuthenticated]) 
 class DocumentCategoryView(ListCreateAPIView):
     queryset = DocumentCategory.objects.all()
     serializer_class = DocumentCategorySerializer
 
+@permission_classes([IsAuthenticated]) 
 class TemplateView(ListCreateAPIView):
     queryset = Template.objects.all()
     serializer_class = TemplateSerializer
@@ -375,6 +412,7 @@ def fetch_category_templates(request, category_id: int):
         # Return a 404 error response if the category is not found
         return Response({"error": "Document category not found"}, status=status.HTTP_404_NOT_FOUND)
 
+@permission_classes([IsAuthenticated]) 
 class DocumentFieldsView(ListCreateAPIView):
     queryset = DocumentField.objects.all()
     serializer_class = DocumentFieldSerializer
@@ -421,11 +459,13 @@ def update(request, id):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@permission_classes([IsAuthenticated]) 
 class ExperienceView(ListCreateAPIView):
     queryset = Experience.objects.all()
     serializer_class = ExperienceSerializer
 
 
+@permission_classes([IsAuthenticated]) 
 class PricingDetail(APIView):
     def get(self, request, id: int):
         try:
@@ -436,11 +476,13 @@ class PricingDetail(APIView):
             return Response({"error": "Object not found"}, status=status.HTTP_404_NOT_FOUND)
         
     
+@permission_classes([IsAuthenticated]) 
 class PaymentSystemView(ListCreateAPIView):
     queryset = PaymentSystem.objects.all()
     serializer_class = PaymentSystemSerializer
 
 
+@permission_classes([IsAuthenticated]) 
 class TutorialView (ListCreateAPIView):
     queryset = Tutorial.objects.all()
     serializer_class = TutorialSerializer
@@ -449,33 +491,40 @@ class TutorialView (ListCreateAPIView):
 
 
 
+@permission_classes([IsAuthenticated]) 
 class FeatureView (ListCreateAPIView):
     queryset = Feature.objects.all()
     serializer_class = FeatureSerializer
     
     
     
+@permission_classes([IsAuthenticated]) 
 class BrandingView (ListCreateAPIView):
     queryset = Branding.objects.all()
     serializer_class = BrandingSerializer
     
     
+@permission_classes([IsAuthenticated]) 
 class ResumeLayoutView (ListCreateAPIView):
     queryset = ResumeLayout.objects.all()
     serializer_class = ResumeLayoutSerializer
     
 
+@permission_classes([IsAuthenticated]) 
 class GalleryImageView (ListCreateAPIView):
     queryset = GalleryImage.objects.all()
     serializer_class = GalleryImageSerializer
     lookup_field='id'
     
     
+@permission_classes([IsAuthenticated]) 
 class CounterView (ListCreateAPIView):
+
     queryset = Counter.objects.all()
     serializer_class = CounterSerializer
     
     
+@permission_classes([IsAuthenticated]) 
 class HowItWorksView (ListCreateAPIView):
     queryset = HowItWorks.objects.all()
     serializer_class = HowItWorksSerializer

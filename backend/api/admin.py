@@ -62,6 +62,13 @@ for model in admin.site._registry.values():
         ('Image preview', {'fields': ('image_preview',)}),
     )
 
+from .models import UserToken
+
+@admin.register(UserToken)
+class UserTokenAdmin(admin.ModelAdmin):
+    list_display = ("user", "created_at", "updated_at")
+    search_fields = ("user__username",)
+
 
 
 
