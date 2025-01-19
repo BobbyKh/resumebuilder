@@ -134,4 +134,4 @@ const Pricing = () => {
     </div>
   );
 };
-export default Pricing;
+export default Pricing;

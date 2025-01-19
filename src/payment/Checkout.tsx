@@ -85,97 +85,118 @@ const Checkout = () => {
 
   return (
     <section
-      data-aos="fade-up"
-      className="text-white body-font overflow-hidden"
-    >
-      <div className="container px-5 py-24 mx-auto">
-        <div className="lg:w-4/5 mx-auto flex flex-wrap">
-          <div
-            data-aos="fade-right"
-            className="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0"
-          >
-            <h2 className="text-sm title-font text-white tracking-widest">
-              SUBSCRIPTION
-            </h2>
-            <h1 className="text-[#d5420b] text-3xl title-font font-medium mb-4">
-              {subscription?.name?.toUpperCase()}
-            </h1>
-            <div className="flex mb-4">
-              <a className="flex-grow text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-1">
-                {subscription?.description}
-              </a>
-            </div>
-            
-            <ul className="list-disc pl-8">
-              {subscription?.features.split(",").map((feature) => (
-                <li key={feature} className="border-b border-gray-300 py-2 flex items-center">
-                  <FontAwesomeIcon icon={faCheckCircle} className="text-[#d5420b] text-500 mr-2" />
-                  <span>{feature}</span>
-                </li>
-              ))}
-            </ul>
-            <div
-              data-aos="fade-left"
-              className="flex border-t border-b mb-6 border-gray-200 py-2"
-            >
-              <span className="text-[#d5420b]">Duration</span>
-              <span className="ml-auto text-[#d5420b]">
-                <button
-                  className="border-2 border-gray-300 rounded-full px-2 py-1 mr-2 hover:bg-gray-700 hover:text-white"
-                  onClick={() => setDuration(1)}
-                >
-                  1 month
-                </button>
-                <button
-                  className="border-2 border-gray-300 rounded-full px-2 py-1 mr-2 hover:bg-gray-700 hover:text-white"
-                  onClick={() => setDuration(3)}
-                >
-                  3 months
-                </button>
-                <button
-                  className="border-2 border-gray-300 rounded-full px-2 py-1 mr-2 hover:bg-gray-700 hover:text-white"
-                  onClick={() => setDuration(6)}
-                >
-                  6 months
-                </button>
-                <button
-                  className="border-2 border-gray-300 rounded-full px-2 py-1 hover:bg-gray-700 hover:text-white"
-                  onClick={() => setDuration(12)}
-                >
-                  1 year
-                </button>
-              </span>
-            </div>
-            <div className="flex border-t border-gray-200 py-2">
-              <span className="text-[#d5420b] text-lg">Price</span>
-              <span className="ml-auto text-[#d5420b]">
-                {subscription
-                  ? `$${subscription.price * duration}`
-                  : "Price unavailable"}
-              </span>
-            </div>
-            {subscription?.name === "Student" ? (
-              <button className="flex ml-auto text-white bg-[#d5420b] border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
-                Free
-              </button>
-            ) : (
-              <button
-                className="flex ml-auto text-white bg-[#d5420b] border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
-                onClick={() => setModalIsOpen(true)}
-              >
-                Checkout
-              </button>
-            )}
-          </div>
-          <img
-            alt="ecommerce"
-            data-aos="fade-left"
-            className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
-            src="https://images.ctfassets.net/7qqwgjna58ct/3WEd2JUHd2kdYfY34FanGj/ec7084674c3fd7420911240de5a9c5d7/get-a-job-with-no-experience.png"
-          />
-        </div>
+  className="relative text-white body-font overflow-hidden bg-gray-100 bg-via-black to-gray-50 bg-opacity-50 bg-opacity-50 bg-opacity-50"
+>
+  <div className="container px-6 py-24 mx-auto">
+    <div className="relative max-w-6xl mx-auto bg-gray-200  shadow-2xl rounded-3xl p-10 md:p-16">
+      <div className="absolute -top-16 -right-16 w-72 h-72 "></div>
+      <div className="absolute -bottom-16 -left-16 w-72 h-72"></div>
+
+      <div className="flex flex-col lg:flex-row items-center lg:items-start">
+        {/* Left Section */}
+        <div
         
+          className="lg:w-1/2 w-full text-center lg:text-left"
+        >
+          <h2 className="text-sm uppercase tracking-widest font-bold text-blue-800 mb-4 text-6xl">
+            Subscription Plan
+          </h2>
+          <h1 className="text-6xl font-extrabold text-blue-800 leading-tight">
+            {subscription?.name?.toUpperCase()}
+          </h1>
+          <p className="text-gray-900 leading-relaxed mb-8">
+            {subscription?.description}
+          </p>
+          <ul className="space-y-6 text-lg text-gray-800">
+            {subscription?.features.split(",").map((feature) => (
+              <li
+                key={feature}
+                className="flex items-center space-x-4 bg-white bg-opacity-10 text-gray-900 py-3 px-5 rounded-lg shadow-lg"
+              >
+                <FontAwesomeIcon
+                  icon={faCheckCircle}
+                  className="text-blue-800 text-2xl hover:text-[#ff7b45]"
+                />
+                <span className="text-gray-900">{feature}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Right Section */}
+        <div
+          className="lg:w-1/2 w-full mt-12 lg:mt-0 flex flex-col items-center justify-center bg-gray-200 to-gray-300 py-12 px-10 space-y-8 ml-12 mb-12"
+        >
+          <div className="w-full">
+            <h3 className="text-xl font-semibold text-blue-800 mb-4">
+              Select Duration
+            </h3>
+            <div className="flex justify-between space-x-4 ">
+              {[1, 3, 6, 12].map((dur) => (
+                <button
+                  key={dur}
+                  className={`flex-1 px-6 text-lg font-semibold transition-all transform rounded-2xl shadow-inner  ${
+                    duration === dur
+                      ? "bg-blue-800 text-white shadow-lg scale-105"
+                      : "bg-gray-600 bg-opacity-10 text-gray-900"
+                  }`}
+                  onClick={() => setDuration(dur)}
+                >
+                  {dur === 12 ? "1 Year" : `${dur} Month${dur > 1 ? "s" : ""}`}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="w-full text-center">
+            <h3 className="text-xl font-semibold text-blue-800 mb-2">Price</h3>
+            <p className="text-4xl font-extrabold text-blue-800">
+              {subscription
+                ? `$${subscription.price * duration}`
+                : "Price unavailable"}
+            </p>
+          </div>
+
+          {subscription?.name === "Student" ? (
+            <button className="w-full py-4 bg-blue-800 text-white font-bold rounded-full shadow-lg hover:shadow-2xl hover:scale-105 transition-transform">
+              Free
+            </button>
+          ) : (
+            <button
+              className="w-full py-4 bg-blue-800 text-white font-bold rounded-full shadow-lg hover:shadow-2xl hover:scale-105 transition-transform"
+              onClick={() => setModalIsOpen(true)}
+            >
+              Checkout
+            </button>
+          )}
+        </div>
       </div>
+    </div>
+
+    <div
+      className="relative mt-16 max-w-4xl mx-auto rounded-xl overflow-hidden shadow-2xl"
+    
+    >
+      <img
+        alt="ecommerce"
+        className="w-full h-full object-cover object-center"
+        src="https://venngage-wordpress.s3.amazonaws.com/uploads/2018/06/infographic-resume-template-header.png"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black opacity-30"></div>
+      <div className=" justify-center">
+        <h2 className="text-4xl font-bold text-blue-800 text-center ">
+          Unlock Your Potential with Premium
+        </h2>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
       <Review />
       <Pricing />
       <Modal
@@ -199,160 +220,234 @@ const Checkout = () => {
           },
         }}
       >
-        <div
-          className="flex flex-col items-center"
-          data-aos="fade-up"
-          data-aos-duration="1000"
-        >
-          <h2 className="text-2xl text-[#d5420b] font-bold mb-4">Checkout</h2>
-          <p className="mb-6 text-center text-lg" data-aos="fade-up" data-aos-duration="1000">
-            Proceed to payment for {duration} months of <p className="text-[#d5420b] border-b-2 border-[#d5420b]">{subscription?.name}{" "}</p> 
-            Subscription.
-          </p>
-          <p className="text-lg font-bold mb-4 text-center " data-aos="fade-up" data-aos-duration="1000">
-            Total price: $
-            {subscription ? subscription.price * duration : "Price unavailable"}
-          </p>
-        </div>
-        <p className="mb-6" data-aos="fade-up" data-aos-duration="1000">Payment methods:</p>
-        <ul className="list-disc mb-6 flex flex-row gap-4" data-aos="fade-up" data-aos-duration="1000">
-          {paymentSystems.map((paymentSystem: PaymentSystem) => (
-            <div
-              className="border-2 border-gray-300 rounded p-2 hover:bg-gray-200"
-              key={paymentSystem.name}
-              data-aos="fade-left"
-              data-aos-duration="1000"
+
+
+
+<section
+      
+  className="flex flex-col items-center bg-gray-200 text-blue-800 py-12 px-6"
+
+>
+  <div className="max-w-4xl w-full bg-gray-300 shadow-lg rounded-3xl p-8 md:p-12">
+    {/* Header Section */}
+    <div className="text-center mb-8">
+      <h2 className="text-3xl font-bold text-blue-800 mb-4">Checkout</h2>
+      <p className="text-lg text-blue-800">
+        Proceed to payment for{" "}
+        <span className="text-blue-800">
+          {subscription?.name}
+        </span>{" "}
+        subscription for {duration} months.
+      </p>
+      <p className="text-xl font-bold mt-4 text-blue-800">
+        Total Price: $
+        {subscription ? subscription.price * duration : "Price unavailable"}
+      </p>
+    </div>
+
+    {/* Payment Methods */}
+    <div className="mb-8">
+      <p className="text-lg font-semibold mb-4">Payment Methods:</p>
+      <ul className="flex flex-wrap gap-4">
+        {paymentSystems.map((paymentSystem: PaymentSystem) => (
+          <li
+            key={paymentSystem.name}
+            className="flex items-center gap-3 p-4 bg-gray-800 rounded-lg shadow hover:shadow-lg hover:bg-gray-7n"
+            data-aos="fade-left"
+            data-aos-duration="1000"
+          >
+            <button
+              onClick={() => setShowQR(!showQR)}
+              className="flex items-center space-x-2"
             >
-              <button
-                onClick={() => setShowQR(!showQR)}
-                className="flex items-center space-x-2"
-              >
-                <img
-                  src={paymentSystem.qr_code}
-                  alt={paymentSystem.name}
-                  className="w-6 h-6"
-                />
-                <span>{paymentSystem.name}</span>
-              </button>
-            </div>
-          ))}
-        </ul>
-        <div className="flex flex-col gap-4" data-aos="fade-up" data-aos-duration="1000">
-          <label htmlFor="name">
+              <img
+                src={paymentSystem.qr_code}
+                alt={paymentSystem.name}
+                className="w-8 h-8"
+              />
+              <span className="text-white">{paymentSystem.name}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    {/* Form Section */}
+    <form className="space-y-6 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Name */}
+        <div>
+          <label htmlFor="name" className="block text-gray-900 mb-2">
             Name
-            <input
-              type="text"
-              id="name"
-              className="border-2 border-gray-300 rounded p-2 w-full"
-              placeholder="John Doe"
-            />
           </label>
-          <label htmlFor="email">
+          <input
+            type="text"
+            id="name"
+            className="w-full p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-[#d5420b]"
+            placeholder="John Doe"
+          />
+        </div>
+
+        {/* Email */}
+        <div>
+          <label htmlFor="email" className="block text-gray-900 mb-2">
             Email
-            <input
-              type="email"
-              id="email"
-              className="border-2 border-gray-300 rounded p-2 w-full"
-              placeholder="johndoe@example.com"
-            />
           </label>
-          <label htmlFor="gender">
+          <input
+            type="email"
+            id="email"
+            className="w-full p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-[#d5420b]"
+            placeholder="johndoe@example.com"
+          />
+        </div>
+
+        {/* Gender */}
+        <div>
+          <label htmlFor="gender" className="block text-gray-900 mb-2">
             Gender
-            <select
-              id="gender"
-              className="border-2 border-gray-300 rounded p-2 w-full"
-            >
-              <option value="">Select Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </select>
           </label>
-          <label htmlFor="phone">
+          <select
+            id="gender"
+            className="w-full p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-[#d5420b]"
+          >
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        {/* Phone */}
+        <div>
+          <label htmlFor="phone" className="block text-gray-900 mb-2">
             Phone
-            <input
-              type="tel"
-              id="phone"
-              className="border-2 border-gray-300 rounded p-2 w-full"
-              placeholder="+1 123 456 7890"
-            />
           </label>
-          <label htmlFor="address">
+          <input
+            type="tel"
+            id="phone"
+            className="w-full p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-[#d5420b]"
+            placeholder="+1 123 456 7890"
+          />
+        </div>
+
+        {/* Address */}
+        <div className="col-span-full">
+          <label htmlFor="address" className="block text-gray-900 mb-2">
             Address
-            <input
-              type="text"
-              id="address"
-              className="border-2 border-gray-300 rounded p-2 w-full"
-              placeholder="123 Main St, Anytown, USA"
-            />
           </label>
-          <label htmlFor="paymentInfo">
-            Payment Information
-          </label>
-          <div className="flex justify-center gap-4">
-            <img src="https://img.icons8.com/color/48/000000/visa.png" alt="Visa" className="h-8 w-8" />
-            <img src="https://img.icons8.com/color/48/000000/mastercard.png" alt="Mastercard" className="h-8 w-8" />
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD4IZwz7bJ8wqn5j6xil0Pmpx1cEPARqvxFQ&s" alt="American Express" className="h-8 w-8" />
-          </div>
-          <label htmlFor="CardType">
-            Card Type
+          <input
+            type="text"
+            id="address"
+            className="w-full p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-[#d5420b]"
+            placeholder="123 Main St, Anytown, USA"
+          />
+        </div>
+      </div>
+
+      {/* Payment Details */}
+      <div>
+        <p className="text-lg font-semibold mb-4">Payment Information:</p>
+        <div className="flex gap-4 justify-center mb-6">
+          <img
+            src="https://img.icons8.com/color/48/000000/visa.png"
+            alt="Visa"
+            className="h-10 w-10"
+          />
+          <img
+            src="https://img.icons8.com/color/48/000000/mastercard.png"
+            alt="Mastercard"
+            className="h-10 w-10"
+          />
+          <img
+            src="https://img.icons8.com/?size=100&id=13607&format=png&color=000000"
+            alt="American Express"
+            className="h-10 w-10"
+          />
+
+          <img
+            src="https://img.icons8.com/?size=100&id=13611&format=png&color=000000"
+            alt="Paypal"
+            className="h-10 w-10"
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Card Type */}
+          <div>
+            <label htmlFor="CardType" className="block text-gray-900 mb-2">
+              Card Type
+            </label>
             <select
               id="CardType"
-              className="border-2 border-gray-300 rounded p-2 w-full"
+              className="w-full p-3 rounded-lg  border border-gray-600 focus:outline-none focus:ring-2 focus:ring-[#d5420b]"
             >
               <option value="">Select Card Type</option>
               <option value="Visa">Visa</option>
               <option value="Mastercard">Mastercard</option>
               <option value="American Express">American Express</option>
             </select>
-          </label>
-          <label htmlFor="CardNumber">
-            Card Number
+          </div>
+
+          {/* Card Number */}
+          <div>
+            <label htmlFor="CardNumber" className="block text-gray-900 mb-2">
+              Card Number
+            </label>
             <input
               type="text"
               id="CardNumber"
-              className="border-2 border-gray-300 rounded p-2 w-full"
+              className="w-full p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-[#d5420b]"
               placeholder="1234 5678 9012 3456"
             />
-          </label>
-          <label htmlFor="expiryDate">
-            Expiry Date
+          </div>
+
+          {/* Expiry Date */}
+          <div>
+            <label htmlFor="expiryDate" className="block text-gray-900 mb-2">
+              Expiry Date
+            </label>
             <input
               type="text"
               id="expiryDate"
-              className="border-2 border-gray-300 rounded p-2 w-full"
+              className="w-full p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-[#d5420b]"
               placeholder="MM/YY"
             />
-          </label>
-          <label htmlFor="cvv">
-            CVV
+          </div>
+
+          {/* CVV */}
+          <div>
+            <label htmlFor="cvv" className="block text-gray-900 mb-2">
+              CVV
+            </label>
             <input
               type="text"
               id="cvv"
-              className="border-2 border-gray-300 rounded p-2 w-full"
+              className="w-full p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-[#d5420b]"
               placeholder="123"
             />
-          </label>
+          </div>
         </div>
-        <div className="flex justify-center mt-4 p-4" data-aos="fade-up" data-aos-duration="1000">
-          <button
-            className="bg-[#d5420b] hover:bg-[#d5420b]/90 text-white font-bold py-2 px-4 rounded"
-            onClick={() => setModalIsOpen(false)}
-          >
-            Close
-          </button>
-          <Link to={`/payment/${id}/${duration}`}>
-            <button className="bg-[#d5420b] hover:bg-[#d5420b]/90 text-white font-bold py-2 px-4 rounded ml-4">
-              Proceed to Payment
-            </button>
-          </Link>
-          
-        </div>
+      </div>
+    </form>
 
+    {/* Footer Buttons */}
+    <div className="flex justify-center mt-8">
+      <button
+        className="bg-[#e71313] text-gray-600 text-white font-bold py-2 px-6 rounded-lg mr-4"
+        onClick={() => setModalIsOpen(false)}
+      >
+        Close
+      </button>
+      <Link to={`/payment/${id}/${duration}`}>
+        <button className="bg-blue-800 text-white font-bold py-2 px-6 rounded-lg">
+          Proceed to Payment
+        </button>
+      </Link>
+    </div>
+  </div>
+</section>
       </Modal>
-      
     </section>
-
   );
 };
 

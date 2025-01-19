@@ -99,17 +99,16 @@ const Login: React.FC<{ route: string }> = ({ route }) => {
         )}
         <form onSubmit={handleSubmit} className="space-y-4">
           {method === "register" && (
-            <h1>Kumar vsdk</h1>
-            // <div>
-            //   <input
-            //     type="text"
-            //     value={username}
-            //     onChange={(e) => setUsername(e.target.value)}
-            //     placeholder="Enter your username"
-            //     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            //     required
-            //   />
-            // </div>
+            <div>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Enter your username"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
           )}
           <div>
             <input
@@ -229,5 +228,3 @@ const Login: React.FC<{ route: string }> = ({ route }) => {
 };
 
 export default Login;
-
-

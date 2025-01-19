@@ -80,19 +80,19 @@ const Template = () => {
                     </div>
                     <Slider {...settings}>
                         {resumeTemplates.map((resumeTemplate) => (
-                            <div key={resumeTemplate.id} className="flex flex-col items-center mx-2 md:mx-4 gap-12 sm:gap-20 mt-3">
-                                <div className="relative w-full h-full overflow-hidden rounded-lg shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
+                            <div key={resumeTemplate.id} className="flex flex-col items-center mx-2 md:mx-4 gap-4 sm:gap-8 mt-3">
+                                <div className="relative w-full h-48 sm:h-64 md:h-80 overflow-hidden rounded-lg shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl">
                                     <img
                                         src={resumeTemplate.image}
                                         alt={resumeTemplate.name}
                                         className="h-full w-full object-cover group-hover:opacity-75 transition-opacity duration-300 ease-in-out"
                                     />
                                     <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 transition duration-300 ease-in-out group-hover:opacity-100">
-                                        <p className="bg-blue-100 rounded-lg p-2 text-xl font-semibold text-blue-800 sm:text-2xl">{resumeTemplate.name}</p>
+                                        <p className="bg-blue-100 rounded-lg p-2 text-sm sm:text-lg md:text-xl font-semibold text-blue-800">{resumeTemplate.name}</p>
                                     </div>
                                 </div>
                                 <Link to={"/question"} className="mt-2 w-full">
-                                    <button className="block w-full text-blue-900 bg-white font-bold py-2 rounded-lg hover:bg-gray-300 sm:text-lg">
+                                    <button className="block w-full text-blue-900 bg-white font-bold py-2 rounded-lg hover:bg-gray-300 text-sm sm:text-base md:text-lg">
                                         Use Template
                                     </button>
                                 </Link>

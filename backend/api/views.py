@@ -34,7 +34,12 @@ from dj_rest_auth.registration.views import SocialLoginView
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+<<<<<<< HEAD
 from api.myauth import EmailBackend  
+=======
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+>>>>>>> 8c6e44e77af0a21736a6d5ea8e28304bebbb41c3
 
 User = get_user_model()
 @method_decorator(csrf_exempt, name='dispatch')
@@ -252,15 +257,27 @@ class AppointmentList(ListCreateAPIView):
     def create(self, request, *args, **kwargs):
         response = super().create(request, *args, **kwargs)
         new_appointment = Appointment.objects.get(pk=response.data['id'])
-        print(new_appointment.email)
-        message = f'Name: {new_appointment.name}\nEmail: {new_appointment.email}\nPhone: {new_appointment.phone}\nDate: {new_appointment.date}\nTime: {new_appointment.time}\nMessage: {new_appointment.message}\nAppointment Type: {new_appointment.appointment_type.name}'
+
+        # Render the email template
+        html_message = render_to_string('appointment_email.html', {
+            'name': new_appointment.name,
+            'email': new_appointment.email,
+            'phone': new_appointment.phone,
+            'date': new_appointment.date,
+            'time': new_appointment.time,
+            'message': new_appointment.message,
+            'appointment_type': new_appointment.appointment_type.name,
+        })
+        plain_message = strip_tags(html_message)  # Fallback plain text version
+
+        # Send email
         send_mail(
-            
-            'Appointment Request  ' + new_appointment.name, 
-            message, 
-            settings.EMAIL_HOST_USER, 
-            [settings.EMAIL_HOST_USER, new_appointment.email], 
-            fail_silently=False
+            subject=f'Appointment Request - {new_appointment.name}',
+            message=plain_message,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[settings.EMAIL_HOST_USER, new_appointment.email],
+            fail_silently=False,
+            html_message=html_message,  # Pass the HTML message
         )
         return response
 
