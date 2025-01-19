@@ -1,5 +1,5 @@
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
-import { faMapMarkerAlt, faEnvelope, faPhone, faChartPie, faCode, faDollarSign, faLightbulb, faUser, faGear, faTrophy, faLanguage } from '@fortawesome/free-solid-svg-icons';
+import { faMapMarkerAlt, faEnvelope, faPhone, faChartPie, faLanguage } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Key } from 'react';
 interface ResumeTemplateProps {
@@ -86,7 +86,7 @@ const ResumeTemplate1 = (formData: ResumeTemplateProps) => {
               Expertise
             </h2>
             <ul className="list-none pl-0 text-gray-700">
-              {formData?.skills?.map((skill: string, index: Key) => (
+              {formData?.skills?.map((skill: any, index: Key) => (
                 <li key={index}>{skill}</li>
               ))}
             </ul>

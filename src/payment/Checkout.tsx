@@ -89,8 +89,8 @@ const Checkout = () => {
 >
   <div className="container px-6 py-24 mx-auto">
     <div className="relative max-w-6xl mx-auto bg-gray-200  shadow-2xl rounded-3xl p-10 md:p-16">
-      <div className="absolute -top-16 -right-16 w-72 h-72 bg-gradient-to-r from-blue-800 to-[#ff7b45] rounded-full blur-3xl opacity-50"></div>
-      <div className="absolute -bottom-16 -left-16 w-72 h-72 bg-gradient-to-r from-blue-800 to-[#d5420b] rounded-full blur-3xl opacity-50"></div>
+      <div className="absolute -top-16 -right-16 w-72 h-72 "></div>
+      <div className="absolute -bottom-16 -left-16 w-72 h-72"></div>
 
       <div className="flex flex-col lg:flex-row items-center lg:items-start">
         {/* Left Section */}
@@ -125,7 +125,7 @@ const Checkout = () => {
 
         {/* Right Section */}
         <div
-          className="lg:w-1/2 w-full mt-12 lg:mt-0 flex flex-col items-center justify-center bg-gradient-to-r from-gray-300 to-gray-300 rounded-2xl shadow-inner py-12 px-10 space-y-8 ml-12 mb-12"
+          className="lg:w-1/2 w-full mt-12 lg:mt-0 flex flex-col items-center justify-center bg-gray-200 to-gray-300 py-12 px-10 space-y-8 ml-12 mb-12"
         >
           <div className="w-full">
             <h3 className="text-xl font-semibold text-blue-800 mb-4">

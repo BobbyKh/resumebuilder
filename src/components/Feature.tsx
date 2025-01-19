@@ -1,6 +1,7 @@
 import axios from "axios"
 import API_URL from "../api/Api"
 import { useEffect, useState } from "react"
+import { motion } from "framer-motion";
 
 
 interface Feature {
@@ -33,9 +34,12 @@ const Feature = () => {
        <h2 className="text-4xl text-blue-800 font-bold text-center mb-3 " >What we offer ?</h2>  
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-12">
         {features.map((feature) => (
-            <div 
+            <motion.div 
                 key={feature.id} 
-                className="bg-white  p-6 "
+                className="bg-white  p-6 shadow-md hover:shadow-lg transition duration-300 ease-in-out"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
             >
                 <div className="flex items-center justify-center mb-3">
                     <img 
@@ -50,10 +54,11 @@ const Feature = () => {
                 <p className="font-light text-gray-800 dark:text-black text-justify">
                     {feature.description}
                 </p>
-            </div>
+            </motion.div>
         ))}
     </div>
   </section></div>
 }
 
 export default Feature
+

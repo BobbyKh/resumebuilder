@@ -9,11 +9,11 @@ export const useAuthentication = () => {
     useEffect(() => {
         const auth = async () => {
             const urlParams = new URLSearchParams(window.location.search);
-            const googleAccessTokenFromUrl = urlParams.get('googleAccessToken');
+            const googleAccessTokenFromUrl = urlParams.get('access_token'); // Update to match query parameter name
 
             if (googleAccessTokenFromUrl) {
                 localStorage.setItem(GOOGLE_ACCESS_TOKEN, googleAccessTokenFromUrl);
-                window.history.replaceState({}, document.title, window.location.pathname); // Remove query params from URL
+                window.history.replaceState({}, document.title, window.location.pathname);
             }
 
             const token = localStorage.getItem(ACCESS_TOKEN);
@@ -39,9 +39,13 @@ export const useAuthentication = () => {
                     setIsAuthorized(false);
                 }
             } else if (googleAccessToken) {
-                const isGoogleTokenValid = await validateGoogleToken(googleAccessToken);
-                console.log("Google token validation result:", isGoogleTokenValid);
-                setIsAuthorized(isGoogleTokenValid);
+                if (token) {
+                    setIsAuthorized(true);
+                } else {
+                    const isGoogleTokenValid = await validateGoogleToken(googleAccessToken);
+                    console.log("Google token validation result:", isGoogleTokenValid);
+                    setIsAuthorized(isGoogleTokenValid);
+                }
             } else {
                 setIsAuthorized(false);
             }
@@ -97,3 +101,4 @@ export const useAuthentication = () => {
 
     return { isAuthorized, logout };
 };
+

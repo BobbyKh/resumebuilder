@@ -1,23 +1,18 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "./Token";
 import API_URL from "../api/Api";
 
-interface LoginProps {
-  method: "login" | "register";
-  setMethod: Dispatch<SetStateAction<"login" | "register">>;
-  route: string;
-}
-
-const Login: React.FC<LoginProps> = ({ method, setMethod, route }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [email, setEmail] = useState('');
+const Login: React.FC<{ route: string }> = ({ route }) => {
+  const [method, setMethod] = useState<"login" | "register">("login");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
+  const [, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -26,8 +21,8 @@ const Login: React.FC<LoginProps> = ({ method, setMethod, route }) => {
     setError(null);
     setSuccess(null);
 
-    if (method === 'register' && password !== confirmPassword) {
-      setError('Passwords do not match.');
+    if (method === "register" && password !== confirmPassword) {
+      setError("Passwords do not match.");
       setLoading(false);
       return;
     }
@@ -35,48 +30,35 @@ const Login: React.FC<LoginProps> = ({ method, setMethod, route }) => {
     try {
       const response = await axios.post(
         route,
-        method === 'login'
-          ? { username, password }
-          : { username, password, email },
+        method === "login"
+          ? { email, password }
+          : { email, username, password },
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }
       );
 
-      if (method === 'login') {
+      if (method === "login") {
         localStorage.setItem(ACCESS_TOKEN, response.data.access);
         localStorage.setItem(REFRESH_TOKEN, response.data.refresh);
-        navigate('/');
+        navigate("/");
         window.location.reload();
       } else {
-        setSuccess('Registration successful. Please log in.');
+        setSuccess("Registration successful! You can now log in.");
         setTimeout(() => {
-          setMethod('login');
+          setMethod("login");
         }, 2000);
       }
     } catch (error: any) {
       console.error(error);
       if (error.response) {
-        switch (error.response.status) {
-          case 400:
-            setError('Invalid username or password.');
-            break;
-          case 401:
-            setError('Unauthorized.');
-            break;
-          case 404:
-            setError('User not found.');
-            break;
-          case 500:
-            setError('Server error.');
-            break;
-          default:
-            setError('An error occurred.');
-        }
+        setError(
+          error.response.data.message || "An error occurred. Please try again."
+        );
       } else {
-        setError('Network error, something went wrong.');
+        setError("Network error, please try again.");
       }
     } finally {
       setLoading(false);
@@ -87,119 +69,154 @@ const Login: React.FC<LoginProps> = ({ method, setMethod, route }) => {
     window.location.href = `${API_URL}/accounts/google/login/`;
   };
 
+  const handleLinkedInLogin = () => {
+    window.location.href = `${API_URL}/accounts/linkedin/login/`;
+  };
+
+  const handleGitHubLogin = () => {
+    window.location.href = `${API_URL}/accounts/github/login/`;
+  };
+
   return (
-    <div className="h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('login.jpg')" }}>
-      <div className="bg-white bg-opacity-80 backdrop-blur-md rounded-lg p-6 max-w-md w-full mx-auto shadow-lg animate-fade-in">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <h2 className="text-2xl font-bold text-center text-blue-600">{method === 'register' ? 'Register' : 'Login'}</h2>
-          {error && <p className="text-red-500 text-center">{error}</p>}
-          {success && <p className="text-green-500 text-center">{success}</p>}
-
-          <div className="flex flex-col">
-            <label htmlFor="username" className="sr-only">
-              Username
-            </label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Username"
-              name="username"
-              id="username"
-              className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-          </div>
-
-          {method === 'register' && (
-            <div className="flex flex-col">
-              <label htmlFor="email" className="sr-only">
-                Email
-              </label>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 sm:px-6 md:px-8">
+      <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
+        <h2 className="text-2xl font-semibold text-blue-800 text-center mb-4">
+          {method === "login" ? "Login to your account" : "Create an account"}
+        </h2>
+        {error && (
+          <p className="text-red-500 text-center text-sm mb-4">{error}</p>
+        )}
+        {success && (
+          <p className="text-green-500 text-center text-sm mb-4">{success}</p>
+        )}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {method === "register" && (
+            <div>
               <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-                name="email"
-                id="email"
-                className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Enter your username"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
               />
             </div>
           )}
-
-          <div className="flex flex-col">
-            <label htmlFor="password" className="sr-only">
-              Password
-            </label>
+          <div>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+          <div>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-              name="password"
-              id="password"
-              className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Enter your password"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
             />
           </div>
-
-          {method === 'register' && (
-            <div className="flex flex-col">
-              <label htmlFor="confirmPassword" className="sr-only">
-                Confirm Password
-              </label>
+          {method === "register" && (
+            <div>
               <input
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Confirm Password"
-                name="confirmPassword"
-                id="confirmPassword"
-                className="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Confirm your password"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
               />
             </div>
           )}
-
+          <div className="flex justify-between items-center">
+            {method === "login" && (
+              <label className="flex items-center text-sm text-gray-600">
+                <input type="checkbox" className="mr-2 focus:ring-blue-500" />
+                Remember me
+              </label>
+            )}
+            {method === "login" && (
+              <a href="#" className="text-sm text-blue-500 hover:underline">
+                Forgot Password?
+              </a>
+            )}
+          </div>
           <button
             type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md w-full shadow-md"
+            className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
           >
-            {method === 'register' ? 'Register' : 'Login'}
+            {method === "login" ? "Login" : "Register"}
+          </button>
+        </form>
+        <div className="mt-4 space-y-4">
+          <button
+            onClick={handleGoogleLogin}
+            className="w-full flex items-center justify-center border border-gray-300 py-2 rounded-md hover:bg-gray-100 transition"
+          >
+            <img
+              src="https://cdn4.iconfinder.com/data/icons/logos-brands-7/512/google_logo-google_icongoogle-512.png"
+              alt="Google Logo"
+              className="w-5 h-5 mr-2"
+            />
+            {method === "login" ? "Continue with Google" : "Register with Google"}
           </button>
 
           <button
-            type="button"
-            onClick={handleGoogleLogin}
-            className="bg-[#4285F4] hover:bg-[#4285F4]/90 text-white font-bold py-2 px-4 rounded-md w-full shadow-md"
+            onClick={handleLinkedInLogin}
+            className="w-full flex items-center justify-center border border-gray-300 py-2 rounded-md hover:bg-gray-100 transition"
           >
-            {method === 'register' ? 'Register with Google' : 'Login with Google'}
+            <img
+              src="https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png"
+              alt="LinkedIn Logo"
+              className="w-5 h-5 mr-2"
+            />
+            {method === "login" ? "Continue with LinkedIn" : "Register with LinkedIn"}
           </button>
 
-          {method === 'login' ? (
-            <p className="text-center">
-              Don't have an account?{' '}
+          <button
+            onClick={handleGitHubLogin}
+            className="w-full flex items-center justify-center border border-gray-300 py-2 rounded-md hover:bg-gray-100 transition"
+          >
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+              alt="GitHub Logo"
+              className="w-5 h-5 mr-2"
+            />
+            {method === "login" ? "Continue with GitHub" : "Register with GitHub"}
+          </button>
+        </div>
+        <div className="mt-4 text-center">
+          {method === "login" ? (
+            <p className="text-sm text-gray-600">
+              Don't have an account?{" "}
               <span
-                onClick={() => setMethod('register')}
-                className="cursor-pointer text-blue-500"
+                onClick={() => setMethod("register")}
+                className="text-blue-500 cursor-pointer hover:underline"
               >
-                Register
+                Create New Account
               </span>
             </p>
           ) : (
-            <p className="text-center">
-              Already have an account?{' '}
+            <p className="text-sm text-gray-600">
+              Already have an account?{" "}
               <span
-                onClick={() => setMethod('login')}
-                className="cursor-pointer text-blue-500"
+                onClick={() => setMethod("login")}
+                className="text-blue-500 cursor-pointer hover:underline"
               >
                 Login
               </span>
             </p>
           )}
-        </form>
+        </div>
       </div>
     </div>
   );
 };
 
 export default Login;
-

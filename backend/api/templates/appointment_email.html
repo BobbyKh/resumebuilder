@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* General Reset */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9fc;
+            color: #333;
+        }
+        table {
+            border-spacing: 0;
+            width: 100%;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        /* Container Styling */
+        .email-container {
+            max-width: 800px;
+            margin: 30px auto;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Header Section */
+        .header {
+            background: linear-gradient(90deg, #007BFF, #6A5ACD);
+            color: #ffffff;
+            padding: 25px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 28px;
+            margin: 0;
+        }
+        .header p {
+            font-size: 16px;
+            margin: 8px 0 0;
+        }
+
+        /* Letterhead Section */
+        .letterhead {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #f4f4f9;
+        }
+        .letterhead .company-logo img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+        .letterhead .company-details {
+            text-align: right;
+            font-size: 14px;
+            color: #555;
+        }
+        .letterhead .company-details strong {
+            font-size: 16px;
+            color: #333;
+        }
+
+        /* Body Section */
+        .body {
+            padding: 25px;
+        }
+        .body h2 {
+            font-size: 22px;
+            margin: 0 0 15px;
+            color: #333;
+        }
+        .body p {
+            font-size: 15px;
+            margin: 10px 0;
+            line-height: 1.8;
+            color: #555;
+        }
+        .details-table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        .details-table th, .details-table td {
+            text-align: left;
+            padding: 14px 18px;
+            border: 1px solid #ddd;
+        }
+        .details-table th {
+            background-color: #f4f4f9;
+            font-size: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+        .details-table td {
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* Footer Section */
+        .footer {
+            background-color: #f9f9fc;
+            text-align: center;
+            padding: 25px;
+            font-size: 13px;
+            color: #666;
+            border-top: 3px solid #007BFF;
+        }
+        .footer a {
+            color: #007BFF;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <table class="email-container">
+        <!-- Letterhead Section -->
+        <tr>
+            <td>
+                <div class="letterhead">
+                    <div class="company-logo">
+                        <img src="https://thumbs.dreamstime.com/b/basic-rgb-349248039.jpg" alt="Company Logo">
+                    </div>
+                    <div class="company-details">
+                        <p><strong>ResuMaven</strong></p>
+                        <p>46000 Street, Naxal, Kathmandu, Nepal</p>
+                        <p>Email: resumaven@info.com | Phone: +977-9807497538</p>
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+        <!-- Main Header -->
+        <tr>
+            <td class="header">
+                <h1>Appointment Confirmation</h1>
+                <p>Your appointment has been successfully scheduled!</p>
+            </td>
+        </tr>
+
+        <!-- Body Section -->
+        <tr>
+            <td class="body">
+                <h2>Hello {{ name }},</h2>
+                <p>Thank you for scheduling an appointment with us. Below are the details of your appointment:</p>
+                <table class="details-table">
+                    <tr>
+                        <th>Detail</th>
+                        <th>Information</th>
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td>{{ name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td>{{ email }}</td>
+                    </tr>
+                    <tr>
+                        <td>Phone</td>
+                        <td>{{ phone }}</td>
+                    </tr>
+                    <tr>
+                        <td>Date</td>
+                        <td>{{ date }}</td>
+                    </tr>
+                    <tr>
+                        <td>Time</td>
+                        <td>{{ time }}</td>
+                    </tr>
+                    <tr>
+                        <td>Message</td>
+                        <td>{{ message }}</td>
+                    </tr>
+                    <tr>
+                        <td>Appointment Type</td>
+                        <td>{{ appointment_type }}</td>
+                    </tr>
+                </table>
+                <p style="margin-top: 20px;">If you have any questions, feel free to <a href="mailto:support@example.com">contact us</a>.</p>
+            </td>
+        </tr>
+
+        <!-- Footer Section -->
+        <tr>
+            <td class="footer">
+                <p>Thank you for choosing our services. We look forward to seeing you!</p>
+                <p>&copy; 2025 ResuMaven. All rights reserved.</p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

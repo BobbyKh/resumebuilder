@@ -273,15 +273,15 @@ const Navbar = (): JSX.Element => {
           </li>
         </ul>
         <ul className="hidden md:flex md:space-x-6 text-black md:items-center">
-          <li>
-            {!isAuthorized ? (
-              <Link
-                to="/login"
-                className="border border-blue-500 text-black bg-white px-4 py-2 rounded-md hover:bg-blue-100 flex items-center font-sans"
-              >
-                Login
-              </Link>
-            ) : (
+  <li>
+    {!isAuthorized ? (
+      <Link
+        to="/login"
+        className="inline-flex items-center justify-center px-8 py-3 text-lg font-semibold text-white bg-gradient-to-r from-blue-800 to-blue-700 border border-transparent rounded-md shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-300"
+      >
+        Login
+      </Link>
+    ) : (
               <div className="flex items-center space-x-4">
                 <Link
                   to="/profile"

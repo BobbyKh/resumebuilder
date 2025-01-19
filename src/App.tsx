@@ -1,11 +1,10 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import './App.css';
 import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import About from "./pages/About";
 import Landing from "./pages/Landing";
 import Footer from "./components/Footer";
-import Login from "./auth/login";
 import Portfolio from "./pages/Portfolio";
 import Contact from "./pages/Contact";
 import ResumeBuild from "./resume/ResumeBuild";
@@ -33,15 +32,15 @@ import Tutorial from "./tutorial/Tutorial";
 import Question from "./pages/Question";
 
 
+
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const {isAuthorized} = useAuthentication();
-  const  ProtectedLogin = () => isAuthorized ? <Navigate to="/app" /> : <Login method="login" setMethod={() => {}} route="/login" />
+  useAuthentication();
 
-  const ProtectedRegister = () => isAuthorized ? <Navigate to="/app" /> : <AuthPage initialMethod="register" />
 
 
   useEffect(() => {
+
     const fakeDataFetch = async () => {
       setTimeout(() => {
         setIsLoading(false);
@@ -79,17 +78,14 @@ const App = () => {
             {/* <Route path="/resume/editor/:templateId" element={<BuildForm />} /> */}
             {/* <Route path="/cover/editor/:templateId" element={<BuildForm />} /> */}
             {/* <Route path="/resume/editor/:templateId/:id" element={<ResumeEditor />} /> */}
-            <Route path="/resume/editor" element={<BuildForm/>} />
-            <Route path="/cover/editor" element={<BuildForm/>} />
-            <Route path="/biodata/editor" element={<BuildForm/>} />
-      
+            <Route path="/resume/editor" element={<BuildForm />} />
+            <Route path="/cover/editor" element={<BuildForm />} />
+            <Route path="/biodata/editor" element={<BuildForm />} />      
             <Route path="/cv" element={<CVtemplate />} />
             <Route path="/category/:id" element={<CoverTemplate />} />
             <Route path="/biodata" element={<BioDataTemplate />} />
             <Route path="/" element={<Landing />} />
             <Route path="/about" element={<About />} />
-            <Route path="/login" element={<ProtectedLogin />} />
-            <Route path="/register" element={<ProtectedRegister />} />
             <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/resumebuild" element={<ResumeBuild />} />
@@ -111,4 +107,5 @@ const App = () => {
 };
 
 export default App;
+
 

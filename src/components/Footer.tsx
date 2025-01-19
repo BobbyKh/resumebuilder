@@ -32,7 +32,7 @@ const Footer = () => {
   useEffect(() => {
     const fetchSocial = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/organization/`);
+        const response = await axios.get(`${API_URL}/api/organization`);
         setSocial(response.data);
         console.log(response.data);
       } catch (error) {
