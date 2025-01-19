@@ -30,6 +30,7 @@ import RedirectGoogleAuth from "./auth/GoogleRedirectHandler";
 import Profile from "./profile/Profile";
 import Tutorial from "./tutorial/Tutorial";
 import Question from "./pages/Question";
+import ProtectedRoute from "./auth/AuthAccess";
 
 
 
@@ -69,8 +70,8 @@ const App = () => {
             />
             <Route path="/login/google/callback" element={<RedirectGoogleAuth />}></Route>
             <Route path="/app" element={<BaseApp />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/tutorial" element={<Tutorial />} />
+            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path="/tutorial" element={<ProtectedRoute><Tutorial /></ProtectedRoute>} />
             <Route path="/register" element={<AuthPage initialMethod="register" />} />
             <Route path="/login" element={<AuthPage initialMethod="login" />} />
             <Route path="/documentcategory" element={<DocumentCategory />} />

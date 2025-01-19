@@ -61,7 +61,7 @@ export const useAuthentication = () => {
             return;
         }
         try {
-            const res = await api.post('/token/refresh/', { refresh: refreshToken });
+            const res = await api.post('api/token/refresh/', { refresh: refreshToken });
             if (res.status === 200) {
                 localStorage.setItem(ACCESS_TOKEN, res.data.access);
                 setIsAuthorized(true);
@@ -77,7 +77,7 @@ export const useAuthentication = () => {
 
     const validateGoogleToken = async (googleAccessToken: string) => {
         try {
-            const res = await api.post('/google/validate_token/', {
+            const res = await api.post('api/google/validate_token/', {
                 access_token: googleAccessToken,
             }, {
                 headers: {

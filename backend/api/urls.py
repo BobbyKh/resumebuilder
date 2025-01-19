@@ -39,7 +39,7 @@ urlpatterns = [
 
     #AUTH_TOKEN
 
-    path ('users', views.UserList.as_view(), name='users'),
+    # path ('users', views.UserList.as_view(), name='users'),
     path ('userdetails', views.UserDetailView.as_view(), name='userdetails'),
     
     

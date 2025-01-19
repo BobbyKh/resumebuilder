@@ -19,11 +19,12 @@ from django.core.mail import send_mail
 from django.conf import settings
 from rest_framework import status
 import re
+import rest_framework.decorators
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth.decorators import login_required 
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.decorators import api_view 
+from rest_framework.decorators import api_view , permission_classes
 from rest_framework_simplejwt.tokens import RefreshToken
 from pypdf import PdfReader
 from rest_framework.permissions import IsAuthenticated , AllowAny   
@@ -33,6 +34,7 @@ from dj_rest_auth.registration.views import SocialLoginView
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from api.myauth import EmailBackend  
 
 User = get_user_model()
 @method_decorator(csrf_exempt, name='dispatch')
@@ -41,7 +43,53 @@ class GoogleLogin(SocialLoginView):
     callback_url = "http://127.0.0.1:8000/accounts/google/login/callback/"
     client_class = OAuth2Client
 
-    
+  
+from django.contrib.auth import login
+@csrf_exempt
+
+class LoginView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        email = request.data.get('email')
+        password = request.data.get('password')
+
+        # Authenticate the user using the custom backend
+        user = EmailBackend().authenticate(request, email=email, password=password)
+
+        if user:
+            # Log in the user with the custom backend
+            login(request, user, backend='api.myauth.EmailBackend')
+            
+            # Generate JWT tokens
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+            })
+
+        return Response({'error': 'Invalid credentials'}, status=401)
+
+class SignupView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        username = request.data.get('username')
+        email = request.data.get('email')
+        password = request.data.get('password')
+
+        # Create a new user using Django's User model
+        user = User.objects.create_user(username=username, email=email, password=password)
+        
+        if user:
+            # Log in the user with the default backend
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            
+            return Response({'message': 'User signed up successfully'})
+        
+        return Response({'error': 'Failed to create user'}, status=400)
+
+  
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -242,7 +290,7 @@ class AppointmentType(ListCreateAPIView):
 
 
 
-    
+@permission_classes([IsAuthenticated])    
 class PricingType(ListCreateAPIView):
     queryset = Pricing.objects.all()
     serializer_class = PricingSerializer
@@ -305,23 +353,22 @@ def convert_pdf_to_text(request):
         
     return Response(structured_data , status=200)
 
-
-
-
+@permission_classes([IsAuthenticated])
 class FAQ(ListCreateAPIView):
     queryset = FAQ.objects.filter(status=True)
     serializer_class = FAQSerializer
-
+@permission_classes([IsAuthenticated])
 
 class AboutUsView(ListCreateAPIView):
     queryset = AboutUs.objects.all()
     serializer_class = AboutUsSerializer
 
-
-    
+@permission_classes([IsAuthenticated])
+ 
 class TestimonialView(ListCreateAPIView):
     queryset = Testimonial.objects.all()
     serializer_class = TestimonialSerializer
+@permission_classes([IsAuthenticated])
 
 class HeroSectionView(ListCreateAPIView):
     queryset = HeroSection.objects.all()
@@ -335,6 +382,7 @@ class OrganizationView(ListCreateAPIView):
 class FooterSectionView(ListCreateAPIView):
     queryset = FooterSection.objects.filter(slug='Solution')
     serializer_class = FooterSerializer
+
 
 
 
@@ -388,7 +436,6 @@ def fetch_category_templates(request, category_id: int):
 class DocumentFieldsView(ListCreateAPIView):
     queryset = DocumentField.objects.all()
     serializer_class = DocumentFieldSerializer
-    
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
@@ -451,6 +498,8 @@ class PaymentSystemView(ListCreateAPIView):
     serializer_class = PaymentSystemSerializer
 
 
+
+
 class TutorialView (ListCreateAPIView):
     queryset = Tutorial.objects.all()
     serializer_class = TutorialSerializer
@@ -458,11 +507,9 @@ class TutorialView (ListCreateAPIView):
 
 
 
-
 class FeatureView (ListCreateAPIView):
     queryset = Feature.objects.all()
     serializer_class = FeatureSerializer
-    
     
     
 class BrandingView (ListCreateAPIView):
@@ -478,7 +525,6 @@ class ResumeLayoutView (ListCreateAPIView):
 class GalleryImageView (ListCreateAPIView):
     queryset = GalleryImage.objects.all()
     serializer_class = GalleryImageSerializer
-    lookup_field='id'
     
     
 class CounterView (ListCreateAPIView):
@@ -489,3 +535,4 @@ class CounterView (ListCreateAPIView):
 class HowitWorksView (ListCreateAPIView):
     queryset = HowitWorks.objects.all()
     serializer_class = HowitWorksSerializer
+

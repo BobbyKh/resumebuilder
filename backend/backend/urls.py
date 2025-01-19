@@ -34,7 +34,8 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path ('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('accounts/google/login/', GoogleLogin.as_view(), name='google_login'),
-    path ('user/register/', UserCreate.as_view(), name='register'),
+    path('user/login',LoginView, name='login'),
+    path ('user/register/', SignupView.as_view(), name='register'),
     path ('api/auth/user/', UserDetailView.as_view(), name='user'),
     path('api/google/validate_token/', validate_google_token, name='validate_google_token'),
 
